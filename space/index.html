@@ -20,8 +20,14 @@
     .badge { font:10.5px ui-monospace,monospace; padding:3px 9px; border:1px solid var(--line); border-radius:6px; color:var(--muted); display:inline-block; margin:0 6px 6px 0; }
     .badge b { color:var(--gold); }
     button { min-height:44px; padding:0 16px; border-radius:8px; border:1px solid var(--proof); background:var(--proof); color:var(--bg); font:600 12px ui-monospace,monospace; letter-spacing:.8px; text-transform:uppercase; cursor:pointer; }
+    button.ghost { background:transparent; color:var(--fg); border-color:var(--line); }
+    button.on { border-color:var(--false); color:var(--false); }
     #lam { font-size:28px; color:var(--proof); margin:8px 0; }
     .down { color:var(--false); }
+    .row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .orgs { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:12px; }
+    .org { border:1px solid var(--line); border-radius:10px; padding:10px; font:12px ui-monospace,Menlo,monospace; }
+    .org.down { border-color:var(--false); color:var(--false); }
   </style>
 </head>
 <body>
@@ -44,6 +50,28 @@
       <div id="sliders"></div>
     </section>
     <section class="card" style="margin-top:12px">
+      <h2>GreenLight · Ari</h2>
+      <p class="muted">A sorry cannot be painted green. Claiming uniqueness or stamping a joule fail-closes.</p>
+      <p class="mono" id="green">—</p>
+      <div class="row">
+        <button class="ghost" type="button" id="paint">Paint a sorry green</button>
+        <button class="ghost" type="button" id="claim">Claim Λ proven</button>
+        <button class="ghost" type="button" id="joule">Stamp MEASURED joules</button>
+        <button type="button" id="push-green">Green-light this bound</button>
+      </div>
+    </section>
+    <section class="card" style="margin-top:12px">
+      <h2>Anatomy · five organs</h2>
+      <p class="muted">Any DOWN organ blocks the body. Not a 3D rehost. Energy UNAVAILABLE.</p>
+      <p class="mono" id="anatomy">—</p>
+      <div class="orgs" id="orgs"></div>
+      <div class="row">
+        <button class="ghost" type="button" id="kill-heart">Zero HEART</button>
+        <button class="ghost" type="button" id="fake-joule">Fabricate a joule</button>
+        <button type="button" id="walk">Walk anatomy</button>
+      </div>
+    </section>
+    <section class="card" style="margin-top:12px">
       <h2>YARQA</h2>
       <p class="muted">Canal attention. CUDA UNAVAILABLE. Not SageAttention.</p>
       <p class="mono" id="yarqa">—</p>
@@ -54,18 +82,23 @@
       <a class="card" href="https://github.com/szl-holdings/szl-khipu">GitHub source</a>
       <a class="card" href="https://huggingface.co/SZLHOLDINGS/szl-khipu">Hub model card</a>
       <a class="card" href="https://huggingface.co/spaces/SZLHOLDINGS/khipu-lab">KHIPU lab</a>
+      <a class="card" href="https://holdings.a-11-oy.com/khipu/">JS silhouette</a>
     </div>
   </main>
   <script>
     const axes = Array(13).fill(0.92); axes[0]=0.97; axes[1]=0.96;
     const box = document.getElementById("sliders");
+    const flags = { paint_sorry:0, claim_proven:0, stamp_joule:0 };
     function render() {
       box.innerHTML = axes.map((v,i)=>`<label class="muted mono">A${i+1} ${v.toFixed(2)}<input type="range" min="0.5" max="1" step="0.01" value="${v}" data-i="${i}"></label>`).join("");
       box.querySelectorAll("input").forEach(el => el.oninput = (e) => { axes[+e.target.dataset.i] = +e.target.value; ping(); render(); });
     }
+    async function post(path, body) {
+      const r = await fetch(path, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body||{}) });
+      return r.json();
+    }
     async function ping() {
-      const r = await fetch("/api/lambda", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({axes}) });
-      const j = await r.json();
+      const j = await post("/api/lambda", {axes});
       const el = document.getElementById("lam");
       el.textContent = (j.lambda ?? 0).toFixed(4) + "  " + (j.decision||"");
       el.className = "mono" + (j.blocked ? " down" : "");
@@ -73,17 +106,39 @@
     async function health() {
       const r = await fetch("/healthz");
       const j = await r.json();
-      const k = document.getElementById("kstatus");
-      k.textContent = j.kernel || "UNAVAILABLE";
+      document.getElementById("kstatus").textContent = j.kernel || "UNAVAILABLE";
     }
+    async function green() {
+      const j = await post("/api/greenlight", flags);
+      const el = document.getElementById("green");
+      el.textContent = (j.blocked ? "BLOCKED" : "GREEN-LIGHT") + " · " + (j.reason||"");
+      el.className = "mono" + (j.blocked ? " down" : "");
+    }
+    async function anatomy(extra) {
+      const j = await post("/api/anatomy", extra||{});
+      const el = document.getElementById("anatomy");
+      el.textContent = (j.live_count ?? "—") + "/5 " + (j.blocked ? "BLOCKED" : "LIVE") + " · " + (j.reason||"");
+      el.className = "mono" + (j.blocked ? " down" : "");
+      document.getElementById("orgs").innerHTML = (j.organs||[]).map(o =>
+        `<div class="org ${o.status==="DOWN"?"down":""}"><b>${o.id||o.name}</b><br>${o.status||""}</div>`
+      ).join("");
+    }
+    function toggle(id, key) {
+      const btn = document.getElementById(id);
+      btn.onclick = () => { flags[key] = flags[key] ? 0 : 1; btn.classList.toggle("on", !!flags[key]); green(); };
+    }
+    toggle("paint","paint_sorry"); toggle("claim","claim_proven"); toggle("joule","stamp_joule");
+    document.getElementById("push-green").onclick = green;
+    document.getElementById("walk").onclick = () => anatomy({});
+    document.getElementById("kill-heart").onclick = () => anatomy({zero_heart:true});
+    document.getElementById("fake-joule").onclick = () => anatomy({fabricate_joule:true});
     document.getElementById("run-yarqa").onclick = async () => {
-      const r = await fetch("/api/yarqa", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({n_canals:3}) });
-      const j = await r.json();
+      const j = await post("/api/yarqa", {n_canals:3});
       const el = document.getElementById("yarqa");
       if (j.kernel === "UNAVAILABLE") el.textContent = "UNAVAILABLE — " + (j.reason||"no package");
       else el.textContent = "leaked " + Number(j.leaked).toExponential(2) + "  " + (j.ok ? "HOLD" : "BREAK");
     };
-    render(); ping(); health();
+    render(); ping(); health(); green(); anatomy({});
   </script>
 </body>
 </html>

@@ -49,8 +49,8 @@ Stdlib HTTP. Same process serves the holographic UI and runs the kernels. No Gra
 
 ```bash
 szl-khipu serve --host 0.0.0.0 --port 7860
-# GET  /healthz  /version  /api/lambda
-# POST /api/lambda  /api/anatomy  /api/yarqa  /api/tiledigest
+# GET  /healthz  /version  /api/lambda  /api/greenlight  /api/anatomy
+# POST /api/lambda  /api/anatomy  /api/greenlight  /api/yarqa  /api/tiledigest
 ```
 
 Gold = OPEN. Proof teal = LIVE. Never green-as-proven. Energy UNAVAILABLE. Conjecture 1 stays OPEN.

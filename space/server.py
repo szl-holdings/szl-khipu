@@ -41,12 +41,14 @@ KERNEL = "UNAVAILABLE"
 _evaluate_lambda = None
 _yarqa_attn = None
 _evaluate_anatomy = None
+_evaluate_greenlight = None
 YUYAY_FLOORS: tuple[float, ...] = (0.95, 0.95) + (0.90,) * 11
 
 try:
     from szl_khipu import (  # type: ignore
         YUYAY_FLOORS as _FLOORS,
         evaluate_anatomy as _ea,
+        evaluate_greenlight as _eg,
         evaluate_lambda as _el,
         yarqa_attn as _ya,
     )
@@ -55,6 +57,7 @@ try:
     _evaluate_lambda = _el
     _yarqa_attn = _ya
     _evaluate_anatomy = _ea
+    _evaluate_greenlight = _eg
     KERNEL = "LIVE"
 except Exception:
     KERNEL = "UNAVAILABLE"
@@ -89,7 +92,20 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self) -> None:  # noqa: N802
         """HF probes HEAD. BaseHTTP 501s otherwise."""
         path = urlparse(self.path).path
-        ok = path in ("/", "/index.html", "/health", "/healthz", "/version", "/api/version", "/api/lambda", "/api/energy", "/readyz")
+        ok = path in (
+            "/",
+            "/index.html",
+            "/health",
+            "/healthz",
+            "/readyz",
+            "/version",
+            "/api/version",
+            "/api/lambda",
+            "/api/energy",
+            "/api/greenlight",
+            "/api/anatomy",
+            "/api/yarqa",
+        )
         if not ok:
             self.send_response(404)
             self.end_headers()
@@ -140,6 +156,15 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/lambda":
             self._lambda({})
             return
+        if path == "/api/greenlight":
+            self._greenlight({})
+            return
+        if path == "/api/anatomy":
+            self._anatomy({})
+            return
+        if path == "/api/yarqa":
+            self._yarqa({})
+            return
         self._send(404, b"not found", "text/plain")
 
     def do_POST(self) -> None:  # noqa: N802
@@ -158,6 +183,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/anatomy":
             self._anatomy(data)
+            return
+        if path == "/api/greenlight":
+            self._greenlight(data)
             return
         self._send(404, b"not found", "text/plain")
 
@@ -257,6 +285,7 @@ class Handler(BaseHTTPRequestHandler):
                     "live_count": int(ev["live_count"]),
                     "blocked": bool(ev["blocked"]),
                     "reason": str(ev["reason"]),
+                    "organs": list(ev.get("organs") or []),
                     "kernel": KERNEL,
                     "energy": "UNAVAILABLE",
                     "proven_trust": False,
@@ -265,6 +294,67 @@ class Handler(BaseHTTPRequestHandler):
             )
         except Exception as exc:
             self._json(400, {"error": str(exc), "kernel": KERNEL})
+
+    def _greenlight(self, data: dict) -> None:
+        def _flag(*keys: str) -> int:
+            for k in keys:
+                if k not in data:
+                    continue
+                v = data[k]
+                if isinstance(v, bool):
+                    return 1 if v else 0
+                if isinstance(v, (int, float)):
+                    return 1 if v == 1 else 0
+                if str(v).lower() in ("1", "true", "yes"):
+                    return 1
+                return 0
+            return 0
+
+        paint = _flag("paint_sorry", "paintSorry")
+        claim = _flag("claim_proven", "claimProven")
+        joule = _flag("stamp_joule", "stampJoule")
+        if _evaluate_greenlight is not None:
+            try:
+                ev = _evaluate_greenlight(paint_sorry=paint, claim_proven=claim, stamp_joule=joule)
+                self._json(
+                    200,
+                    {
+                        "painted": int(ev["painted"]),
+                        "blocked": bool(ev["blocked"]),
+                        "greenlit": int(ev["greenlit"]),
+                        "reason": str(ev["reason"]),
+                        "checks": ev.get("checks"),
+                        "kernel": KERNEL,
+                        "energy": "UNAVAILABLE",
+                        "proven_trust": False,
+                        "uniqueness": "Conjecture 1",
+                    },
+                )
+                return
+            except Exception as exc:
+                self._json(400, {"error": str(exc), "kernel": KERNEL, "proven_trust": False})
+                return
+        checks = [
+            {"id": "sorry", "ok": paint != 1, "detail": "BLOCKED · a sorry cannot be painted green" if paint == 1 else "sorry stays sorry · locked-8 is 8, not 21"},
+            {"id": "conjecture1", "ok": claim != 1, "detail": "BLOCKED · proven_trust cannot be true while Λ is Conjecture 1" if claim == 1 else "proven_trust locked false · uniqueness OPEN"},
+            {"id": "energy", "ok": joule != 1, "detail": "BLOCKED · fabricated joule · energy UNAVAILABLE" if joule == 1 else "energy UNAVAILABLE · never a fabricated joule"},
+        ]
+        painted = sum(1 for c in checks if not c["ok"])
+        blocked = painted > 0
+        self._json(
+            200,
+            {
+                "painted": painted,
+                "blocked": blocked,
+                "greenlit": 0 if blocked else 1,
+                "reason": next((c["detail"] for c in checks if not c["ok"]), "GREEN-LIGHT · LIVE bound · proven_trust false · energy UNAVAILABLE") if blocked else "GREEN-LIGHT · LIVE bound · proven_trust false · energy UNAVAILABLE",
+                "checks": checks,
+                "kernel": KERNEL,
+                "energy": "UNAVAILABLE",
+                "proven_trust": False,
+                "uniqueness": "Conjecture 1",
+            },
+        )
 
 
 def main() -> None:

@@ -5,15 +5,36 @@
 
 Requires HF_TOKEN (or HUGGINGFACE_HUB_TOKEN) with write on the org.
 GitHub source remains canonical. Hub is the publish mirror.
+
+Full-repo upload_folder of the Git tree timed out at 20m. This script
+allow-lists the model card, the package, and the hologram payload.
 """
 
 from __future__ import annotations
 
 import os
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _stage_space() -> Path:
+    staging = Path(tempfile.mkdtemp(prefix="szl-khipu-space-"))
+    for name in ("Dockerfile", "server.py", "index.html", "README.md", "energy.py"):
+        src = ROOT / "space" / name
+        if src.is_file():
+            shutil.copy2(src, staging / name)
+    pkg = ROOT / "szl_khipu"
+    if pkg.is_dir():
+        shutil.copytree(
+            pkg,
+            staging / "szl_khipu",
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyi"),
+        )
+    return staging
 
 
 def main() -> int:
@@ -35,16 +56,29 @@ def main() -> int:
         ".pytest_cache/**",
         ".github/**",
         "torch-ext/**",
+        "tests/**",
+        "artifacts/**",
+        "spaces/**",
     ]
 
-    # Package card (model repo)
+    # Package card (model repo) — allowlisted, not the whole git tree.
     api.create_repo(f"{org}/szl-khipu", repo_type="model", exist_ok=True, private=False)
     api.upload_folder(
         folder_path=str(ROOT),
         repo_id=f"{org}/szl-khipu",
         repo_type="model",
+        allow_patterns=[
+            "README.md",
+            "LICENSE",
+            "CARD.md",
+            "pyproject.toml",
+            "SECURITY.md",
+            "szl_khipu/**",
+            "hf/**",
+            "docs/**",
+        ],
         ignore_patterns=ignore,
-        commit_message="szl-khipu 0.1.0 — kernels + tiny trained silhouettes",
+        commit_message="szl-khipu kernels — GitHub canonical, Hub mirror",
     )
 
     nano = ROOT / "artifacts"
@@ -128,12 +162,27 @@ def main() -> int:
                 repo_type="model",
             )
 
-    # Hub Space is the docker hologram in space/ (stdlib HTTP, no Gradio).
-    # Immune mirror-khipu-hub.yml is the token-bearing publisher for SZLHOLDINGS/szl-khipu
-    # as space_sdk="docker". Do not create_repo(..., space_sdk="gradio") — that
-    # converts the Space back to Gradio and trips HfFolder RUNTIME_ERROR.
+    # Docker hologram Space: assemble flatten payload (server + package).
+    # Do not create_repo(..., space_sdk="gradio") — that trips HfFolder RUNTIME_ERROR.
+    staging = _stage_space()
+    try:
+        api.create_repo(
+            f"{org}/szl-khipu",
+            repo_type="space",
+            space_sdk="docker",
+            exist_ok=True,
+            private=False,
+        )
+        api.upload_folder(
+            folder_path=str(staging),
+            repo_id=f"{org}/szl-khipu",
+            repo_type="space",
+            commit_message="hologram + package — GreenLight / Anatomy LIVE",
+        )
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
 
-    print("uploaded models to", org)
+    print("uploaded models + hologram space to", org)
     return 0
 
 

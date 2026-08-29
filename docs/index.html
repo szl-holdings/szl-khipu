@@ -45,8 +45,19 @@ szl-khipu serve --host 127.0.0.1 --port 7860</pre>
     <pre id="out">idle — JS silhouette, not the NumPy kernel</pre>
   </section>
   <section class="panel">
+    <h2>GreenLight silhouette — Ari</h2>
+    <p class="lede">A sorry cannot be painted green. This is the JS dual of the Python kernel. proven_trust stays false. Energy UNAVAILABLE.</p>
+    <p>
+      <button id="g-ok">green-light</button>
+      <button id="g-sorry">paint a sorry green</button>
+      <button id="g-claim">claim Λ proven</button>
+      <button id="g-joule">stamp a joule</button>
+    </p>
+    <pre id="gout">idle</pre>
+  </section>
+  <section class="panel">
     <h2>Source of truth</h2>
-    <p><a href="https://github.com/szl-holdings/szl-khipu">szl-holdings/szl-khipu</a> is canonical. Python FE+BE lives in <code>szl_khipu/http_app.py</code>. Gradio hologram: <a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-khipu">SZLHOLDINGS/szl-khipu</a>. 3D atlas: <a href="https://github.com/szl-holdings/anatomy">anatomy</a>. Founder notebook: <a href="https://stephenlutar2-hash.github.io/founder-page/">Stephen Lutar</a>.</p>
+    <p><a href="https://github.com/szl-holdings/szl-khipu">szl-holdings/szl-khipu</a> is canonical. Python FE+BE lives in <code>szl_khipu/http_app.py</code>. Docker hologram: <a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-khipu">SZLHOLDINGS/szl-khipu</a>. 3D atlas: <a href="https://github.com/szl-holdings/anatomy">anatomy</a>. Founder notebook: <a href="https://stephenlutar2-hash.github.io/founder-page/">Stephen Lutar</a>.</p>
   </section>
 </main>
 <footer>Apache-2.0 · Doctrine v11 LOCKED · 749/14/163 · never a fabricated joule</footer>
@@ -66,6 +77,24 @@ function dump(v, blocked, note){
 }
 document.getElementById("score").onclick=()=>{const x=read(),v=wgm(x);dump(v,v===0,v===0?"zero-routed":"advisory pass — uniqueness remains Conjecture 1 OPEN")};
 document.getElementById("zero").onclick=()=>{box.querySelector("input").value=0;document.getElementById("score").click()};
+function green(paint, claim, joule){
+  const checks=[
+    {id:"sorry",ok:paint!==1,detail:paint===1?"BLOCKED · a sorry cannot be painted green":"sorry stays sorry · locked-8 is 8, not 21"},
+    {id:"conjecture1",ok:claim!==1,detail:claim===1?"BLOCKED · proven_trust cannot be true while Λ is Conjecture 1":"proven_trust locked false · uniqueness OPEN"},
+    {id:"energy",ok:joule!==1,detail:joule===1?"BLOCKED · fabricated joule · energy UNAVAILABLE":"energy UNAVAILABLE · never a fabricated joule"}
+  ];
+  const blocked=checks.some(c=>!c.ok);
+  document.getElementById("gout").textContent=JSON.stringify({
+    blocked, greenlit:!blocked, proven_trust:false, energy:"UNAVAILABLE", conjecture_1:"OPEN",
+    reason: blocked ? checks.find(c=>!c.ok).detail : "GREEN-LIGHT · LIVE bound · proven_trust false · energy UNAVAILABLE",
+    checks, kind:"js-silhouette"
+  },null,2);
+}
+document.getElementById("g-ok").onclick=()=>green(0,0,0);
+document.getElementById("g-sorry").onclick=()=>green(1,0,0);
+document.getElementById("g-claim").onclick=()=>green(0,1,0);
+document.getElementById("g-joule").onclick=()=>green(0,0,1);
+
 </script>
 </body>
 </html>

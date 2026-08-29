@@ -69,6 +69,17 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <div class="orgs" id="org-box"></div>
     <pre id="out-anatomy">idle</pre>
   </section>
+  <section class="panel" id="greenlight">
+    <h2>GreenLight — Ari</h2>
+    <p class="lede">Signed assent. A sorry cannot be painted green. Claiming Λ uniqueness or stamping a joule fail-closes. proven_trust stays false.</p>
+    <div class="row">
+      <button class="run" id="run-green">green-light this bound</button>
+      <button class="run" id="paint-sorry">paint a sorry green</button>
+      <button class="run" id="claim-proven">claim Λ proven</button>
+      <button class="run" id="stamp-joule">stamp MEASURED joules</button>
+    </div>
+    <pre id="out-green">idle</pre>
+  </section>
   <section class="panel" id="yarqa">
     <h2>YARQA — canal attention</h2>
     <p class="lede">Attend inside the compartment. Leak is the bound. Not SageAttention. Not CUDA.</p>
@@ -89,7 +100,7 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
   Source <a href="https://github.com/szl-holdings/szl-khipu">szl-holdings/szl-khipu</a>
   · Space <a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-khipu">SZLHOLDINGS/szl-khipu</a>
   · Founder <a href="https://stephenlutar2-hash.github.io/founder-page/">notebook</a>
-  · GET /healthz · GET /version · POST /api/lambda · POST /api/anatomy
+  · GET /healthz · GET /version · POST /api/lambda · POST /api/anatomy · POST /api/greenlight
   · Apache-2.0 · never a fabricated joule
 </footer>
 <script>
@@ -115,6 +126,10 @@ document.getElementById("run-anatomy").onclick = async ()=>{
 };
 document.getElementById("kill-heart").onclick = async ()=> show("out-anatomy", await post("/api/anatomy",{zero_heart:true}));
 document.getElementById("fake-joule").onclick = async ()=> show("out-anatomy", await post("/api/anatomy",{fabricate_joule:true}));
+document.getElementById("run-green").onclick = async ()=> show("out-green", await post("/api/greenlight",{}));
+document.getElementById("paint-sorry").onclick = async ()=> show("out-green", await post("/api/greenlight",{paint_sorry:1}));
+document.getElementById("claim-proven").onclick = async ()=> show("out-green", await post("/api/greenlight",{claim_proven:1}));
+document.getElementById("stamp-joule").onclick = async ()=> show("out-green", await post("/api/greenlight",{stamp_joule:1}));
 document.getElementById("run-yarqa").onclick = async ()=> show("out-yarqa", await post("/api/yarqa",{n_canals:3,seq:12,dim:4,seed:7}));
 document.getElementById("run-grid").onclick = async ()=> show("out-grid", await post("/api/tiledigest",{tamper:Number(document.getElementById("tamper").value)}));
 </script>

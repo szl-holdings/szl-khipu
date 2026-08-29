@@ -90,6 +90,19 @@ class HttpAppTests(unittest.TestCase):
         self.assertTrue(fake["blocked"])
         self.assertIsNone(fake["energy_j"])
 
+    def test_greenlight_fail_closed(self) -> None:
+        ok = self._post("/api/greenlight", {})
+        self.assertEqual(ok["greenlit"], 1)
+        self.assertFalse(ok["proven_trust"])
+        self.assertEqual(ok["energy"], "UNAVAILABLE")
+        sorry = self._post("/api/greenlight", {"paint_sorry": 1})
+        self.assertEqual(sorry["blocked"], 1)
+        claim = self._post("/api/greenlight", {"claim_proven": 1})
+        self.assertEqual(claim["blocked"], 1)
+        joule = self._post("/api/greenlight", {"stamp_joule": 1})
+        self.assertEqual(joule["blocked"], 1)
+        self.assertEqual(joule["energy"], "UNAVAILABLE")
+
     def test_yarqa_and_grid(self) -> None:
         y = self._post("/api/yarqa", {"n_canals": 3})
         self.assertLessEqual(y["leaked"], 1e-9)
