@@ -100,6 +100,34 @@ def main() -> int:
         commit_message="szl-khipu-kernels card",
     )
 
+    for nano_id, card, blob in [
+        ("Moons-Nano", "hf/Moons-Nano/README.md", "moons.npz"),
+        ("MiniEmbed-Nano", "hf/MiniEmbed-Nano/README.md", "mini_embed.npz"),
+    ]:
+        api.create_repo(f"{org}/{nano_id}", repo_type="model", exist_ok=True, private=False)
+        api.upload_file(
+            path_or_fileobj=str(ROOT / card),
+            path_in_repo="README.md",
+            repo_id=f"{org}/{nano_id}",
+            repo_type="model",
+            commit_message=f"{nano_id} card",
+        )
+        art = nano / blob
+        if art.exists():
+            api.upload_file(
+                path_or_fileobj=str(art),
+                path_in_repo=blob,
+                repo_id=f"{org}/{nano_id}",
+                repo_type="model",
+            )
+        if rec.exists():
+            api.upload_file(
+                path_or_fileobj=str(rec),
+                path_in_repo="TRAINING_RECEIPT.json",
+                repo_id=f"{org}/{nano_id}",
+                repo_type="model",
+            )
+
     # Gradio Space — app.py + package (space root, not spaces/ layout)
     api.create_repo(
         f"{org}/szl-khipu",

@@ -7,7 +7,7 @@ sdk: gradio
 sdk_version: 5.29.0
 python_version: "3.11"
 app_file: app.py
-pinned: false
+pinned: true
 license: apache-2.0
 short_description: Knot the run. Hash the proof. Fail closed.
 ---
@@ -25,6 +25,8 @@ Holographic Gradio 5 space for the `szl-khipu` package. Chrome is the estate hol
 | Λ gate | score + blocked on 13 sliders | proven trust, uniqueness theorem |
 | YARQA | `n_canals` + leaked | SageAttention, CUDA cubins, tokens/s |
 | TinyKhipu | plan-valid / abstain / hallucinated | 1.5B, Qwen, GGUF |
+| Moons | acc / loss on 2→8→2 | 1.5B, published benchmark |
+| MiniEmbed | V=64 d=12 L2 table | neural embed, 3290×128 table |
 | Receipts | last chain depth | joules, authorship |
 
 Gold means OPEN. Proof teal means LIVE. Never green-as-proven. Never a fabricated joule.
