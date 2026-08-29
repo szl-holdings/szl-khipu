@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "szl-khipu"
+version = "0.1.0"
+description = "Governed-AI khipu: Λ-gate, YARQA canals, TinyKhipu silhouette, hash-chained receipts. Knot the run. Hash the proof. Fail closed."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Stephen P. Lutar Jr. / SZL Holdings" },
+]
+keywords = [
+  "governed-ai",
+  "khipu",
+  "lambda-gate",
+  "yarqa",
+  "receipts",
+]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+gradio = ["gradio>=4.44.1"]
+torch = ["torch>=2.5"]
+test = ["pytest"]
+hub = ["huggingface_hub>=0.24"]
+
+[project.urls]
+Homepage = "https://github.com/szl-holdings/szl-khipu"
+Repository = "https://github.com/szl-holdings/szl-khipu"
+"Hugging Face" = "https://huggingface.co/SZLHOLDINGS/szl-khipu"
+ORCID = "https://orcid.org/0009-0001-0110-4173"
+Issues = "https://github.com/szl-holdings/szl-khipu/issues"
+
+[project.scripts]
+szl-khipu = "szl_khipu.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["szl_khipu*"]
+
+[tool.setuptools.package-data]
+szl_khipu = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

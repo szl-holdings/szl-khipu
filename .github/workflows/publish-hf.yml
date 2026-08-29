@@ -1,0 +1,39 @@
+# Publish GitHub source to Hugging Face org SZLHOLDINGS.
+# GitHub remains canonical. Hub is the mirror.
+#
+# Requires org/repo secret HF_TOKEN or HF_ORG_TOKEN (write on SZLHOLDINGS).
+# Fails loudly if the token is absent — never fakes a Hub upload.
+name: publish-hf
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-hf-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  hub:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
+      - name: Publish to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
+          HF_ORG: SZLHOLDINGS
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN / HF_ORG_TOKEN unset — Hub publish BLOCKED. GitHub remains the source of truth."
+            exit 1
+          fi
+          python scripts/publish_hf.py

@@ -1,0 +1,6 @@
+[general]
+name = "szl_khipu"
+universal = true
+
+[torch]
+src = ["torch-ext/szl_khipu/__init__.py"]

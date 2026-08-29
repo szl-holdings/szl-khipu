@@ -1,0 +1,78 @@
+{
+  "artifacts": {
+    "mini_embed.npz": {
+      "loss": null,
+      "seed": 20260721,
+      "sha256": "ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b",
+      "steps": 0,
+      "what": "V=64 d=12 L2 table. Not a foundation embed."
+    },
+    "moons.npz": {
+      "acc": 0.93,
+      "loss": 0.12973121797997034,
+      "seed": 20260721,
+      "sha256": "dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104",
+      "steps": 400,
+      "what": "2\u21928\u21922 MLP on two moons. Not 1.5B."
+    },
+    "receipt_agent.npz": {
+      "agree": 0.905,
+      "loss": null,
+      "seed": 20260721,
+      "sha256": "8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381",
+      "steps": 1531.0,
+      "what": "ReceiptAgent-Nano 4-way gate silhouette; kernel is truth"
+    },
+    "tiny_khipu.npz": {
+      "abstain": 1.0,
+      "hallucinated": 0.0,
+      "loss": null,
+      "plan_valid": 1.0,
+      "seed": 20260721,
+      "sha256": "cc8d0385b2c75079669df809d7e4823f1ad8d9d535aec511446347490b11dff9",
+      "steps": 280,
+      "what": "TinyKhipu-Nano NAVIGATE/ABSTAIN silhouette"
+    }
+  },
+  "conjecture_1": "OPEN",
+  "cpu_numpy": "LIVE",
+  "cuda": "UNAVAILABLE",
+  "doctrine": "v11 LOCKED",
+  "energy_j": null,
+  "energy_status": "UNAVAILABLE",
+  "honesty": "REPORTED",
+  "id": "szl-khipu.training.v0.1.0",
+  "locked": {
+    "axioms": 14,
+    "declarations": 749,
+    "proven": 8,
+    "sorries": 163
+  },
+  "loss": {
+    "moons": 0.12973121797997034,
+    "receipt_agent": null,
+    "tiny_khipu": null
+  },
+  "proven_trust": false,
+  "seed": 20260721,
+  "steps": {
+    "moons": 400,
+    "receipt_agent": 1531.0,
+    "tiny_khipu": 280
+  },
+  "ts": "2026-08-29T01:05:20.761478+00:00",
+  "whatNot": [
+    "Not Qwen",
+    "Not 1.5B trained here",
+    "Not SZL-Khipu-1.5B",
+    "Not SZL-Forge-1.5B-ReceiptAgent",
+    "Not a FlashAttention rehost",
+    "Not SageAttention",
+    "Lambda uniqueness remains Conjecture 1 OPEN",
+    "No fabricated joules",
+    "CUDA UNAVAILABLE",
+    "proven_trust is false",
+    "TinyKhipu is a NAVIGATE/ABSTAIN silhouette",
+    "ReceiptAgent-Nano is a 4-way gate silhouette; the kernel is truth"
+  ]
+}
