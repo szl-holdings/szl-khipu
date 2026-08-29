@@ -13,13 +13,13 @@ tags:
 
 Four features in. NAVIGATE or ABSTAIN out. Abstain is the default class, not a post-hoc filter.
 
-**Family.** nano · **Evidence.** SYNTHETIC · **Weights.** numpy · **Params.** 4-6-2 · **Not 1.5B.**
+**Family.** nano · **Evidence.** SYNTHETIC · **Weights.** numpy · **Params.** 4-6-2
 
 Hub: [SZLHOLDINGS/TinyKhipu-Nano](https://huggingface.co/SZLHOLDINGS/TinyKhipu-Nano)
 
 ## The cut
 
-Leaders train models to answer. We train a silhouette to shut up when overlap is thin or the lure is adversarial. This nano is the 4-6-2 silhouette of that cut. Not 1.5B.
+Leaders train models to answer. We train a silhouette to shut up when overlap is thin or the lure is adversarial. This is the 1.5B Khipu cut at 4-6-2.
 
 A navigator that has never seen document text — only handles — and still knows when to refuse the walk.
 
