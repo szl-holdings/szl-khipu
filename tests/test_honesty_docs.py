@@ -52,7 +52,7 @@ class HonestyDocs(unittest.TestCase):
         self.assertIn("title: SZL KHIPU", text)
         self.assertIn("emoji:", text)
         self.assertIn("sdk: gradio", text)
-        self.assertIn("sdk_version: 4.44.1", text)
+        self.assertIn("sdk_version: 5.29.0", text)
         self.assertIn("app_file: app.py", text)
 
     def test_pyproject(self) -> None:
