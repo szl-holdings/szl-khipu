@@ -1857,11 +1857,11 @@
   "estate": [
     {
       "slug": "nexus",
-      "name": "NEXUS MK-I",
+      "name": "NEXUS MK-II",
       "kind": "github",
       "href": "https://github.com/szl-holdings/nexus",
-      "oneLiner": "Analog computing workstation. Phosphor CRT, oscilloscope, tape echo, patchbay, sequencer, voice.",
-      "cut": "Leaders ship chat UIs. We shipped a local-first analog desk that never pretends to be a model.",
+      "oneLiner": "Holographic analog computer. Lorenz Frontier, Ouroboros, five organs, phosphor CRT.",
+      "cut": "Leaders ship chat UIs. We shipped a local-first holographic analog computer that never pretends to be a model.",
       "when": "landed today",
       "evidence": "GitHub \u00b7 TypeScript \u00b7 Apache-2.0"
     },
@@ -1930,7 +1930,7 @@
       "name": "nexus Space",
       "kind": "space",
       "href": "https://huggingface.co/spaces/SZLHOLDINGS/nexus",
-      "oneLiner": "The analog desk, running. Not a chatbot.",
+      "oneLiner": "Holographic analog computer, running. Not a chatbot.",
       "cut": "A Space that is an instrument, not a demo of a 70B.",
       "when": "updated today",
       "evidence": "Hub Space"
