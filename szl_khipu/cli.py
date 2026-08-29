@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 SZL Holdings
-"""szl-khipu CLI — train | demo-lambda | demo-yarqa | verify.
+"""szl-khipu CLI — train | demo-lambda | demo-yarqa | demo-anatomy | verify.
 
 Never sets proven_trust true. Never fabricates joules. Never claims 1.5B
 trained here. Λ uniqueness remains Conjecture 1 OPEN. Energy UNAVAILABLE.
@@ -17,7 +17,7 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from szl_khipu import YUYAY_FLOORS, evaluate_lambda, yarqa_attn
+from szl_khipu import YUYAY_FLOORS, evaluate_anatomy, evaluate_lambda, yarqa_attn
 from szl_khipu.doctrine import proven_trust
 from szl_khipu.train import tiny_khipu
 
@@ -110,6 +110,35 @@ def cmd_demo_yarqa(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_demo_anatomy(args: argparse.Namespace) -> int:
+    ev = evaluate_anatomy(
+        zero_heart=bool(args.zero_heart),
+        leak_canal=bool(args.leak_canal),
+        tamper_chain=bool(args.tamper_chain),
+        fabricate_joule=bool(args.fabricate_joule),
+        break_skeleton=bool(args.break_skeleton),
+        willay_fire=bool(args.willay_fire),
+        seed=int(args.seed),
+    )
+    payload = {
+        "live_count": ev["live_count"],
+        "blocked": bool(ev["blocked"]),
+        "reason": ev["reason"],
+        "organs": [
+            {"id": o["id"], "status": o["status"], "honesty": o["honesty"]} for o in ev["organs"]
+        ],
+        "willay": ev["willay"]["category"],
+        "proven_trust": False,
+        "conjecture_1": "OPEN",
+        "energy_status": "UNAVAILABLE",
+        "energy_j": None,
+        "locked_proven": 8,
+        "not": "Three.js rehost / 1.5B / fabricated joule",
+    }
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
 def cmd_verify(args: argparse.Namespace) -> int:
     path = Path(args.receipt)
     if not path.exists():
@@ -183,6 +212,16 @@ def build_parser() -> argparse.ArgumentParser:
     y.add_argument("--dim", type=int, default=4)
     y.add_argument("--seed", type=int, default=7)
     y.set_defaults(func=cmd_demo_yarqa)
+
+    a = sub.add_parser("demo-anatomy", help="Run the five-organ integrity kernel (fail closed)")
+    a.add_argument("--seed", type=int, default=11)
+    a.add_argument("--zero-heart", action="store_true")
+    a.add_argument("--leak-canal", action="store_true")
+    a.add_argument("--tamper-chain", action="store_true")
+    a.add_argument("--fabricate-joule", action="store_true")
+    a.add_argument("--break-skeleton", action="store_true")
+    a.add_argument("--willay-fire", action="store_true")
+    a.set_defaults(func=cmd_demo_anatomy)
 
     v = sub.add_parser("verify", help="Replay a training receipt (hash + honesty)")
     v.add_argument("receipt", nargs="?", default=str(_repo_root() / "artifacts" / "training_receipt.json"))

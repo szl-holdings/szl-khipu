@@ -65,6 +65,14 @@ class HonestyDocs(unittest.TestCase):
         self.assertIn("energy UNAVAILABLE", text)
         self.assertIn("system fonts", text.lower())
         self.assertNotIn("proven_trust=true", text)
+        self.assertIn("evaluate_anatomy", text)
+        self.assertIn("five-organ", text.lower())
+
+    def test_readme_names_anatomy(self) -> None:
+        text = _read(ROOT / "README.md")
+        self.assertIn("evaluate_anatomy", text)
+        self.assertIn("szl-holdings/anatomy", text)
+        self.assertIn("Not a Three.js rehost", text)
 
     def test_pyproject(self) -> None:
         text = _read(ROOT / "pyproject.toml")

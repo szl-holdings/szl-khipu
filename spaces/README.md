@@ -27,6 +27,7 @@ Holographic Gradio 5 space for the `szl-khipu` package. Chrome is the estate hol
 | TinyKhipu | plan-valid / abstain / hallucinated | 1.5B, Qwen, GGUF |
 | Moons | acc / loss on 2→8→2 | 1.5B, published benchmark |
 | MiniEmbed | V=64 d=12 L2 table | neural embed, 3290×128 table |
+| Anatomy | 5 organs LIVE or fail-closed | 3D Three.js rehost, joules, proven trust |
 | Receipts | last chain depth | joules, authorship |
 
 Gold means OPEN. Proof teal means LIVE. Never green-as-proven. Never a fabricated joule.

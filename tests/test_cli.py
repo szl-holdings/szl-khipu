@@ -17,7 +17,7 @@ from szl_khipu.doctrine import proven_trust
 class CliParser(unittest.TestCase):
     def test_subcommands(self) -> None:
         help_text = build_parser().format_help()
-        for name in ("train", "demo-lambda", "demo-yarqa", "verify"):
+        for name in ("train", "demo-lambda", "demo-yarqa", "demo-anatomy", "verify"):
             self.assertIn(name, help_text)
 
     def test_help_exits_zero(self) -> None:
@@ -64,6 +64,28 @@ class CliParser(unittest.TestCase):
         self.assertLessEqual(payload["leaked"], 1e-9)
         self.assertEqual(payload["cuda"], "UNAVAILABLE")
         self.assertFalse(payload["proven_trust"])
+
+    def test_demo_anatomy_fail_closed(self) -> None:
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["demo-anatomy"])
+        self.assertEqual(rc, 0)
+        payload = json.loads(buf.getvalue())
+        self.assertEqual(payload["live_count"], 5)
+        self.assertFalse(payload["blocked"])
+        self.assertFalse(payload["proven_trust"])
+        self.assertEqual(payload["energy_status"], "UNAVAILABLE")
+        self.assertIsNone(payload["energy_j"])
+        self.assertEqual(payload["conjecture_1"], "OPEN")
+        self.assertEqual(payload["locked_proven"], 8)
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["demo-anatomy", "--fabricate-joule"])
+        self.assertEqual(rc, 0)
+        payload = json.loads(buf.getvalue())
+        self.assertTrue(payload["blocked"])
+        self.assertIsNone(payload["energy_j"])
 
     def test_train_and_verify_receipt(self) -> None:
         with TemporaryDirectory() as tmp:
