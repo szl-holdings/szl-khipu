@@ -9,25 +9,26 @@ python_version: "3.11"
 app_file: app.py
 pinned: false
 license: apache-2.0
+short_description: Knot the run. Hash the proof. Fail closed.
 ---
 
 # SZL KHIPU
 
 Knot the run. Hash the proof. Fail closed.
 
-Gradio 4 space for the `szl-khipu` package: Λ (13 Yuyay axes), YARQA canal leak, TinyKhipu NAVIGATE/ABSTAIN train, and receipt chain depth.
+Holographic Gradio 5 space for the `szl-khipu` package. Chrome is the estate hologram language (`lambda-gate-holo` tokens: void `#05070d`, proof `#3af4c8`, gold `#e8c074` = OPEN). Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. 0 runtime CDN. System fonts.
 
 **Conjecture 1 OPEN. energy UNAVAILABLE. proven_trust=false.** CPU numpy LIVE. CUDA UNAVAILABLE. Not Qwen. Not 1.5B. Not a FlashAttention rehost.
 
-The YAML `emoji` field is Hub Space metadata, not product chrome.
-
 | Tab | What you get | What you do not get |
 |---|---|---|
-| Lambda | score + blocked on 13 sliders | proven trust, uniqueness theorem |
+| Λ gate | score + blocked on 13 sliders | proven trust, uniqueness theorem |
 | YARQA | `n_canals` + leaked | SageAttention, CUDA cubins, tokens/s |
-| Train TinyKhipu | plan-valid / abstain / hallucinated | 1.5B, Qwen, GGUF |
+| TinyKhipu | plan-valid / abstain / hallucinated | 1.5B, Qwen, GGUF |
 | Receipts | last chain depth | joules, authorship |
 
-Source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu) · Hub: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)
+Gold means OPEN. Proof teal means LIVE. Never green-as-proven. Never a fabricated joule.
+
+Source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu) · Hub: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu) · hologram: [lambda-gate-holo](https://huggingface.co/spaces/SZLHOLDINGS/lambda-gate-holo)
 
 Apache-2.0. Copyright 2026 SZL Holdings. Doctrine v11 LOCKED · 749/14/163.

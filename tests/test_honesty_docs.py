@@ -55,6 +55,17 @@ class HonestyDocs(unittest.TestCase):
         self.assertIn("sdk_version: 5.29.0", text)
         self.assertIn("app_file: app.py", text)
 
+    def test_space_holographic_chrome(self) -> None:
+        text = _read(ROOT / "spaces" / "app.py")
+        self.assertIn("--proof:#3af4c8", text)
+        self.assertIn("--gold:#e8c074", text)
+        self.assertIn("--bg:#05070d", text)
+        self.assertIn("footer { display: none", text)
+        self.assertIn("Conjecture 1", text)
+        self.assertIn("energy UNAVAILABLE", text)
+        self.assertIn("system fonts", text.lower())
+        self.assertNotIn("proven_trust=true", text)
+
     def test_pyproject(self) -> None:
         text = _read(ROOT / "pyproject.toml")
         self.assertIn('name = "szl-khipu"', text)
