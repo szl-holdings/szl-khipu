@@ -6,8 +6,8 @@
 Requires HF_TOKEN (or HUGGINGFACE_HUB_TOKEN) with write on the org.
 GitHub source remains canonical. Hub is the publish mirror.
 
-Never walks the Git root (atelier-space made upload_folder time out at 20m).
-Stage allow-listed trees, then upload those.
+Small cards first. Never walk the Git root. The szl-khipu model repo
+is bloated with a historical atelier tree — do not upload_folder it.
 """
 
 from __future__ import annotations
@@ -31,29 +31,6 @@ IGNORE = shutil.ignore_patterns(
 )
 
 
-def _copy_files(dst: Path, names: list[str], src_root: Path = ROOT) -> None:
-    dst.mkdir(parents=True, exist_ok=True)
-    for name in names:
-        src = src_root / name
-        if src.is_file():
-            shutil.copy2(src, dst / src.name)
-
-
-def _stage_model() -> Path:
-    staging = Path(tempfile.mkdtemp(prefix="szl-khipu-model-"))
-    _copy_files(staging, ["README.md", "LICENSE", "CARD.md", "pyproject.toml", "SECURITY.md"])
-    pkg = ROOT / "szl_khipu"
-    if pkg.is_dir():
-        shutil.copytree(pkg, staging / "szl_khipu", ignore=IGNORE)
-    hf = ROOT / "hf"
-    if hf.is_dir():
-        shutil.copytree(hf, staging / "hf", ignore=IGNORE)
-    docs = ROOT / "docs"
-    if docs.is_dir():
-        shutil.copytree(docs, staging / "docs", ignore=IGNORE)
-    return staging
-
-
 def _stage_space() -> Path:
     staging = Path(tempfile.mkdtemp(prefix="szl-khipu-space-"))
     for name in ("Dockerfile", "server.py", "index.html", "README.md", "energy.py"):
@@ -69,30 +46,18 @@ def _stage_space() -> Path:
     return staging
 
 
-def _upload_nano(api, org: str, repo: str, readme: Path, blob: Path | None, receipt: Path | None) -> None:
-    api.create_repo(f"{org}/{repo}", repo_type="model", exist_ok=True, private=False)
-    if readme.is_file():
-        api.upload_file(
-            path_or_fileobj=str(readme),
-            path_in_repo="README.md",
-            repo_id=f"{org}/{repo}",
-            repo_type="model",
-            commit_message=f"{repo} card",
-        )
-    if blob is not None and blob.is_file():
-        api.upload_file(
-            path_or_fileobj=str(blob),
-            path_in_repo=blob.name,
-            repo_id=f"{org}/{repo}",
-            repo_type="model",
-        )
-    if receipt is not None and receipt.is_file():
-        api.upload_file(
-            path_or_fileobj=str(receipt),
-            path_in_repo="TRAINING_RECEIPT.json",
-            repo_id=f"{org}/{repo}",
-            repo_type="model",
-        )
+def _put(api, repo: str, local: Path, dest: str, kind: str, message: str) -> None:
+    if not local.is_file():
+        print("skip missing", local, file=sys.stderr)
+        return
+    api.upload_file(
+        path_or_fileobj=str(local),
+        path_in_repo=dest,
+        repo_id=repo,
+        repo_type=kind,
+        commit_message=message,
+    )
+    print("uploaded", dest, "->", repo)
 
 
 def main() -> int:
@@ -107,77 +72,62 @@ def main() -> int:
     nano = ROOT / "artifacts"
     rec = nano / "TRAINING_RECEIPT.json"
 
-    model_staging = _stage_model()
+    # Cards + weights first so a timeout still leaves the estate honest.
+    nanos = [
+        ("TinyKhipu-Nano", ROOT / "hf/TinyKhipu-Nano/README.md", nano / "tiny_khipu.npz"),
+        ("ReceiptAgent-Nano", ROOT / "hf/ReceiptAgent-Nano/README.md", nano / "receipt_agent.npz"),
+        ("Moons-Nano", ROOT / "hf/Moons-Nano/README.md", nano / "moons.npz"),
+        ("MiniEmbed-Nano", ROOT / "hf/MiniEmbed-Nano/README.md", nano / "mini_embed.npz"),
+    ]
+    for repo, readme, blob in nanos:
+        rid = f"{org}/{repo}"
+        api.create_repo(rid, repo_type="model", exist_ok=True, private=False)
+        _put(api, rid, readme, "README.md", "model", f"{repo} card")
+        _put(api, rid, blob, blob.name, "model", f"{repo} weights")
+        _put(api, rid, rec, "TRAINING_RECEIPT.json", "model", f"{repo} receipt")
+
+    kid = f"{org}/szl-khipu-kernels"
+    api.create_repo(kid, repo_type="model", exist_ok=True, private=False)
+    _put(
+        api,
+        kid,
+        ROOT / "hf/szl-khipu-kernels/README.md",
+        "README.md",
+        "model",
+        "szl-khipu-kernels card — original cuts, not rehosts",
+    )
+
+    # Package card pointer only — do not re-upload the bloated model tree.
+    _put(
+        api,
+        f"{org}/szl-khipu",
+        ROOT / "README.md",
+        "README.md",
+        "model",
+        "szl-khipu card pointer — GitHub canonical",
+    )
+    _put(
+        api,
+        f"{org}/szl-khipu",
+        ROOT / "hf/szl-khipu-kernels/README.md",
+        "hf/szl-khipu-kernels/README.md",
+        "model",
+        "szl-khipu original-cut kernel card",
+    )
+
+    staging = _stage_space()
     try:
-        api.create_repo(f"{org}/szl-khipu", repo_type="model", exist_ok=True, private=False)
+        sid = f"{org}/szl-khipu"
+        api.create_repo(sid, repo_type="space", space_sdk="docker", exist_ok=True, private=False)
         api.upload_folder(
-            folder_path=str(model_staging),
-            repo_id=f"{org}/szl-khipu",
-            repo_type="model",
-            commit_message="szl-khipu kernels — GitHub canonical, Hub mirror",
-        )
-    finally:
-        shutil.rmtree(model_staging, ignore_errors=True)
-
-    _upload_nano(
-        api,
-        org,
-        "TinyKhipu-Nano",
-        ROOT / "hf/TinyKhipu-Nano/README.md",
-        nano / "tiny_khipu.npz",
-        rec,
-    )
-    _upload_nano(
-        api,
-        org,
-        "ReceiptAgent-Nano",
-        ROOT / "hf/ReceiptAgent-Nano/README.md",
-        nano / "receipt_agent.npz",
-        rec,
-    )
-    _upload_nano(
-        api,
-        org,
-        "Moons-Nano",
-        ROOT / "hf/Moons-Nano/README.md",
-        nano / "moons.npz",
-        rec,
-    )
-    _upload_nano(
-        api,
-        org,
-        "MiniEmbed-Nano",
-        ROOT / "hf/MiniEmbed-Nano/README.md",
-        nano / "mini_embed.npz",
-        rec,
-    )
-
-    api.create_repo(f"{org}/szl-khipu-kernels", repo_type="model", exist_ok=True, private=False)
-    api.upload_file(
-        path_or_fileobj=str(ROOT / "hf/szl-khipu-kernels/README.md"),
-        path_in_repo="README.md",
-        repo_id=f"{org}/szl-khipu-kernels",
-        repo_type="model",
-        commit_message="szl-khipu-kernels card — original cuts, not rehosts",
-    )
-
-    space_staging = _stage_space()
-    try:
-        api.create_repo(
-            f"{org}/szl-khipu",
-            repo_type="space",
-            space_sdk="docker",
-            exist_ok=True,
-            private=False,
-        )
-        api.upload_folder(
-            folder_path=str(space_staging),
-            repo_id=f"{org}/szl-khipu",
+            folder_path=str(staging),
+            repo_id=sid,
             repo_type="space",
             commit_message="hologram + package — Inference Bay / Prefix / Route LIVE",
         )
+        print("uploaded hologram space", sid)
     finally:
-        shutil.rmtree(space_staging, ignore_errors=True)
+        shutil.rmtree(staging, ignore_errors=True)
 
     print("uploaded models + hologram space to", org)
     return 0
