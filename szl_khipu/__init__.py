@@ -60,6 +60,12 @@ from .anatomy import (
     anatomy_metrics,
     evaluate_anatomy,
 )
+from .tilegrid import digest_tiles, run_tile_grid, schedule_cover, tile_schedule
+from .chaski import drain, enqueue_all, run_chaski
+from .ayni import run_ayni
+from .shard import SHARD_K, SHARD_N, decode_rs, encode_rs, run_shard
+from .bay import BAY_RAILS, evaluate_bay, run_bay
+from .greenlight import evaluate_greenlight, run_greenlight
 
 __version__ = "0.1.0"
 
@@ -193,4 +199,22 @@ __all__ = [
     "AnatomyEval",
     "ORGAN_SPEC",
     "WILLAY_CLASSIFIERS",
+    "digest_tiles",
+    "run_tile_grid",
+    "schedule_cover",
+    "tile_schedule",
+    "enqueue_all",
+    "drain",
+    "run_chaski",
+    "run_ayni",
+    "SHARD_N",
+    "SHARD_K",
+    "encode_rs",
+    "decode_rs",
+    "run_shard",
+    "BAY_RAILS",
+    "evaluate_bay",
+    "run_bay",
+    "evaluate_greenlight",
+    "run_greenlight",
 ]

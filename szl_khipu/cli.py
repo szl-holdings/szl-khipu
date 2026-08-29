@@ -17,7 +17,7 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from szl_khipu import YUYAY_FLOORS, evaluate_anatomy, evaluate_lambda, yarqa_attn
+from szl_khipu import YUYAY_FLOORS, evaluate_anatomy, evaluate_lambda, run_tile_grid, yarqa_attn
 from szl_khipu.doctrine import proven_trust
 from szl_khipu.train import tiny_khipu
 
@@ -139,6 +139,24 @@ def cmd_demo_anatomy(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_demo_tiledigest(args: argparse.Namespace) -> int:
+    y = run_tile_grid(8, 4, args.br, args.br, args.tamper)
+    payload = {
+        "Br": args.br,
+        "tamper": args.tamper,
+        "gridBreaks": y["gridBreaks"],
+        "cover": y["cover"],
+        "ranDig": y["ranDig"],
+        "claimDig": y["claimDig"],
+        "tileCount": y["tileCount"],
+        "not": "FlashAttention rehost",
+        "proven_trust": False,
+        "energy_status": "UNAVAILABLE",
+    }
+    print(json.dumps(payload, indent=2))
+    return 0 if y["gridBreaks"] == 0 or args.tamper != 0 else 1
+
+
 def cmd_verify(args: argparse.Namespace) -> int:
     path = Path(args.receipt)
     if not path.exists():
@@ -222,6 +240,11 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--break-skeleton", action="store_true")
     a.add_argument("--willay-fire", action="store_true")
     a.set_defaults(func=cmd_demo_anatomy)
+
+    g = sub.add_parser("demo-tiledigest", help="Receipt the Br×Bc schedule; fail-close on a lying grid")
+    g.add_argument("--br", type=int, default=4)
+    g.add_argument("--tamper", type=int, default=0, help="0 clean · 1 coarser Br · 2 drop last K-tile")
+    g.set_defaults(func=cmd_demo_tiledigest)
 
     v = sub.add_parser("verify", help="Replay a training receipt (hash + honesty)")
     v.add_argument("receipt", nargs="?", default=str(_repo_root() / "artifacts" / "training_receipt.json"))

@@ -30,6 +30,7 @@ from szl_khipu import (  # noqa: E402
     UnifiedReceiptChain,
     evaluate_anatomy,
     evaluate_lambda,
+    run_tile_grid,
     yarqa_attn,
 )
 from szl_khipu.doctrine import DOCTRINE  # noqa: E402
@@ -453,6 +454,32 @@ def run_yarqa(n_canals: float) -> str:
     )
 
 
+def run_digest(br: float, tamper_label: str) -> str:
+    tamper = {"clean": 0, "claim coarser Br": 1, "drop last K-tile": 2}.get(tamper_label, 0)
+    y = run_tile_grid(8, 4, int(br), int(br), tamper)
+    depth = _mint(
+        "tiledigest",
+        "seal",
+        {"Br": int(br), "gridBreaks": y["gridBreaks"], "cover": y["cover"], "ranDig": y["ranDig"]},
+    )
+    ok = y["gridBreaks"] == 0
+    kind = "ok" if ok else "false"
+    return (
+        f'<div class="metrics">'
+        f'<div class="metric"><div class="k">gridBreaks</div>'
+        f'<div class="v {"ok" if ok else "false"}">{y["gridBreaks"]}</div></div>'
+        f'<div class="metric"><div class="k">cover</div><div class="v">{y["cover"]}</div></div>'
+        f'<div class="metric"><div class="k">tiles</div><div class="v">{y["tileCount"]}</div></div>'
+        f"</div>"
+        + _lrow(
+            kind,
+            "TileDigest holds" if ok else "TileDigest BROKEN · claimed grid is not the schedule that ran",
+            f"ran {y['ranDig']} · claim {y['claimDig']} · chain depth {depth} · not Dao CUDA",
+            "schedule receipt · residual is a different pin",
+        )
+    )
+
+
 def train_tiny() -> str:
     _w, ev = tiny_khipu.train(seed=20260721, steps=280)
     depth = _mint("tiny_khipu", "train", dict(ev))
@@ -667,6 +694,23 @@ with gr.Blocks(
             yarqa_btn = gr.Button("Run YARQA", variant="primary")
             yarqa_btn.click(run_yarqa, inputs=[n_canals], outputs=yarqa_out)
             n_canals.release(run_yarqa, inputs=[n_canals], outputs=yarqa_out)
+
+        with gr.Tab("TileDigest"):
+            gr.HTML(
+                '<p class="lab-lede">Receipt the Br×Bc schedule. Residual-vs-naive can hold while '
+                "the grid lies. Not a FlashAttention rehost. No tokens/s claim. "
+                "Claim a coarser Br or drop a K-tile and the bound fail-closes.</p>",
+                elem_classes=["holo-html"],
+            )
+            td_br = gr.Slider(2, 8, value=4, step=2, label="Br = Bc")
+            td_tamper = gr.Radio(
+                choices=["clean", "claim coarser Br", "drop last K-tile"],
+                value="clean",
+                label="schedule",
+            )
+            td_out = gr.HTML(elem_classes=["holo-html"])
+            td_btn = gr.Button("Seal tile grid", variant="primary")
+            td_btn.click(run_digest, inputs=[td_br, td_tamper], outputs=td_out)
 
         with gr.Tab("TinyKhipu"):
             gr.HTML(
