@@ -74,6 +74,20 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, code: int, payload: dict) -> None:
         self._send(code, json.dumps(payload).encode(), "application/json")
 
+    def do_HEAD(self) -> None:  # noqa: N802
+        """HF probes HEAD. BaseHTTP 501s otherwise."""
+        path = urlparse(self.path).path
+        ok = path in ("/", "/index.html", "/health", "/healthz", "/version", "/api/version", "/api/lambda")
+        if not ok:
+            self.send_response(404)
+            self.end_headers()
+            return
+        ctype = "text/html; charset=utf-8" if path in ("/", "/index.html") else "application/json"
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
         if path in ("/", "/index.html"):
@@ -93,6 +107,22 @@ class Handler(BaseHTTPRequestHandler):
                     "cuda": "UNAVAILABLE",
                 },
             )
+            return
+        if path in ("/version", "/api/version"):
+            self._json(
+                200,
+                {
+                    "name": "szl-khipu",
+                    "kernel": KERNEL,
+                    "uniqueness": "Conjecture 1",
+                    "energy": "UNAVAILABLE",
+                    "proven_trust": False,
+                    "source": "szl-holdings/szl-khipu",
+                },
+            )
+            return
+        if path == "/api/lambda":
+            self._lambda({})
             return
         self._send(404, b"not found", "text/plain")
 

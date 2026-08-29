@@ -52,6 +52,12 @@ class HttpAppTests(unittest.TestCase):
         self.assertIn("Python FE+BE", text)
         self.assertNotIn("proven_trust=true", text.lower().replace(" ", ""))
 
+    def test_head_health(self) -> None:
+        req = Request(f"http://127.0.0.1:{self.port}/healthz", method="HEAD")
+        with urlopen(req, timeout=5) as r:
+            self.assertEqual(r.status, 200)
+            self.assertEqual(r.read(), b"")
+
     def test_health_and_version(self) -> None:
         _, raw, _ = self._get("/healthz")
         health = json.loads(raw)
