@@ -37,6 +37,19 @@ Nobody else ships this combination. That is the point of a one-of-one.
 
 Unit-test the NAVIGATE|ABSTAIN schema before GPU spend.
 
+## Bench (this tree)
+
+`TRAINING_RECEIPT.json` seed `20260721` · steps 280 · honesty **REPORTED**
+
+| Metric | Value |
+|---|---|
+| plan_valid | 1.00 |
+| abstain | 1.00 |
+| hallucinated | 0 |
+| weights | `tiny_khipu.npz` sha256 `cc8d0385b2c75079669df809d7e4823f1ad8d9d535aec511446347490b11dff9` |
+
+Infers on `POST /api/infer {"kind":"tiny_khipu"}`. Hard ID filter. **Not Qwen. Not 1.5B.**
+
 ## Limitations
 
 - Synthetic features. Perfect holdout is a design fact, not a field claim.

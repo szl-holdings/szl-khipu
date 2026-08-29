@@ -77,6 +77,33 @@
       <p class="mono" id="yarqa">—</p>
       <button id="run-yarqa" type="button">Run YARQA</button>
     </section>
+    <section class="card" style="margin-top:12px">
+      <h2>PrefixWitness · radix</h2>
+      <p class="muted">Original cut of SGLang RadixAttention. Poison after digest — BLOCKED. Not SGLang.</p>
+      <p class="mono" id="prefix">—</p>
+      <div class="row">
+        <button class="ghost" type="button" id="hijack-prefix">Poison cache</button>
+        <button type="button" id="run-prefix">Honest prefix</button>
+      </div>
+    </section>
+    <section class="card" style="margin-top:12px">
+      <h2>RouteWitness · MoE</h2>
+      <p class="muted">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
+      <p class="mono" id="route">—</p>
+      <div class="row">
+        <button class="ghost" type="button" id="swap-route">Swap expert</button>
+        <button type="button" id="run-route">Honest route</button>
+      </div>
+    </section>
+    <section class="card" style="margin-top:12px">
+      <h2>Inference Bay</h2>
+      <p class="muted">Kernel is truth. TinyKhipu infers here. 1.5B QLoRA stays RESEARCH.</p>
+      <p class="mono" id="infer">—</p>
+      <div class="row">
+        <button class="ghost" type="button" id="run-bench">Bench kernels</button>
+        <button type="button" id="run-infer">Infer TinyKhipu</button>
+      </div>
+    </section>
     <h2>Organs</h2>
     <div class="grid">
       <a class="card" href="https://github.com/szl-holdings/szl-khipu">GitHub source</a>
@@ -137,6 +164,41 @@
       const el = document.getElementById("yarqa");
       if (j.kernel === "UNAVAILABLE") el.textContent = "UNAVAILABLE — " + (j.reason||"no package");
       else el.textContent = "leaked " + Number(j.leaked).toExponential(2) + "  " + (j.ok ? "HOLD" : "BREAK");
+    };
+    document.getElementById("run-prefix").onclick = async () => {
+      const j = await post("/api/prefix", {});
+      const el = document.getElementById("prefix");
+      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
+      el.className = "mono" + (j.hold ? "" : " down");
+    };
+    document.getElementById("hijack-prefix").onclick = async () => {
+      const j = await post("/api/prefix", {hijack:1});
+      const el = document.getElementById("prefix");
+      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
+      el.className = "mono" + (j.hold ? "" : " down");
+    };
+    document.getElementById("run-route").onclick = async () => {
+      const j = await post("/api/route", {});
+      const el = document.getElementById("route");
+      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
+      el.className = "mono" + (j.hold ? "" : " down");
+    };
+    document.getElementById("swap-route").onclick = async () => {
+      const j = await post("/api/route", {tamper:1});
+      const el = document.getElementById("route");
+      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
+      el.className = "mono" + (j.hold ? "" : " down");
+    };
+    document.getElementById("run-bench").onclick = async () => {
+      const j = await post("/api/bench", {seed:11});
+      const el = document.getElementById("infer");
+      el.textContent = "bench " + (j.passed||0) + "/" + (j.total||0) + " HOLD · CUDA UNAVAILABLE";
+      el.className = "mono" + (j.passed === j.total ? "" : " down");
+    };
+    document.getElementById("run-infer").onclick = async () => {
+      const j = await post("/api/infer", {kind:"tiny_khipu", query:"resolve F18 handle"});
+      const el = document.getElementById("infer");
+      el.textContent = (j.decision||"?") + " · hallucinated " + (j.hallucinated??"?") + " · " + (j.what_not||"");
     };
     render(); ping(); health(); green(); anatomy({});
   </script>

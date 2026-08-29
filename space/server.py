@@ -42,6 +42,7 @@ _evaluate_lambda = None
 _yarqa_attn = None
 _evaluate_anatomy = None
 _evaluate_greenlight = None
+_api_extra: dict = {}
 YUYAY_FLOORS: tuple[float, ...] = (0.95, 0.95) + (0.90,) * 11
 
 try:
@@ -52,12 +53,24 @@ try:
         evaluate_lambda as _el,
         yarqa_attn as _ya,
     )
+    from szl_khipu.http_app import (  # type: ignore
+        api_bench,
+        api_infer,
+        api_prefix,
+        api_route,
+    )
 
     YUYAY_FLOORS = tuple(float(x) for x in _FLOORS)
     _evaluate_lambda = _el
     _yarqa_attn = _ya
     _evaluate_anatomy = _ea
     _evaluate_greenlight = _eg
+    _api_extra = {
+        "/api/prefix": api_prefix,
+        "/api/route": api_route,
+        "/api/bench": api_bench,
+        "/api/infer": api_infer,
+    }
     KERNEL = "LIVE"
 except Exception:
     KERNEL = "UNAVAILABLE"
@@ -105,6 +118,10 @@ class Handler(BaseHTTPRequestHandler):
             "/api/greenlight",
             "/api/anatomy",
             "/api/yarqa",
+            "/api/prefix",
+            "/api/route",
+            "/api/bench",
+            "/api/infer",
         )
         if not ok:
             self.send_response(404)
@@ -165,6 +182,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/yarqa":
             self._yarqa({})
             return
+        if path in _api_extra:
+            self._json(200, _api_extra[path]({}))
+            return
         self._send(404, b"not found", "text/plain")
 
     def do_POST(self) -> None:  # noqa: N802
@@ -186,6 +206,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/greenlight":
             self._greenlight(data)
+            return
+        if path in _api_extra:
+            self._json(200, _api_extra[path](data if isinstance(data, dict) else {}))
             return
         self._send(404, b"not found", "text/plain")
 

@@ -9,5 +9,6 @@ COPY server.py ./server.py
 COPY index.html ./index.html
 COPY energy.py ./energy.py
 COPY szl_khipu ./szl_khipu
+COPY artifacts ./artifacts
 EXPOSE 7860
 CMD ["python", "-u", "server.py"]

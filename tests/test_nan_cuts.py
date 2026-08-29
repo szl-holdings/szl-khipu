@@ -16,6 +16,8 @@ from szl_khipu.ayni import run_ayni
 from szl_khipu.bay import run_bay
 from szl_khipu.chaski import drain, enqueue_all, run_chaski
 from szl_khipu.greenlight import run_greenlight
+from szl_khipu.prefix import run_prefix
+from szl_khipu.route import run_route
 from szl_khipu.shard import SHARD_K, SHARD_N, decode_rs, encode_rs, run_shard
 from szl_khipu.tilegrid import digest_tiles, run_tile_grid, schedule_cover, tile_schedule
 
@@ -135,6 +137,31 @@ class GreenLightTests(unittest.TestCase):
         y = run_greenlight(stamp_joule=1)
         self.assertEqual(y["blocked"], 1)
         self.assertEqual(y["energy"], "UNAVAILABLE")
+
+
+class PrefixWitnessTests(unittest.TestCase):
+    def test_honest_cache_holds(self) -> None:
+        y = run_prefix(11, hijack=0)
+        self.assertEqual(y["hold"], 1)
+        self.assertEqual(y["broken"], 0)
+        self.assertEqual(y["hit"], "NAV")
+
+    def test_poison_fail_closes(self) -> None:
+        y = run_prefix(11, hijack=1)
+        self.assertEqual(y["hold"], 0)
+        self.assertEqual(y["broken"], 1)
+
+
+class RouteWitnessTests(unittest.TestCase):
+    def test_honest_assignment_holds(self) -> None:
+        y = run_route(11, tamper=0)
+        self.assertEqual(y["hold"], 1)
+        self.assertEqual(len(y["assignment"]), 8)
+
+    def test_expert_swap_fail_closes(self) -> None:
+        y = run_route(11, tamper=1)
+        self.assertEqual(y["hold"], 0)
+        self.assertEqual(y["broken"], 1)
 
 
 if __name__ == "__main__":

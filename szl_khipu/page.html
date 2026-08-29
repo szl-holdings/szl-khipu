@@ -95,12 +95,40 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     </div>
     <pre id="out-grid">idle</pre>
   </section>
+  <section class="panel" id="prefix">
+    <h2>PrefixWitness — radix digest</h2>
+    <p class="lede">Original cut of SGLang RadixAttention. Poison the cached KV after the digest — BLOCKED. Not SGLang. No tokens/s.</p>
+    <div class="row">
+      <button class="run" id="run-prefix">honest prefix</button>
+      <button class="run" id="hijack-prefix">poison after digest</button>
+    </div>
+    <pre id="out-prefix">idle</pre>
+  </section>
+  <section class="panel" id="route">
+    <h2>RouteWitness — expert digest</h2>
+    <p class="lede">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
+    <div class="row">
+      <button class="run" id="run-route">honest route</button>
+      <button class="run" id="swap-route">swap expert</button>
+    </div>
+    <pre id="out-route">idle</pre>
+  </section>
+  <section class="panel" id="infer">
+    <h2>Inference Bay</h2>
+    <p class="lede">Kernel is truth. TinyKhipu / ReceiptAgent / moons infer here. 1.5B QLoRA stays RESEARCH. CUDA UNAVAILABLE.</p>
+    <div class="row">
+      <button class="run" id="run-bench">bench kernels</button>
+      <button class="run" id="run-infer">infer TinyKhipu</button>
+    </div>
+    <pre id="out-infer">idle</pre>
+  </section>
 </main>
 <footer>
   Source <a href="https://github.com/szl-holdings/szl-khipu">szl-holdings/szl-khipu</a>
   · Space <a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-khipu">SZLHOLDINGS/szl-khipu</a>
   · Founder <a href="https://stephenlutar2-hash.github.io/founder-page/">notebook</a>
   · GET /healthz · GET /version · POST /api/lambda · POST /api/anatomy · POST /api/greenlight
+  · POST /api/prefix · POST /api/route · POST /api/bench · POST /api/infer
   · Apache-2.0 · never a fabricated joule
 </footer>
 <script>
@@ -132,6 +160,12 @@ document.getElementById("claim-proven").onclick = async ()=> show("out-green", a
 document.getElementById("stamp-joule").onclick = async ()=> show("out-green", await post("/api/greenlight",{stamp_joule:1}));
 document.getElementById("run-yarqa").onclick = async ()=> show("out-yarqa", await post("/api/yarqa",{n_canals:3,seq:12,dim:4,seed:7}));
 document.getElementById("run-grid").onclick = async ()=> show("out-grid", await post("/api/tiledigest",{tamper:Number(document.getElementById("tamper").value)}));
+document.getElementById("run-prefix").onclick = async ()=> show("out-prefix", await post("/api/prefix",{}));
+document.getElementById("hijack-prefix").onclick = async ()=> show("out-prefix", await post("/api/prefix",{hijack:1}));
+document.getElementById("run-route").onclick = async ()=> show("out-route", await post("/api/route",{}));
+document.getElementById("swap-route").onclick = async ()=> show("out-route", await post("/api/route",{tamper:1}));
+document.getElementById("run-bench").onclick = async ()=> show("out-infer", await post("/api/bench",{seed:11}));
+document.getElementById("run-infer").onclick = async ()=> show("out-infer", await post("/api/infer",{kind:"tiny_khipu",query:"resolve F18 handle"}));
 </script>
 </body>
 </html>

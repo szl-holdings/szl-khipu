@@ -34,6 +34,9 @@ def _stage_space() -> Path:
             staging / "szl_khipu",
             ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyi"),
         )
+    art = ROOT / "artifacts"
+    if art.is_dir():
+        shutil.copytree(art, staging / "artifacts", ignore=shutil.ignore_patterns("__pycache__"))
     return staging
 
 

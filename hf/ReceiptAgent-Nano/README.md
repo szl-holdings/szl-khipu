@@ -37,6 +37,17 @@ Nobody else ships this combination. That is the point of a one-of-one.
 
 Fail-closed unit tests for the 4-way gate.
 
+## Bench (this tree)
+
+`TRAINING_RECEIPT.json` seed `20260721` · honesty **REPORTED** · kernel is truth
+
+| Metric | Value |
+|---|---|
+| held-out agree vs rule_check | 0.905 |
+| weights | `receipt_agent.npz` sha256 `8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381` |
+
+Infers on `POST /api/infer {"kind":"receipt_agent"}`. Surrogate may disagree. Kernel wins. **Not 1.5B.**
+
 ## Limitations
 
 - Synthetic 4-D features. Not a substitute for the 1.5B agent.

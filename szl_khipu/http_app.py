@@ -28,10 +28,17 @@ from szl_khipu import (
     evaluate_anatomy,
     evaluate_greenlight,
     evaluate_lambda,
+    run_ayni,
+    run_bay,
+    run_chaski,
+    run_prefix,
+    run_route,
+    run_shard,
     run_tile_grid,
     yarqa_attn,
 )
 from szl_khipu.doctrine import DOCTRINE, proven_trust
+from szl_khipu.train import mini_embed, moons, receipt_agent, tiny_khipu
 
 SOURCE = "szl-holdings/szl-khipu"
 CHAIN = UnifiedReceiptChain()
@@ -145,6 +152,245 @@ def api_tiledigest(body: dict[str, Any]) -> dict[str, Any]:
     return _stamp(dict(y))
 
 
+def api_prefix(body: dict[str, Any]) -> dict[str, Any]:
+    y = run_prefix(
+        seed=int(body.get("seed", 11)),
+        hijack=_flag(body, "hijack"),
+        query=str(body.get("query") or "NAV"),
+    )
+    CHAIN.emit("prefix", "run", {"hold": y.get("hold"), "hijack": y.get("hijack")})
+    return _stamp(dict(y))
+
+
+def api_route(body: dict[str, Any]) -> dict[str, Any]:
+    y = run_route(seed=int(body.get("seed", 11)), tamper=_flag(body, "tamper"))
+    CHAIN.emit("route", "run", {"hold": y.get("hold"), "tamper": _flag(body, "tamper")})
+    return _stamp(dict(y))
+
+
+def api_bench(body: dict[str, Any]) -> dict[str, Any]:
+    seed = int(body.get("seed", 11))
+    lam = evaluate_lambda(list(YUYAY_FLOORS))
+    rng = np.random.default_rng(seed)
+    q = k = v = rng.standard_normal((12, 4))
+    _out, _probs, leaked = yarqa_attn(q, k, v, n_canals=3)
+    green = evaluate_greenlight()
+    sorry = evaluate_greenlight(paint_sorry=1)
+    body_ev = evaluate_anatomy(seed=seed)
+    heart = evaluate_anatomy(seed=seed, zero_heart=True)
+    fifo = run_chaski(seed)
+    ayni = run_ayni(seed, leak=0)
+    shard = run_shard(seed)
+    bay = run_bay()
+    prefix = run_prefix(seed, hijack=0)
+    route = run_route(seed, tamper=0)
+    rows = [
+        {
+            "id": "lambda",
+            "name": "Λ gate",
+            "pass": not bool(lam.get("blocked")),
+            "honesty": "ADVISORY",
+            "note": "Conjecture 1 OPEN · proven_trust false",
+        },
+        {
+            "id": "yarqa",
+            "name": "YARQA canals",
+            "pass": float(leaked) <= 1e-9,
+            "honesty": "LIVE",
+            "note": "Not SageAttention · CUDA UNAVAILABLE",
+        },
+        {
+            "id": "greenlight",
+            "name": "GreenLight Ari",
+            "pass": int(green.get("greenlit", 0)) == 1 and int(sorry.get("blocked", 0)) == 1,
+            "honesty": "LIVE",
+            "note": "sorry cannot paint · dual of Willay",
+        },
+        {
+            "id": "anatomy",
+            "name": "Kay Pacha",
+            "pass": int(body_ev.get("live_count", 0)) == 5 and bool(heart.get("blocked")),
+            "honesty": "LIVE",
+            "note": "zero HEART fail-closes",
+        },
+        {
+            "id": "chaski",
+            "name": "Chaski FIFO",
+            "pass": int(fifo.get("fifoHold", 0)) == 1,
+            "honesty": "LIVE",
+            "note": "kernel, not a Hub checkpoint",
+        },
+        {
+            "id": "ayni",
+            "name": "Ayni",
+            "pass": float(ayni.get("leak", 1)) < 1e-9,
+            "honesty": "LIVE",
+            "note": "Not a ResNet weight",
+        },
+        {
+            "id": "shard",
+            "name": "ShardWitness",
+            "pass": int(shard.get("recovered", 0)) == 1,
+            "honesty": "LIVE",
+            "note": "RS(10,6) CHECKED ≠ Lean PROVEN",
+        },
+        {
+            "id": "bay",
+            "name": "Evidence Bay",
+            "pass": int(bay.get("collapsed", 1)) == 0,
+            "honesty": "LIVE",
+            "note": "four rails · Space is not proof",
+        },
+        {
+            "id": "prefix",
+            "name": "PrefixWitness",
+            "pass": int(prefix.get("hold", 0)) == 1,
+            "honesty": "LIVE",
+            "note": "original cut of RadixAttention · not SGLang",
+        },
+        {
+            "id": "route",
+            "name": "RouteWitness",
+            "pass": int(route.get("hold", 0)) == 1,
+            "honesty": "LIVE",
+            "note": "original cut of Mixtral routing · not Mixtral",
+        },
+    ]
+    passed = sum(1 for r in rows if r["pass"])
+    CHAIN.emit("bench", "run", {"passed": passed, "total": len(rows)})
+    return _stamp(
+        {
+            "passed": passed,
+            "total": len(rows),
+            "failed": len(rows) - passed,
+            "rows": rows,
+            "cuda": "UNAVAILABLE",
+            "what_not": "Not a scrape of Qwen/Mixtral/SGLang weights. Kernel is truth.",
+        }
+    )
+
+
+_INFER_CACHE: dict[str, Any] = {}
+_ART = Path(__file__).resolve().parents[1] / "artifacts"
+
+
+def _tiny_weights() -> dict[str, Any]:
+    if "tiny" in _INFER_CACHE:
+        return _INFER_CACHE["tiny"]
+    path = _ART / "tiny_khipu.npz"
+    if path.is_file():
+        w = tiny_khipu.load_npz(str(path))
+    else:
+        w, _ev = tiny_khipu.train(seed=20260721, steps=40)
+    _INFER_CACHE["tiny"] = w
+    return w
+
+
+def _ra_weights() -> dict[str, Any]:
+    if "ra" in _INFER_CACHE:
+        return _INFER_CACHE["ra"]
+    path = _ART / "receipt_agent.npz"
+    if path.is_file():
+        w = receipt_agent.load_npz(str(path))
+    else:
+        w, _ev = receipt_agent.train(seed=20260721, max_steps=80)
+    _INFER_CACHE["ra"] = w
+    return w
+
+
+def _moons_weights() -> dict[str, Any]:
+    if "moons" in _INFER_CACHE:
+        return _INFER_CACHE["moons"]
+    path = _ART / "moons.npz"
+    if path.is_file():
+        w = moons.load_npz(str(path))
+    else:
+        w, _ev = moons.train(seed=20260721, steps=80)
+    _INFER_CACHE["moons"] = w
+    return w
+
+
+def api_infer(body: dict[str, Any]) -> dict[str, Any]:
+    kind = str(body.get("kind") or "tiny_khipu")
+    if kind == "tiny_khipu":
+        w = _tiny_weights()
+        query = str(body.get("query") or "resolve F18 handle")
+        handles = body.get("handles") or [
+            {"id": "h.locked", "note": "F18 node"},
+            {"id": "h.other", "note": "YUYAY spare"},
+            {"id": "h.noise", "note": "unrelated theorem"},
+        ]
+        out = tiny_khipu.forward(w, {"query": query, "handles": handles, "decision": 0, "cite": []})
+        CHAIN.emit("infer", "tiny_khipu", {"decision": int(out["decision"])})
+        return _stamp(
+            {
+                "kind": kind,
+                "decision": "NAVIGATE" if int(out["decision"]) == 1 else "ABSTAIN",
+                "p": [float(x) for x in out["p"]],
+                "cited": list(out["cited"]),
+                "hallucinated": int(out["hallucinated"]),
+                "what_not": "Not Qwen. Not 1.5B. Hard ID filter.",
+            }
+        )
+    if kind == "receipt_agent":
+        w = _ra_weights()
+        z = np.zeros(receipt_agent.FEATURE_DIM, dtype=np.float64)
+        z[0] = 0.91
+        z[2] = 0.0 if _flag(body, "break_chain", "breakChain") else 1.0
+        z[3] = 1.0
+        z[4] = 1.0
+        z[5] = 1.0
+        z[7] = 1.0
+        z[8] = 1.0 if _flag(body, "hard_deny", "hardDeny") else 0.0
+        z[9] = 0.0 if _flag(body, "no_allow", "noAllow") else 1.0
+        z[13] = 0.95
+        d = receipt_agent.decide(z, w)
+        CHAIN.emit("infer", "receipt_agent", {"kernel": d.get("kernel")})
+        return _stamp(
+            {
+                "kind": kind,
+                "kernel": d["kernel"],
+                "surrogate": d["surrogate"],
+                "agree": bool(d["agree"]),
+                "decision": d["decision"],
+                "what_not": "Kernel rule_check wins. Not 1.5B.",
+            }
+        )
+    if kind == "moons":
+        w = _moons_weights()
+        x = float(body.get("x", 0.2))
+        y = float(body.get("y", 0.3))
+        pred = moons.predict(w, np.array([[x, y]], dtype=np.float64))
+        CHAIN.emit("infer", "moons", {"class": int(pred[0])})
+        return _stamp(
+            {
+                "kind": kind,
+                "x": x,
+                "y": y,
+                "class": int(pred[0]),
+                "what_not": "2→8→2. Not 1.5B. Not a published benchmark.",
+            }
+        )
+    if kind in ("embed", "mini_embed"):
+        path = _ART / "mini_embed.npz"
+        table = mini_embed.load_npz(str(path)) if path.is_file() else mini_embed.build(seed=20260721)
+        tok = str(body.get("query") or body.get("token") or "F18")
+        vec = table.embed(tok)
+        dists = np.linalg.norm(table.table - vec, axis=1)
+        order = np.argsort(dists)[:3]
+        hits = [{"idx": int(i), "dist": float(dists[i])} for i in order]
+        CHAIN.emit("infer", "mini_embed", {"token": tok})
+        return _stamp(
+            {
+                "kind": "mini_embed",
+                "token": tok,
+                "hits": hits,
+                "what_not": "V=64 d=12 hash+table L2. Not neural. Not 3290×128.",
+            }
+        )
+    return _stamp({"error": "unknown kind", "blocked": True, "kind": kind})
+
+
 def api_version() -> dict[str, Any]:
     ok, depth, brk = CHAIN.verify()
     return _stamp(
@@ -168,6 +414,10 @@ ROUTES = {
     "/api/greenlight": api_greenlight,
     "/api/yarqa": api_yarqa,
     "/api/tiledigest": api_tiledigest,
+    "/api/prefix": api_prefix,
+    "/api/route": api_route,
+    "/api/bench": api_bench,
+    "/api/infer": api_infer,
 }
 
 
