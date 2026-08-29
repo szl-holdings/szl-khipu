@@ -92,11 +92,18 @@ class HonestyDocs(unittest.TestCase):
     def test_tiny_and_agent_cards(self) -> None:
         tiny = _read(ROOT / "hf" / "TinyKhipu-Nano" / "README.md")
         agent = _read(ROOT / "hf" / "ReceiptAgent-Nano" / "README.md")
+        moons = _read(ROOT / "hf" / "Moons-Nano" / "README.md")
+        embed = _read(ROOT / "hf" / "MiniEmbed-Nano" / "README.md")
         self.assertIn("NAVIGATE", tiny)
         self.assertIn("ABSTAIN", tiny)
         self.assertIn("Not 1.5B", tiny)
         self.assertIn("4-way", agent)
         self.assertIn("kernel is truth", agent.lower())
+        self.assertIn("2→8→2", moons)
+        self.assertIn("Not 1.5B", moons)
+        self.assertIn("V=64", embed)
+        self.assertIn("Not neural", embed)
+        self.assertIn("3290", embed)
 
     def test_never_claims_joules_measured(self) -> None:
         blob = "\n".join(

@@ -32,7 +32,8 @@ from szl_khipu import (  # noqa: E402
     yarqa_attn,
 )
 from szl_khipu.doctrine import DOCTRINE  # noqa: E402
-from szl_khipu.train import tiny_khipu  # noqa: E402
+from szl_khipu.train import moons, tiny_khipu  # noqa: E402
+from szl_khipu.train import mini_embed as mini_embed_mod  # noqa: E402
 
 CHAIN = UnifiedReceiptChain()
 AXES = list(YUYAY_AXES)
@@ -121,7 +122,7 @@ HEADER = """
     </div></div>
     <div class="lrow"><div class="mark ok">✓</div><div>
       <p class="t">CPU kernels — LIVE</p>
-      <p class="d">Λ WGM, YARQA canal leak, TinyKhipu NAVIGATE/ABSTAIN, SHA-256 receipt chain. CUDA UNAVAILABLE.</p>
+      <p class="d">Λ WGM, YARQA, TinyKhipu, moons 2→8→2, MiniEmbed-Nano V=64 d=12, SHA-256 chain. CUDA UNAVAILABLE.</p>
       <span class="tag">numpy 0.1.0 · this process</span>
     </div></div>
   </div>
@@ -477,6 +478,48 @@ def train_tiny() -> str:
     )
 
 
+def train_moons() -> str:
+    _w, ev = moons.train(seed=20260721, steps=400)
+    depth = _mint("moons", "train", dict(ev))
+    acc = float(ev["acc"])
+    loss = float(ev["loss"])
+    return (
+        f'<div class="metrics">'
+        f'<div class="metric"><div class="k">acc</div>'
+        f'<div class="v ok">{acc * 100:.0f}%</div></div>'
+        f'<div class="metric"><div class="k">loss</div>'
+        f'<div class="v">{loss:.3f}</div></div>'
+        f'<div class="metric"><div class="k">shape</div><div class="v">2→8→2</div></div>'
+        f"</div>"
+        + _lrow(
+            "ok",
+            "Two-moons MLP trained in this process. Silhouette, not a foundation model.",
+            f"chain depth {depth} · acc REPORTED · not 1.5B · energy UNAVAILABLE",
+            "CPU numpy LIVE",
+        )
+    )
+
+
+def build_embed() -> str:
+    emb = mini_embed_mod.build(seed=20260721)
+    vec = emb.embed("knot the run")
+    depth = _mint("mini_embed", "build", {"V": int(emb.V), "D": int(emb.D)})
+    return (
+        f'<div class="metrics">'
+        f'<div class="metric"><div class="k">V</div><div class="v">{int(emb.V)}</div></div>'
+        f'<div class="metric"><div class="k">d</div><div class="v">{int(emb.D)}</div></div>'
+        f'<div class="metric"><div class="k">||v||</div>'
+        f'<div class="v ok">{float(np.linalg.norm(vec)):.3f}</div></div>'
+        f"</div>"
+        + _lrow(
+            "ok",
+            "Hash+table embed. Not neural. Not the 3290×128 MiniEmbed on szl-kernels.",
+            f"chain depth {depth} · L2 rows · no analogy score · CUDA UNAVAILABLE",
+            "MiniEmbed-Nano",
+        )
+    )
+
+
 def chain_status() -> str:
     ok, depth, brk = CHAIN.verify()
     rows = []
@@ -486,7 +529,7 @@ def chain_status() -> str:
             _lrow(
                 "part",
                 "chain empty",
-                "Score Λ, run YARQA, or train TinyKhipu to mint a receipt.",
+                "Score Λ, run YARQA, train TinyKhipu, or train moons to mint a receipt.",
                 "depth 0",
             )
         )
@@ -572,6 +615,26 @@ with gr.Blocks(
             train_out = gr.HTML(elem_classes=["holo-html"])
             train_btn = gr.Button("Train TinyKhipu", variant="primary")
             train_btn.click(train_tiny, inputs=None, outputs=train_out)
+
+        with gr.Tab("Moons"):
+            gr.HTML(
+                '<p class="lab-lede">Two-moons 2→8→2 tanh-softmax SGD. A few hundred floats. '
+                "Not 1.5B. Not Qwen. Acc is REPORTED on the training moons, not a published benchmark.</p>",
+                elem_classes=["holo-html"],
+            )
+            moons_out = gr.HTML(elem_classes=["holo-html"])
+            moons_btn = gr.Button("Train moons", variant="primary")
+            moons_btn.click(train_moons, inputs=None, outputs=moons_out)
+
+        with gr.Tab("MiniEmbed"):
+            gr.HTML(
+                '<p class="lab-lede">V=64 d=12 hash+table. Not neural. Not the 3290×128 MiniEmbed '
+                "on szl-kernels. No analogy score. L2-normalized rows.</p>",
+                elem_classes=["holo-html"],
+            )
+            embed_out = gr.HTML(elem_classes=["holo-html"])
+            embed_btn = gr.Button("Build MiniEmbed-Nano", variant="primary")
+            embed_btn.click(build_embed, inputs=None, outputs=embed_out)
 
         with gr.Tab("Receipts"):
             gr.HTML(
