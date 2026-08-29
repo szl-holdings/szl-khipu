@@ -193,7 +193,8 @@ Doctrine **v11 LOCKED** · 749 declarations · 14 axioms · 163 tracked sorries 
 | [hf/TinyKhipu-Nano](hf/TinyKhipu-Nano/README.md) | NAVIGATE/ABSTAIN silhouette |
 | [hf/ReceiptAgent-Nano](hf/ReceiptAgent-Nano/README.md) | 4-way gate; kernel is truth |
 | [hf/szl-khipu-kernels](hf/szl-khipu-kernels/README.md) | Kernel Hub card; `get_kernel` |
-| [spaces/](spaces/README.md) | Gradio 4 space |
+| [space/](space/README.md) | Hub docker hologram — stdlib HTTP, no Gradio |
+| [spaces/](spaces/README.md) | Gradio 5 (GitHub only; Hub Space is docker) |
 
 ## License
 
