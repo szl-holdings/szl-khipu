@@ -43,6 +43,20 @@ pip install -e ".[torch]"    # optional — torch path; CUDA still UNAVAILABLE h
 
 Requires Python ≥ 3.11. Runtime dep: `numpy>=1.26`. Apache-2.0.
 
+## Python frontend + backend
+
+Stdlib HTTP. Same process serves the holographic UI and runs the kernels. No Gradio required.
+
+```bash
+szl-khipu serve --host 0.0.0.0 --port 7860
+# GET  /healthz  /version  /api/lambda
+# POST /api/lambda  /api/anatomy  /api/yarqa  /api/tiledigest
+```
+
+Gold = OPEN. Proof teal = LIVE. Never green-as-proven. Energy UNAVAILABLE. Conjecture 1 stays OPEN.
+
+Static JS silhouette (not the NumPy kernel): [docs/index.html](docs/index.html) · [szl-holdings/khipu-pages](https://github.com/szl-holdings/khipu-pages) · [htmlpreview](https://htmlpreview.github.io/?https://github.com/szl-holdings/khipu-pages/blob/main/index.html).
+
 ## Quickstart
 
 ### Lambda (advisory)
