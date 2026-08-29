@@ -3,55 +3,52 @@ license: apache-2.0
 library_name: numpy
 tags:
   - governed-ai
+  - khipu
   - szl-holdings
-  - doctrine-v11
-  - nano
-  - measured
+  - embedding
+  - silhouette
 ---
 
 # MiniEmbed-Nano
 
-A 64×12 embedding whose rows are a function of SHA-256. The vector is the receipt of the token.
+Tiny hash+table embed: **V=64, d=12**, L2-normalized rows. **Not a foundation embed. Not neural. Not MiniEmbed 3290×128.**
 
-**Family.** nano · **Evidence.** MEASURED · **Weights.** numpy · **Params.** 64 × 12
+Canonical source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)  
+Sibling card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)  
+The larger statistical MiniEmbed (3290 × 128) lives on [SZLHOLDINGS/szl-kernels](https://huggingface.co/SZLHOLDINGS/szl-kernels) — a different artifact. Do not mix them.
 
-Hub: [SZLHOLDINGS/MiniEmbed-Nano](https://huggingface.co/SZLHOLDINGS/MiniEmbed-Nano)
+```python
+from szl_khipu.train import mini_embed
 
-## The cut
+emb = mini_embed.build(seed=20260721)
+vec = emb.embed("knot the run")
+print(emb.V, emb.D, vec.shape)
+# 64 12 (12,)
+emb.save_npz("mini_embed.npz")
+```
 
-Nobody ships an embedding where retrieval is provenance. MiniEmbed is not BGE, not NV-Embed. Mean-pool of L2 rows, seed 20260721, CPU NumPy.
+## What it does
 
-An embedding you can re-derive bit-exact from the seed. No SGD theater. Cosine is a claim about the table, not a vibe.
+- SHA-256 token id modulo 64. Mean-pool then L2. Deterministic given seed.
+- Built here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
+- No analogy score. No retrieval score. No SVD variance claim (that belongs to the 3290×128 table).
 
-### Silhouette → leave → SZL
+## What it is NOT
 
-| Leader | Take, then tweak |
-|---|---|
-| Anthropic | Honest about what it is not — not a foundation embed. |
-| NVIDIA | Tiny table instead of NV-Embed / NeMo retrieval stacks. |
-| Unsloth | No LoRA. Construction is `build(seed)` — Unsloth is the wrong tool and we say so. |
-
-Nobody else ships this combination. That is the point of a one-of-one.
-
-## Intended use
-
-Silhouette of receipted retrieval. Teaching and tests.
-
-## Limitations
-
-- Not a neural embed.
-- Not comparable to BGE-base 768-d.
-- Hit@2 is on five doctrine pairs — SAMPLE.
+- **Not** the [SZLHOLDINGS/szl-kernels](https://huggingface.co/SZLHOLDINGS/szl-kernels) MiniEmbed (3290 × 128, SVD var 0.3146).
+- **Not neural. Not word2vec. Not a foundation embed.**
+- **Not 1.5B. Not Qwen.**
+- **Not proven trust.** Λ uniqueness remains Conjecture 1 OPEN.
+- Energy **UNAVAILABLE**. CUDA **UNAVAILABLE**. Never a fabricated joule.
 
 ## Honesty
 
-| Claim | Label |
-|---|---|
-| This card's numbers | MEASURED |
-| Energy / joules | UNAVAILABLE unless a signed meter says MEASURED |
-| Λ uniqueness | Conjecture 1 OPEN — not a theorem |
-| GGUF as the signed object | FALSE |
+| Claim | Label | What-NOT |
+|---|---|---|
+| Table built in this package | REPORTED | V=64 d=12, not 3290×128 |
+| Neural / trained embed | FALSE | hash+table, not SGD |
+| Analogy / retrieval score | UNAVAILABLE | not measured |
+| Energy | UNAVAILABLE | never a fabricated joule |
+| CUDA | UNAVAILABLE | CPU numpy LIVE |
 
-Doctrine v11 LOCKED · 749 declarations · 14 axioms · 163 sorries · locked-proven 8.
-
-Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
