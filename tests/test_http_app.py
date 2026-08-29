@@ -110,6 +110,27 @@ class HttpAppTests(unittest.TestCase):
         g = self._post("/api/tiledigest", {"tamper": 1})
         self.assertEqual(g["gridBreaks"], 1)
 
+    def test_prefix_route_bench_infer(self) -> None:
+        p = self._post("/api/prefix", {})
+        self.assertEqual(p["hold"], 1)
+        self.assertFalse(p["proven_trust"])
+        poisoned = self._post("/api/prefix", {"hijack": 1})
+        self.assertEqual(poisoned["hold"], 0)
+        r = self._post("/api/route", {})
+        self.assertEqual(r["hold"], 1)
+        swapped = self._post("/api/route", {"tamper": 1})
+        self.assertEqual(swapped["hold"], 0)
+        b = self._post("/api/bench", {"seed": 11})
+        self.assertEqual(b["passed"], b["total"])
+        self.assertGreaterEqual(b["total"], 10)
+        inf = self._post("/api/infer", {"kind": "tiny_khipu", "query": "resolve F18 handle"})
+        self.assertIn(inf["decision"], ("NAVIGATE", "ABSTAIN"))
+        self.assertEqual(inf["hallucinated"], 0)
+        self.assertIn("Not Qwen", inf["what_not"])
+        ra = self._post("/api/infer", {"kind": "receipt_agent", "hard_deny": 1})
+        self.assertEqual(ra["kernel"], "BLOCKED")
+        self.assertEqual(ra["decision"], "BLOCKED")
+
     def test_unknown_is_404(self) -> None:
         with self.assertRaises(HTTPError) as ctx:
             self._get("/nope")

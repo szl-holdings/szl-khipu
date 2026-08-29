@@ -66,6 +66,8 @@ from .ayni import run_ayni
 from .shard import SHARD_K, SHARD_N, decode_rs, encode_rs, run_shard
 from .bay import BAY_RAILS, evaluate_bay, run_bay
 from .greenlight import evaluate_greenlight, run_greenlight
+from .prefix import PREFIX_STEMS, longest_hit, run_prefix
+from .route import ROUTE_E, ROUTE_N, run_route
 
 __version__ = "0.1.0"
 
@@ -217,4 +219,10 @@ __all__ = [
     "run_bay",
     "evaluate_greenlight",
     "run_greenlight",
+    "PREFIX_STEMS",
+    "longest_hit",
+    "run_prefix",
+    "ROUTE_N",
+    "ROUTE_E",
+    "run_route",
 ]

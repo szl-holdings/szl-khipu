@@ -31,6 +31,18 @@ moons.save_npz("moons.npz", weights)
 - Classic two-moons toy classification. Hidden width 8. Softmax over 2.
 - Trained here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
 
+## Bench (this tree)
+
+`TRAINING_RECEIPT.json` seed `20260721` · steps 400 · honesty **REPORTED**
+
+| Metric | Value |
+|---|---|
+| acc | 0.93 |
+| loss | ~0.13 |
+| weights | `moons.npz` sha256 `dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104` |
+
+Infers on `POST /api/infer {"kind":"moons","x":0.2,"y":0.3}`. **Not 1.5B. Not a published benchmark.**
+
 ## What it is NOT
 
 - **Not SZL-Khipu-1.5B.** Not QLoRA. Not a chat model.

@@ -33,6 +33,18 @@ emb.save_npz("mini_embed.npz")
 - Built here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
 - No analogy score. No retrieval score. No SVD variance claim (that belongs to the 3290×128 table).
 
+## Bench (this tree)
+
+`TRAINING_RECEIPT.json` seed `20260721` · honesty **REPORTED**
+
+| Metric | Value |
+|---|---|
+| V×d | 64 × 12 |
+| method | hash+table L2 |
+| weights | `mini_embed.npz` sha256 `ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b` |
+
+Infers on `POST /api/infer {"kind":"mini_embed","token":"F18"}`. **Not neural. Not 3290×128.**
+
 ## What it is NOT
 
 - **Not** the [SZLHOLDINGS/szl-kernels](https://huggingface.co/SZLHOLDINGS/szl-kernels) MiniEmbed (3290 × 128, SVD var 0.3146).
