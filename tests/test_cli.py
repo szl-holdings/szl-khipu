@@ -17,7 +17,7 @@ from szl_khipu.doctrine import proven_trust
 class CliParser(unittest.TestCase):
     def test_subcommands(self) -> None:
         help_text = build_parser().format_help()
-        for name in ("train", "demo-lambda", "demo-yarqa", "demo-anatomy", "verify"):
+        for name in ("train", "demo-lambda", "demo-yarqa", "demo-anatomy", "demo-tiledigest", "verify"):
             self.assertIn(name, help_text)
 
     def test_help_exits_zero(self) -> None:
