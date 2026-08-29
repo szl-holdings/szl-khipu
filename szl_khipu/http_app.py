@@ -26,6 +26,7 @@ from szl_khipu import (
     YUYAY_FLOORS,
     UnifiedReceiptChain,
     evaluate_anatomy,
+    evaluate_greenlight,
     evaluate_lambda,
     run_tile_grid,
     yarqa_attn,
@@ -92,6 +93,31 @@ def api_anatomy(body: dict[str, Any]) -> dict[str, Any]:
     return _stamp(dict(ev))
 
 
+def _flag(body: dict[str, Any], *keys: str) -> int:
+    for k in keys:
+        if k not in body:
+            continue
+        v = body[k]
+        if isinstance(v, bool):
+            return 1 if v else 0
+        if isinstance(v, (int, float)):
+            return 1 if v == 1 else 0
+        if str(v).lower() in ("1", "true", "yes"):
+            return 1
+        return 0
+    return 0
+
+
+def api_greenlight(body: dict[str, Any]) -> dict[str, Any]:
+    ev = evaluate_greenlight(
+        paint_sorry=_flag(body, "paint_sorry", "paintSorry"),
+        claim_proven=_flag(body, "claim_proven", "claimProven"),
+        stamp_joule=_flag(body, "stamp_joule", "stampJoule"),
+    )
+    CHAIN.emit("greenlight", "evaluate", {"blocked": ev.get("blocked"), "greenlit": ev.get("greenlit")})
+    return _stamp(dict(ev))
+
+
 def api_yarqa(body: dict[str, Any]) -> dict[str, Any]:
     rng = np.random.default_rng(int(body.get("seed", 7)))
     seq = int(body.get("seq", 12))
@@ -139,6 +165,7 @@ def api_version() -> dict[str, Any]:
 ROUTES = {
     "/api/lambda": api_lambda,
     "/api/anatomy": api_anatomy,
+    "/api/greenlight": api_greenlight,
     "/api/yarqa": api_yarqa,
     "/api/tiledigest": api_tiledigest,
 }
