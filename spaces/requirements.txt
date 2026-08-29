@@ -1,2 +1,2 @@
 numpy>=1.26
-gradio==4.44.1
+gradio==6.15.1
