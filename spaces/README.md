@@ -16,7 +16,7 @@ short_description: Knot the run. Hash the proof. Fail closed.
 
 Knot the run. Hash the proof. Fail closed.
 
-Holographic Gradio 5 space for the `szl-khipu` package. Chrome is the estate hologram language (`lambda-gate-holo` tokens: void `#05070d`, proof `#3af4c8`, gold `#e8c074` = OPEN). Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. 0 runtime CDN. System fonts.
+Holographic Gradio 5 space for the `szl-khipu` package. Chrome is the estate hologram language (`lambda-gate-holo` tokens: void `#05070d`, proof `#3af4c8`, gold `#e8c074` = OPEN). Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. System fonts. No Google Fonts. Gradio still injects its own iframe-resizer.
 
 **Conjecture 1 OPEN. energy UNAVAILABLE. proven_trust=false.** CPU numpy LIVE. CUDA UNAVAILABLE. Not Qwen. Not 1.5B. Not a FlashAttention rehost.
 

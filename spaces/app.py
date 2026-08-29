@@ -5,6 +5,7 @@
 Chrome copies the estate holograms (lambda-gate-holo / governed-norm-holo):
 void backdrop, lattice grid, gold = OPEN, proof teal = LIVE, never green-as-proven.
 Kernels stay live NumPy. sdk remains gradio. YAML emoji is Hub metadata only.
+System fonts. No Google Fonts. Gradio still injects iframe-resizer.
 """
 
 from __future__ import annotations
@@ -84,7 +85,7 @@ HEADER = """
       <span class="badge">energy <b>UNAVAILABLE</b></span>
       <span class="badge">CPU numpy <b>LIVE</b></span>
       <span class="badge">CUDA <b>UNAVAILABLE</b></span>
-      <span class="badge">0 runtime CDN · system fonts</span>
+      <span class="badge">system fonts · no Google Fonts</span>
     </div>
   </header>
   <section class="identity" aria-label="Evidence identity">
