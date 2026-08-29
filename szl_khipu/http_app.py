@@ -172,6 +172,18 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("access-control-allow-headers", "content-type")
         self.end_headers()
 
+    def do_HEAD(self) -> None:  # noqa: N802
+        path = urlparse(self.path).path
+        if path in ("/", "/index.html", "/healthz", "/version", "/api/version") or path in ROUTES:
+            self.send_response(200)
+            ctype = "text/html; charset=utf-8" if path in ("/", "/index.html") else "application/json"
+            self.send_header("Content-Type", ctype)
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
+        self.send_response(404)
+        self.end_headers()
+
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
         if path in ("/", "/index.html"):
