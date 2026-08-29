@@ -51,7 +51,7 @@ szl-khipu = "szl_khipu.cli:main"
 include = ["szl_khipu*"]
 
 [tool.setuptools.package-data]
-szl_khipu = ["py.typed"]
+szl_khipu = ["py.typed", "page.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

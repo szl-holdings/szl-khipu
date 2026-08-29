@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 SZL Holdings
-"""szl-khipu CLI — train | demo-lambda | demo-yarqa | demo-anatomy | verify.
+"""szl-khipu CLI — train | demo-lambda | demo-yarqa | demo-anatomy | serve | verify.
 
 Never sets proven_trust true. Never fabricates joules. Never claims 1.5B
 trained here. Λ uniqueness remains Conjecture 1 OPEN. Energy UNAVAILABLE.
@@ -206,6 +206,13 @@ def cmd_verify(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_serve(args: argparse.Namespace) -> int:
+    from szl_khipu.http_app import serve
+
+    serve(host=args.host, port=int(args.port))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="szl-khipu",
@@ -249,6 +256,11 @@ def build_parser() -> argparse.ArgumentParser:
     v = sub.add_parser("verify", help="Replay a training receipt (hash + honesty)")
     v.add_argument("receipt", nargs="?", default=str(_repo_root() / "artifacts" / "training_receipt.json"))
     v.set_defaults(func=cmd_verify)
+
+    s = sub.add_parser("serve", help="Python frontend + JSON kernel backend (stdlib HTTP)")
+    s.add_argument("--host", default="0.0.0.0")
+    s.add_argument("--port", type=int, default=7860)
+    s.set_defaults(func=cmd_serve)
     return p
 
 

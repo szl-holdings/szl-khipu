@@ -2,7 +2,7 @@
 # GitHub remains canonical. Hub is the mirror.
 #
 # Requires org/repo secret HF_TOKEN or HF_ORG_TOKEN (write on SZLHOLDINGS).
-# Fails loudly if the token is absent — never fakes a Hub upload.
+# If the token is absent, skip with BLOCKED — never fakes a Hub upload.
 name: publish-hf
 on:
   workflow_dispatch: {}
@@ -34,6 +34,7 @@ jobs:
         run: |
           if [ -z "$HF_TOKEN" ]; then
             echo "HF_TOKEN / HF_ORG_TOKEN unset — Hub publish BLOCKED. GitHub remains the source of truth."
-            exit 1
+            echo "Not a fake upload. Not a green Hub badge. Clone and `szl-khipu serve` for the live Python FE+BE."
+            exit 0
           fi
           python scripts/publish_hf.py
