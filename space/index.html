@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SZL KHIPU</title>
+  <style>
+    :root { --bg:#05070d; --fg:#eef3f6; --muted:#9fb1bf; --proof:#3af4c8; --gold:#e8c074; --line:#1b2734; --surf:#0b121b; --false:#d76a6a; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 ui-sans-serif,system-ui,sans-serif; }
+    header, main { max-width:920px; margin:0 auto; padding:24px 20px; }
+    h1 { font-weight:600; letter-spacing:-.03em; }
+    .kicker { font:11px/1 ui-monospace,Menlo,monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
+    .grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .card { background:var(--surf); border:1px solid var(--line); border-radius:16px; padding:16px; }
+    a { color:var(--proof); }
+    input[type=range] { width:100%; accent-color:var(--proof); }
+    .mono { font-family: ui-monospace, Menlo, monospace; }
+    .muted { color:var(--muted); font-size:14px; }
+    .badge { font:10.5px ui-monospace,monospace; padding:3px 9px; border:1px solid var(--line); border-radius:6px; color:var(--muted); display:inline-block; margin:0 6px 6px 0; }
+    .badge b { color:var(--gold); }
+    button { min-height:44px; padding:0 16px; border-radius:8px; border:1px solid var(--proof); background:var(--proof); color:var(--bg); font:600 12px ui-monospace,monospace; letter-spacing:.8px; text-transform:uppercase; cursor:pointer; }
+    #lam { font-size:28px; color:var(--proof); margin:8px 0; }
+    .down { color:var(--false); }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="kicker">SZL Holdings · Knot the run · Hash the proof</p>
+    <h1>SZL KHIPU</h1>
+    <p class="muted">Numpy kernels behind stdlib HTTP. No Gradio. Full package lives on GitHub. Λ uniqueness is Conjecture 1 — never a theorem.</p>
+    <p>
+      <span class="badge">kernel <b id="kstatus">…</b></span>
+      <span class="badge">uniqueness <b>Conjecture 1</b></span>
+      <span class="badge">energy <b>UNAVAILABLE</b></span>
+      <span class="badge">proven_trust <b>false</b></span>
+    </p>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Λ playground</h2>
+      <p class="muted">Weighted geometric mean. A pass is advisory. Gold means OPEN.</p>
+      <p class="mono" id="lam">—</p>
+      <div id="sliders"></div>
+    </section>
+    <section class="card" style="margin-top:12px">
+      <h2>YARQA</h2>
+      <p class="muted">Canal attention. CUDA UNAVAILABLE. Not SageAttention.</p>
+      <p class="mono" id="yarqa">—</p>
+      <button id="run-yarqa" type="button">Run YARQA</button>
+    </section>
+    <h2>Organs</h2>
+    <div class="grid">
+      <a class="card" href="https://github.com/szl-holdings/szl-khipu">GitHub source</a>
+      <a class="card" href="https://huggingface.co/SZLHOLDINGS/szl-khipu">Hub model card</a>
+      <a class="card" href="https://huggingface.co/spaces/SZLHOLDINGS/khipu-lab">KHIPU lab</a>
+    </div>
+  </main>
+  <script>
+    const axes = Array(13).fill(0.92); axes[0]=0.97; axes[1]=0.96;
+    const box = document.getElementById("sliders");
+    function render() {
+      box.innerHTML = axes.map((v,i)=>`<label class="muted mono">A${i+1} ${v.toFixed(2)}<input type="range" min="0.5" max="1" step="0.01" value="${v}" data-i="${i}"></label>`).join("");
+      box.querySelectorAll("input").forEach(el => el.oninput = (e) => { axes[+e.target.dataset.i] = +e.target.value; ping(); render(); });
+    }
+    async function ping() {
+      const r = await fetch("/api/lambda", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({axes}) });
+      const j = await r.json();
+      const el = document.getElementById("lam");
+      el.textContent = (j.lambda ?? 0).toFixed(4) + "  " + (j.decision||"");
+      el.className = "mono" + (j.blocked ? " down" : "");
+    }
+    async function health() {
+      const r = await fetch("/healthz");
+      const j = await r.json();
+      const k = document.getElementById("kstatus");
+      k.textContent = j.kernel || "UNAVAILABLE";
+    }
+    document.getElementById("run-yarqa").onclick = async () => {
+      const r = await fetch("/api/yarqa", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({n_canals:3}) });
+      const j = await r.json();
+      const el = document.getElementById("yarqa");
+      if (j.kernel === "UNAVAILABLE") el.textContent = "UNAVAILABLE — " + (j.reason||"no package");
+      else el.textContent = "leaked " + Number(j.leaked).toExponential(2) + "  " + (j.ok ? "HOLD" : "BREAK");
+    };
+    render(); ping(); health();
+  </script>
+</body>
+</html>

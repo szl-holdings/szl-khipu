@@ -128,36 +128,12 @@ def main() -> int:
                 repo_type="model",
             )
 
-    # Gradio Space — app.py + package (space root, not spaces/ layout)
-    api.create_repo(
-        f"{org}/szl-khipu",
-        repo_type="space",
-        exist_ok=True,
-        private=False,
-        space_sdk="gradio",
-    )
-    space_files = [
-        (ROOT / "spaces/README.md", "README.md"),
-        (ROOT / "spaces/app.py", "app.py"),
-        (ROOT / "spaces/requirements.txt", "requirements.txt"),
-    ]
-    for src, dest in space_files:
-        api.upload_file(
-            path_or_fileobj=str(src),
-            path_in_repo=dest,
-            repo_id=f"{org}/szl-khipu",
-            repo_type="space",
-        )
-    api.upload_folder(
-        folder_path=str(ROOT / "szl_khipu"),
-        path_in_repo="szl_khipu",
-        repo_id=f"{org}/szl-khipu",
-        repo_type="space",
-        ignore_patterns=["__pycache__/**", "*.pyc"],
-        commit_message="szl_khipu package for the Gradio space",
-    )
+    # Hub Space is the docker hologram in space/ (stdlib HTTP, no Gradio).
+    # Immune mirror-khipu-hub.yml is the token-bearing publisher for SZLHOLDINGS/szl-khipu
+    # as space_sdk="docker". Do not create_repo(..., space_sdk="gradio") — that
+    # converts the Space back to Gradio and trips HfFolder RUNTIME_ERROR.
 
-    print("uploaded to", org)
+    print("uploaded models to", org)
     return 0
 
 
