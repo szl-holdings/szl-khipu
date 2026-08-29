@@ -1,0 +1,40 @@
+- [MiniEmbed-Nano](./MiniEmbed-Nano.md) — MEASURED — A 64×12 embedding whose rows are a function of SHA-256. The vector is the receipt of the token.
+- [Moons-Nano](./Moons-Nano.md) — MEASURED — Two interlocking moons. A 2-8-2 tanh MLP. The toy that teaches fail-closed before anyone touches 1.5B.
+- [TinyKhipu-Nano](./TinyKhipu-Nano.md) — SYNTHETIC — Four features in. NAVIGATE or ABSTAIN out. Abstain is the default class, not a post-hoc filter.
+- [ReceiptAgent-Nano](./ReceiptAgent-Nano.md) — SYNTHETIC — ALLOW · DENY · ABSTAIN · ESCALATE. Escalation is a class, not a retry loop.
+- [szl-khipu](./szl-khipu.md) — MEASURED — 1-D logistic silhouette of Conjecture 1. λ* is the fail-closed threshold. False-open is the headline metric.
+- [SZL-Khipu-1.5B](./SZL-Khipu-1.5B.md) — SIGNED — A 1.5B brain navigator that plans over handles, never over document text. NAVIGATE or ABSTAIN in khipu.schema.json.
+- [SZL-Khipu-1.5B-GGUF](./SZL-Khipu-1.5B-GGUF.md) — HUB — Q4_K_M · Q5_K_M · Q8_0 · F16 of the navigator. Derived. Not the signed object.
+- [SZL-Khipu-1.5B-abstain](./SZL-Khipu-1.5B-abstain.md) — HUB — A LoRA that only learns when to shut up. Stacks on the 1.5B navigator.
+- [KHIPU-R2](./KHIPU-R2.md) — HUB — The ouroboros of refusal. Round 2 of the navigator after the 2/6 abstain miss.
+- [SZL-Forge-1.5B-ReceiptAgent](./SZL-Forge-1.5B-ReceiptAgent.md) — SIGNED — Proposal-only agent. Every completion is meant to become a receipt, not an action.
+- [szl-receiptagent-qwen35-0.8b-v2](./szl-receiptagent-qwen35-0.8b-v2.md) — HUB — The house loop on a 0.8B Qwen3.5. Small enough to iterate. Still proposal-only.
+- [WILLAY](./WILLAY.md) — HUB — Quechua willay: to tell. A 0.5B that knows what SZL is allowed to claim, and what it must not.
+- [A11OY-MINI](./A11OY-MINI.md) — HUB — The command-center personality in a pocket quant. Doctrine v11, series-a tagged, still conversational.
+- [chaski](./chaski.md) — HUB — Inca runner. Carries the message. Cannot write the message. Image-text-to-text tagged, proposal-only.
+- [chaski-5050](./chaski-5050.md) — HUB — Half navigate, half abstain in the curriculum. The courier who is allowed to stop.
+- [chaski-r2](./chaski-r2.md) — HUB — Second cut of the courier. Same base, new receipted run.
+- [KILLINCHU-EYE](./KILLINCHU-EYE.md) — STUB — The eye of killinchu. Counter-UAS detection with a fail-closed contract: a naked positive is not an engagement.
+- [YARQA-ATTN](./YARQA-ATTN.md) — KERNEL — Attention that writes what it attended to. Yarqa: to ask. The kernel answers with a receipt, not a vibe.
+- [szl-receipt-attn](./szl-receipt-attn.md) — KERNEL — Softmax gated by λ. Tokens outside authority do not get weight. They get zero.
+- [szl-khipu-kernels](./szl-khipu-kernels.md) — KERNEL — Lambda-gate, YARQA, NumPy silhouettes in one kernel repo.
+- [szl-kernels](./szl-kernels.md) — HUB — The older suite. Feature-extraction tagged. 199 Hub downloads. Embeddings with a provenance habit.
+- [szl-maskmod](./szl-maskmod.md) — KERNEL — Authority as a mask. Out-of-scope tokens are zeroed, not down-weighted. Soft permission is a leak.
+- [szl-block-kv](./szl-block-kv.md) — KERNEL — KV cache that refuses to store keys it is not authorized to remember. arXiv:2309.06180 plus a gate.
+- [szl-lambda-gate](./szl-lambda-gate.md) — HUB — The torch op of the 1-D silhouette. 94 Hub downloads. Surrogate tagged — we say so.
+- [szl-governed-norm](./szl-governed-norm.md) — HUB — Normalization with a version receipt. Deprecated surrogate. 204 downloads. We keep it up so the deprecation is public.
+- [governed-inference-meter](./governed-inference-meter.md) — KERNEL — NVML energy as a receipt, not a dashboard widget. Tokens per joule is an eval axis.
+- [szl-invariants](./szl-invariants.md) — KERNEL — Hash the tensor. Sign the hash. The invariant is the signature, not the blog post. 2 likes.
+- [szl-ouroboros](./szl-ouroboros.md) — KERNEL — Each retry spends authority. Infinite agent loops are a theft of the budget we named.
+- [szl-formulas](./szl-formulas.md) — KERNEL — Canonical formulas with Lean obligations and proof-status tags. Lambda-aggregate lives here as a formula, not a myth.
+- [szl-govsign](./szl-govsign.md) — KERNEL — Signing kernel. Envelopes, not screenshots of envelopes.
+- [szl-provctl](./szl-provctl.md) — KERNEL — Supply-chain controller. SLSA + in-toto. Who built it, from what, on which runner.
+- [szl-blocked](./szl-blocked.md) — KERNEL — Technical documentation kernel for Annex IV. Compliance as code, not a consultant's slide.
+- [szl-nemo](./szl-nemo.md) — HUB — Tfidf → LogisticRegression over doctrine rules R1–R5. Not NVIDIA NeMo. Not Nemotron. Name collision, card-corrected.
+- [a11oy-v19-substrate](./a11oy-v19-substrate.md) — HUB — Zarf / UDS operational payload for a11oy. Policy, provenance, series-a. Not a chatbot.
+- [szl-training-scripts](./szl-training-scripts.md) — HUB — The forge. Hub copy of the Unsloth-receipted training scripts. Tags were empty — this atelier is the card.
+- [qantu](./qantu.md) — ROADMAP — Roadmap organ. Not a checkpoint. The name is reserved so the estate does not lose the word.
+- [waman](./waman.md) — ROADMAP — Roadmap organ on the killinchu line. Not a checkpoint.
+- [chakana](./chakana.md) — ROADMAP — Chakana: the stepped cross. Roadmap organ for crossing domains without mixing evidence classes.
+- [tinku](./tinku.md) — ROADMAP — Tinku: ritual encounter. Roadmap organ for contested decisions — two authorities, one receipt.
+- [SZLHOLDINGS](./SZLHOLDINGS.md) — STUB — Not a checkpoint. Historical org stub so the id cannot be squatted by a fake model.
