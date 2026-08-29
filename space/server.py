@@ -25,6 +25,18 @@ elif (ROOT.parent / "szl_khipu").is_dir():
 
 HTML = ROOT / "index.html"
 
+try:
+    from energy import probe as _energy_probe
+except ImportError:
+    def _energy_probe(*, sample_s: float = 0.0):
+        return {
+            "channel": "LIVE",
+            "honesty": "UNAVAILABLE",
+            "source": None,
+            "energy_j": None,
+            "note": "No RAPL, no NVML. Channel is live. Never a fabricated joule.",
+        }
+
 KERNEL = "UNAVAILABLE"
 _evaluate_lambda = None
 _yarqa_attn = None
@@ -77,7 +89,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self) -> None:  # noqa: N802
         """HF probes HEAD. BaseHTTP 501s otherwise."""
         path = urlparse(self.path).path
-        ok = path in ("/", "/index.html", "/health", "/healthz", "/version", "/api/version", "/api/lambda")
+        ok = path in ("/", "/index.html", "/health", "/healthz", "/version", "/api/version", "/api/lambda", "/api/energy", "/readyz")
         if not ok:
             self.send_response(404)
             self.end_headers()
@@ -94,7 +106,8 @@ class Handler(BaseHTTPRequestHandler):
             body = HTML.read_bytes() if HTML.is_file() else b"<h1>SZL KHIPU</h1>"
             self._send(200, body, "text/html; charset=utf-8")
             return
-        if path in ("/health", "/healthz"):
+        if path in ("/health", "/healthz", "/readyz"):
+            energy = _energy_probe()
             self._json(
                 200,
                 {
@@ -102,11 +115,14 @@ class Handler(BaseHTTPRequestHandler):
                     "space": "szl-khipu",
                     "kernel": KERNEL,
                     "uniqueness": "Conjecture 1",
-                    "energy": "UNAVAILABLE",
+                    "energy": energy,
                     "proven_trust": False,
                     "cuda": "UNAVAILABLE",
                 },
             )
+            return
+        if path == "/api/energy":
+            self._json(200, _energy_probe())
             return
         if path in ("/version", "/api/version"):
             self._json(
