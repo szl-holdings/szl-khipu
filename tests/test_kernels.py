@@ -24,6 +24,7 @@ from szl_khipu.maskmod import future_mass, maskmod_attn
 from szl_khipu.ouroboros import OUROBOROS_SELFCHECK, loop_tax
 from szl_khipu.receipt_attn import tiled_attn
 from szl_khipu.yarqa import yarqa_attn
+from szl_khipu.anatomy import evaluate_anatomy, anatomy_metrics, WILLAY_CLASSIFIERS
 
 
 class LambdaTests(unittest.TestCase):
@@ -164,6 +165,65 @@ class ChainNormBlockTests(unittest.TestCase):
         self.assertEqual(DOCTRINE["kernelCommit"], "c7c0ba17")
         self.assertEqual(len(YUYAY_AXES), 13)
         self.assertEqual(YUYAY_FLOORS[:2], (0.95, 0.95))
+
+
+class AnatomyTests(unittest.TestCase):
+    def test_default_five_live(self) -> None:
+        ev = evaluate_anatomy(seed=11)
+        self.assertEqual(ev.live_count, 5)
+        self.assertFalse(ev.blocked)
+        self.assertEqual(ev.locked_proven, 8)
+        self.assertEqual(ev.conjecture_1, "OPEN")
+        self.assertEqual(ev.energy, "UNAVAILABLE")
+        self.assertIsNone(ev.energy_j)
+        self.assertFalse(ev.proven_trust)
+        self.assertTrue(ev.lambda_advisory)
+        self.assertEqual(len(WILLAY_CLASSIFIERS), 5)
+        m = anatomy_metrics(ev)
+        self.assertEqual(m["blocked"], 0.0)
+        self.assertEqual(m["liveCount"], 5.0)
+
+    def test_zero_heart_fail_closes(self) -> None:
+        ev = evaluate_anatomy(zero_heart=True, seed=11)
+        heart = next(o for o in ev.organs if o["id"] == "heart")
+        self.assertEqual(heart["status"], "DOWN")
+        self.assertTrue(ev.blocked)
+        self.assertLess(ev.live_count, 5)
+
+    def test_leak_canal_fail_closes_brain(self) -> None:
+        ev = evaluate_anatomy(leak_canal=True, seed=11)
+        brain = next(o for o in ev.organs if o["id"] == "brain")
+        self.assertEqual(brain["status"], "DOWN")
+        self.assertTrue(ev.blocked)
+
+    def test_tamper_yawar_fail_closes(self) -> None:
+        ev = evaluate_anatomy(tamper_chain=True, seed=11)
+        yawar = next(o for o in ev.organs if o["id"] == "circulatory")
+        self.assertEqual(yawar["status"], "DOWN")
+        self.assertTrue(ev.blocked)
+        self.assertFalse(ev.chain_ok)
+
+    def test_fabricated_joule_refused(self) -> None:
+        ev = evaluate_anatomy(fabricate_joule=True, seed=11)
+        nerve = next(o for o in ev.organs if o["id"] == "nervous")
+        self.assertEqual(nerve["status"], "DOWN")
+        self.assertEqual(nerve["honesty"], "UNAVAILABLE")
+        self.assertEqual(ev.energy, "UNAVAILABLE")
+        self.assertIsNone(ev.energy_j)
+        self.assertTrue(ev.blocked)
+
+    def test_sorry_cannot_be_green(self) -> None:
+        ev = evaluate_anatomy(break_skeleton=True, seed=11)
+        skel = next(o for o in ev.organs if o["id"] == "skeleton")
+        self.assertEqual(skel["status"], "DOWN")
+        self.assertEqual(ev.locked_proven, 8)
+
+    def test_willay_veto_with_organs_live(self) -> None:
+        ev = evaluate_anatomy(willay_fire=True, seed=11)
+        self.assertEqual(ev.live_count, 5)
+        self.assertTrue(ev.willay["refused"])
+        self.assertTrue(ev.blocked)
+        self.assertEqual(len(ev.willay["classifiers"]), 5)
 
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@ print(gate["score"], gate["passed"], gate["advisory"], gate["proven_trust"])
 | Energy | UNAVAILABLE — never a fabricated joule |
 | CUDA | UNAVAILABLE |
 | Tiny trainers | TinyKhipu NAVIGATE/ABSTAIN, ReceiptAgent 4-way, moons 2→8→2 |
+| Anatomy | five-organ fail-closed kernel · not a 3D rehost · energy UNAVAILABLE |
 | Not | Qwen, 1.5B, FlashAttention, SageAttention, FlexAttention, vLLM |
 
 Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Copyright 2026 SZL Holdings.

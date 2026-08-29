@@ -28,6 +28,7 @@ from szl_khipu import (  # noqa: E402
     YUYAY_AXES,
     YUYAY_FLOORS,
     UnifiedReceiptChain,
+    evaluate_anatomy,
     evaluate_lambda,
     yarqa_attn,
 )
@@ -122,7 +123,7 @@ HEADER = """
     </div></div>
     <div class="lrow"><div class="mark ok">✓</div><div>
       <p class="t">CPU kernels — LIVE</p>
-      <p class="d">Λ WGM, YARQA, TinyKhipu, moons 2→8→2, MiniEmbed-Nano V=64 d=12, SHA-256 chain. CUDA UNAVAILABLE.</p>
+      <p class="d">Λ WGM, YARQA, TinyKhipu, moons 2→8→2, MiniEmbed-Nano V=64 d=12, five-organ anatomy, SHA-256 chain. CUDA UNAVAILABLE.</p>
       <span class="tag">numpy 0.1.0 · this process</span>
     </div></div>
   </div>
@@ -520,6 +521,67 @@ def build_embed() -> str:
     )
 
 
+def run_anatomy(
+    zero_heart: bool,
+    leak_canal: bool,
+    tamper_chain: bool,
+    fabricate_joule: bool,
+    break_skeleton: bool,
+    willay_fire: bool,
+) -> str:
+    ev = evaluate_anatomy(
+        zero_heart=bool(zero_heart),
+        leak_canal=bool(leak_canal),
+        tamper_chain=bool(tamper_chain),
+        fabricate_joule=bool(fabricate_joule),
+        break_skeleton=bool(break_skeleton),
+        willay_fire=bool(willay_fire),
+        seed=11,
+    )
+    depth = _mint(
+        "anatomy",
+        "cycle",
+        {
+            "live_count": int(ev["live_count"]),
+            "blocked": bool(ev["blocked"]),
+        },
+    )
+    blocked = bool(ev["blocked"])
+    live = int(ev["live_count"])
+    kind = "false" if blocked else "ok"
+    verdict_cls = "false" if blocked else "ok"
+    organ_html = []
+    for o in ev["organs"]:
+        down = o["status"] == "DOWN"
+        organ_html.append(
+            f'<div class="metric">'
+            f'<div class="k">{_esc(o["name"])} · {_esc(o["quechua"])}</div>'
+            f'<div class="v {"false" if down else "ok"}">{_esc(o["status"])}</div>'
+            f'<div class="k" style="margin-top:6px">{_esc(o["honesty"])} · '
+            f'{_esc("+".join(o["formulas"]))}</div>'
+            f"</div>"
+        )
+    willay = "REFUSED" if ev["willay"]["refused"] else "inspectable"
+    return (
+        f'<div class="hero">'
+        f'<span class="k">five-organ integrity · fail closed · not a 3D rehost</span>'
+        f'<p class="statement">{live}/5 LIVE · {_esc(ev["reason"])}</p>'
+        f'<span class="verdict {verdict_cls}">'
+        f'{"BLOCKED" if blocked else "advisory body"} · WILLAY {willay} · '
+        f"energy UNAVAILABLE · Conjecture 1 OPEN</span>"
+        f"</div>"
+        f'<div class="metrics">{"".join(organ_html)}</div>'
+        + _lrow(
+            kind,
+            "HEART is advisory Λ. YAWAR is the chain. YACHAY is read-only. "
+            "NERVOUS refuses fabricated joules. SKELETON is locked-8 CHECKED ≠ PROVEN.",
+            f"chain depth {depth} · proven_trust=false · 3D atlas is SLSA L1 static viz "
+            "at SZLHOLDINGS/anatomy · WILLAY is tamper-EVIDENT, not tamper-proof",
+            "organ integrity",
+        )
+    )
+
+
 def chain_status() -> str:
     ok, depth, brk = CHAIN.verify()
     rows = []
@@ -635,6 +697,31 @@ with gr.Blocks(
             embed_out = gr.HTML(elem_classes=["holo-html"])
             embed_btn = gr.Button("Build MiniEmbed-Nano", variant="primary")
             embed_btn.click(build_embed, inputs=None, outputs=embed_out)
+
+        with gr.Tab("Anatomy"):
+            gr.HTML(
+                '<p class="lab-lede">Five-organ fail-closed kernel of '
+                "<a href=\"https://github.com/szl-holdings/anatomy\" target=\"_blank\" rel=\"noopener\">szl-holdings/anatomy</a>. "
+                "Not a Three.js rehost. The 3D atlas is SLSA L1 static viz. "
+                "Any DOWN organ or a WILLAY veto blocks the body. "
+                "Λ stays Conjecture 1 OPEN. Energy UNAVAILABLE. Never a fabricated joule.</p>",
+                elem_classes=["holo-html"],
+            )
+            with gr.Row():
+                z_heart = gr.Checkbox(label="Zero Yuyay axis", value=False)
+                leak = gr.Checkbox(label="Leak a canal", value=False)
+                tamper = gr.Checkbox(label="Tamper YAWAR", value=False)
+            with gr.Row():
+                joule = gr.Checkbox(label="Fabricate a joule", value=False)
+                sorry = gr.Checkbox(label="Paint a sorry green", value=False)
+                willay = gr.Checkbox(label="Governance bypass", value=False)
+            anatomy_out = gr.HTML(elem_classes=["holo-html"])
+            anatomy_btn = gr.Button("Run organ cycle", variant="primary")
+            anatomy_btn.click(
+                run_anatomy,
+                inputs=[z_heart, leak, tamper, joule, sorry, willay],
+                outputs=anatomy_out,
+            )
 
         with gr.Tab("Receipts"):
             gr.HTML(

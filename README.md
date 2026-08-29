@@ -22,6 +22,7 @@ Kernels: [SZLHOLDINGS/szl-khipu-kernels](https://huggingface.co/kernels/SZLHOLDI
 - TinyKhipu-Nano: NAVIGATE / ABSTAIN silhouette. A few thousand floats. Hard ID filter.
 - ReceiptAgent-Nano: 4-way gate (HARD_DENY / DENY_DEFAULT / LAMBDA_VETO / ALLOW). **The kernel is truth.** The agent does not override it.
 - Receipts: sha256 of weights, seed, steps, loss. Honesty **REPORTED**. Joules **null**.
+- Organ integrity: five-organ fail-closed kernel of [szl-holdings/anatomy](https://github.com/szl-holdings/anatomy). HEART/YUYAY, YAWAR, YACHAY, OTel, Khipu skeleton. Not a Three.js rehost. The 3D atlas is SLSA L1 static viz.
 
 ## What it is NOT
 
@@ -79,6 +80,28 @@ print(out.leaked)  # bound: leaked ≤ 1e-9
 ```bash
 szl-khipu demo-yarqa --n-canals 3
 ```
+
+### Organ integrity (five organs)
+
+Fail-closed substrate. Any DOWN organ or a WILLAY veto blocks the body. Λ stays Conjecture 1 OPEN. Energy UNAVAILABLE. Locked-proven stays 8. Not a Three.js rehost.
+
+```python
+from szl_khipu import evaluate_anatomy
+
+ev = evaluate_anatomy(seed=11)
+print(ev.live_count, ev.blocked, ev.energy)  # 5 False UNAVAILABLE
+
+print(evaluate_anatomy(zero_heart=True).blocked)        # True
+print(evaluate_anatomy(fabricate_joule=True).energy_j)  # None — never a fabricated joule
+```
+
+```bash
+szl-khipu demo-anatomy
+szl-khipu demo-anatomy --tamper-chain
+szl-khipu demo-anatomy --fabricate-joule
+```
+
+Canonical anatomy repo: [szl-holdings/anatomy](https://github.com/szl-holdings/anatomy) · 3D atlas: [SZLHOLDINGS/anatomy](https://huggingface.co/spaces/SZLHOLDINGS/anatomy)
 
 ### Train TinyKhipu
 

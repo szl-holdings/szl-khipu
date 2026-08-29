@@ -53,6 +53,13 @@ from .ouroboros import OUROBOROS_SELFCHECK, loop_tax
 from .receipt_attn import naive_attn, tiled_attn
 from .train import mini_embed, moons, receipt_agent, tiny_khipu
 from .yarqa import canal_bounds, leaked_attn, yarqa_attn
+from .anatomy import (
+    ORGAN_SPEC,
+    WILLAY_CLASSIFIERS,
+    AnatomyEval,
+    anatomy_metrics,
+    evaluate_anatomy,
+)
 
 __version__ = "0.1.0"
 
@@ -181,4 +188,9 @@ __all__ = [
     "receipt_agent",
     "moons",
     "mini_embed",
+    "evaluate_anatomy",
+    "anatomy_metrics",
+    "AnatomyEval",
+    "ORGAN_SPEC",
+    "WILLAY_CLASSIFIERS",
 ]
