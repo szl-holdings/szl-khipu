@@ -35,6 +35,7 @@ jobs:
           if [ -z "$HF_TOKEN" ]; then
             echo "HF_TOKEN / HF_ORG_TOKEN unset — Hub publish BLOCKED. GitHub remains the source of truth."
             echo "Not a fake upload. Not a green Hub badge. Clone and 'szl-khipu serve' for the live Python FE+BE."
-            exit 0
+            echo "::error::HF_TOKEN / HF_ORG_TOKEN is not set — Hub publish cannot run. A mirror that cannot write must not report success."
+            exit 1
           fi
           python scripts/publish_hf.py
