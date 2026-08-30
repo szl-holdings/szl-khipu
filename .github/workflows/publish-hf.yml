@@ -34,7 +34,7 @@ jobs:
         run: |
           if [ -z "$HF_TOKEN" ]; then
             echo "HF_TOKEN / HF_ORG_TOKEN unset — Hub publish BLOCKED. GitHub remains the source of truth."
-            echo "Not a fake upload. Not a green Hub badge. Clone and `szl-khipu serve` for the live Python FE+BE."
+            echo "Not a fake upload. Not a green Hub badge. Clone and 'szl-khipu serve' for the live Python FE+BE."
             exit 0
           fi
           python scripts/publish_hf.py
