@@ -215,3 +215,13 @@ Doctrine **v11 LOCKED** · 749 declarations · 14 axioms · 163 tracked sorries 
 Apache-2.0. Copyright 2026 SZL Holdings.
 
 Stephen P. Lutar Jr. / SZL Holdings · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173)
+
+---
+
+## Work with SZL Holdings
+
+szl-khipu participates in the SZL governed-AI estate; the flagship control plane **governed agent change management** in production: signal → investigation → policy eval → human approval → bounded patch → signed closure receipt.
+
+- **Design partners (6-month, paid):** governed-action receipts in your environment → [stephenlutar2@gmail.com](mailto:stephenlutar2@gmail.com)
+- **Verify our claims offline:** [github.com/szl-holdings/szl-gov](https://github.com/szl-holdings/szl-gov) — signed estate receipt + public verifier
+- **Pricing + SKUs:** see `docs/pricing` (Control / Assurance / Sovereign)
