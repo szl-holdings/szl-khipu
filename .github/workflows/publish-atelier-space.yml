@@ -35,7 +35,8 @@ jobs:
           if [ -z "${HF_TOKEN:-}" ]; then
             echo "HF_TOKEN / HF_ORG_TOKEN unset — Space publish BLOCKED."
             echo "Not a fake upload. GitHub remains the source of truth."
-            exit 0
+            echo "::error::HF_TOKEN / HF_ORG_TOKEN is not set — Space publish cannot run. A mirror that cannot write must not report success."
+            exit 1
           fi
           python -m pip install --upgrade pip
           pip install "huggingface_hub>=0.26"
