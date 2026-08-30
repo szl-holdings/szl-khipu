@@ -8,6 +8,8 @@ app_port: 7860
 pinned: true
 license: apache-2.0
 short_description: Knot the run. Hash the proof. Fail closed.
+models: [SZLHOLDINGS/szl-khipu]
+datasets: [SZLHOLDINGS/szl-lake]
 ---
 
 # SZL KHIPU
