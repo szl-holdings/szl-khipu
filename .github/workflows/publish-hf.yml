@@ -25,53 +25,18 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
-      - name: Create exact-run deployment provenance
+      - name: Install
+        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
+      - name: Prepare exact staged deployment manifest
         env:
           SOURCE_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          payload = {
-              "schema": "szl.hf-deployment-provenance/v1",
-              "source_repository": "szl-holdings/szl-khipu",
-              "source_commit": os.environ["SOURCE_SHA"],
-              "workflow_name": "publish-hf",
-              "workflow_run_id": int(os.environ["RUN_ID"]),
-              "workflow_run_attempt": int(os.environ["RUN_ATTEMPT"]),
-              "targets": [
-                  "SZLHOLDINGS/szl-khipu",
-                  "SZLHOLDINGS/szl-khipu-kernels",
-                  "SZLHOLDINGS/TinyKhipu-Nano",
-                  "SZLHOLDINGS/ReceiptAgent-Nano",
-                  "SZLHOLDINGS/Moons-Nano",
-                  "SZLHOLDINGS/MiniEmbed-Nano",
-              ],
-          }
-          Path("hf-deployment-provenance.json").write_text(
-              json.dumps(payload, indent=2, sort_keys=True) + "\n",
-              encoding="utf-8",
-          )
-          PY
-      - name: Upload exact-run provenance
-        id: provenance
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: szl-khipu-hf-provenance
-          path: hf-deployment-provenance.json
-          if-no-files-found: error
-          retention-days: 90
-      - name: Install
-        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
+        run: python scripts/publish_hf.py --prepare-provenance hf-deployment-provenance.json
       - name: Publish to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
           HF_ORG: SZLHOLDINGS
-          SZL_PROVENANCE_SHA256: ${{ steps.provenance.outputs.artifact-digest }}
         run: |
           if [ -z "$HF_TOKEN" ]; then
             echo "HF_TOKEN / HF_ORG_TOKEN unset — Hub publish BLOCKED. GitHub remains the source of truth."
@@ -79,4 +44,15 @@ jobs:
             echo "::error::HF_TOKEN / HF_ORG_TOKEN is not set — Hub publish cannot run. A mirror that cannot write must not report success."
             exit 1
           fi
-          python scripts/publish_hf.py
+          python scripts/publish_hf.py \
+            --provenance-file hf-deployment-provenance.json \
+            --receipt-file hf-deployment-receipt.json
+      - name: Upload exact-run deployment receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: szl-khipu-hf-provenance
+          path: |
+            hf-deployment-provenance.json
+            hf-deployment-receipt.json
+          if-no-files-found: error
+          retention-days: 90
