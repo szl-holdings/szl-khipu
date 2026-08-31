@@ -225,6 +225,17 @@ class SpaceSourceBindingTests(unittest.TestCase):
             self.assertNotIn("/zip", lookup.call_args_list[1].args[0])
             raw_download.assert_not_called()
 
+            push_run = {**run, "event": "push"}
+            with mock.patch.object(
+                SERVER,
+                "_url_json",
+                side_effect=[push_run, artifacts],
+            ):
+                self.assertEqual(
+                    SERVER._github_evidence(metadata, HF_SHA),
+                    (artifact_name, artifact_digest),
+                )
+
             corruptions = []
             wrong_attempt = copy.deepcopy(run)
             wrong_attempt["run_attempt"] = 3
@@ -238,7 +249,7 @@ class SpaceSourceBindingTests(unittest.TestCase):
             wrong_workflow = copy.deepcopy(run)
             wrong_workflow["path"] = ".github/workflows/other.yml"
             corruptions.append((wrong_workflow, artifacts))
-            for stale_event in ("push", "workflow_dispatch"):
+            for stale_event in ("workflow_dispatch", "pull_request_target"):
                 wrong_event = copy.deepcopy(run)
                 wrong_event["event"] = stale_event
                 corruptions.append((wrong_event, artifacts))
