@@ -141,7 +141,8 @@ class SpaceSourceBindingTests(unittest.TestCase):
         self.assertIn("revision is unavailable", error)
 
     def test_mutable_hf_head_is_never_substituted_for_runtime_evidence(self):
-        for environment in ({}, {"SPACE_COMMIT": "malformed"}):
+        variable = SERVER.DEPLOYMENT_REVISION_VARIABLE
+        for environment in ({}, {variable: "malformed"}, {"SPACE_COMMIT": HF_SHA}):
             with self.subTest(environment=environment):
                 with (
                     mock.patch.dict(os.environ, environment, clear=True),
@@ -149,8 +150,34 @@ class SpaceSourceBindingTests(unittest.TestCase):
                 ):
                     self.assertIsNone(SERVER._running_hf_revision())
                     lookup.assert_not_called()
-        with mock.patch.dict(os.environ, {"SPACE_COMMIT": HF_SHA.upper()}, clear=True):
+        with mock.patch.dict(os.environ, {variable: HF_SHA.upper()}, clear=True):
             self.assertEqual(SERVER._running_hf_revision(), HF_SHA)
+
+    def test_publisher_sets_the_runtime_revision_variable(self):
+        self.assertEqual(
+            PUBLISH.DEPLOYMENT_REVISION_VARIABLE,
+            SERVER.DEPLOYMENT_REVISION_VARIABLE,
+        )
+        api = mock.Mock()
+        PUBLISH._publish_runtime_revision(
+            api,
+            "SZLHOLDINGS/szl-khipu",
+            HF_SHA.upper(),
+        )
+        api.add_space_variable.assert_called_once_with(
+            repo_id="SZLHOLDINGS/szl-khipu",
+            key="SZL_DEPLOYED_HF_REVISION",
+            value=HF_SHA,
+        )
+
+        api.reset_mock()
+        with self.assertRaisesRegex(RuntimeError, "immutable"):
+            PUBLISH._publish_runtime_revision(
+                api,
+                "SZLHOLDINGS/szl-khipu",
+                "main",
+            )
+        api.add_space_variable.assert_not_called()
 
     def test_public_metadata_binds_exact_attempt_manifest_and_hf_revision(self):
         with tempfile.TemporaryDirectory() as directory:
