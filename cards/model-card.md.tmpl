@@ -1,0 +1,70 @@
+---
+license: {{license}}
+base_model: {{base_model}}
+tags:
+  - szl
+  - provenance-gated
+  - model-bom
+pipeline_tag: {{pipeline_tag}}
+---
+
+# {{model_name}}
+
+{{description}}
+
+This card is **rendered by CI** (`scripts/render_model_card.py`) from the
+release's CycloneDX Model BOM, the held-out evaluation result, and the
+publication-gate record. No performance claim on this page is hand-written.
+
+## Publication status
+
+- **publication_eligible: {{publication_eligible}}**
+- Run manifest: `release/run-manifest.json` (sha256 of BOM: `{{bom_sha256_short}}…`)
+- Workflow run: {{workflow_run}}
+
+## Held-out evaluation
+
+Train loss is not eval. This model was gated on a **held-out generation**
+suite (prompts withheld from all training splits):
+
+| Metric | Value |
+|---|---|
+| Eval config | `{{eval_config}}` |
+| Mode | {{eval_mode}} |
+| Prompts | {{n_total}} |
+| Passed | {{n_passed}} |
+| pass_rate | **{{pass_rate}}** |
+| heldout_passed | **{{heldout_passed}}** |
+| refusal_no_regression | {{refusal_no_regression}} |
+
+### Per-prompt results
+
+| Prompt | Result |
+|---|---|
+{{per_prompt_rows}}
+
+## Conformance
+
+| Vector suite | all_vectors_passed |
+|---|---|
+| DSSEv1/PAE conformance ({{conformance_summary}}) | **{{all_vectors_passed}}** |
+
+## Bill of materials
+
+Model BOM (CycloneDX {{spec_version}}): `bom/model-bom.cdx.json`
+- serial: `{{bom_serial}}`
+- components hashed: {{n_components}}
+- publication_eligible (BOM property): {{bom_publication_eligible}}
+
+## Provenance & licensing
+
+- Base model: {{base_model}}
+- License: {{license}}
+- Git SHA: `{{git_sha}}`
+- Built: {{issued_at}}
+
+## Limitations
+
+Held-out eval covers exactly the prompts in `{{eval_config}}`; it is a
+necessary, not sufficient, condition for fitness. Reviewers should consult
+the run manifest chain (`chain.prev_hash`) for full release lineage.

@@ -1,0 +1,6 @@
+{
+  "id": "V01",
+  "name": "JSON canonicalization stability",
+  "expect": "pass",
+  "spec": "DSSEv1 payload must have a single canonical serialization. canonicalize(manifest) must be byte-identical before and after arbitrary key reordering; a recorded payload_sha256 must recompute over the canonical bytes. Guards receipt-replay via re-serialization drift."
+}

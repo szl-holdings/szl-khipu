@@ -1,0 +1,6 @@
+{
+  "id": "V03",
+  "name": "signature DER parsing",
+  "expect": "pass",
+  "spec": "If signatures.manifest is true, signatures.value (base64) must decode to a minimal-DER SEQUENCE of exactly two non-negative INTEGERs (r, s) with no trailing bytes and no non-minimal padding. Pre-sign manifests (manifest=false, no value) are consistent and pass; a claimed-but-unparseable signature fails closed."
+}

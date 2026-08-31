@@ -1,0 +1,6 @@
+{
+  "id": "V04",
+  "name": "prev_hash receipt-chain linkage",
+  "expect": "pass",
+  "spec": "chain.prev_hash must be the sentinel 'genesis' or a 64-hex lowercase sha256. When --prev-manifest is supplied it must equal the sha256 of that file; a mismatch is a chain fork / cross-run replay and fails closed."
+}
