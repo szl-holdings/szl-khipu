@@ -188,7 +188,7 @@ class SpaceSourceBindingTests(unittest.TestCase):
                 "run_attempt": 2,
                 "head_sha": SOURCE_SHA,
                 "head_branch": "main",
-                "event": "push",
+                "event": "repository_dispatch",
                 "name": "publish-hf",
                 "path": ".github/workflows/publish-hf.yml",
                 "status": "completed",
@@ -238,6 +238,10 @@ class SpaceSourceBindingTests(unittest.TestCase):
             wrong_workflow = copy.deepcopy(run)
             wrong_workflow["path"] = ".github/workflows/other.yml"
             corruptions.append((wrong_workflow, artifacts))
+            for stale_event in ("push", "workflow_dispatch"):
+                wrong_event = copy.deepcopy(run)
+                wrong_event["event"] = stale_event
+                corruptions.append((wrong_event, artifacts))
             expired = copy.deepcopy(artifacts)
             expired["artifacts"][0]["expired"] = True
             corruptions.append((run, expired))
