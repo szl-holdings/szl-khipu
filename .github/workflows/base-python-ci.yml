@@ -36,6 +36,10 @@ jobs:
       - name: Install the package
         run: |
           set -euo pipefail
+          if [ -f .github/base-python-ci.defer ]; then
+            echo "::notice::Install deferred to repo-specific CI: $(head -1 .github/base-python-ci.defer)"
+            exit 0
+          fi
           if [ -f pyproject.toml ]; then
             # Prefer the repo's own dev/test extra so test-time imports resolve
             # the same way they do in that repo's primary CI.
@@ -66,6 +70,10 @@ jobs:
       # minimal install does not provide. Repos with no tests/ skip honestly.
       - name: Pytest (blocking)
         run: |
+          if [ -f .github/base-python-ci.defer ]; then
+            echo "::notice::Tests deferred to repo-specific CI: $(head -1 .github/base-python-ci.defer)"
+            exit 0
+          fi
           if [ -d tests ]; then
             pytest -q tests
           else
