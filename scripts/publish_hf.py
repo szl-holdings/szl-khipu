@@ -12,7 +12,9 @@ Small files first. Space hologram last.
 
 from __future__ import annotations
 
+import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -43,6 +45,28 @@ def _stage_space() -> Path:
     art = ROOT / "artifacts"
     if art.is_dir():
         shutil.copytree(art, staging / "artifacts", ignore=IGNORE)
+    source_commit = os.environ.get("GITHUB_SHA", "").lower()
+    run_id = os.environ.get("GITHUB_RUN_ID", "")
+    artifact_digest = os.environ.get("SZL_PROVENANCE_SHA256", "").lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise RuntimeError("GITHUB_SHA must be an immutable 40-hex commit")
+    if not run_id.isdigit() or int(run_id) <= 0:
+        raise RuntimeError("GITHUB_RUN_ID must be a positive integer")
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", artifact_digest):
+        raise RuntimeError("SZL_PROVENANCE_SHA256 must be a GitHub artifact digest")
+    metadata = {
+        "source_repository": "szl-holdings/szl-khipu",
+        "source_commit": source_commit,
+        "hf_repository": "SZLHOLDINGS/szl-khipu",
+        "workflow_name": "publish-hf",
+        "workflow_run_id": int(run_id),
+        "artifact_name": "szl-khipu-hf-provenance",
+        "artifact_sha256": artifact_digest.removeprefix("sha256:"),
+    }
+    (staging / "build-info.json").write_text(
+        json.dumps(metadata, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     return staging
 
 

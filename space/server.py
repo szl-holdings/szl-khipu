@@ -12,7 +12,10 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import sys
+import time
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -24,6 +27,69 @@ elif (ROOT.parent / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT.parent))
 
 HTML = ROOT / "index.html"
+BUILD_INFO = ROOT / "build-info.json"
+SHA40 = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_revision_cache: tuple[float, str | None] = (0.0, None)
+
+
+def _hf_revision() -> str | None:
+    global _revision_cache
+    now = time.monotonic()
+    if now - _revision_cache[0] < 60:
+        return _revision_cache[1]
+    revision = str(os.environ.get("SPACE_COMMIT") or "").lower()
+    if not SHA40.fullmatch(revision):
+        space_id = os.environ.get("SPACE_ID", "SZLHOLDINGS/szl-khipu")
+        try:
+            with urllib.request.urlopen(
+                f"https://huggingface.co/api/spaces/{space_id}", timeout=5
+            ) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            revision = str(payload.get("sha") or "").lower()
+        except Exception:
+            revision = ""
+    value = revision if SHA40.fullmatch(revision) else None
+    _revision_cache = (now, value)
+    return value
+
+
+def _source_document(schema: str) -> tuple[dict, str | None]:
+    try:
+        metadata = json.loads(BUILD_INFO.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {"schema": schema, "state": "UNKNOWN"}, f"build metadata unavailable: {exc}"
+    for key, pattern in {
+        "source_commit": SHA40,
+        "artifact_sha256": SHA256,
+    }.items():
+        if not pattern.fullmatch(str(metadata.get(key) or "").lower()):
+            return {"schema": schema, "state": "UNKNOWN"}, f"invalid {key}"
+    run_id = metadata.get("workflow_run_id")
+    if not isinstance(run_id, int) or run_id <= 0:
+        return {"schema": schema, "state": "UNKNOWN"}, "invalid workflow_run_id"
+    hf_revision = _hf_revision()
+    if hf_revision is None:
+        return {"schema": schema, "state": "UNKNOWN"}, "Hugging Face revision unavailable"
+    repository = str(metadata.get("source_repository") or "")
+    hf_repository = str(metadata.get("hf_repository") or "")
+    workflow_name = str(metadata.get("workflow_name") or "")
+    artifact_name = str(metadata.get("artifact_name") or "")
+    if not all((repository, hf_repository, workflow_name, artifact_name)):
+        return {"schema": schema, "state": "UNKNOWN"}, "incomplete source metadata"
+    return {
+        "schema": schema,
+        "state": "SOURCE_BOUND_DEPLOYMENT",
+        "source": {"repository": repository, "commit": metadata["source_commit"]},
+        "deployment": {
+            "hf_repository": hf_repository,
+            "hf_revision": hf_revision,
+            "workflow_run": run_id,
+            "workflow_name": workflow_name,
+            "artifact_name": artifact_name,
+            "artifact_set_sha256": metadata["artifact_sha256"],
+        },
+    }, None
 
 try:
     from energy import probe as _energy_probe
@@ -113,6 +179,8 @@ class Handler(BaseHTTPRequestHandler):
             "/readyz",
             "/version",
             "/api/version",
+            "/api/build-info",
+            "/.well-known/szl-source.json",
             "/api/lambda",
             "/api/energy",
             "/api/greenlight",
@@ -169,6 +237,19 @@ class Handler(BaseHTTPRequestHandler):
                     "source": "szl-holdings/szl-khipu",
                 },
             )
+            return
+        if path in ("/api/build-info", "/.well-known/szl-source.json"):
+            schema = (
+                "szl.build-info/v1"
+                if path == "/api/build-info"
+                else "szl.deployment-source/v1"
+            )
+            payload, error = _source_document(schema)
+            if error:
+                payload["error"] = error
+                self._json(503, payload)
+            else:
+                self._json(200, payload)
             return
         if path == "/api/lambda":
             self._lambda({})
