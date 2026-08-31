@@ -1,0 +1,6 @@
+{
+  "id": "V02",
+  "name": "PAE byte-length encoding (V11 regression)",
+  "expect": "pass",
+  "spec": "DSSE pre-auth encoding = LEN SP field SP ... with plain ASCII-decimal lengths. Re-parses the PAE built over canon(manifest): exactly 3 fields (context 'DSSEv1', payload type, canonical payload), canonical decimal prefixes, no trailing bytes. The V11 bug class — struct-packed binary u64 length prefixes producing a second valid-looking encoding — fails the integer decode or field walk."
+}

@@ -1,0 +1,241 @@
+# SZL Model Publication Gate
+# Enforces the SZL doctrine as a required CI check, not a prose commitment:
+#   "train loss is not eval; publication_eligible stays false until held-out
+#    generate says otherwise."
+# A model MAY NOT be uploaded to the Hub unless every gate below passes and
+# the receipt verifies. Wire as a required status check on the release branch.
+name: model-publish-gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      model_repo:
+        description: "HF repo id to publish, e.g. SZLHOLDINGS/SZL-Khipu-1.5B"
+        required: true
+      model_dir:
+        description: "Path to model artifacts in this repo"
+        required: true
+        default: "artifacts/model"
+      eval_config:
+        description: "Held-out generation eval config"
+        default: "eval/heldout_generate.yaml"
+      min_pass_rate:
+        description: "Minimum held-out pass rate to publish (0-1)"
+        default: "0.80"
+      allow_major:
+        description: "Set 'yes' to permit a major-version release"
+        default: "no"
+  push:
+    branches-ignore: ["main"]          # never publish from a normal push
+    paths: ["artifacts/model/**"]
+
+concurrency:
+  group: publish-${{ github.workflow }}-${{ inputs.model_repo || 'push' }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  attestations: write
+  id-token: write                      # Sigstore keyless identity
+
+env:
+  HF_TOKEN: ${{ secrets.HF_TOKEN_PUBLISH }}   # write-scoped, rotates quarterly
+  BOM_OUT: bom/model-bom.cdx.json
+  MANIFEST_OUT: release/run-manifest.json
+
+jobs:
+  # ── Gate 0: secrets & artifact integrity ────────────────────────────────
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Secret / credential scan (gitleaks)
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
+        env: { GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} }
+      - name: Reject pickle payloads
+        run: |
+          if find "${{ inputs.model_dir }}" -name '*.pkl' -o -name '*.pt' -o -name 'pytorch_model.bin' | grep .; then
+            echo "::error::Unpickleable artifacts found. Ship safetensors only."; exit 1
+          fi
+      - name: Static scan (semgrep)
+        uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d # v1
+        with: { config: p/ci }
+
+  # ── Gate 1: reproduce the dataset digest ────────────────────────────────
+  dataset-provenance:
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Recompute dataset digest
+        run: |
+          python scripts/dataset_digest.py \
+            --manifest data/dataset-manifest.json \
+            --out /tmp/dataset.digest.json
+      - name: Digest must match the admission receipt
+        run: |
+          python scripts/assert_digest.py \
+            --computed /tmp/dataset.digest.json \
+            --receipt receipts/dataset-admission.json
+          # fail-closed: any mismatch blocks the pipeline
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with: { name: dataset-digest, path: /tmp/dataset.digest.json }
+
+  # ── Gate 2: held-out GENERATION eval (train loss is not eval) ───────────
+  heldout-eval:
+    needs: dataset-provenance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Run held-out generation eval
+        run: |
+          python eval/run_heldout.py \
+            --model "${{ inputs.model_dir }}" \
+            --config "${{ inputs.eval_config }}" \
+            --out release/heldout-eval.json
+      - name: Gate on pass rate
+        run: |
+          python - <<'PY'
+          import json, sys
+          r = json.load(open('release/heldout-eval.json'))
+          need = float("${{ inputs.min_pass_rate }}")
+          print(f"held-out pass rate: {r['pass_rate']:.4f} (required {need})")
+          sys.exit(0 if r['pass_rate'] >= need else 1)
+          PY
+      - name: Refusal / abstention eval must not regress
+        run: python eval/run_refusal.py --model "${{ inputs.model_dir }}" --assert-no-regression
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with: { name: heldout-eval, path: release/heldout-eval.json }
+
+  # ── Gate 3: build the Model BOM (CycloneDX) ─────────────────────────────
+  model-bom:
+    needs: heldout-eval
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Generate Model BOM
+        run: |
+          python scripts/build_model_bom.py \
+            --model-dir "${{ inputs.model_dir }}" \
+            --base-model "$(yq '.base_model' ${{ inputs.eval_config }})" \
+            --dataset-manifest data/dataset-manifest.json \
+            --eval release/heldout-eval.json \
+            --materials git://$(git rev-parse HEAD) \
+            --out "${BOM_OUT}"
+      - name: Validate against CycloneDX schema
+        run: cyclonedx validate --input-file "${BOM_OUT}" --fail-on-errors
+      - name: Vulnerability scan of the environment (grype)
+        run: |
+          syft "${{ inputs.model_dir }}" -o cyclonedx-json=/tmp/env.cdx.json
+          grype sbom:/tmp/env.cdx.json --fail-on high
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with: { name: model-bom, path: bom/ }
+
+  # ── Gate 4: sign — run manifest, Model BOM, weights (Sigstore keyless) ──
+  sign:
+    needs: model-bom
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Emit run manifest
+        run: |
+          python scripts/emit_run_manifest.py \
+            --model-dir "${{ inputs.model_dir }}" \
+            --eval release/heldout-eval.json \
+            --bom "${BOM_OUT}" \
+            --git-sha "${GITHUB_SHA}" \
+            --workflow-run "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --out "${MANIFEST_OUT}"
+      - name: Sign manifest + BOM + weights digest (keyless)
+        run: |
+          cosign sign-blob --yes "${MANIFEST_OUT}" \
+            --output-signature release/run-manifest.sig \
+            --output-certificate release/run-manifest.crt
+          cosign sign-blob --yes "${BOM_OUT}" \
+            --output-signature "${BOM_OUT}.sig" \
+            --output-certificate "${BOM_OUT}.crt"
+          sha256sum $(find "${{ inputs.model_dir }}" -name '*.safetensors') \
+            > release/weights.sha256
+          cosign sign-blob --yes release/weights.sha256 \
+            --output-signature release/weights.sha256.sig \
+            --output-certificate release/weights.sha256.crt
+      - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
+        with:
+          subject-path: "${{ inputs.model_dir }}/*.safetensors"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with: { name: signed-release, path: release/ }
+
+  # ── Gate 5: adversarial conformance suite (14 vectors, incl. SIGv1 bug) ──
+  conformance:
+    needs: sign
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Run receipt conformance vectors
+        run: |
+          python conformance/run_vectors.py \
+            --vectors conformance/vectors/ \
+            --receipt release/run-manifest.json \
+            --require-all-pass
+          # Vectors: deletion, reorder, replay, cross-tenant, chain fork,
+          # signer substitution, alg confusion, DSSE PAE malleation (V11 bug),
+          # timestamp rollback, policy-bundle swap, model-digest swap,
+          # trace mismatch, quantization mismatch, fail-open
+
+  # ── Final gate: publication_eligible === true, then publish ─────────────
+  publish:
+    needs: conformance
+    runs-on: ubuntu-latest
+    environment: hub-production           # requires required-approver review
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with: { name: signed-release, path: release/ }
+      - name: Assert publication gate
+        run: |
+          python - <<'PY'
+          import json, sys
+          m = json.load(open('release/run-manifest.json'))
+          checks = {
+            "heldout_eval_passed":  m["eval"]["heldout_passed"] is True,
+            "refusal_no_regression": m["eval"]["refusal_no_regression"] is True,
+            "bom_attached":          len(m["model_bom_sha256"]) == 64,
+            "signed":                m["signatures"]["manifest"] is True,
+            "conformance_passed":    m["conformance"]["all_vectors_passed"] is True,
+            "major_approved":        (m["release"]["kind"] != "major")
+                                      or "${{ inputs.allow_major }}" == "yes",
+          }
+          for k, v in checks.items():
+            print(f"  {'PASS' if v else 'FAIL'}  {k}")
+          eligible = all(checks.values())
+          print(f"publication_eligible = {eligible}")
+          json.dump({"publication_eligible": eligible, "checks": checks},
+                    open('release/publication-gate.json', 'w'), indent=2)
+          sys.exit(0 if eligible else 1)
+          PY
+      - name: Write model card from BOM + eval (no hand-written claims)
+        run: |
+          python scripts/render_model_card.py \
+            --bom bom/model-bom.cdx.json \
+            --eval release/heldout-eval.json \
+            --gate release/publication-gate.json \
+            --template cards/model-card.md.tmpl \
+            --out release/README.md
+      - name: Upload to Hub (gated)
+        run: |
+          huggingface-cli upload "${{ inputs.model_repo }}" \
+            "${{ inputs.model_dir }}" . \
+            --commit-message "release $(git rev-parse --short $GITHUB_SHA) · held-out passed · gate green"
+          huggingface-cli upload "${{ inputs.model_repo }}" release/README.md README.md
+      - name: Anchor publication receipt on-chain (SZL ledger)
+        run: |
+          python scripts/anchor_receipt.py \
+            --receipt release/run-manifest.json \
+            --event "model.published" \
+            --subject "${{ inputs.model_repo }}@${GITHUB_SHA}"
+      - name: Deployment-equivalence check (optional, if a Space claims parity)
+        if: ${{ vars.DEPLOYED_SPACE != '' }}
+        run: |
+          python scripts/check_deploy_equivalence.py \
+            --space "${{ vars.DEPLOYED_SPACE }}" \
+            --weights release/weights.sha256

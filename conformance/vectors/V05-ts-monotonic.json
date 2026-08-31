@@ -1,0 +1,6 @@
+{
+  "id": "V05",
+  "name": "timestamp monotonicity (rollback)",
+  "expect": "pass",
+  "spec": "issued_at must be valid RFC-3339 UTC (Z or +00:00 only). With --prev-manifest supplied, issued_at must be strictly newer than the predecessor's — timestamp rollback fails closed."
+}
