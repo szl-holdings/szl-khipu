@@ -335,6 +335,92 @@ class SpaceSourceBindingTests(unittest.TestCase):
             self.assertEqual([item["path"] for item in before["files"]], ["server.py"])
             self.assertNotEqual(before["tree_sha256"], after["tree_sha256"])
 
+    def test_offline_validation_and_publication_policy_are_fail_honest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            provenance = root / "provenance.json"
+            output = root / "github-output"
+            summary = root / "summary.md"
+            with mock.patch.dict(os.environ, IDENTITY_ENV, clear=True):
+                self.assertEqual(
+                    PUBLISH.main(["--prepare-provenance", str(provenance)]),
+                    0,
+                )
+                self.assertEqual(
+                    PUBLISH.main(["--validate-provenance", str(provenance)]),
+                    0,
+                )
+
+            push_environment = {
+                "GITHUB_EVENT_NAME": "push",
+                "GITHUB_STEP_SUMMARY": str(summary),
+            }
+            with mock.patch.dict(os.environ, push_environment, clear=True):
+                self.assertEqual(
+                    PUBLISH.main(
+                        ["--publication-policy", "--github-output", str(output)]
+                    ),
+                    0,
+                )
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                "publish_enabled=false\n",
+            )
+            self.assertIn("NOT DEPLOYED", summary.read_text(encoding="utf-8"))
+
+            output.unlink()
+            with mock.patch.dict(
+                os.environ,
+                {"GITHUB_EVENT_NAME": "workflow_dispatch"},
+                clear=True,
+            ):
+                self.assertEqual(
+                    PUBLISH.main(
+                        ["--publication-policy", "--github-output", str(output)]
+                    ),
+                    2,
+                )
+            self.assertFalse(output.exists())
+
+            with mock.patch.dict(
+                os.environ,
+                {"GITHUB_EVENT_NAME": "workflow_dispatch", "HF_TOKEN": "present"},
+                clear=True,
+            ):
+                self.assertEqual(
+                    PUBLISH.main(
+                        ["--publication-policy", "--github-output", str(output)]
+                    ),
+                    0,
+                )
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                "publish_enabled=true\n",
+            )
+
+            provenance.write_text("{}\n", encoding="utf-8")
+            with (
+                mock.patch.dict(os.environ, IDENTITY_ENV, clear=True),
+                self.assertRaisesRegex(RuntimeError, "does not match"),
+            ):
+                PUBLISH.main(["--validate-provenance", str(provenance)])
+
+    def test_publish_workflow_gates_every_provider_side_effect(self):
+        workflow = (ROOT / ".github/workflows/publish-hf.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("--validate-provenance", workflow)
+        self.assertIn("--publication-policy", workflow)
+        self.assertIn("NOT DEPLOYED", workflow)
+        self.assertEqual(
+            workflow.count("if: steps.publication.outputs.publish_enabled == 'true'"),
+            3,
+        )
+        self.assertLess(
+            workflow.index("--validate-provenance"),
+            workflow.index("Install provider dependencies"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
