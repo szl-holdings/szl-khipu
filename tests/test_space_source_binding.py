@@ -398,7 +398,7 @@ class SpaceSourceBindingTests(unittest.TestCase):
             output.unlink()
             with mock.patch.dict(
                 os.environ,
-                {"GITHUB_EVENT_NAME": "workflow_dispatch"},
+                {"GITHUB_EVENT_NAME": "repository_dispatch"},
                 clear=True,
             ):
                 self.assertEqual(
@@ -411,7 +411,7 @@ class SpaceSourceBindingTests(unittest.TestCase):
 
             with mock.patch.dict(
                 os.environ,
-                {"GITHUB_EVENT_NAME": "workflow_dispatch", "HF_TOKEN": "present"},
+                {"GITHUB_EVENT_NAME": "repository_dispatch", "HF_TOKEN": "present"},
                 clear=True,
             ):
                 self.assertEqual(
@@ -438,7 +438,15 @@ class SpaceSourceBindingTests(unittest.TestCase):
         )
         self.assertIn("--validate-provenance", workflow)
         self.assertIn("--publication-policy", workflow)
+        self.assertIn("--validate-workflow-authority", workflow)
         self.assertIn("NOT DEPLOYED", workflow)
+        self.assertNotIn("workflow_dispatch", workflow)
+        self.assertNotIn("pull_request_target", workflow)
+        self.assertIn("repository_dispatch:\n    types: [publish-hf]", workflow)
+        self.assertLess(
+            workflow.index("Validate protected default-branch workflow authority"),
+            workflow.index("HF_TOKEN:"),
+        )
         self.assertEqual(
             workflow.count("if: steps.publication.outputs.publish_enabled == 'true'"),
             3,
@@ -447,6 +455,106 @@ class SpaceSourceBindingTests(unittest.TestCase):
             workflow.index("--validate-provenance"),
             workflow.index("Install provider dependencies"),
         )
+
+    def test_workflow_authority_rejects_branch_and_client_payload_substitution(self):
+        source_sha = "a" * 40
+        output_name = "github-output"
+        authority = {
+            "GITHUB_EVENT_NAME": "repository_dispatch",
+            "AUTH_EVENT_ACTION": "publish-hf",
+            "GITHUB_REPOSITORY": "szl-holdings/szl-khipu",
+            "AUTH_DEFAULT_BRANCH": "main",
+            "GITHUB_REF": "refs/heads/main",
+            "GITHUB_SHA": source_sha,
+            "GITHUB_WORKFLOW": "publish-hf",
+            "GITHUB_WORKFLOW_REF": (
+                "szl-holdings/szl-khipu/.github/workflows/publish-hf.yml"
+                "@refs/heads/main"
+            ),
+            "GITHUB_WORKFLOW_SHA": source_sha,
+            "GITHUB_ACTOR": "trusted-actor",
+            "GITHUB_TRIGGERING_ACTOR": "trusted-actor",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "AUTH_CLIENT_PAYLOAD": "{}",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / output_name
+            with mock.patch.dict(os.environ, authority, clear=True):
+                self.assertEqual(
+                    PUBLISH.main(
+                        [
+                            "--validate-workflow-authority",
+                            "--github-output",
+                            str(output),
+                        ]
+                    ),
+                    0,
+                )
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                "authority_valid=true\n",
+            )
+
+            output.unlink()
+            push_authority = {
+                **authority,
+                "GITHUB_EVENT_NAME": "push",
+                "AUTH_EVENT_ACTION": "",
+                "AUTH_CLIENT_PAYLOAD": "null",
+            }
+            with mock.patch.dict(os.environ, push_authority, clear=True):
+                self.assertEqual(
+                    PUBLISH.main(
+                        [
+                            "--validate-workflow-authority",
+                            "--github-output",
+                            str(output),
+                        ]
+                    ),
+                    0,
+                )
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                "authority_valid=true\n",
+            )
+
+            corruptions = [
+                {"GITHUB_EVENT_NAME": "workflow_dispatch"},
+                {"AUTH_EVENT_ACTION": "publish-other"},
+                {"GITHUB_REF": "refs/heads/attacker"},
+                {
+                    "GITHUB_WORKFLOW_REF": (
+                        "szl-holdings/szl-khipu/.github/workflows/publish-hf.yml"
+                        "@refs/heads/attacker"
+                    )
+                },
+                {"GITHUB_WORKFLOW_SHA": "b" * 40},
+                {"GITHUB_TRIGGERING_ACTOR": "different-actor"},
+                {"GITHUB_RUN_ATTEMPT": "0"},
+                {"AUTH_CLIENT_PAYLOAD": '{"ref":"refs/heads/attacker"}'},
+                {"AUTH_CLIENT_PAYLOAD": '{"script_path":"scripts/evil.py"}'},
+                {
+                    "AUTH_CLIENT_PAYLOAD": (
+                        '{"workflow_path":".github/workflows/evil.yml"}'
+                    )
+                },
+            ]
+            for corruption in corruptions:
+                with self.subTest(corruption=corruption):
+                    output.unlink(missing_ok=True)
+                    environment = {**authority, **corruption}
+                    with (
+                        mock.patch.dict(os.environ, environment, clear=True),
+                        self.assertRaises(RuntimeError),
+                    ):
+                        PUBLISH.main(
+                            [
+                                "--validate-workflow-authority",
+                                "--github-output",
+                                str(output),
+                            ]
+                        )
+                    self.assertFalse(output.exists())
 
 
 if __name__ == "__main__":

@@ -3,10 +3,11 @@
 #
 # Every run verifies the exact staged source locally without provider access.
 # An ordinary push without a provider token reports NOT DEPLOYED and stays green.
-# An explicit workflow_dispatch publication still fails closed without a token.
+# Explicit publication uses a typed default-branch event and fails closed without a token.
 name: publish-hf
 on:
-  workflow_dispatch: {}
+  repository_dispatch:
+    types: [publish-hf]
   push:
     branches: [main]
 
@@ -26,6 +27,15 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+      - name: Validate protected default-branch workflow authority
+        id: authority
+        env:
+          AUTH_EVENT_ACTION: ${{ github.event.action || '' }}
+          AUTH_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          AUTH_CLIENT_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+        run: >-
+          python scripts/publish_hf.py --validate-workflow-authority
+          --github-output "$GITHUB_OUTPUT"
       - name: Prepare exact staged deployment manifest
         env:
           SOURCE_SHA: ${{ github.sha }}
@@ -35,6 +45,7 @@ jobs:
       - name: Validate exact staged source offline
         run: python scripts/publish_hf.py --validate-provenance hf-deployment-provenance.json
       - name: Decide provider publication
+        if: steps.authority.outputs.authority_valid == 'true'
         id: publication
         env:
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
