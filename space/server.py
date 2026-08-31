@@ -34,6 +34,7 @@ HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
 WORKFLOW_PATH = ".github/workflows/publish-hf.yml"
 ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
+DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -71,13 +72,14 @@ def _url_json(url: str) -> dict:
 
 
 def _running_hf_revision() -> str | None:
-    """Return only revision evidence injected into this running container.
+    """Return the revision variable written by the exact publish operation.
 
-    The repository API exposes a mutable Hub head, not the commit of the
-    currently serving image. Substituting it can make an old container claim a
-    newer deployment, so missing or malformed runtime evidence fails closed.
+    Hugging Face does not document a built-in commit-SHA environment variable.
+    The publisher writes this dedicated Space variable only after the Hub
+    returns the immutable uploaded commit. Updating a Space variable restarts
+    the app, so old and new containers retain their own deployment evidence.
     """
-    revision = str(os.environ.get("SPACE_COMMIT") or "").lower()
+    revision = str(os.environ.get(DEPLOYMENT_REVISION_VARIABLE) or "").lower()
     return revision if SHA40.fullmatch(revision) else None
 
 
