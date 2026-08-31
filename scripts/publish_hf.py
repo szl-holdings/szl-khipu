@@ -28,7 +28,6 @@ PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
-ACTOR = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]*(?:\[bot\])?$")
 ARTIFACT_NAME_PATTERN = re.compile(
     rf"^{re.escape(ARTIFACT_PREFIX)}-attempt-[1-9][0-9]*"
     r"-manifest-[0-9a-f]{64}-hf-[0-9a-f]{40}$"
@@ -163,9 +162,12 @@ def _workflow_authority(output: Path) -> int:
         raise RuntimeError("workflow authority name mismatch")
     if os.environ.get("GITHUB_WORKFLOW_REF") != expected_workflow_ref:
         raise RuntimeError("workflow authority path/ref mismatch")
+    # Actor logins are provider-owned opaque identifiers. Enterprise Managed
+    # Users legitimately contain underscores, so validate presence, bounded
+    # length, and identity continuity without imposing consumer-side syntax.
     if (
-        not ACTOR.fullmatch(actor)
-        or not ACTOR.fullmatch(triggering_actor)
+        not actor
+        or not triggering_actor
         or len(actor) > 100
         or len(triggering_actor) > 100
         or actor != triggering_actor

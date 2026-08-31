@@ -472,8 +472,10 @@ class SpaceSourceBindingTests(unittest.TestCase):
                 "@refs/heads/main"
             ),
             "GITHUB_WORKFLOW_SHA": source_sha,
-            "GITHUB_ACTOR": "trusted-actor",
-            "GITHUB_TRIGGERING_ACTOR": "trusted-actor",
+            # Enterprise Managed User logins contain an underscore before
+            # the enterprise shortcode and remain valid provider identities.
+            "GITHUB_ACTOR": "trusted_actor_enterprise",
+            "GITHUB_TRIGGERING_ACTOR": "trusted_actor_enterprise",
             "GITHUB_RUN_ATTEMPT": "1",
             "AUTH_CLIENT_PAYLOAD": "{}",
         }
