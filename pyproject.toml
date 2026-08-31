@@ -34,7 +34,7 @@ dependencies = [
 [project.optional-dependencies]
 gradio = ["gradio>=4.44.1"]
 torch = ["torch>=2.5"]
-test = ["pytest"]
+test = ["pytest", "PyYAML>=6.0,<7"]
 hub = ["huggingface_hub>=0.24"]
 
 [project.urls]
