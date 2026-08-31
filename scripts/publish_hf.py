@@ -23,6 +23,8 @@ ARTIFACT_NAME = "szl-khipu-hf-provenance"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
+RUNTIME_ROOT_FILES = ("server.py", "index.html", "energy.py")
+RUNTIME_ROOT_DIRECTORIES = ("szl_khipu", "artifacts")
 IGNORE = shutil.ignore_patterns(
     "__pycache__",
     "*.pyc",
@@ -88,8 +90,17 @@ def _stage_space() -> Path:
 
 
 def _deployment_manifest(staging: Path) -> dict:
+    runtime_paths = [
+        staging / name
+        for name in RUNTIME_ROOT_FILES
+        if (staging / name).is_file()
+    ]
+    for name in RUNTIME_ROOT_DIRECTORIES:
+        directory = staging / name
+        if directory.is_dir():
+            runtime_paths.extend(item for item in directory.rglob("*") if item.is_file())
     files = []
-    for path in sorted((item for item in staging.rglob("*") if item.is_file())):
+    for path in sorted(runtime_paths):
         content = path.read_bytes()
         files.append(
             {
@@ -212,7 +223,9 @@ def main(argv: list[str] | None = None) -> int:
     staging = _stage_space()
     try:
         manifest, manifest_bytes = _validated_provenance(staging, provenance_path)
-        shutil.copy2(provenance_path, staging / PROVENANCE_NAME)
+        evidence_root = staging / "szl_khipu"
+        evidence_root.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(provenance_path, evidence_root / PROVENANCE_NAME)
         manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
         build_info = {
             "schema": "szl.hf-build-info/v2",
@@ -220,7 +233,7 @@ def main(argv: list[str] | None = None) -> int:
             "manifest_sha256": manifest_sha256,
             "tree_sha256": manifest["tree_sha256"],
         }
-        _write_json(staging / "build-info.json", build_info)
+        _write_json(evidence_root / "build-info.json", build_info)
 
         sid = f"{org}/szl-khipu"
         print("uploading hologram space", sid, flush=True)

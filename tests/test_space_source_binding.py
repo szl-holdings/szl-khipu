@@ -217,10 +217,13 @@ class SpaceSourceBindingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "server.py").write_text("one\n", encoding="utf-8")
+            (root / "Dockerfile").write_text("FROM python:3.12\n", encoding="utf-8")
+            (root / "README.md").write_text("build metadata\n", encoding="utf-8")
             with mock.patch.dict(os.environ, IDENTITY_ENV, clear=True):
                 before = PUBLISH._deployment_manifest(root)
                 (root / "server.py").write_text("two\n", encoding="utf-8")
                 after = PUBLISH._deployment_manifest(root)
+            self.assertEqual([item["path"] for item in before["files"]], ["server.py"])
             self.assertNotEqual(before["tree_sha256"], after["tree_sha256"])
 
 

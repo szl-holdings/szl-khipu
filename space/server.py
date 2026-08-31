@@ -29,8 +29,8 @@ elif (ROOT.parent / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT.parent))
 
 HTML = ROOT / "index.html"
-BUILD_INFO = ROOT / "build-info.json"
-PROVENANCE = ROOT / "hf-deployment-provenance.json"
+BUILD_INFO = ROOT / "szl_khipu" / "build-info.json"
+PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
@@ -86,10 +86,16 @@ def _running_hf_revision(expected: str, hf_repository: str) -> str | None:
 
 
 def _payload_records(root: Path) -> list[dict]:
+    excluded = set()
+    for evidence in (BUILD_INFO, PROVENANCE):
+        try:
+            excluded.add(evidence.relative_to(root).as_posix())
+        except ValueError:
+            pass
     records = []
     for path in sorted((item for item in root.rglob("*") if item.is_file())):
         relative = path.relative_to(root)
-        if relative.as_posix() in {"build-info.json", "hf-deployment-provenance.json"}:
+        if relative.as_posix() in excluded:
             continue
         if any(part in {".git", "__pycache__"} for part in relative.parts):
             continue
