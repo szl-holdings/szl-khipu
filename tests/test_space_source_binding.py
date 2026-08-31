@@ -3,12 +3,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import importlib.util
-import io
 import json
 import os
+import shutil
 import tempfile
 import unittest
-import zipfile
 from pathlib import Path
 from unittest import mock
 
@@ -31,7 +30,7 @@ HF_SHA = "c" * 40
 IDENTITY_ENV = {
     "GITHUB_SHA": SOURCE_SHA,
     "GITHUB_RUN_ID": "123",
-    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_RUN_ATTEMPT": "2",
 }
 
 
@@ -44,39 +43,28 @@ class SpaceSourceBindingTests(unittest.TestCase):
             manifest = PUBLISH._deployment_manifest(root)
         manifest_bytes = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
         metadata = {
-            "schema": "szl.hf-build-info/v2",
-            **{key: manifest[key] for key in (
-                "source_repository",
-                "source_commit",
-                "hf_repository",
-                "workflow_name",
-                "workflow_run_id",
-                "workflow_run_attempt",
-                "artifact_name",
-            )},
+            "schema": "szl.hf-build-info/v3",
+            **{
+                key: manifest[key]
+                for key in (
+                    "source_repository",
+                    "source_commit",
+                    "hf_repository",
+                    "workflow_name",
+                    "workflow_run_id",
+                    "workflow_run_attempt",
+                    "artifact_name_prefix",
+                )
+            },
             "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
             "tree_sha256": manifest["tree_sha256"],
-        }
-        receipt = {
-            "schema": "szl.hf-deployment-receipt/v2",
-            **{key: metadata[key] for key in (
-                "source_repository",
-                "source_commit",
-                "hf_repository",
-                "workflow_name",
-                "workflow_run_id",
-                "workflow_run_attempt",
-                "artifact_name",
-                "manifest_sha256",
-                "tree_sha256",
-            )},
-            "hf_revision": HF_SHA,
         }
         provenance = root / "hf-deployment-provenance.json"
         build_info = root / "build-info.json"
         provenance.write_bytes(manifest_bytes)
         build_info.write_text(json.dumps(metadata), encoding="utf-8")
-        return root, provenance, build_info, manifest_bytes, metadata, receipt
+        artifact_name = SERVER._deployment_artifact_name(metadata, HF_SHA)
+        return root, provenance, build_info, metadata, artifact_name
 
     def resolve(
         self,
@@ -86,13 +74,13 @@ class SpaceSourceBindingTests(unittest.TestCase):
         running_revision: str | None = HF_SHA,
     ):
         with tempfile.TemporaryDirectory() as directory:
-            root, provenance, build_info, _manifest_bytes, metadata, receipt = self.fixture(directory)
+            root, provenance, build_info, metadata, artifact_name = self.fixture(directory)
             if mutate is not None:
                 mutate(root, provenance, build_info, metadata)
             github = (
                 mock.Mock(side_effect=github_error)
                 if github_error is not None
-                else mock.Mock(return_value=(receipt, "b" * 64))
+                else mock.Mock(return_value=(artifact_name, "b" * 64))
             )
             with (
                 mock.patch.object(SERVER, "ROOT", root),
@@ -107,12 +95,18 @@ class SpaceSourceBindingTests(unittest.TestCase):
             ):
                 return SERVER._source_document("szl.build-info/v1")
 
-    def test_exact_source_run_artifact_tree_and_hf_revision_are_bound(self):
+    def test_exact_source_attempt_artifact_tree_and_hf_revision_are_bound(self):
         payload, error = self.resolve()
         self.assertIsNone(error)
         self.assertEqual(payload["state"], "SOURCE_BOUND_DEPLOYMENT")
         self.assertEqual(payload["source"]["commit"], SOURCE_SHA)
         self.assertEqual(payload["deployment"]["hf_revision"], HF_SHA)
+        self.assertEqual(payload["deployment"]["workflow_run_attempt"], 2)
+        self.assertIn("-attempt-2-", payload["deployment"]["artifact_name"])
+        self.assertIn(
+            f"-manifest-{payload['deployment']['manifest_sha256']}-hf-{HF_SHA}",
+            payload["deployment"]["artifact_name"],
+        )
         self.assertEqual(payload["deployment"]["artifact_sha256"], "b" * 64)
         self.assertRegex(payload["deployment"]["runtime_tree_sha256"], r"^[0-9a-f]{64}$")
 
@@ -121,6 +115,9 @@ class SpaceSourceBindingTests(unittest.TestCase):
             lambda _root, _provenance, build, _metadata: build.unlink(),
             lambda _root, _provenance, build, metadata: build.write_text(
                 json.dumps({**metadata, "source_commit": "main"}), encoding="utf-8"
+            ),
+            lambda _root, _provenance, build, metadata: build.write_text(
+                json.dumps({**metadata, "artifact_name_prefix": "forged"}), encoding="utf-8"
             ),
             lambda root, _provenance, _build, _metadata: (root / "server.py").write_text(
                 "print('tampered')\n", encoding="utf-8"
@@ -135,85 +132,197 @@ class SpaceSourceBindingTests(unittest.TestCase):
                 self.assertEqual(payload["state"], "UNKNOWN")
                 self.assertIsNotNone(error)
 
-        payload, error = self.resolve(github_error=ValueError("forged artifact"))
+        payload, error = self.resolve(github_error=ValueError("forged artifact metadata"))
         self.assertEqual(payload["state"], "UNKNOWN")
-        self.assertIn("forged artifact", error)
+        self.assertIn("forged artifact metadata", error)
 
         payload, error = self.resolve(running_revision=None)
         self.assertEqual(payload["state"], "UNKNOWN")
-        self.assertIn("does not match", error)
+        self.assertIn("revision is unavailable", error)
 
-    def test_mutable_hf_head_never_substitutes_for_the_expected_revision(self):
-        with mock.patch.dict(os.environ, {}, clear=True):
-            with mock.patch.object(
-                SERVER,
-                "_url_json",
-                return_value={"sha": "d" * 40, "runtime": {"stage": "RUNNING"}},
-            ):
-                self.assertIsNone(SERVER._running_hf_revision(HF_SHA, SERVER.HF_REPOSITORY))
-            with mock.patch.object(
-                SERVER,
-                "_url_json",
-                return_value={"sha": HF_SHA, "runtime": {"stage": "RUNNING"}},
-            ):
-                self.assertEqual(
-                    SERVER._running_hf_revision(HF_SHA, SERVER.HF_REPOSITORY),
-                    HF_SHA,
-                )
-        with mock.patch.dict(os.environ, {"SPACE_COMMIT": "malformed"}, clear=True):
-            with mock.patch.object(SERVER, "_url_json") as lookup:
-                self.assertIsNone(SERVER._running_hf_revision(HF_SHA, SERVER.HF_REPOSITORY))
-                lookup.assert_not_called()
+    def test_mutable_hf_head_is_never_substituted_for_runtime_evidence(self):
+        for environment in ({}, {"SPACE_COMMIT": "malformed"}):
+            with self.subTest(environment=environment):
+                with (
+                    mock.patch.dict(os.environ, environment, clear=True),
+                    mock.patch.object(SERVER, "_url_json") as lookup,
+                ):
+                    self.assertIsNone(SERVER._running_hf_revision())
+                    lookup.assert_not_called()
+        with mock.patch.dict(os.environ, {"SPACE_COMMIT": HF_SHA.upper()}, clear=True):
+            self.assertEqual(SERVER._running_hf_revision(), HF_SHA)
 
-    def test_github_artifact_archive_is_downloaded_hashed_and_compared(self):
+    def test_public_metadata_binds_exact_attempt_manifest_and_hf_revision(self):
         with tempfile.TemporaryDirectory() as directory:
-            _root, _provenance, _build, manifest_bytes, metadata, receipt = self.fixture(directory)
-            stream = io.BytesIO()
-            with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as archive:
-                archive.writestr("hf-deployment-provenance.json", manifest_bytes)
-                archive.writestr(
-                    "hf-deployment-receipt.json",
-                    json.dumps(receipt, indent=2, sort_keys=True) + "\n",
-                )
-            archive_bytes = stream.getvalue()
-            archive_digest = hashlib.sha256(archive_bytes).hexdigest()
+            _root, _provenance, _build, metadata, artifact_name = self.fixture(directory)
+            artifact_digest = "d" * 64
             run = {
                 "id": 123,
+                "run_attempt": 2,
                 "head_sha": SOURCE_SHA,
                 "head_branch": "main",
                 "event": "push",
                 "name": "publish-hf",
+                "path": ".github/workflows/publish-hf.yml",
                 "status": "completed",
                 "conclusion": "success",
                 "repository": {"full_name": "szl-holdings/szl-khipu"},
             }
             artifacts = {
-                "artifacts": [{
-                    "id": 456,
-                    "name": "szl-khipu-hf-provenance",
-                    "expired": False,
-                    "digest": f"sha256:{archive_digest}",
-                    "workflow_run": {"id": 123, "head_sha": SOURCE_SHA},
-                }]
+                "artifacts": [
+                    {
+                        "id": 456,
+                        "name": artifact_name,
+                        "expired": False,
+                        "digest": f"sha256:{artifact_digest}",
+                        "workflow_run": {
+                            "id": 123,
+                            "head_branch": "main",
+                            "head_sha": SOURCE_SHA,
+                        },
+                    }
+                ]
             }
             with (
-                mock.patch.object(SERVER, "_url_json", side_effect=[run, artifacts]),
-                mock.patch.object(SERVER, "_url_bytes", return_value=archive_bytes),
+                mock.patch.object(SERVER, "_url_json", side_effect=[run, artifacts]) as lookup,
+                mock.patch.object(SERVER, "_url_bytes") as raw_download,
             ):
-                resolved, digest = SERVER._github_evidence(metadata, manifest_bytes)
-            self.assertEqual(resolved["hf_revision"], HF_SHA)
-            self.assertEqual(digest, archive_digest)
+                resolved_name, digest = SERVER._github_evidence(metadata, HF_SHA)
+            self.assertEqual(resolved_name, artifact_name)
+            self.assertEqual(digest, artifact_digest)
+            self.assertEqual(
+                lookup.call_args_list[0].args[0],
+                "https://api.github.com/repos/szl-holdings/szl-khipu/actions/runs/123/attempts/2",
+            )
+            self.assertIn(f"name={artifact_name}", lookup.call_args_list[1].args[0])
+            self.assertNotIn("/zip", lookup.call_args_list[1].args[0])
+            raw_download.assert_not_called()
 
-            forged = copy.deepcopy(artifacts)
-            forged["artifacts"][0]["digest"] = "sha256:" + ("0" * 64)
+            corruptions = []
+            wrong_attempt = copy.deepcopy(run)
+            wrong_attempt["run_attempt"] = 3
+            corruptions.append((wrong_attempt, artifacts))
+            failed_run = copy.deepcopy(run)
+            failed_run["conclusion"] = "failure"
+            corruptions.append((failed_run, artifacts))
+            wrong_head = copy.deepcopy(run)
+            wrong_head["head_sha"] = "e" * 40
+            corruptions.append((wrong_head, artifacts))
+            wrong_workflow = copy.deepcopy(run)
+            wrong_workflow["path"] = ".github/workflows/other.yml"
+            corruptions.append((wrong_workflow, artifacts))
+            expired = copy.deepcopy(artifacts)
+            expired["artifacts"][0]["expired"] = True
+            corruptions.append((run, expired))
+            wrong_name = copy.deepcopy(artifacts)
+            wrong_name["artifacts"][0]["name"] = artifact_name.replace(HF_SHA, "e" * 40)
+            corruptions.append((run, wrong_name))
+            wrong_artifact_head = copy.deepcopy(artifacts)
+            wrong_artifact_head["artifacts"][0]["workflow_run"]["head_sha"] = "e" * 40
+            corruptions.append((run, wrong_artifact_head))
+            malformed_digest = copy.deepcopy(artifacts)
+            malformed_digest["artifacts"][0]["digest"] = "sha256:not-a-digest"
+            corruptions.append((run, malformed_digest))
+
+            for corrupt_run, corrupt_artifacts in corruptions:
+                with self.subTest(run=corrupt_run, artifacts=corrupt_artifacts):
+                    with (
+                        mock.patch.object(
+                            SERVER,
+                            "_url_json",
+                            side_effect=[corrupt_run, corrupt_artifacts],
+                        ),
+                        self.assertRaises(ValueError),
+                    ):
+                        SERVER._github_evidence(metadata, HF_SHA)
+
+    def test_publisher_and_runtime_build_the_same_injection_safe_artifact_name(self):
+        manifest_digest = "b" * 64
+        metadata = {
+            "workflow_run_attempt": 17,
+            "manifest_sha256": manifest_digest,
+        }
+        expected = (
+            f"{PUBLISH.ARTIFACT_PREFIX}-attempt-17"
+            f"-manifest-{manifest_digest}-hf-{HF_SHA}"
+        )
+        self.assertEqual(
+            PUBLISH._deployment_artifact_name(17, manifest_digest, HF_SHA),
+            expected,
+        )
+        self.assertEqual(SERVER._deployment_artifact_name(metadata, HF_SHA), expected)
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "github-output"
+            PUBLISH._append_github_output(output, expected)
+            self.assertEqual(output.read_text(encoding="utf-8"), f"artifact_name={expected}\n")
+            with self.assertRaisesRegex(RuntimeError, "malformed"):
+                PUBLISH._append_github_output(output, expected + "\nforged=true")
+
+        malformed = [
+            (0, manifest_digest, HF_SHA),
+            (1, "not-a-digest", HF_SHA),
+            (1, manifest_digest, "main"),
+        ]
+        for attempt, manifest_sha, hf_sha in malformed:
+            with self.subTest(values=(attempt, manifest_sha, hf_sha)):
+                with self.assertRaises(RuntimeError):
+                    PUBLISH._deployment_artifact_name(attempt, manifest_sha, hf_sha)
+
+    def test_attested_payload_and_runtime_image_file_set_are_aligned(self):
+        with tempfile.TemporaryDirectory() as directory:
+            staging = Path(directory) / "staging"
+            runtime = Path(directory) / "runtime-app"
+            staging.mkdir()
+            runtime.mkdir()
+            (staging / "server.py").write_text("server\n", encoding="utf-8")
+            (staging / "index.html").write_text("index\n", encoding="utf-8")
+            (staging / "energy.py").write_text("energy\n", encoding="utf-8")
+            (staging / "Dockerfile").write_text("build-only\n", encoding="utf-8")
+            (staging / "README.md").write_text("build-only\n", encoding="utf-8")
+            package = staging / "szl_khipu"
+            package.mkdir()
+            (package / "kernel.py").write_text("kernel\n", encoding="utf-8")
+            artifacts = staging / "artifacts"
+            artifacts.mkdir()
+            (artifacts / "receipt.json").write_text("{}\n", encoding="utf-8")
+
+            with mock.patch.dict(os.environ, IDENTITY_ENV, clear=True):
+                manifest = PUBLISH._deployment_manifest(staging)
+            for name in PUBLISH.RUNTIME_ROOT_FILES:
+                shutil.copy2(staging / name, runtime / name)
+            for name in PUBLISH.RUNTIME_ROOT_DIRECTORIES:
+                shutil.copytree(staging / name, runtime / name)
+            evidence_root = runtime / "szl_khipu"
+            build_info = evidence_root / "build-info.json"
+            provenance = evidence_root / "hf-deployment-provenance.json"
+            build_info.write_text("{}\n", encoding="utf-8")
+            provenance.write_text("{}\n", encoding="utf-8")
             with (
-                mock.patch.object(SERVER, "_url_json", side_effect=[run, forged]),
-                mock.patch.object(SERVER, "_url_bytes", return_value=archive_bytes),
-                self.assertRaisesRegex(ValueError, "digest mismatch"),
+                mock.patch.object(SERVER, "BUILD_INFO", build_info),
+                mock.patch.object(SERVER, "PROVENANCE", provenance),
             ):
-                SERVER._github_evidence(metadata, manifest_bytes)
+                runtime_records = SERVER._payload_records(runtime)
+            self.assertEqual(runtime_records, manifest["files"])
+            paths = {record["path"] for record in manifest["files"]}
+            self.assertNotIn("Dockerfile", paths)
+            self.assertNotIn("README.md", paths)
+            self.assertNotIn("szl_khipu/build-info.json", paths)
+            self.assertNotIn("szl_khipu/hf-deployment-provenance.json", paths)
 
-    def test_manifest_digest_changes_with_the_staged_tree(self):
+        dockerfile = (ROOT / "space" / "Dockerfile").read_text(encoding="utf-8")
+        for instruction in (
+            "COPY server.py ./server.py",
+            "COPY index.html ./index.html",
+            "COPY energy.py ./energy.py",
+            "COPY szl_khipu ./szl_khipu",
+            "COPY artifacts ./artifacts",
+        ):
+            self.assertIn(instruction, dockerfile)
+        self.assertNotIn("COPY Dockerfile", dockerfile)
+        self.assertNotIn("COPY README.md", dockerfile)
+
+    def test_manifest_digest_changes_with_the_runtime_payload(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "server.py").write_text("one\n", encoding="utf-8")
