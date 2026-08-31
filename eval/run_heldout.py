@@ -23,7 +23,6 @@ publish job requires heldout_passed === true in the run manifest.
 """
 import argparse
 import json
-import os
 import pathlib
 import sys
 
