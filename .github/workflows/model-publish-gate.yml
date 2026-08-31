@@ -48,9 +48,9 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Secret / credential scan (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
         env: { GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} }
       - name: Reject pickle payloads
         run: |
@@ -58,7 +58,7 @@ jobs:
             echo "::error::Unpickleable artifacts found. Ship safetensors only."; exit 1
           fi
       - name: Static scan (semgrep)
-        uses: semgrep/semgrep-action@v1
+        uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d # v1
         with: { config: p/ci }
 
   # ── Gate 1: reproduce the dataset digest ────────────────────────────────
@@ -66,7 +66,7 @@ jobs:
     needs: scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Recompute dataset digest
         run: |
           python scripts/dataset_digest.py \
@@ -78,7 +78,7 @@ jobs:
             --computed /tmp/dataset.digest.json \
             --receipt receipts/dataset-admission.json
           # fail-closed: any mismatch blocks the pipeline
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: dataset-digest, path: /tmp/dataset.digest.json }
 
   # ── Gate 2: held-out GENERATION eval (train loss is not eval) ───────────
@@ -86,7 +86,7 @@ jobs:
     needs: dataset-provenance
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Run held-out generation eval
         run: |
           python eval/run_heldout.py \
@@ -104,7 +104,7 @@ jobs:
           PY
       - name: Refusal / abstention eval must not regress
         run: python eval/run_refusal.py --model "${{ inputs.model_dir }}" --assert-no-regression
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: heldout-eval, path: release/heldout-eval.json }
 
   # ── Gate 3: build the Model BOM (CycloneDX) ─────────────────────────────
@@ -112,7 +112,7 @@ jobs:
     needs: heldout-eval
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Generate Model BOM
         run: |
           python scripts/build_model_bom.py \
@@ -128,7 +128,7 @@ jobs:
         run: |
           syft "${{ inputs.model_dir }}" -o cyclonedx-json=/tmp/env.cdx.json
           grype sbom:/tmp/env.cdx.json --fail-on high
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: model-bom, path: bom/ }
 
   # ── Gate 4: sign — run manifest, Model BOM, weights (Sigstore keyless) ──
@@ -136,7 +136,7 @@ jobs:
     needs: model-bom
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Emit run manifest
         run: |
           python scripts/emit_run_manifest.py \
@@ -159,10 +159,10 @@ jobs:
           cosign sign-blob --yes release/weights.sha256 \
             --output-signature release/weights.sha256.sig \
             --output-certificate release/weights.sha256.crt
-      - uses: actions/attest-build-provenance@v2
+      - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
         with:
           subject-path: "${{ inputs.model_dir }}/*.safetensors"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: signed-release, path: release/ }
 
   # ── Gate 5: adversarial conformance suite (14 vectors, incl. SIGv1 bug) ──
@@ -170,7 +170,7 @@ jobs:
     needs: sign
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Run receipt conformance vectors
         run: |
           python conformance/run_vectors.py \
@@ -188,8 +188,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: hub-production           # requires required-approver review
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with: { name: signed-release, path: release/ }
       - name: Assert publication gate
         run: |
