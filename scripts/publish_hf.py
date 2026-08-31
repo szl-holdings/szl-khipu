@@ -106,6 +106,43 @@ def _append_github_output(path: Path, artifact_name: str) -> None:
         output.write(f"artifact_name={artifact_name}\n")
 
 
+def _append_publication_output(path: Path, enabled: bool) -> None:
+    with path.open("a", encoding="utf-8", newline="\n") as output:
+        output.write(f"publish_enabled={'true' if enabled else 'false'}\n")
+
+
+def _publication_policy(output: Path) -> int:
+    """Classify this run without contacting or importing the Hub provider."""
+    token_available = bool(
+        os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
+    )
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "")
+    if token_available:
+        _append_publication_output(output, True)
+        print("::notice::Provider publication enabled after offline validation.")
+        return 0
+    if event_name == "workflow_dispatch":
+        print(
+            "::error::Explicit Hugging Face publication requested, but "
+            "HF_TOKEN / HF_ORG_TOKEN is not set.",
+            file=sys.stderr,
+        )
+        return 2
+
+    _append_publication_output(output, False)
+    message = (
+        "Offline manifest/source validation passed; provider publication NOT DEPLOYED "
+        "for this ordinary push because no Hugging Face credential is configured."
+    )
+    print(f"::notice::{message}")
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with Path(summary_path).open("a", encoding="utf-8", newline="\n") as summary:
+            summary.write("### Hugging Face publication\n\n")
+            summary.write(f"**NOT DEPLOYED.** {message}\n")
+    return 0
+
+
 def _stage_space() -> Path:
     staging = Path(tempfile.mkdtemp(prefix="szl-khipu-space-"))
     for name in ("Dockerfile", "server.py", "index.html", "README.md", "energy.py"):
@@ -174,6 +211,15 @@ def _validated_provenance(staging: Path, path: Path) -> tuple[dict, bytes]:
     return supplied, encoded
 
 
+def validate_provenance(path: Path) -> dict:
+    staging = _stage_space()
+    try:
+        manifest, _encoded = _validated_provenance(staging, path)
+        return manifest
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+
+
 def _put(api, repo: str, local: Path, dest: str, kind: str, message: str) -> None:
     if not local.is_file():
         print("skip missing", local, file=sys.stderr)
@@ -191,10 +237,21 @@ def _put(api, repo: str, local: Path, dest: str, kind: str, message: str) -> Non
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
         "--prepare-provenance",
         metavar="PATH",
         help="write the exact staged-tree manifest and exit without a Hub mutation",
+    )
+    mode.add_argument(
+        "--validate-provenance",
+        metavar="PATH",
+        help="verify a staged-tree manifest and exit without a Hub mutation",
+    )
+    mode.add_argument(
+        "--publication-policy",
+        action="store_true",
+        help="classify optional provider publication without contacting the Hub",
     )
     parser.add_argument("--provenance-file", default=PROVENANCE_NAME)
     parser.add_argument("--receipt-file", default=RECEIPT_NAME)
@@ -212,6 +269,14 @@ def main(argv: list[str] | None = None) -> int:
         manifest = prepare_provenance(Path(args.prepare_provenance))
         print("prepared staged deployment tree", manifest["tree_sha256"])
         return 0
+    if args.validate_provenance:
+        manifest = validate_provenance(Path(args.validate_provenance))
+        print("validated staged deployment tree", manifest["tree_sha256"])
+        return 0
+    if args.publication_policy:
+        if not args.github_output:
+            raise RuntimeError("--publication-policy requires --github-output")
+        return _publication_policy(Path(args.github_output))
 
     token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
     if not token:
