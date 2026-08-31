@@ -19,12 +19,16 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
+WORKFLOW_PATH = ".github/workflows/publish-hf.yml"
+DEFAULT_BRANCH = "main"
+PUBLISH_EVENT_TYPE = "publish-hf"
 ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+ACTOR = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]*(?:\[bot\])?$")
 ARTIFACT_NAME_PATTERN = re.compile(
     rf"^{re.escape(ARTIFACT_PREFIX)}-attempt-[1-9][0-9]*"
     r"-manifest-[0-9a-f]{64}-hf-[0-9a-f]{40}$"
@@ -124,6 +128,69 @@ def _append_publication_output(path: Path, enabled: bool) -> None:
         output.write(f"publish_enabled={'true' if enabled else 'false'}\n")
 
 
+def _workflow_authority(output: Path) -> int:
+    """Require server-owned default-branch context before any secret-bearing step."""
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "")
+    event_action = os.environ.get("AUTH_EVENT_ACTION", "")
+    source_sha = os.environ.get("GITHUB_SHA", "").lower()
+    workflow_sha = os.environ.get("GITHUB_WORKFLOW_SHA", "").lower()
+    actor = os.environ.get("GITHUB_ACTOR", "")
+    triggering_actor = os.environ.get("GITHUB_TRIGGERING_ACTOR", "")
+    run_attempt = os.environ.get("GITHUB_RUN_ATTEMPT", "")
+    raw_payload = os.environ.get("AUTH_CLIENT_PAYLOAD", "")
+    expected_ref = f"refs/heads/{DEFAULT_BRANCH}"
+    expected_workflow_ref = (
+        f"{SOURCE_REPOSITORY}/{WORKFLOW_PATH}@{expected_ref}"
+    )
+
+    if event_name == "push":
+        if event_action:
+            raise RuntimeError("push authority has an unexpected event action")
+    elif event_name == "repository_dispatch":
+        if event_action != PUBLISH_EVENT_TYPE:
+            raise RuntimeError("repository dispatch event type is not allowlisted")
+    else:
+        raise RuntimeError("branch-selectable or unknown publication event rejected")
+    if os.environ.get("GITHUB_REPOSITORY") != SOURCE_REPOSITORY:
+        raise RuntimeError("workflow authority repository mismatch")
+    if os.environ.get("AUTH_DEFAULT_BRANCH") != DEFAULT_BRANCH:
+        raise RuntimeError("workflow authority default branch mismatch")
+    if os.environ.get("GITHUB_REF") != expected_ref:
+        raise RuntimeError("workflow authority ref is not the protected default branch")
+    if not SHA40.fullmatch(source_sha) or workflow_sha != source_sha:
+        raise RuntimeError("workflow authority source/workflow SHA mismatch")
+    if os.environ.get("GITHUB_WORKFLOW") != WORKFLOW_NAME:
+        raise RuntimeError("workflow authority name mismatch")
+    if os.environ.get("GITHUB_WORKFLOW_REF") != expected_workflow_ref:
+        raise RuntimeError("workflow authority path/ref mismatch")
+    if (
+        not ACTOR.fullmatch(actor)
+        or not ACTOR.fullmatch(triggering_actor)
+        or len(actor) > 100
+        or len(triggering_actor) > 100
+        or actor != triggering_actor
+    ):
+        raise RuntimeError("workflow authority actor mismatch")
+    if not run_attempt.isdigit() or int(run_attempt) <= 0:
+        raise RuntimeError("workflow authority run attempt is invalid")
+    if len(raw_payload) > 4096:
+        raise RuntimeError("repository dispatch client payload exceeds the bound")
+    try:
+        client_payload = json.loads(raw_payload or "null")
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("repository dispatch client payload is invalid JSON") from exc
+    if client_payload not in (None, {}):
+        raise RuntimeError("repository dispatch client ref/script payload is forbidden")
+
+    with output.open("a", encoding="utf-8", newline="\n") as stream:
+        stream.write("authority_valid=true\n")
+    print(
+        "::notice::Validated protected default-branch authority "
+        f"event={event_name} actor={actor} attempt={run_attempt} sha={source_sha}."
+    )
+    return 0
+
+
 def _publication_policy(output: Path) -> int:
     """Classify this run without contacting or importing the Hub provider."""
     token_available = bool(
@@ -134,7 +201,7 @@ def _publication_policy(output: Path) -> int:
         _append_publication_output(output, True)
         print("::notice::Provider publication enabled after offline validation.")
         return 0
-    if event_name == "workflow_dispatch":
+    if event_name == "repository_dispatch":
         print(
             "::error::Explicit Hugging Face publication requested, but "
             "HF_TOKEN / HF_ORG_TOKEN is not set.",
@@ -266,6 +333,11 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="classify optional provider publication without contacting the Hub",
     )
+    mode.add_argument(
+        "--validate-workflow-authority",
+        action="store_true",
+        help="reject non-default-branch publication authority and exit",
+    )
     parser.add_argument("--provenance-file", default=PROVENANCE_NAME)
     parser.add_argument("--receipt-file", default=RECEIPT_NAME)
     parser.add_argument(
@@ -290,6 +362,10 @@ def main(argv: list[str] | None = None) -> int:
         if not args.github_output:
             raise RuntimeError("--publication-policy requires --github-output")
         return _publication_policy(Path(args.github_output))
+    if args.validate_workflow_authority:
+        if not args.github_output:
+            raise RuntimeError("--validate-workflow-authority requires --github-output")
+        return _workflow_authority(Path(args.github_output))
 
     token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
     if not token:
