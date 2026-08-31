@@ -16,16 +16,32 @@ def _normalized(path: Path) -> str:
 
 
 def _frontmatter(text: str) -> dict[str, object]:
-    parts = text.split("---", 2)
-    if len(parts) != 3 or parts[0].strip():
+    lines = text.splitlines()
+    if not lines or lines[0] != "---":
         raise AssertionError("model card must begin with YAML frontmatter")
-    metadata = yaml.safe_load(parts[1])
+    try:
+        closing_delimiter = lines.index("---", 1)
+    except ValueError as exc:
+        raise AssertionError(
+            "model card frontmatter must end with an exact YAML delimiter line"
+        ) from exc
+    metadata = yaml.safe_load("\n".join(lines[1:closing_delimiter]))
     if not isinstance(metadata, dict):
         raise AssertionError("model card frontmatter must be a YAML mapping")
     return metadata
 
 
 class ModelMetadataContractTests(unittest.TestCase):
+    def test_frontmatter_requires_exact_delimiter_lines(self) -> None:
+        valid = "---\nlicense: apache-2.0\n---\nNot a model.\n"
+        self.assertEqual(_frontmatter(valid).get("license"), "apache-2.0")
+
+        for malformed in ("----", "---garbage", " ---"):
+            with self.subTest(closing_delimiter=malformed):
+                text = f"---\nlicense: apache-2.0\n{malformed}\nNot a model.\n"
+                with self.assertRaisesRegex(AssertionError, "exact YAML delimiter"):
+                    _frontmatter(text)
+
     def test_protected_model_card_copies_remain_in_parity(self) -> None:
         self.assertEqual(_normalized(MODEL_CARD), _normalized(SPACE_CARD))
 
