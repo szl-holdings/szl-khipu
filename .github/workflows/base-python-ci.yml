@@ -54,11 +54,20 @@ jobs:
       # non-blocking so repos keep visibility without a forced flag day; repos
       # with their own ruff config in pyproject.toml already get stricter
       # behavior from their primary CI.
-      - name: Ruff (blocking: E9/F)
+      - name: "Ruff (blocking: E9/F)"
         run: ruff check . --output-format github --select E9,F
 
       - name: Ruff (full ruleset, informational)
         run: ruff check . --statistics --exit-zero
 
+      # The base gate owns tests/ only. Suites living elsewhere (scripts/,
+      # tools/) are exercised by each repo's dedicated workflows with their
+      # own dependency pins; collecting them here would fail on imports this
+      # minimal install does not provide. Repos with no tests/ skip honestly.
       - name: Pytest (blocking)
-        run: pytest -q
+        run: |
+          if [ -d tests ]; then
+            pytest -q tests
+          else
+            echo "::notice::No tests/ directory; base gate defers to repo-specific suites."
+          fi
