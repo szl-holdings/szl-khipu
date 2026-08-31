@@ -1,8 +1,9 @@
 # Publish GitHub source to Hugging Face org SZLHOLDINGS.
 # GitHub remains canonical. Hub is the mirror.
 #
-# Requires org/repo secret HF_TOKEN or HF_ORG_TOKEN (write on SZLHOLDINGS).
-# If the token is absent, skip with BLOCKED — never fakes a Hub upload.
+# Every run verifies the exact staged source locally without provider access.
+# An ordinary push without a provider token reports NOT DEPLOYED and stays green.
+# An explicit workflow_dispatch publication still fails closed without a token.
 name: publish-hf
 on:
   workflow_dispatch: {}
@@ -25,15 +26,26 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
-      - name: Install
-        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
       - name: Prepare exact staged deployment manifest
         env:
           SOURCE_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
         run: python scripts/publish_hf.py --prepare-provenance hf-deployment-provenance.json
+      - name: Validate exact staged source offline
+        run: python scripts/publish_hf.py --validate-provenance hf-deployment-provenance.json
+      - name: Decide provider publication
+        id: publication
+        env:
+          HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
+        run: >-
+          python scripts/publish_hf.py --publication-policy
+          --github-output "$GITHUB_OUTPUT"
+      - name: Install provider dependencies
+        if: steps.publication.outputs.publish_enabled == 'true'
+        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
       - name: Publish to Hugging Face
+        if: steps.publication.outputs.publish_enabled == 'true'
         id: publish
         env:
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
@@ -50,6 +62,7 @@ jobs:
             --receipt-file hf-deployment-receipt.json \
             --github-output "$GITHUB_OUTPUT"
       - name: Publish immutable exact-run deployment evidence
+        if: steps.publication.outputs.publish_enabled == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           # The server-visible name binds this exact run attempt, staged-tree
