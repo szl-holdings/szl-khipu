@@ -1,0 +1,11 @@
+# Issue-template routing for the szl-holdings estate.
+# Installed by the szl-alignment engine; keep in sync with
+# alignment/templates/ISSUE_TEMPLATE/config.yml.
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/szl-holdings
+    about: Report vulnerabilities privately via GitHub Security Advisories — see SECURITY.md. Never file public issues for undisclosed vulnerabilities.
+  - name: Org-wide questions
+    url: https://github.com/szl-holdings
+    about: Questions about the estate, doctrine, or alignment — start with the org profile.

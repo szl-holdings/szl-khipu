@@ -1,0 +1,57 @@
+# Standard bug report form for the szl-holdings estate.
+# Installed by the szl-alignment engine; keep in sync with
+# alignment/templates/ISSUE_TEMPLATE/bug_report.yml.
+name: Bug report
+description: File a reproducible, receipt-backed bug report
+title: "[bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Control before action, evidence after:
+        a bug is actionable when it is reproducible and receipt-backed.
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: What were you running? Tag, branch, or commit SHA.
+      placeholder: e.g. v14.2.0 or 1a2b3c4
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Observed behavior, including the exact error text.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Steps, commands, or a minimal repo case.
+      placeholder: "1. ...\n2. ...\n3. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: receipts
+    attributes:
+      label: Receipts
+      description: Logs, CI links, screenshots. If unknown, say UNKNOWN — never guess.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues for duplicates
+          required: true
+        - label: This is not a security vulnerability (see SECURITY.md for private disclosure)
+          required: true
