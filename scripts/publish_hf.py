@@ -20,6 +20,7 @@ SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
 ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
+DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
@@ -96,6 +97,18 @@ def _deployment_artifact_name(
     return (
         f"{ARTIFACT_PREFIX}-attempt-{run_attempt}"
         f"-manifest-{manifest_sha256}-hf-{hf_revision}"
+    )
+
+
+def _publish_runtime_revision(api, repo_id: str, hf_revision: str) -> None:
+    """Publish the deployed commit as an explicit Space runtime variable."""
+    hf_revision = str(hf_revision).lower()
+    if not SHA40.fullmatch(hf_revision):
+        raise RuntimeError("runtime revision must be an immutable 40-hex commit")
+    api.add_space_variable(
+        repo_id=repo_id,
+        key=DEPLOYMENT_REVISION_VARIABLE,
+        value=hf_revision,
     )
 
 
@@ -289,6 +302,7 @@ def main(argv: list[str] | None = None) -> int:
             manifest_sha256,
             hf_revision,
         )
+        _publish_runtime_revision(api, sid, hf_revision)
         receipt = {
             "schema": "szl.hf-deployment-receipt/v3",
             **_identity(),
