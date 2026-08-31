@@ -1,0 +1,1 @@
+tests/ imports the training/eval dependency set; the base gate's minimal install does not provide it. Repo CI (test matrix 3.11/3.12) owns execution. Ruff E9/F remains blocking here.
