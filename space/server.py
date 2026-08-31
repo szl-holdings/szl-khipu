@@ -9,10 +9,13 @@ Uniqueness of Λ is Conjecture 1 — never a theorem.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
+import re
 import sys
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -24,6 +27,257 @@ elif (ROOT.parent / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT.parent))
 
 HTML = ROOT / "index.html"
+BUILD_INFO = ROOT / "szl_khipu" / "build-info.json"
+PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"
+SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
+HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
+WORKFLOW_NAME = "publish-hf"
+WORKFLOW_PATH = ".github/workflows/publish-hf.yml"
+ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
+SHA40 = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _canonical_json(payload: dict) -> bytes:
+    return json.dumps(
+        payload,
+        ensure_ascii=True,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+
+
+def _url_bytes(url: str, *, limit: int = 8 * 1024 * 1024) -> bytes:
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "szl-khipu-source-verifier/2",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=8) as response:
+        content = response.read(limit + 1)
+    if len(content) > limit:
+        raise ValueError("evidence response exceeds the bounded size")
+    return content
+
+
+def _url_json(url: str) -> dict:
+    payload = json.loads(_url_bytes(url, limit=2 * 1024 * 1024).decode("utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("evidence response must be a JSON object")
+    return payload
+
+
+def _running_hf_revision() -> str | None:
+    """Return only revision evidence injected into this running container.
+
+    The repository API exposes a mutable Hub head, not the commit of the
+    currently serving image. Substituting it can make an old container claim a
+    newer deployment, so missing or malformed runtime evidence fails closed.
+    """
+    revision = str(os.environ.get("SPACE_COMMIT") or "").lower()
+    return revision if SHA40.fullmatch(revision) else None
+
+
+def _deployment_artifact_name(metadata: dict, hf_revision: str) -> str:
+    attempt = metadata.get("workflow_run_attempt")
+    manifest_sha256 = str(metadata.get("manifest_sha256") or "").lower()
+    hf_revision = str(hf_revision).lower()
+    if not isinstance(attempt, int) or attempt <= 0:
+        raise ValueError("invalid workflow run attempt")
+    if not SHA256.fullmatch(manifest_sha256):
+        raise ValueError("invalid deployment manifest digest")
+    if not SHA40.fullmatch(hf_revision):
+        raise ValueError("running Hugging Face revision is unavailable")
+    return (
+        f"{ARTIFACT_PREFIX}-attempt-{attempt}"
+        f"-manifest-{manifest_sha256}-hf-{hf_revision}"
+    )
+
+
+def _payload_records(root: Path) -> list[dict]:
+    excluded = set()
+    for evidence in (BUILD_INFO, PROVENANCE):
+        try:
+            excluded.add(evidence.relative_to(root).as_posix())
+        except ValueError:
+            pass
+    records = []
+    for path in sorted((item for item in root.rglob("*") if item.is_file())):
+        relative = path.relative_to(root)
+        if relative.as_posix() in excluded:
+            continue
+        if any(part in {".git", "__pycache__"} for part in relative.parts):
+            continue
+        if path.suffix in {".pyc", ".pyo"}:
+            continue
+        content = path.read_bytes()
+        records.append(
+            {
+                "path": relative.as_posix(),
+                "sha256": hashlib.sha256(content).hexdigest(),
+                "size": len(content),
+            }
+        )
+    return records
+
+
+def _validated_manifest(metadata: dict, manifest_bytes: bytes) -> dict:
+    if hashlib.sha256(manifest_bytes).hexdigest() != metadata["manifest_sha256"]:
+        raise ValueError("deployment manifest digest mismatch")
+    manifest = json.loads(manifest_bytes.decode("utf-8"))
+    if not isinstance(manifest, dict) or manifest.get("schema") != "szl.hf-deployment-tree/v3":
+        raise ValueError("invalid deployment manifest schema")
+    for field in (
+        "source_repository",
+        "source_commit",
+        "hf_repository",
+        "workflow_name",
+        "workflow_run_id",
+        "workflow_run_attempt",
+        "artifact_name_prefix",
+        "tree_sha256",
+    ):
+        if manifest.get(field) != metadata.get(field):
+            raise ValueError(f"deployment manifest {field} mismatch")
+    files = manifest.get("files")
+    if not isinstance(files, list) or not files:
+        raise ValueError("deployment manifest has no files")
+    normalized = []
+    seen = set()
+    for item in files:
+        if not isinstance(item, dict) or set(item) != {"path", "sha256", "size"}:
+            raise ValueError("invalid deployment manifest file record")
+        relative = str(item.get("path") or "")
+        parts = relative.split("/")
+        if not relative or relative.startswith("/") or "\\" in relative or ".." in parts:
+            raise ValueError("unsafe deployment manifest path")
+        digest = str(item.get("sha256") or "").lower()
+        size = item.get("size")
+        if relative in seen or not SHA256.fullmatch(digest):
+            raise ValueError("invalid or duplicate deployment manifest file")
+        if not isinstance(size, int) or size < 0:
+            raise ValueError("invalid deployment manifest file size")
+        seen.add(relative)
+        normalized.append({"path": relative, "sha256": digest, "size": size})
+    if normalized != sorted(normalized, key=lambda item: item["path"]):
+        raise ValueError("deployment manifest files are not canonical")
+    core = {key: value for key, value in manifest.items() if key != "tree_sha256"}
+    tree_sha256 = hashlib.sha256(_canonical_json(core)).hexdigest()
+    if tree_sha256 != metadata["tree_sha256"]:
+        raise ValueError("deployment tree digest mismatch")
+    if _payload_records(ROOT) != normalized:
+        raise ValueError("running deployment files do not match the attested tree")
+    return manifest
+
+
+def _github_evidence(metadata: dict, hf_revision: str) -> tuple[str, str]:
+    run_id = metadata["workflow_run_id"]
+    run_attempt = metadata["workflow_run_attempt"]
+    artifact_name = _deployment_artifact_name(metadata, hf_revision)
+    base = f"https://api.github.com/repos/{SOURCE_REPOSITORY}"
+    run = _url_json(f"{base}/actions/runs/{run_id}/attempts/{run_attempt}")
+    repository = run.get("repository")
+    if (
+        run.get("id") != run_id
+        or run.get("run_attempt") != run_attempt
+        or str(run.get("head_sha") or "").lower() != metadata["source_commit"]
+        or run.get("head_branch") != "main"
+        or run.get("event") not in {"push", "workflow_dispatch"}
+        or run.get("name") != WORKFLOW_NAME
+        or run.get("path") != WORKFLOW_PATH
+        or run.get("status") != "completed"
+        or run.get("conclusion") != "success"
+        or not isinstance(repository, dict)
+        or repository.get("full_name") != SOURCE_REPOSITORY
+    ):
+        raise ValueError("GitHub workflow run is not an exact successful source run")
+
+    listing = _url_json(
+        f"{base}/actions/runs/{run_id}/artifacts?name={artifact_name}&per_page=100"
+    )
+    artifacts = listing.get("artifacts")
+    matches = [
+        item
+        for item in artifacts or []
+        if isinstance(item, dict) and item.get("name") == artifact_name
+    ]
+    if len(matches) != 1:
+        raise ValueError("exact GitHub deployment artifact unavailable")
+    artifact = matches[0]
+    workflow_run = artifact.get("workflow_run")
+    digest = str(artifact.get("digest") or "").lower()
+    artifact_id = artifact.get("id")
+    if (
+        artifact.get("expired") is not False
+        or not isinstance(artifact_id, int)
+        or not re.fullmatch(r"sha256:[0-9a-f]{64}", digest)
+        or not isinstance(workflow_run, dict)
+        or workflow_run.get("id") != run_id
+        or workflow_run.get("head_branch") != "main"
+        or str(workflow_run.get("head_sha") or "").lower() != metadata["source_commit"]
+    ):
+        raise ValueError("GitHub deployment artifact metadata is invalid")
+
+    # Actions artifact archives require authentication even for public repos.
+    # Their public, server-issued metadata remains independently observable.
+    # upload-artifact@v4 makes the name immutable within the run, and this exact
+    # name carries the run attempt, local manifest SHA256, and returned HF SHA.
+    return artifact_name, digest.removeprefix("sha256:")
+
+
+def _source_document(schema: str) -> tuple[dict, str | None]:
+    try:
+        metadata = json.loads(BUILD_INFO.read_text(encoding="utf-8"))
+        if not isinstance(metadata, dict) or metadata.get("schema") != "szl.hf-build-info/v3":
+            raise ValueError("invalid build metadata schema")
+        if metadata.get("source_repository") != SOURCE_REPOSITORY:
+            raise ValueError("invalid source repository")
+        if metadata.get("hf_repository") != HF_REPOSITORY:
+            raise ValueError("invalid Hugging Face repository")
+        if metadata.get("workflow_name") != WORKFLOW_NAME:
+            raise ValueError("invalid deployment workflow")
+        if metadata.get("artifact_name_prefix") != ARTIFACT_PREFIX:
+            raise ValueError("invalid deployment artifact prefix")
+        for key in ("source_commit", "manifest_sha256", "tree_sha256"):
+            pattern = SHA40 if key == "source_commit" else SHA256
+            value = str(metadata.get(key) or "").lower()
+            if not pattern.fullmatch(value):
+                raise ValueError(f"invalid {key}")
+            metadata[key] = value
+        for key in ("workflow_run_id", "workflow_run_attempt"):
+            value = metadata.get(key)
+            if not isinstance(value, int) or value <= 0:
+                raise ValueError(f"invalid {key}")
+        manifest_bytes = PROVENANCE.read_bytes()
+        _validated_manifest(metadata, manifest_bytes)
+        hf_revision = _running_hf_revision()
+        if hf_revision is None:
+            raise ValueError("running Hugging Face revision is unavailable")
+        artifact_name, artifact_sha256 = _github_evidence(metadata, hf_revision)
+    except Exception as exc:
+        return {"schema": schema, "state": "UNKNOWN"}, str(exc)
+    return {
+        "schema": schema,
+        "state": "SOURCE_BOUND_DEPLOYMENT",
+        "source": {
+            "repository": SOURCE_REPOSITORY,
+            "commit": metadata["source_commit"],
+        },
+        "deployment": {
+            "hf_repository": HF_REPOSITORY,
+            "hf_revision": hf_revision,
+            "workflow_run": metadata["workflow_run_id"],
+            "workflow_run_attempt": metadata["workflow_run_attempt"],
+            "workflow_name": WORKFLOW_NAME,
+            "artifact_name": artifact_name,
+            "artifact_sha256": artifact_sha256,
+            "manifest_sha256": metadata["manifest_sha256"],
+            "runtime_tree_sha256": metadata["tree_sha256"],
+        },
+    }, None
 
 try:
     from energy import probe as _energy_probe
@@ -105,6 +359,18 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self) -> None:  # noqa: N802
         """HF probes HEAD. BaseHTTP 501s otherwise."""
         path = urlparse(self.path).path
+        if path in ("/api/build-info", "/.well-known/szl-source.json"):
+            schema = (
+                "szl.build-info/v1"
+                if path == "/api/build-info"
+                else "szl.deployment-source/v1"
+            )
+            _payload, error = _source_document(schema)
+            self.send_response(503 if error else 200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
         ok = path in (
             "/",
             "/index.html",
@@ -169,6 +435,19 @@ class Handler(BaseHTTPRequestHandler):
                     "source": "szl-holdings/szl-khipu",
                 },
             )
+            return
+        if path in ("/api/build-info", "/.well-known/szl-source.json"):
+            schema = (
+                "szl.build-info/v1"
+                if path == "/api/build-info"
+                else "szl.deployment-source/v1"
+            )
+            payload, error = _source_document(schema)
+            if error:
+                payload["error"] = error
+                self._json(503, payload)
+            else:
+                self._json(200, payload)
             return
         if path == "/api/lambda":
             self._lambda({})
