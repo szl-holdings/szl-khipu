@@ -34,6 +34,7 @@ jobs:
           RUN_ATTEMPT: ${{ github.run_attempt }}
         run: python scripts/publish_hf.py --prepare-provenance hf-deployment-provenance.json
       - name: Publish to Hugging Face
+        id: publish
         env:
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
           HF_ORG: SZLHOLDINGS
@@ -46,11 +47,15 @@ jobs:
           fi
           python scripts/publish_hf.py \
             --provenance-file hf-deployment-provenance.json \
-            --receipt-file hf-deployment-receipt.json
-      - name: Upload exact-run deployment receipt
+            --receipt-file hf-deployment-receipt.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Publish immutable exact-run deployment evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: szl-khipu-hf-provenance
+          # The server-visible name binds this exact run attempt, staged-tree
+          # manifest, and the immutable commit returned by Hugging Face. The
+          # public runtime verifies Actions metadata; it never downloads a ZIP.
+          name: ${{ steps.publish.outputs.artifact_name }}
           path: |
             hf-deployment-provenance.json
             hf-deployment-receipt.json
