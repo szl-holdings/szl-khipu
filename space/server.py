@@ -33,7 +33,7 @@ SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
 WORKFLOW_PATH = ".github/workflows/publish-hf.yml"
-WORKFLOW_EVENT = "repository_dispatch"
+WORKFLOW_EVENTS = frozenset({"push", "repository_dispatch"})
 ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
@@ -188,7 +188,7 @@ def _github_evidence(metadata: dict, hf_revision: str) -> tuple[str, str]:
         or run.get("run_attempt") != run_attempt
         or str(run.get("head_sha") or "").lower() != metadata["source_commit"]
         or run.get("head_branch") != "main"
-        or run.get("event") != WORKFLOW_EVENT
+        or run.get("event") not in WORKFLOW_EVENTS
         or run.get("name") != WORKFLOW_NAME
         or run.get("path") != WORKFLOW_PATH
         or run.get("status") != "completed"
