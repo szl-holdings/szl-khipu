@@ -19,10 +19,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
-ARTIFACT_NAME = "szl-khipu-hf-provenance"
+ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+ARTIFACT_NAME_PATTERN = re.compile(
+    rf"^{re.escape(ARTIFACT_PREFIX)}-attempt-[1-9][0-9]*"
+    r"-manifest-[0-9a-f]{64}-hf-[0-9a-f]{40}$"
+)
 RUNTIME_ROOT_FILES = ("server.py", "index.html", "energy.py")
 RUNTIME_ROOT_DIRECTORIES = ("szl_khipu", "artifacts")
 IGNORE = shutil.ignore_patterns(
@@ -70,8 +75,35 @@ def _identity() -> dict:
         "workflow_name": WORKFLOW_NAME,
         "workflow_run_id": int(run_id),
         "workflow_run_attempt": int(run_attempt),
-        "artifact_name": ARTIFACT_NAME,
+        "artifact_name_prefix": ARTIFACT_PREFIX,
     }
+
+
+def _deployment_artifact_name(
+    run_attempt: int,
+    manifest_sha256: str,
+    hf_revision: str,
+) -> str:
+    """Return the immutable Actions-artifact identity for one publish attempt."""
+    manifest_sha256 = str(manifest_sha256).lower()
+    hf_revision = str(hf_revision).lower()
+    if not isinstance(run_attempt, int) or run_attempt <= 0:
+        raise RuntimeError("workflow run attempt must be a positive integer")
+    if not SHA256.fullmatch(manifest_sha256):
+        raise RuntimeError("manifest SHA256 must be 64 lowercase hex characters")
+    if not SHA40.fullmatch(hf_revision):
+        raise RuntimeError("Hugging Face revision must be an immutable 40-hex commit")
+    return (
+        f"{ARTIFACT_PREFIX}-attempt-{run_attempt}"
+        f"-manifest-{manifest_sha256}-hf-{hf_revision}"
+    )
+
+
+def _append_github_output(path: Path, artifact_name: str) -> None:
+    if not ARTIFACT_NAME_PATTERN.fullmatch(artifact_name):
+        raise RuntimeError("refusing to emit a malformed deployment artifact name")
+    with path.open("a", encoding="utf-8", newline="\n") as output:
+        output.write(f"artifact_name={artifact_name}\n")
 
 
 def _stage_space() -> Path:
@@ -110,7 +142,7 @@ def _deployment_manifest(staging: Path) -> dict:
             }
         )
     core = {
-        "schema": "szl.hf-deployment-tree/v2",
+        "schema": "szl.hf-deployment-tree/v3",
         **_identity(),
         "files": files,
     }
@@ -166,6 +198,11 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--provenance-file", default=PROVENANCE_NAME)
     parser.add_argument("--receipt-file", default=RECEIPT_NAME)
+    parser.add_argument(
+        "--github-output",
+        metavar="PATH",
+        help="append the deterministic post-publish artifact name to a GitHub output file",
+    )
     return parser
 
 
@@ -228,7 +265,7 @@ def main(argv: list[str] | None = None) -> int:
         shutil.copy2(provenance_path, evidence_root / PROVENANCE_NAME)
         manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
         build_info = {
-            "schema": "szl.hf-build-info/v2",
+            "schema": "szl.hf-build-info/v3",
             **_identity(),
             "manifest_sha256": manifest_sha256,
             "tree_sha256": manifest["tree_sha256"],
@@ -247,15 +284,29 @@ def main(argv: list[str] | None = None) -> int:
         hf_revision = str(getattr(commit_info, "oid", "")).lower()
         if not SHA40.fullmatch(hf_revision):
             raise RuntimeError("Hugging Face upload did not return an immutable commit")
+        artifact_name = _deployment_artifact_name(
+            manifest["workflow_run_attempt"],
+            manifest_sha256,
+            hf_revision,
+        )
         receipt = {
-            "schema": "szl.hf-deployment-receipt/v2",
+            "schema": "szl.hf-deployment-receipt/v3",
             **_identity(),
+            "artifact_name": artifact_name,
             "manifest_sha256": manifest_sha256,
             "tree_sha256": manifest["tree_sha256"],
             "hf_revision": hf_revision,
         }
         _write_json(receipt_path, receipt)
-        print("uploaded source-bound hologram", sid, hf_revision, flush=True)
+        if args.github_output:
+            _append_github_output(Path(args.github_output), artifact_name)
+        print(
+            "uploaded source-bound hologram",
+            sid,
+            hf_revision,
+            artifact_name,
+            flush=True,
+        )
     finally:
         shutil.rmtree(staging, ignore_errors=True)
 

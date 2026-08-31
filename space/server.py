@@ -10,14 +10,12 @@ Uniqueness of Λ is Conjecture 1 — never a theorem.
 from __future__ import annotations
 
 import hashlib
-import io
 import json
 import math
 import os
 import re
 import sys
 import urllib.request
-import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -34,7 +32,8 @@ PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
 HF_REPOSITORY = "SZLHOLDINGS/szl-khipu"
 WORKFLOW_NAME = "publish-hf"
-ARTIFACT_NAME = "szl-khipu-hf-provenance"
+WORKFLOW_PATH = ".github/workflows/publish-hf.yml"
+ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -71,18 +70,31 @@ def _url_json(url: str) -> dict:
     return payload
 
 
-def _running_hf_revision(expected: str, hf_repository: str) -> str | None:
-    if "SPACE_COMMIT" in os.environ:
-        revision = str(os.environ.get("SPACE_COMMIT") or "").lower()
-        return revision if SHA40.fullmatch(revision) and revision == expected else None
-    try:
-        payload = _url_json(f"https://huggingface.co/api/spaces/{hf_repository}")
-    except Exception:
-        return None
-    revision = str(payload.get("sha") or "").lower()
-    runtime = payload.get("runtime")
-    stage = str(runtime.get("stage") or "") if isinstance(runtime, dict) else ""
-    return revision if revision == expected and stage == "RUNNING" else None
+def _running_hf_revision() -> str | None:
+    """Return only revision evidence injected into this running container.
+
+    The repository API exposes a mutable Hub head, not the commit of the
+    currently serving image. Substituting it can make an old container claim a
+    newer deployment, so missing or malformed runtime evidence fails closed.
+    """
+    revision = str(os.environ.get("SPACE_COMMIT") or "").lower()
+    return revision if SHA40.fullmatch(revision) else None
+
+
+def _deployment_artifact_name(metadata: dict, hf_revision: str) -> str:
+    attempt = metadata.get("workflow_run_attempt")
+    manifest_sha256 = str(metadata.get("manifest_sha256") or "").lower()
+    hf_revision = str(hf_revision).lower()
+    if not isinstance(attempt, int) or attempt <= 0:
+        raise ValueError("invalid workflow run attempt")
+    if not SHA256.fullmatch(manifest_sha256):
+        raise ValueError("invalid deployment manifest digest")
+    if not SHA40.fullmatch(hf_revision):
+        raise ValueError("running Hugging Face revision is unavailable")
+    return (
+        f"{ARTIFACT_PREFIX}-attempt-{attempt}"
+        f"-manifest-{manifest_sha256}-hf-{hf_revision}"
+    )
 
 
 def _payload_records(root: Path) -> list[dict]:
@@ -116,7 +128,7 @@ def _validated_manifest(metadata: dict, manifest_bytes: bytes) -> dict:
     if hashlib.sha256(manifest_bytes).hexdigest() != metadata["manifest_sha256"]:
         raise ValueError("deployment manifest digest mismatch")
     manifest = json.loads(manifest_bytes.decode("utf-8"))
-    if not isinstance(manifest, dict) or manifest.get("schema") != "szl.hf-deployment-tree/v2":
+    if not isinstance(manifest, dict) or manifest.get("schema") != "szl.hf-deployment-tree/v3":
         raise ValueError("invalid deployment manifest schema")
     for field in (
         "source_repository",
@@ -125,7 +137,7 @@ def _validated_manifest(metadata: dict, manifest_bytes: bytes) -> dict:
         "workflow_name",
         "workflow_run_id",
         "workflow_run_attempt",
-        "artifact_name",
+        "artifact_name_prefix",
         "tree_sha256",
     ):
         if manifest.get(field) != metadata.get(field):
@@ -161,17 +173,21 @@ def _validated_manifest(metadata: dict, manifest_bytes: bytes) -> dict:
     return manifest
 
 
-def _github_evidence(metadata: dict, manifest_bytes: bytes) -> tuple[dict, str]:
+def _github_evidence(metadata: dict, hf_revision: str) -> tuple[str, str]:
     run_id = metadata["workflow_run_id"]
+    run_attempt = metadata["workflow_run_attempt"]
+    artifact_name = _deployment_artifact_name(metadata, hf_revision)
     base = f"https://api.github.com/repos/{SOURCE_REPOSITORY}"
-    run = _url_json(f"{base}/actions/runs/{run_id}")
+    run = _url_json(f"{base}/actions/runs/{run_id}/attempts/{run_attempt}")
     repository = run.get("repository")
     if (
         run.get("id") != run_id
+        or run.get("run_attempt") != run_attempt
         or str(run.get("head_sha") or "").lower() != metadata["source_commit"]
         or run.get("head_branch") != "main"
         or run.get("event") not in {"push", "workflow_dispatch"}
         or run.get("name") != WORKFLOW_NAME
+        or run.get("path") != WORKFLOW_PATH
         or run.get("status") != "completed"
         or run.get("conclusion") != "success"
         or not isinstance(repository, dict)
@@ -180,13 +196,13 @@ def _github_evidence(metadata: dict, manifest_bytes: bytes) -> tuple[dict, str]:
         raise ValueError("GitHub workflow run is not an exact successful source run")
 
     listing = _url_json(
-        f"{base}/actions/runs/{run_id}/artifacts?name={ARTIFACT_NAME}&per_page=100"
+        f"{base}/actions/runs/{run_id}/artifacts?name={artifact_name}&per_page=100"
     )
     artifacts = listing.get("artifacts")
     matches = [
         item
         for item in artifacts or []
-        if isinstance(item, dict) and item.get("name") == ARTIFACT_NAME
+        if isinstance(item, dict) and item.get("name") == artifact_name
     ]
     if len(matches) != 1:
         raise ValueError("exact GitHub deployment artifact unavailable")
@@ -200,48 +216,22 @@ def _github_evidence(metadata: dict, manifest_bytes: bytes) -> tuple[dict, str]:
         or not re.fullmatch(r"sha256:[0-9a-f]{64}", digest)
         or not isinstance(workflow_run, dict)
         or workflow_run.get("id") != run_id
+        or workflow_run.get("head_branch") != "main"
         or str(workflow_run.get("head_sha") or "").lower() != metadata["source_commit"]
     ):
         raise ValueError("GitHub deployment artifact metadata is invalid")
 
-    archive_bytes = _url_bytes(f"{base}/actions/artifacts/{artifact_id}/zip")
-    if hashlib.sha256(archive_bytes).hexdigest() != digest.removeprefix("sha256:"):
-        raise ValueError("GitHub deployment artifact digest mismatch")
-    with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
-        names = sorted(name for name in archive.namelist() if not name.endswith("/"))
-        if names != ["hf-deployment-provenance.json", "hf-deployment-receipt.json"]:
-            raise ValueError("GitHub deployment artifact has an unexpected file set")
-        archived_manifest = archive.read("hf-deployment-provenance.json")
-        receipt_bytes = archive.read("hf-deployment-receipt.json")
-    if archived_manifest != manifest_bytes:
-        raise ValueError("GitHub artifact does not attest the running deployment manifest")
-    receipt = json.loads(receipt_bytes.decode("utf-8"))
-    if not isinstance(receipt, dict) or receipt.get("schema") != "szl.hf-deployment-receipt/v2":
-        raise ValueError("invalid GitHub deployment receipt")
-    for field in (
-        "source_repository",
-        "source_commit",
-        "hf_repository",
-        "workflow_name",
-        "workflow_run_id",
-        "workflow_run_attempt",
-        "artifact_name",
-        "manifest_sha256",
-        "tree_sha256",
-    ):
-        if receipt.get(field) != metadata.get(field):
-            raise ValueError(f"GitHub deployment receipt {field} mismatch")
-    hf_revision = str(receipt.get("hf_revision") or "").lower()
-    if not SHA40.fullmatch(hf_revision):
-        raise ValueError("GitHub deployment receipt has no immutable HF revision")
-    receipt["hf_revision"] = hf_revision
-    return receipt, digest.removeprefix("sha256:")
+    # Actions artifact archives require authentication even for public repos.
+    # Their public, server-issued metadata remains independently observable.
+    # upload-artifact@v4 makes the name immutable within the run, and this exact
+    # name carries the run attempt, local manifest SHA256, and returned HF SHA.
+    return artifact_name, digest.removeprefix("sha256:")
 
 
 def _source_document(schema: str) -> tuple[dict, str | None]:
     try:
         metadata = json.loads(BUILD_INFO.read_text(encoding="utf-8"))
-        if not isinstance(metadata, dict) or metadata.get("schema") != "szl.hf-build-info/v2":
+        if not isinstance(metadata, dict) or metadata.get("schema") != "szl.hf-build-info/v3":
             raise ValueError("invalid build metadata schema")
         if metadata.get("source_repository") != SOURCE_REPOSITORY:
             raise ValueError("invalid source repository")
@@ -249,8 +239,8 @@ def _source_document(schema: str) -> tuple[dict, str | None]:
             raise ValueError("invalid Hugging Face repository")
         if metadata.get("workflow_name") != WORKFLOW_NAME:
             raise ValueError("invalid deployment workflow")
-        if metadata.get("artifact_name") != ARTIFACT_NAME:
-            raise ValueError("invalid deployment artifact name")
+        if metadata.get("artifact_name_prefix") != ARTIFACT_PREFIX:
+            raise ValueError("invalid deployment artifact prefix")
         for key in ("source_commit", "manifest_sha256", "tree_sha256"):
             pattern = SHA40 if key == "source_commit" else SHA256
             value = str(metadata.get(key) or "").lower()
@@ -263,10 +253,10 @@ def _source_document(schema: str) -> tuple[dict, str | None]:
                 raise ValueError(f"invalid {key}")
         manifest_bytes = PROVENANCE.read_bytes()
         _validated_manifest(metadata, manifest_bytes)
-        receipt, artifact_sha256 = _github_evidence(metadata, manifest_bytes)
-        hf_revision = _running_hf_revision(receipt["hf_revision"], HF_REPOSITORY)
+        hf_revision = _running_hf_revision()
         if hf_revision is None:
-            raise ValueError("running Hugging Face revision does not match the deployment receipt")
+            raise ValueError("running Hugging Face revision is unavailable")
+        artifact_name, artifact_sha256 = _github_evidence(metadata, hf_revision)
     except Exception as exc:
         return {"schema": schema, "state": "UNKNOWN"}, str(exc)
     return {
@@ -282,7 +272,7 @@ def _source_document(schema: str) -> tuple[dict, str | None]:
             "workflow_run": metadata["workflow_run_id"],
             "workflow_run_attempt": metadata["workflow_run_attempt"],
             "workflow_name": WORKFLOW_NAME,
-            "artifact_name": ARTIFACT_NAME,
+            "artifact_name": artifact_name,
             "artifact_sha256": artifact_sha256,
             "manifest_sha256": metadata["manifest_sha256"],
             "runtime_tree_sha256": metadata["tree_sha256"],
