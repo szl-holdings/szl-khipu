@@ -49,10 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - name: Secret / credential scan (gitleaks)
-        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Secret pattern scan (stdlib)
+        run: |
+          # gitleaks for orgs is paid; the scan is replaced with a self-contained grep
+          grep -rEn "AIza[0-9A-Za-z_-]{35}|ghp_[A-Za-z0-9]{36,}|sk-[A-Za-z0-9]{20,}|-----BEGIN PRIVATE KEY-----" --exclude-dir=.git . && exit 1 || true
       - name: Reject pickle payloads
         run: |
           if find "${{ inputs.model_dir }}" -name '*.pkl' -o -name '*.pt' -o -name 'pytorch_model.bin' | grep .; then
