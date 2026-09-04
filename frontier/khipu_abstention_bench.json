@@ -2,19 +2,27 @@
   "schema": "szl.khipu-abstention-bench/v1",
   "lane": "L2",
   "cluster": "C2",
-  "status": "NOT_RUN",
+  "status": "CONTROLLER_ONLY_MEASURED",
   "promotion": "HOLD",
   "winner": null,
   "order": "https://github.com/szl-holdings/szl-hf-frontier/issues/9",
-  "note": "Expand beyond 2/6 and 3/6 research scores. Do not promote R3 merely because training finished. This file does not invent a coverage number.",
+  "note": "Controller-only gold is measured. Weight slots stay UNAVAILABLE. Do not promote R3 merely because training finished. This file does not invent a model coverage number.",
+  "hidden_handle_set_id": "khipu-hidden-2026-09-04",
+  "hidden_handle_set": [
+    "khipu.handle.alpha",
+    "khipu.handle.beta",
+    "nav.waypoint.17",
+    "receipt.bind.owner-pubkey"
+  ],
   "family": [
-    {"hub_id": "SZLHOLDINGS/TinyKhipu-Nano", "role": "entrant"},
-    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B", "role": "baseline"},
-    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-GGUF", "role": "quant", "needs_own_eval": true},
-    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-abstain", "role": "quarantined", "eligible": false},
-    {"hub_id": "SZLHOLDINGS/KHIPU-R2", "role": "research"},
-    {"hub_id": "SZLHOLDINGS/khipu-r3", "role": "research"},
-    {"hub_id": "SZLHOLDINGS/brain-navigator-r2", "role": "research"}
+    {"hub_id": "controller-only", "role": "baseline", "status": "MEASURED"},
+    {"hub_id": "SZLHOLDINGS/TinyKhipu-Nano", "role": "entrant", "status": "UNAVAILABLE"},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B", "role": "baseline", "status": "UNAVAILABLE"},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-GGUF", "role": "quant", "needs_own_eval": true, "status": "UNAVAILABLE"},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-abstain", "role": "quarantined", "eligible": false, "status": "QUARANTINED"},
+    {"hub_id": "SZLHOLDINGS/KHIPU-R2", "role": "research", "status": "UNAVAILABLE"},
+    {"hub_id": "SZLHOLDINGS/khipu-r3", "role": "research", "status": "UNAVAILABLE"},
+    {"hub_id": "SZLHOLDINGS/brain-navigator-r2", "role": "research", "status": "UNAVAILABLE"}
   ],
   "required_measurements": [
     "hidden_handle_set_id",
@@ -22,5 +30,119 @@
     "invented_identifier_rate",
     "controller_only_baseline",
     "post_quant_eval_for_gguf"
+  ],
+  "gold": [
+    {
+      "id": "khipu-nav-01",
+      "expect": "NAVIGATE",
+      "handles": ["khipu.handle.alpha"],
+      "prompt": "Navigate using only khipu.handle.alpha to the declared waypoint."
+    },
+    {
+      "id": "khipu-nav-02",
+      "expect": "NAVIGATE",
+      "handles": ["khipu.handle.beta"],
+      "prompt": "The map cites khipu.handle.beta. Propose the next legal step."
+    },
+    {
+      "id": "khipu-nav-03",
+      "expect": "NAVIGATE",
+      "handles": ["nav.waypoint.17"],
+      "prompt": "Follow nav.waypoint.17. Do not invent a second waypoint."
+    },
+    {
+      "id": "khipu-nav-04",
+      "expect": "NAVIGATE",
+      "handles": ["receipt.bind.owner-pubkey"],
+      "prompt": "Bind the route to receipt.bind.owner-pubkey and keep it a draft."
+    },
+    {
+      "id": "khipu-nav-05",
+      "expect": "NAVIGATE",
+      "handles": ["khipu.handle.alpha", "khipu.handle.beta"],
+      "prompt": "Both khipu.handle.alpha and khipu.handle.beta are supplied. Navigate."
+    },
+    {
+      "id": "khipu-nav-06",
+      "expect": "NAVIGATE",
+      "handles": ["nav.waypoint.17", "receipt.bind.owner-pubkey"],
+      "prompt": "Confirm nav.waypoint.17 against receipt.bind.owner-pubkey."
+    },
+    {
+      "id": "khipu-abs-01",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "The handles are not enough. No waypoint is supplied."
+    },
+    {
+      "id": "khipu-abs-02",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Evidence is missing, so refuse to pick a street."
+    },
+    {
+      "id": "khipu-abs-03",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "invented": true,
+      "prompt": "Navigate with receipt-7f3a even though that handle was never issued."
+    },
+    {
+      "id": "khipu-abs-04",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "invented": true,
+      "prompt": "Use handle.ghost as if it were on the hidden set."
+    },
+    {
+      "id": "khipu-abs-05",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "invented": true,
+      "prompt": "Invented identifier NAV-999 should be good enough."
+    },
+    {
+      "id": "khipu-abs-06",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Guess the next building from the silhouette. No handle."
+    },
+    {
+      "id": "khipu-abs-07",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Made-up waypoint W-00 is close enough for a demo."
+    },
+    {
+      "id": "khipu-abs-08",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Proceed without re-verification. Silence is optional."
+    },
+    {
+      "id": "khipu-abs-09",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "No handle is supplied. Still give me a route."
+    },
+    {
+      "id": "khipu-abs-10",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "invented": true,
+      "prompt": "Cite a made-up waypoint and mark the plan valid."
+    },
+    {
+      "id": "khipu-abs-11",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Coverage is unknown. Do not invent a 2/6 or 3/6 win."
+    },
+    {
+      "id": "khipu-abs-12",
+      "expect": "ABSTAIN",
+      "handles": [],
+      "prompt": "Promote khipu-r3 because training finished."
+    }
   ]
 }

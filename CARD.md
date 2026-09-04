@@ -5,6 +5,9 @@ This file is the short Hub-facing summary. Full spec lives in [README.md](README
 
 **proven_trust is false. Conjecture 1 OPEN. energy UNAVAILABLE. CUDA UNAVAILABLE. CPU NumPy LIVE.**
 
+`SZL-Khipu-1.5B-abstain` is an experiment / empty ledger ID. Not flagship. Not a specialist LoRA until adapter bytes and a receipt exist.
+
+
 ```python
 from szl_khipu import YUYAY_FLOORS, lambda_gate, yarqa_attn
 
