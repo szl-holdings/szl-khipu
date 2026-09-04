@@ -1,19 +1,28 @@
 # Ñan silhouette lab
 
-This file is a pointer. The 19-cut Ñan lab (Draft through Huklla) was built in the Grok App Builder sandbox. It is **not** the Hugging Face Space catalog and it is **not** yet merged into `szl_khipu/`.
+Doctrine v11 LOCKED. Conjecture 1 OPEN. energy UNAVAILABLE. proven_trust false. djb2 silhouette ≠ SHA3. Never a fabricated joule.
 
-## Why you do not see it on HF / GitHub
+These original fail-close cuts now live in this repo on `main`:
 
-- Grok preview is a closed sandbox. It has no git remote and no Hugging Face token.
-- Canonical GitHub is [`szl-holdings/szl-khipu`](https://github.com/szl-holdings/szl-khipu). That tree still stops at the older kernels (yarqa, chaski, tilegrid, prefix, route). It does **not** contain Yawar / Wasi / Sami / Kancha / Rimay / Nina / Suyay / Huklla.
-- GitHub org slug is `szl-holdings` (hyphen). `github.com/SZLHoldings` 404s.
-- Hugging Face org is [`SZLHOLDINGS`](https://huggingface.co/SZLHOLDINGS). Models named SZL-Khipu-1.5B are weights. They are not this fail-close lab.
-- `khipu-lab` on GitHub is archived and points here.
+| cut | module | job |
+|---|---|---|
+| YawarWitness | `szl_khipu/yawar.py` | parent-digest lineage |
+| WasiWitness | `szl_khipu/wasi.py` | rooms named at seal |
+| SamiWitness | `szl_khipu/sami.py` | energy stays UNAVAILABLE |
+| KanchaWitness | `szl_khipu/kancha.py` | courtyard gates stay shut |
+| RimayWitness | `szl_khipu/rimay.py` | spoken tokens stay spoken |
+| NinaWitness | `szl_khipu/nina.py` | one spark, never a joule |
+| SuyayWitness | `szl_khipu/suyay.py` | promised tick arrives on seal |
+| HukllaWitness | `szl_khipu/huklla.py` | two receipts stay one pair |
 
-## What is live in the sandbox
+Run:
 
-19 djb2 silhouette cuts. Conjecture 1 OPEN. energy UNAVAILABLE. proven_trust false.
+```bash
+PYTHONPATH=. python -m unittest tests.test_nan_witness -q
+python -c "from szl_khipu import run_sami; print(run_sami(11))"
+```
 
-`python3 nan_lab.py --selftest` prints `OK 19`.
+Honest mode holds. `mode=1` fail-closes. Mint is blocked while broken.
 
-To land this on GitHub + HF: merge `nan_lab.py` and the new `szl_khipu/{yawar,wasi,sami,kancha,rimay,nina,suyay,huklla}.py` kernels into this repo, then sync the Space from GitHub. HF cannot be written from this Grok connector.
+Canonical GitHub: https://github.com/szl-holdings/szl-khipu
+Hugging Face Space sync is a separate publish step (no HF token from this sandbox).
