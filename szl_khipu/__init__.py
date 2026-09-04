@@ -4,6 +4,7 @@
 
 Lambda is advisory. proven_trust is False. Energy is MEASURED-NVML or UNAVAILABLE.
 This package hashes with SHA-256; production metal kernels use SHA3-256.
+Ñan silhouette cuts hash with djb2 and never stamp a joule.
 """
 
 from __future__ import annotations
@@ -68,6 +69,14 @@ from .bay import BAY_RAILS, evaluate_bay, run_bay
 from .greenlight import evaluate_greenlight, run_greenlight
 from .prefix import PREFIX_STEMS, longest_hit, run_prefix
 from .route import ROUTE_E, ROUTE_N, run_route
+from .yawar import YAWAR_N, run_yawar
+from .wasi import WASI_ROOMS, run_wasi
+from .sami import SAMI_STATUS, run_sami
+from .kancha import KANCHA_GATES, run_kancha
+from .rimay import RIMAY_WORDS, run_rimay
+from .nina import NINA_SPARKS, run_nina
+from .suyay import SUYAY_TICK, run_suyay
+from .huklla import run_huklla
 
 __version__ = "0.1.0"
 
@@ -225,4 +234,19 @@ __all__ = [
     "ROUTE_N",
     "ROUTE_E",
     "run_route",
+    "YAWAR_N",
+    "run_yawar",
+    "WASI_ROOMS",
+    "run_wasi",
+    "SAMI_STATUS",
+    "run_sami",
+    "KANCHA_GATES",
+    "run_kancha",
+    "RIMAY_WORDS",
+    "run_rimay",
+    "NINA_SPARKS",
+    "run_nina",
+    "SUYAY_TICK",
+    "run_suyay",
+    "run_huklla",
 ]
