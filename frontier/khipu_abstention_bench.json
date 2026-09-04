@@ -1,0 +1,26 @@
+{
+  "schema": "szl.khipu-abstention-bench/v1",
+  "lane": "L2",
+  "cluster": "C2",
+  "status": "NOT_RUN",
+  "promotion": "HOLD",
+  "winner": null,
+  "order": "https://github.com/szl-holdings/szl-hf-frontier/issues/9",
+  "note": "Expand beyond 2/6 and 3/6 research scores. Do not promote R3 merely because training finished. This file does not invent a coverage number.",
+  "family": [
+    {"hub_id": "SZLHOLDINGS/TinyKhipu-Nano", "role": "entrant"},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B", "role": "baseline"},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-GGUF", "role": "quant", "needs_own_eval": true},
+    {"hub_id": "SZLHOLDINGS/SZL-Khipu-1.5B-abstain", "role": "quarantined", "eligible": false},
+    {"hub_id": "SZLHOLDINGS/KHIPU-R2", "role": "research"},
+    {"hub_id": "SZLHOLDINGS/khipu-r3", "role": "research"},
+    {"hub_id": "SZLHOLDINGS/brain-navigator-r2", "role": "research"}
+  ],
+  "required_measurements": [
+    "hidden_handle_set_id",
+    "coverage_risk_curve",
+    "invented_identifier_rate",
+    "controller_only_baseline",
+    "post_quant_eval_for_gguf"
+  ]
+}
