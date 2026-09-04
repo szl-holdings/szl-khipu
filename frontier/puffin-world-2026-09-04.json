@@ -1,0 +1,28 @@
+{
+  "schema": "szl.frontier.binding.v1",
+  "evaluated_at": "2026-09-04T13:36:00Z",
+  "owner": "szl-khipu",
+  "candidate": {
+    "id": "puffin-world-2026-09-02",
+    "source": "https://huggingface.co/ACERobotics/Puffin-World",
+    "article": "https://huggingface.co/blog/KangLiao/puffin-world",
+    "role": "isolated spatial/world-model research adapter",
+    "status": "SANDBOX_ONLY",
+    "authority": "none",
+    "remote_code_default": false,
+    "production_connector": false,
+    "required_evidence": [
+      "checkpoint revision and digest",
+      "license review",
+      "container/CUDA fingerprint",
+      "pinned static-scene input set",
+      "camera/depth/multiview output artifacts",
+      "geometry and depth consistency metrics",
+      "latency and peak VRAM",
+      "failure/timeout behavior",
+      "receipt_sha256"
+    ],
+    "promotion_rule": "No production promotion from this binding; any future production proposal requires separate license, safety, correctness, operability, and rollback approval."
+  },
+  "production_promotion": false
+}
