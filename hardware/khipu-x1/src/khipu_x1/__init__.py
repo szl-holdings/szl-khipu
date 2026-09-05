@@ -31,6 +31,16 @@ from .rc1 import (
     issue_hmac_authorization,
 )
 from .receipt import ReceiptChain
+from .safetensors_inventory import (
+    ModelWeightInventory,
+    SafetensorsFileInventory,
+    SafetensorsInventoryError,
+    TensorInventory,
+    compare_inventory_to_spec,
+    inventory_local_model,
+    inventory_safetensors_file,
+    inventory_sharded_model,
+)
 from .simulator import ExecutionResult, KhipuExecutionError, KhipuSimulator, array_commitment
 from .source_lock import SourceLockError, load_source_lock, validate_source_lock
 from .transformer import (
@@ -74,14 +84,18 @@ __all__ = [
     "KhipuSimulator",
     "KhipuValidationError",
     "LoweringResult",
+    "ModelWeightInventory",
     "Opcode",
     "PackageReport",
     "QuantizationError",
     "RC1Emulator",
     "RC1Mode",
     "ReceiptChain",
+    "SafetensorsFileInventory",
+    "SafetensorsInventoryError",
     "SourceLockError",
     "TargetBudget",
+    "TensorInventory",
     "TransformerImportError",
     "TransformerReadinessReport",
     "TransformerSpec",
@@ -94,6 +108,7 @@ __all__ = [
     "assess_target_budget",
     "build_package",
     "build_projection_probe_graph",
+    "compare_inventory_to_spec",
     "decode_batch",
     "decode_descriptor",
     "dequantize_symmetric_int8",
@@ -101,6 +116,9 @@ __all__ = [
     "encode_batch",
     "encode_descriptor",
     "inspect_transformer_config",
+    "inventory_local_model",
+    "inventory_safetensors_file",
+    "inventory_sharded_model",
     "issue_hmac_authorization",
     "load_source_lock",
     "opcode_code",
