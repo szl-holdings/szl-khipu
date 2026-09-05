@@ -65,6 +65,22 @@ superiority, measured energy, FPGA execution or ASIC execution.
 - no framework tensor construction, dynamic model code, weight execution,
   quality judgment, license judgment or hardware-compatibility claim.
 
+### Wave 6 — deterministic decoder-block reference
+
+- bounded embedding lookup and learned RMSNorm;
+- pairwise rotary position embedding with explicit position and rotary-width
+  contracts;
+- numerically stable causal multi-head, grouped-query and multi-query attention;
+- YARQA causal attention with exactly zero cross-canal probability;
+- bounded incremental KV cache with fixed shape/capacity and optional canal
+  commitments;
+- Q/K/V and output projections, residual paths and SwiGLU gated MLP;
+- one deterministic pre-norm decoder block with an ordered SHA3 receipt;
+- conformance proving causal isolation, canal isolation, RoPE invariants,
+  incremental/full-sequence agreement and fail-closed invalid contracts;
+- no tokenizer, logits/sampling, arbitrary model loader, FPGA path, performance
+  claim or measured-energy claim.
+
 ## Quick start
 
 ```bash
@@ -93,8 +109,9 @@ RC1 status: **EMULATOR ONLY — no GPIO or physical actuation**.
 Package status: **integrity verifier only — not a model-quality or license claim**.  
 Wire ABI status: **software conformance only — no hardware parser exists**.  
 Quantization status: **software reference measurements on supplied tensors**.  
-Transformer status: **configuration inspection, not model conversion or execution**.  
-Safetensors status: **local non-executing byte validation, not model execution**.
+Transformer-config status: **offline configuration inspection only**.  
+Safetensors status: **local non-executing byte validation, not model execution**.  
+Decoder-block status: **deterministic NumPy software reference, not full-model inference**.
 
 ## Program boundary
 
@@ -103,10 +120,10 @@ ASIC tapeout is authorized by this directory.
 
 ## Next waves
 
-1. implement embedding, RoPE, Q/K/V, GQA/MQA attention, KV-cache, residual and
-   gated-MLP software-reference operations;
-2. add deterministic model-to-reference mapping from validated inventory and
-   caller-supplied architecture configuration;
+1. add deterministic mapping from validated safetensors inventory plus explicit
+   architecture configuration into the strict decoder reference;
+2. add final normalization, tied/untied LM head, bounded token sampling and a
+   tiny end-to-end model fixture without dynamic model code;
 3. select an FPGA target and freeze its memory/bandwidth/thermal contract;
 4. prototype the host runtime queue and RTL command parser;
 5. prove parser safety properties and run measured-device conformance.
