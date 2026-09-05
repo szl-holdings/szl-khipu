@@ -172,7 +172,7 @@ class LayerKVSnapshot:
         cache = KVCache(
             batch_size=k.shape[0],
             kv_heads=k.shape[1],
-            max_sequence=max_sequence,
+            max_sequence=min(max_sequence, self.length + 1),
             head_dim=k.shape[3],
         )
         cache.append(k, np.asarray(self.v), canal_ids=self.canal_ids)
@@ -319,7 +319,7 @@ def _run_layers(
                 cache = KVCache(
                     batch_size=hidden.shape[0],
                     kv_heads=spec.num_key_value_heads,
-                    max_sequence=spec.max_position_embeddings,
+                    max_sequence=hidden.shape[1],
                     head_dim=spec.head_dim,
                 )
             else:

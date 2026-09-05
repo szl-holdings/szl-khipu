@@ -20,7 +20,7 @@ from khipu_x1.transformer import TransformerSpec
 from khipu_x1.transformer_reference import DecoderBlockWeights
 
 
-def _spec(*, layers: int = 2) -> TransformerSpec:
+def _spec(*, layers: int = 2, max_sequence: int = 16) -> TransformerSpec:
     return TransformerSpec.from_hf_config(
         {
             "model_type": "qwen2",
@@ -31,7 +31,7 @@ def _spec(*, layers: int = 2) -> TransformerSpec:
             "num_hidden_layers": layers,
             "num_attention_heads": 4,
             "num_key_value_heads": 2,
-            "max_position_embeddings": 16,
+            "max_position_embeddings": max_sequence,
             "rms_norm_eps": 1e-6,
             "rope_theta": 10000.0,
             "hidden_act": "silu",
@@ -262,3 +262,39 @@ def test_step_canal_capacity_and_generation_contracts_fail_closed() -> None:
             spec,
             max_new_tokens=1,
         )
+
+
+@pytest.mark.parametrize("mode", ["causal", "yarqa"])
+def test_long_context_allocates_only_active_sequence(
+    monkeypatch: pytest.MonkeyPatch, mode: str,
+) -> None:
+    import khipu_x1.causal_lm_kv as runtime
+
+    spec = _spec(layers=1, max_sequence=1_000_000)
+    weights = _weights(spec)
+    original_cache = runtime.KVCache
+    capacities: list[int] = []
+
+    def bounded_cache(**kwargs: int):
+        capacity = kwargs["max_sequence"]
+        assert capacity <= 4, "short prompts must not allocate model-limit storage"
+        capacities.append(capacity)
+        return original_cache(**kwargs)
+
+    monkeypatch.setattr(runtime, "KVCache", bounded_cache)
+    prefill = prefill_causal_lm(
+        np.array([[1, 2, 3]], dtype=np.int64),
+        weights,
+        spec,
+        attention_mode=mode,
+        canal_ids=np.array([0, 1, 0], dtype=np.int64) if mode == "yarqa" else None,
+    )
+    step = decode_causal_lm_step(
+        np.array([[4]], dtype=np.int64), prefill.state, weights, spec,
+        canal_id=0 if mode == "yarqa" else None,
+    )
+    assert capacities == [3, 4]
+    assert prefill.state.sequence_length == 3
+    assert step.state.sequence_length == 4
+    assert step.state.max_sequence == spec.max_position_embeddings
+    assert step.state.receipt_chain.verify()[0]

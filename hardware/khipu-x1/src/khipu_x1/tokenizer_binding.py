@@ -47,6 +47,8 @@ _SPECIAL_TOKEN_NAMES = (
     "additional_special_tokens",
 )
 
+_MAX_CAPTURE_BYTES = 16 * 1024 * 1024
+
 
 @dataclass(frozen=True)
 class TokenizerArtifact:
@@ -180,17 +182,23 @@ def _hash_file(path: Path, *, max_file_bytes: int) -> tuple[int, str, bytes | No
         raise TokenizerBindingError(f"tokenizer artifact exceeds byte bound: {path.name}")
     identity = _identity(before)
     digest = hashlib.sha256()
-    capture = bytearray() if before.st_size <= 16 * 1024 * 1024 else None
+    capture = bytearray() if before.st_size <= _MAX_CAPTURE_BYTES else None
+    bytes_read = 0
     with path.open("rb") as handle:
+        if _identity(os.fstat(handle.fileno())) != identity:
+            raise TokenizerBindingError(f"tokenizer artifact changed before hashing: {path.name}")
         while True:
-            block = handle.read(1024 * 1024)
+            block = handle.read(min(1024 * 1024, max_file_bytes - bytes_read + 1))
             if not block:
                 break
+            bytes_read += len(block)
+            if bytes_read > max_file_bytes:
+                raise TokenizerBindingError(f"tokenizer artifact exceeds byte bound: {path.name}")
             digest.update(block)
             if capture is not None:
                 capture.extend(block)
         after = os.fstat(handle.fileno())
-    if _identity(after) != identity:
+    if _identity(after) != identity or bytes_read != before.st_size:
         raise TokenizerBindingError(f"tokenizer artifact changed while hashing: {path.name}")
     return before.st_size, digest.hexdigest(), bytes(capture) if capture is not None else None
 
@@ -331,7 +339,18 @@ def bind_tokenizer_artifacts(
         if not candidate.exists() and not candidate.is_symlink():
             continue
         path = _safe_file(resolved, name)
-        size, digest, raw = _hash_file(path, max_file_bytes=file_bound)
+        remaining = total_bound - total
+        size_before = path.stat().st_size
+        if size_before > remaining:
+            raise TokenizerBindingError("tokenizer artifacts exceed total byte bound")
+        effective_file_bound = min(file_bound, remaining)
+        if name == "chat_template.jinja":
+            if size_before > _MAX_CAPTURE_BYTES:
+                raise TokenizerBindingError(
+                    "chat_template.jinja exceeds the chat-template parsing ceiling"
+                )
+            effective_file_bound = min(effective_file_bound, _MAX_CAPTURE_BYTES)
+        size, digest, raw = _hash_file(path, max_file_bytes=effective_file_bound)
         total += size
         if total > total_bound:
             raise TokenizerBindingError("tokenizer artifacts exceed total byte bound")

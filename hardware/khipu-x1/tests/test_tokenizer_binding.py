@@ -140,3 +140,54 @@ def test_special_token_id_must_be_non_negative_integer(tmp_path: Path) -> None:
     )
     with pytest.raises(TokenizerBindingError, match="non-negative integer"):
         bind_tokenizer_artifacts(tmp_path)
+
+
+@pytest.mark.parametrize("total_bound,expected_hashed", [(1, []), (6, ["vocab.json"])])
+def test_aggregate_limit_is_enforced_before_hashing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+    total_bound: int, expected_hashed: list[str],
+) -> None:
+    import khipu_x1.tokenizer_binding as binder
+
+    (tmp_path / "vocab.json").write_bytes(b"{}")
+    (tmp_path / "merges.txt").write_bytes(b"abcde")
+    hashed: list[str] = []
+    original_hash = binder._hash_file
+
+    def record_hash(path: Path, *, max_file_bytes: int):
+        hashed.append(path.name)
+        return original_hash(path, max_file_bytes=max_file_bytes)
+
+    monkeypatch.setattr(binder, "_hash_file", record_hash)
+    with pytest.raises(TokenizerBindingError, match="total byte bound"):
+        bind_tokenizer_artifacts(tmp_path, max_total_bytes=total_bound)
+    assert hashed == expected_hashed
+
+
+def test_standalone_template_above_capture_limit_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import khipu_x1.tokenizer_binding as binder
+
+    monkeypatch.setattr(binder, "_MAX_CAPTURE_BYTES", 8)
+    (tmp_path / "vocab.json").write_bytes(b"{}")
+    (tmp_path / "chat_template.jinja").write_bytes(b"123456789")
+    with pytest.raises(TokenizerBindingError, match="chat-template parsing ceiling"):
+        bind_tokenizer_artifacts(tmp_path)
+
+
+def test_standalone_template_at_capture_limit_is_bound_and_utf8_checked(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import khipu_x1.tokenizer_binding as binder
+
+    monkeypatch.setattr(binder, "_MAX_CAPTURE_BYTES", 8)
+    (tmp_path / "vocab.json").write_bytes(b"{}")
+    template = tmp_path / "chat_template.jinja"
+    template.write_bytes(b"12345678")
+    binding = bind_tokenizer_artifacts(tmp_path)
+    assert len(binding.chat_templates) == 1
+    assert binding.chat_templates[0].byte_count == 8
+    template.write_bytes(b"1234567\xff")
+    with pytest.raises(TokenizerBindingError, match="not UTF-8"):
+        bind_tokenizer_artifacts(tmp_path)
