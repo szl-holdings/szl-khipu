@@ -82,6 +82,7 @@ def test_transformer_config_estimates_and_blocks_missing_ops() -> None:
     config = tiny_config()
     spec = TransformerSpec.from_hf_config(config)
     # embedding 256 + 2 * (attention 192 + MLP 384 + norms 16) + final norm 8
+    assert spec.hidden_act == "silu"
     assert spec.parameter_estimate == 1448
     assert spec.ideal_weight_bytes(8) == 1448
     assert spec.kv_cache_bytes(context_tokens=16, bytes_per_element=2) == 512
