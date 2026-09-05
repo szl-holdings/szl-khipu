@@ -1,0 +1,33 @@
+name: KHIPU-X1 reference
+
+on:
+  pull_request:
+    paths:
+      - "hardware/khipu-x1/**"
+      - ".github/workflows/khipu-x1-reference.yml"
+  push:
+    branches: [main]
+    paths:
+      - "hardware/khipu-x1/**"
+      - ".github/workflows/khipu-x1-reference.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hardware/khipu-x1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: hardware/khipu-x1/pyproject.toml
+      - name: Install reference package
+        run: python -m pip install -e ".[dev]"
+      - name: Run KIDS v0.1 conformance
+        run: pytest -q
