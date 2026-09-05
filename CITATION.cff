@@ -1,0 +1,15 @@
+# CITATION.cff — szl-holdings/szl-khipu
+# Covers the Khipu family: SZL-Khipu-1.5B, KHIPU-R2, khipu-r3,
+# brain-navigator-r2, SZL-Khipu-1.5B-abstain and szl-khipu-kernels.
+# Mint step: enable the GitHub-Zenodo integration on this repo to mint a
+# concept DOI on the next release, then add `doi:` below.
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "SZL-Khipu — grounded-only brain-navigator models and kernels"
+authors:
+  - family-names: Lutar
+    given-names: Stephen Paul
+license: Apache-2.0
+url: "https://huggingface.co/SZLHOLDINGS/SZL-Khipu-1.5B"
+repository-code: "https://github.com/szl-holdings/szl-khipu"
