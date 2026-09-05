@@ -6,7 +6,6 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-
 from khipu_x1.causal_lm_mapping import (
     CausalLMMappingError,
     CausalLMTensorNames,
@@ -23,26 +22,28 @@ from khipu_x1.safetensors_mapping import DecoderLayerTensorNames
 from khipu_x1.transformer import TransformerSpec
 
 
-def _spec(*, tied: bool = False, layers: int = 2) -> TransformerSpec:
-    return TransformerSpec.from_hf_config(
-        {
-            "model_type": "qwen2",
-            "architectures": ["Qwen2ForCausalLM"],
-            "vocab_size": 16,
-            "hidden_size": 8,
-            "intermediate_size": 12,
-            "num_hidden_layers": layers,
-            "num_attention_heads": 4,
-            "num_key_value_heads": 2,
-            "max_position_embeddings": 16,
-            "rms_norm_eps": 1e-6,
-            "rope_theta": 10000.0,
-            "hidden_act": "silu",
-            "tie_word_embeddings": tied,
-            "attention_bias": False,
-            "mlp_bias": False,
-        }
-    )
+def _spec(
+    *, tied: bool = False, layers: int = 2, hidden_act: str | None = "silu"
+) -> TransformerSpec:
+    config = {
+        "model_type": "qwen2",
+        "architectures": ["Qwen2ForCausalLM"],
+        "vocab_size": 16,
+        "hidden_size": 8,
+        "intermediate_size": 12,
+        "num_hidden_layers": layers,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 16,
+        "rms_norm_eps": 1e-6,
+        "rope_theta": 10000.0,
+        "tie_word_embeddings": tied,
+        "attention_bias": False,
+        "mlp_bias": False,
+    }
+    if hidden_act is not None:
+        config["hidden_act"] = hidden_act
+    return TransformerSpec.from_hf_config(config)
 
 
 def _arrays(spec: TransformerSpec) -> dict[str, np.ndarray]:
@@ -103,8 +104,12 @@ def _mapped(tmp_path: Path, spec: TransformerSpec):
     return map_causal_lm(tmp_path, inventory, spec)
 
 
-def test_complete_untied_model_maps_runs_and_generates(tmp_path: Path) -> None:
-    spec = _spec(tied=False)
+@pytest.mark.parametrize("hidden_act", [None, "silu", "SiLU", "swiglu", "SwiGLU"])
+def test_complete_untied_model_maps_runs_and_generates(
+    tmp_path: Path, hidden_act: str | None
+) -> None:
+    spec = _spec(tied=False, hidden_act=hidden_act)
+    assert spec.hidden_act == (hidden_act or "silu").lower()
     mapped = _mapped(tmp_path, spec)
 
     assert len(mapped.weights.layers) == 2
@@ -135,6 +140,39 @@ def test_complete_untied_model_maps_runs_and_generates(tmp_path: Path) -> None:
     assert generated.generated_token_ids.shape == (1, 2)
     assert generated.receipt_chain.verify()[0]
     assert generated.energy_j is None
+
+
+@pytest.mark.parametrize("hidden_act", ["gelu", "relu", "tanh"])
+def test_unsupported_activation_rejected_before_mapping(
+    tmp_path: Path, hidden_act: str
+) -> None:
+    spec = _spec(layers=1, hidden_act=hidden_act)
+    _write_safetensors(tmp_path / "model.safetensors", _arrays(spec))
+    inventory = inventory_local_model(tmp_path, hash_files=True, hash_tensors=True)
+
+    with pytest.raises(
+        CausalLMMappingError, match=f"unsupported hidden activation: {hidden_act}"
+    ):
+        map_causal_lm(tmp_path / "not-present", inventory, spec)
+
+
+@pytest.mark.parametrize("hidden_act", ["gelu", "relu", "tanh"])
+def test_unsupported_activation_rejected_by_forward_and_generation(
+    tmp_path: Path, hidden_act: str
+) -> None:
+    supported = _spec(layers=1)
+    mapped = _mapped(tmp_path, supported)
+    unsupported = _spec(layers=1, hidden_act=hidden_act)
+    prompt = np.array([[1, 2]], dtype=np.int64)
+
+    with pytest.raises(
+        CausalLMReferenceError, match=f"unsupported hidden activation: {hidden_act}"
+    ):
+        run_causal_lm(prompt, mapped.weights, unsupported)
+    with pytest.raises(
+        CausalLMReferenceError, match=f"unsupported hidden activation: {hidden_act}"
+    ):
+        greedy_generate(prompt, mapped.weights, unsupported, max_new_tokens=1)
 
 
 def test_tied_model_derives_exact_lm_head_without_separate_tensor(tmp_path: Path) -> None:
