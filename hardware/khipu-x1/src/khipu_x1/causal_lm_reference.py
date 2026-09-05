@@ -88,9 +88,9 @@ class CausalLMWeights:
             raise CausalLMReferenceError(
                 "bias-bearing causal-LM references are not implemented"
             )
-        if spec.hidden_activation.lower() not in {"silu", "swiglu"}:
+        if spec.hidden_act.lower() not in {"silu", "swiglu"}:
             raise CausalLMReferenceError(
-                f"unsupported hidden activation: {spec.hidden_activation}"
+                f"unsupported hidden activation: {spec.hidden_act}"
             )
         embedding = _finite_float32(self.embedding, name="weights.embedding")
         final_norm = _finite_float32(self.final_norm, name="weights.final_norm")

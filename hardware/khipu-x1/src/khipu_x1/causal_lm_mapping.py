@@ -286,9 +286,9 @@ def map_causal_lm(
         raise CausalLMMappingError(
             "bias-bearing model mapping is not implemented"
         )
-    if spec.hidden_activation.lower() not in {"silu", "swiglu"}:
+    if spec.hidden_act.lower() not in {"silu", "swiglu"}:
         raise CausalLMMappingError(
-            f"unsupported hidden activation: {spec.hidden_activation}"
+            f"unsupported hidden activation: {spec.hidden_act}"
         )
     if attention_mode not in {"causal", "yarqa"}:
         raise CausalLMMappingError("attention_mode must be causal or yarqa")
