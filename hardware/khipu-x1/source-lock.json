@@ -1,0 +1,74 @@
+{
+  "schema": "khipu-x1-source-lock/v0.1",
+  "observed_at": "2026-09-05T01:27:08Z",
+  "hardware_status": "UNAVAILABLE",
+  "purpose": "Exact source observations for KHIPU-X1 software-reference design inputs; not a claim of code equivalence or hardware readiness.",
+  "repositories": [
+    {
+      "repository": "szl-holdings/a11oy",
+      "commit": "9fbae997b48db45a9e890f79692e94acf14425a3",
+      "role": "control-plane",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/lutar-lean",
+      "commit": "3d3dfdbbb8e08d67b48ab06ce742a39662212f57",
+      "role": "formal-proof",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-block-kv",
+      "commit": "1570fcc9000899ceb1bd136fa6f3c8988c42f998",
+      "role": "kv-reference",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-energy-attest",
+      "commit": "f0f4d5f556826d68ce8bf30b3c5cfd7df8f4dad3",
+      "role": "energy-reference",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-forge",
+      "commit": "d07ede8aece1e2f5cc9493a4d3651a3953ac695c",
+      "role": "training-publication",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-govsign",
+      "commit": "fde27bfb7f31bf5ec0a9dcbafb30547ce33dec2b",
+      "role": "signing-reference",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-kernels",
+      "commit": "5e2cb4dbc7c2365f13c535816215c571b174027b",
+      "role": "kernel-suite",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-khipu",
+      "commit": "15c68c399102864cc6efcb85e351a6989cce4b4a",
+      "role": "control-plane",
+      "claim": "SOURCE_OF_TRUTH"
+    },
+    {
+      "repository": "szl-holdings/szl-maskmod",
+      "commit": "491ee549031b2d971a616f4d4da75275f16ee3b7",
+      "role": "mask-reference",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-provctl",
+      "commit": "d6fe825baa549dff50d6404b861d1016138538b5",
+      "role": "provenance-reference",
+      "claim": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-receipt-attn",
+      "commit": "2aaaf29a85961b5a6dd4d80492646ebefffbccb7",
+      "role": "attention-reference",
+      "claim": "REFERENCE_ONLY"
+    }
+  ]
+}
