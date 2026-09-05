@@ -36,6 +36,19 @@ superiority, measured energy, FPGA execution or ASIC execution.
 - strict rejection of tampering, reserved bits, alias ambiguity, reordering and
   logical fields that cannot be represented without loss.
 
+### Wave 4 — quantization and transformer readiness
+
+- deterministic symmetric INT8 quantization, per tensor or per declared axis;
+- exact source/value/scale commitments and measured reconstruction error;
+- strict offline inspection of caller-supplied Hugging Face-style configs;
+- analytic parameter, ideal weight-memory and KV-cache estimates;
+- explicit required/implemented/missing operation report for causal or YARQA
+  attention;
+- target memory/bandwidth worksheet labeled as operator/datasheet input, not a
+  measured accelerator result;
+- fail-closed full-model status while embedding, RoPE, attention, KV, residual,
+  gated-MLP and hardware receipt operations remain missing.
+
 ## Quick start
 
 ```bash
@@ -45,7 +58,6 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python -m pip install -e ".[dev]"
 pytest -q
-python tools/generate_wire_golden.py --check
 ```
 
 ## Truth labels
@@ -60,7 +72,9 @@ python tools/generate_wire_golden.py --check
 Current hardware status: **UNAVAILABLE — target FPGA not selected**.  
 RC1 status: **EMULATOR ONLY — no GPIO or physical actuation**.  
 Package status: **integrity verifier only — not a model-quality or license claim**.  
-Wire ABI status: **software conformance only — no hardware parser exists**.
+Wire ABI status: **software conformance only — no hardware parser exists**.  
+Quantization status: **software reference measurements on supplied tensors**.  
+Transformer status: **configuration inspection, not model conversion or execution**.
 
 ## Program boundary
 
@@ -69,8 +83,8 @@ ASIC tapeout is authorized by this directory.
 
 ## Next waves
 
-1. quantization/calibration and transformer graph importer;
-2. FPGA target selection, memory/bandwidth budget and RTL partition;
-3. host driver/runtime queue prototype;
-4. RTL parser simulation and formal safety properties;
-5. measured-device conformance against the checked golden vectors.
+1. implement RoPE, attention, KV-cache, residual and gated-MLP reference ops;
+2. add bounded safetensors inventory/import without dynamic model code;
+3. select an FPGA target and freeze its memory/bandwidth/thermal contract;
+4. prototype the host runtime queue and RTL command parser;
+5. prove parser safety properties and run measured-device conformance.
