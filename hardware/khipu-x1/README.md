@@ -58,6 +58,7 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python -m pip install -e ".[dev]"
 pytest -q
+python tools/generate_wire_golden.py --check
 ```
 
 ## Truth labels
