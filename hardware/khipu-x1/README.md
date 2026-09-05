@@ -26,6 +26,16 @@ superiority, measured energy, FPGA execution or ASIC execution.
 - adversarial tests for package traversal/duplicates, signature tampering,
   replay, non-ACT mode and unavailable physical actuation.
 
+### Wave 3 — hardware-facing wire ABI
+
+- fixed 192-byte little-endian KIDS-BIN command descriptor;
+- fixed 128-byte batch header with per-descriptor, body and header digests;
+- stable numeric opcode registry and explicit reserved fields;
+- numeric buffer handles only — no host pointers or physical addresses;
+- deterministic positive and negative golden vectors;
+- strict rejection of tampering, reserved bits, alias ambiguity, reordering and
+  logical fields that cannot be represented without loss.
+
 ## Quick start
 
 ```bash
@@ -35,6 +45,7 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python -m pip install -e ".[dev]"
 pytest -q
+python tools/generate_wire_golden.py --check
 ```
 
 ## Truth labels
@@ -48,7 +59,8 @@ pytest -q
 
 Current hardware status: **UNAVAILABLE — target FPGA not selected**.  
 RC1 status: **EMULATOR ONLY — no GPIO or physical actuation**.  
-Package status: **integrity verifier only — not a model-quality or license claim**.
+Package status: **integrity verifier only — not a model-quality or license claim**.  
+Wire ABI status: **software conformance only — no hardware parser exists**.
 
 ## Program boundary
 
@@ -57,8 +69,8 @@ ASIC tapeout is authorized by this directory.
 
 ## Next waves
 
-1. binary KIDS ABI and golden byte vectors;
-2. quantization/calibration and transformer graph importer;
-3. FPGA target selection, memory/bandwidth budget and RTL partition;
-4. host driver/runtime queue prototype;
-5. RTL simulation, formal properties and measured-device conformance.
+1. quantization/calibration and transformer graph importer;
+2. FPGA target selection, memory/bandwidth budget and RTL partition;
+3. host driver/runtime queue prototype;
+4. RTL parser simulation and formal safety properties;
+5. measured-device conformance against the checked golden vectors.
