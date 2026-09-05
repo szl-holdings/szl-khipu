@@ -411,7 +411,13 @@ def inventory_local_model(
 ) -> ModelWeightInventory:
     """Inventory canonical single-file or indexed local model weights."""
 
-    root = Path(model_root).resolve(strict=True)
+    supplied_root = Path(model_root)
+    if supplied_root.is_symlink():
+        raise SafetensorsInventoryError("symbolic-link model roots are forbidden")
+    try:
+        root = supplied_root.resolve(strict=True)
+    except OSError as exc:
+        raise SafetensorsInventoryError("model_root is unavailable") from exc
     if not root.is_dir():
         raise SafetensorsInventoryError(
             "model_root must be a local directory"

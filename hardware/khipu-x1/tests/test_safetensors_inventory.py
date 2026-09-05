@@ -162,3 +162,46 @@ def test_ambiguous_root_is_rejected(tmp_path: Path) -> None:
     )
     with pytest.raises(SafetensorsInventoryError, match="ambiguous"):
         inventory_local_model(tmp_path)
+
+
+def test_symlinked_model_root_is_rejected(tmp_path: Path) -> None:
+    real = tmp_path / "real-model"
+    real.mkdir()
+    _write_safetensors(
+        real / "model.safetensors",
+        [("a", "I8", (1,), b"\x00")],
+    )
+    alias = tmp_path / "model-alias"
+    try:
+        alias.symlink_to(real, target_is_directory=True)
+    except (OSError, NotImplementedError) as exc:
+        pytest.skip(f"symlinks unavailable on this platform: {exc}")
+
+    with pytest.raises(SafetensorsInventoryError, match="model roots"):
+        inventory_local_model(alias)
+
+
+def test_symlinked_shard_directory_component_is_rejected(tmp_path: Path) -> None:
+    real = tmp_path / "real-shards"
+    real.mkdir()
+    _write_safetensors(
+        real / "part.safetensors",
+        [("a", "I8", (1,), b"\x00")],
+    )
+    alias = tmp_path / "shards"
+    try:
+        alias.symlink_to(real, target_is_directory=True)
+    except (OSError, NotImplementedError) as exc:
+        pytest.skip(f"symlinks unavailable on this platform: {exc}")
+    (tmp_path / "model.safetensors.index.json").write_text(
+        json.dumps(
+            {
+                "metadata": {"total_size": 1},
+                "weight_map": {"a": "shards/part.safetensors"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SafetensorsInventoryError, match="shard component"):
+        inventory_local_model(tmp_path)
