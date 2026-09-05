@@ -130,11 +130,13 @@ def safe_shard_path(root: Path, relative: str) -> Path:
         for part in pure.parts
     ):
         raise SafetensorsInventoryError(f"unsafe shard path: {relative!r}")
-    candidate = root.joinpath(*pure.parts)
-    if candidate.is_symlink():
-        raise SafetensorsInventoryError(
-            f"symbolic-link shard is forbidden: {relative}"
-        )
+    candidate = root
+    for part in pure.parts:
+        candidate = candidate / part
+        if candidate.is_symlink():
+            raise SafetensorsInventoryError(
+                f"symbolic-link shard component is forbidden: {relative}"
+            )
     resolved_root = root.resolve(strict=True)
     try:
         resolved = candidate.resolve(strict=True)
