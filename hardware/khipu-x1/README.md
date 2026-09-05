@@ -1,19 +1,30 @@
 # KHIPU-X1
 
-**FPGA-first governed LLM accelerator reference.**
+**FPGA-first governed LLM accelerator software reference.**
 
-This directory is a software reference and future hardware workspace. It is not a fabricated chip and does not claim performance superiority.
+This directory is the software truth surface and future hardware workspace for
+KHIPU-X1. It is not a fabricated chip and does not claim performance
+superiority, measured energy, FPGA execution or ASIC execution.
 
-Wave 1 implements:
+## Implemented
 
-- KIDS v0.1 logical descriptor draft;
+### Wave 1 — execution reference
+
+- KIDS v0.1 logical descriptors;
 - deterministic NumPy simulator;
 - INT8 GEMM, RMSNorm and SHA3 commitments;
-- ordered execution-receipt chains;
-- explicit fail-closed handling for replay, reserved operations and abort;
-- conformance tests.
+- ordered SHA3-256 execution-receipt chains;
+- fail-closed replay, reserved-opcode and abort handling;
+- explicit rejection of false `fpga` / `asic` execution paths.
 
-Current hardware status: **UNAVAILABLE — target FPGA not selected**.
+### Wave 2 — software control plane
+
+- deterministic graph IR and shape/dtype checked lowering to KIDS descriptors;
+- safe deterministic `.khipu` package builder/verifier with no extraction;
+- RC1 one-shot authorization-boundary emulator;
+- exact cross-repository source lock for the observed design inputs;
+- adversarial tests for package traversal/duplicates, signature tampering,
+  replay, non-ACT mode and unavailable physical actuation.
 
 ## Quick start
 
@@ -30,18 +41,24 @@ pytest -q
 
 - `SCAFFOLDED`: interface or design document exists.
 - `SOFTWARE_EMULATED`: reference code executed on CPU.
-- `FPGA_MEASURED`: allowed only after an exact device and bitstream are tested.
+- `PACKAGE_VERIFIED_ONLY`: container commitments verified; model not executed.
+- `FPGA_MEASURED`: permitted only after exact device/bitstream testing.
 - `BLOCKED`: attempted path was refused with evidence.
 - `UNAVAILABLE`: capability does not exist or was not measured.
 
+Current hardware status: **UNAVAILABLE — target FPGA not selected**.  
+RC1 status: **EMULATOR ONLY — no GPIO or physical actuation**.  
+Package status: **integrity verifier only — not a model-quality or license claim**.
+
 ## Program boundary
 
-This is for one owner prototype. No production tooling, mass-production order or ASIC tapeout is authorized by this directory.
+This is for one owner prototype. No production tooling, mass-production order or
+ASIC tapeout is authorized by this directory.
 
 ## Next waves
 
-1. compiler/reference graph lowering;
-2. safe `.khipu` package format;
-3. RC1 authorization emulator and firmware contract;
-4. FPGA target selection and binary KIDS ABI;
-5. RTL, driver and measured-device conformance.
+1. binary KIDS ABI and golden byte vectors;
+2. quantization/calibration and transformer graph importer;
+3. FPGA target selection, memory/bandwidth budget and RTL partition;
+4. host driver/runtime queue prototype;
+5. RTL simulation, formal properties and measured-device conformance.
