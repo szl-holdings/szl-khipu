@@ -68,3 +68,5 @@ jobs:
             .github/workflows/_harden_safetensors_symlink_boundary_once.yml
           git commit -s -m 'fix(khipu-x1): reject symlinked inventory roots and shard paths'
           git push origin HEAD:build/khipu-x1-wave5-safetensors-inventory
+
+# Activation: normalized EOF rerun.
