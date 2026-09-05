@@ -27,6 +27,11 @@ The mapper requires all of the following:
 
 Any missing or inconsistent input fails closed.
 
+The offline configuration contract preserves the activation as the bounded
+`TransformerSpec.hidden_act` field. An absent source field defaults to `silu`;
+an invalid identifier or an activation outside the Wave 7 dense-reference
+allowlist is rejected rather than inferred from tensor names.
+
 ## Supported source dtypes
 
 - `F32`
