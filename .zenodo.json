@@ -1,0 +1,13 @@
+{
+  "title": "SZL-Khipu — grounded-only brain-navigator models and kernels",
+  "upload_type": "software",
+  "description": "Live Python kernels and tiny trained silhouettes: SZL-Khipu-1.5B, KHIPU-R2, khipu-r3, brain-navigator-r2, SZL-Khipu-1.5B-abstain, szl-khipu-kernels (yarqa / lambda-gate lanes). Knot the run, hash the proof, fail closed. Λ = Conjecture 1 OPEN. Doctrine v11 LOCKED.",
+  "creators": [{"name": "Lutar, Stephen P., Jr."}],
+  "license": {"id": "Apache-2.0"},
+  "keywords": ["governed-ai", "khipu", "lambda-gate", "receipts", "doctrine-v11", "szl-holdings"],
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.19944926", "relation": "isSupplementTo", "scheme": "doi"},
+    {"identifier": "https://huggingface.co/SZLHOLDINGS/SZL-Khipu-1.5B", "relation": "isDocumentedBy", "scheme": "url"}
+  ],
+  "notes": "NEW work (not a version of any existing SZL record) per the szl-papers deposit policy. Minted via GitHub release after enabling this repository in the owner's Zenodo account."
+}
