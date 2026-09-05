@@ -102,7 +102,7 @@ def test_symlinked_shard_directory_component_is_rejected(tmp_path: Path) -> None
     with pytest.raises(SafetensorsInventoryError, match="shard component"):
         inventory_local_model(tmp_path)
 '''
-    tests.write_text(text.rstrip() + addition + "\n", encoding="utf-8")
+    tests.write_text(text.rstrip() + addition.rstrip() + "\n", encoding="utf-8")
     return 0
 
 
