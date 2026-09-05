@@ -1,0 +1,147 @@
+name: Apply KHIPU-X1 Wave 7 activation contract v1
+
+on:
+  push:
+    branches:
+      - build/khipu-x1-wave7-safe-weight-mapping
+    paths:
+      - .github/workflows/apply-khipu-wave7-activation-contract-v1.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-khipu-wave7-activation-contract-v1
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    name: Repair schema field and prove full reference suite
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+
+      - name: Check out exact Wave 7 branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: build/khipu-x1-wave7-safe-weight-mapping
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: hardware/khipu-x1/pyproject.toml
+
+      - name: Materialize the bounded activation field
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          transformer = Path("hardware/khipu-x1/src/khipu_x1/transformer.py")
+          text = transformer.read_text(encoding="utf-8")
+
+          def replace_once(source: str, old: str, new: str, label: str) -> str:
+              count = source.count(old)
+              if count != 1:
+                  raise SystemExit(f"{label}: expected one match, found {count}")
+              return source.replace(old, new, 1)
+
+          text = replace_once(
+              text,
+              "    mlp_bias: bool\n    architectures: tuple[str, ...]\n",
+              "    mlp_bias: bool\n    hidden_act: str\n    architectures: tuple[str, ...]\n",
+              "TransformerSpec field",
+          )
+          text = replace_once(
+              text,
+              "        mlp_bias = _bool(config, \"mlp_bias\", False)\n\n        architectures_raw",
+              "        mlp_bias = _bool(config, \"mlp_bias\", False)\n\n"
+              "        hidden_act_raw = config.get(\"hidden_act\", \"silu\")\n"
+              "        if (\n"
+              "            not isinstance(hidden_act_raw, str)\n"
+              "            or not _MODEL_TYPE.fullmatch(hidden_act_raw)\n"
+              "        ):\n"
+              "            raise TransformerImportError(\n"
+              "                \"hidden_act must be a bounded identifier\"\n"
+              "            )\n"
+              "        hidden_act = hidden_act_raw.lower()\n\n"
+              "        architectures_raw",
+              "hidden_act parser",
+          )
+          text = replace_once(
+              text,
+              "            mlp_bias=mlp_bias,\n            architectures=tuple(architectures_raw),\n",
+              "            mlp_bias=mlp_bias,\n            hidden_act=hidden_act,\n            architectures=tuple(architectures_raw),\n",
+              "TransformerSpec constructor",
+          )
+          text = replace_once(
+              text,
+              "            \"mlp_bias\": self.mlp_bias,\n            \"source_config_digest\": self.source_config_digest,\n",
+              "            \"mlp_bias\": self.mlp_bias,\n            \"hidden_act\": self.hidden_act,\n            \"source_config_digest\": self.source_config_digest,\n",
+              "TransformerSpec serialization",
+          )
+          transformer.write_text(text, encoding="utf-8")
+
+          mapping = Path("hardware/khipu-x1/src/khipu_x1/safetensors_mapping.py")
+          text = mapping.read_text(encoding="utf-8")
+          if text.count("spec.hidden_activation") != 2:
+              raise SystemExit(
+                  "mapper: expected exactly two stale hidden_activation references"
+              )
+          mapping.write_text(
+              text.replace("spec.hidden_activation", "spec.hidden_act"),
+              encoding="utf-8",
+          )
+
+          tests = Path("hardware/khipu-x1/tests/test_quant_transformer.py")
+          text = tests.read_text(encoding="utf-8")
+          text = replace_once(
+              text,
+              "    assert spec.parameter_estimate == 1448\n",
+              "    assert spec.hidden_act == \"silu\"\n"
+              "    assert spec.parameter_estimate == 1448\n",
+              "default activation regression",
+          )
+          tests.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Install exact reference package
+        working-directory: hardware/khipu-x1
+        run: python -m pip install -e ".[dev]"
+
+      - name: Run full KHIPU-X1 conformance suite
+        working-directory: hardware/khipu-x1
+        run: pytest -q
+
+      - name: Validate durable diff
+        run: |
+          python -m py_compile \
+            hardware/khipu-x1/src/khipu_x1/transformer.py \
+            hardware/khipu-x1/src/khipu_x1/safetensors_mapping.py \
+            hardware/khipu-x1/tests/test_quant_transformer.py \
+            hardware/khipu-x1/tests/test_safetensors_mapping.py
+          git diff --check
+
+      - name: Commit only durable Wave 7 repair
+        env:
+          BRANCH: build/khipu-x1-wave7-safe-weight-mapping
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/apply-khipu-wave7-activation-contract-v1.yml
+          git add \
+            hardware/khipu-x1/src/khipu_x1/transformer.py \
+            hardware/khipu-x1/src/khipu_x1/safetensors_mapping.py \
+            hardware/khipu-x1/tests/test_quant_transformer.py
+          git config user.name "SZL Frontier Operator"
+          git config user.email "stephenlutar2@gmail.com"
+          git commit \
+            -m "fix(khipu-x1): bind Wave 7 to hidden_act" \
+            -m "Preserve the bounded Hugging Face activation field in TransformerSpec, serialize it into the inspected contract, and use that exact field when admitting SiLU/SwiGLU decoder mappings." \
+            -m "Signed-off-by: Stephen Lutar <stephenlutar2@gmail.com>"
+          git push origin "HEAD:${BRANCH}"
