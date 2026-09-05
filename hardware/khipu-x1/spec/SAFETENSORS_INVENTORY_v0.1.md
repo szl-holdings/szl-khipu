@@ -25,6 +25,8 @@ The bounded parser validates:
 - offsets against the actual file size;
 - optional SHA-256 commitments for the full file and each tensor range;
 - safe local shard paths and exact index-to-shard tensor mapping;
+- rejection of symbolic-link model roots, shard files, and every intermediate
+  directory component in a referenced shard path;
 - optional `metadata.total_size` agreement with validated tensor data bytes.
 
 Sub-byte dtypes are explicitly unsupported in v0.1 rather than guessed. A model
