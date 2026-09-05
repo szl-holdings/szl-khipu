@@ -407,9 +407,9 @@ def map_decoder_layer(
         raise SafetensorsMappingError(
             "bias-bearing decoder mappings are not implemented in v0.1"
         )
-    if spec.hidden_activation.lower() not in {"silu", "swiglu"}:
+    if spec.hidden_act.lower() not in {"silu", "swiglu"}:
         raise SafetensorsMappingError(
-            f"unsupported decoder activation in v0.1: {spec.hidden_activation}"
+            f"unsupported decoder activation in v0.1: {spec.hidden_act}"
         )
     if attention_mode not in {"causal", "yarqa"}:
         raise SafetensorsMappingError("attention_mode must be causal or yarqa")

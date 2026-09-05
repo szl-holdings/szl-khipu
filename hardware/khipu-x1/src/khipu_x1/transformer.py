@@ -93,6 +93,7 @@ class TransformerSpec:
     tie_word_embeddings: bool
     attention_bias: bool
     mlp_bias: bool
+    hidden_act: str
     architectures: tuple[str, ...]
     source_config_digest: str
 
@@ -182,6 +183,16 @@ class TransformerSpec:
         attention_bias = _bool(config, "attention_bias", False)
         mlp_bias = _bool(config, "mlp_bias", False)
 
+        hidden_act_raw = config.get("hidden_act", "silu")
+        if (
+            not isinstance(hidden_act_raw, str)
+            or not _MODEL_TYPE.fullmatch(hidden_act_raw)
+        ):
+            raise TransformerImportError(
+                "hidden_act must be a bounded identifier"
+            )
+        hidden_act = hidden_act_raw.lower()
+
         architectures_raw = config.get("architectures", [])
         if (
             not isinstance(architectures_raw, list)
@@ -220,6 +231,7 @@ class TransformerSpec:
             tie_word_embeddings=tied,
             attention_bias=attention_bias,
             mlp_bias=mlp_bias,
+            hidden_act=hidden_act,
             architectures=tuple(architectures_raw),
             source_config_digest=digest,
         )
@@ -316,6 +328,7 @@ class TransformerSpec:
             "tie_word_embeddings": self.tie_word_embeddings,
             "attention_bias": self.attention_bias,
             "mlp_bias": self.mlp_bias,
+            "hidden_act": self.hidden_act,
             "source_config_digest": self.source_config_digest,
         }
 
