@@ -32,7 +32,9 @@ ARTIFACT_NAME_PATTERN = re.compile(
     rf"^{re.escape(ARTIFACT_PREFIX)}-attempt-[1-9][0-9]*"
     r"-manifest-[0-9a-f]{64}-hf-[0-9a-f]{40}$"
 )
-RUNTIME_ROOT_FILES = ("server.py", "index.html", "energy.py")
+RUNTIME_ROOT_FILES = (
+    "server.py", "index.html", "energy.py", "szl-holo-v2.css", "szl-holo-v2.js",
+)
 RUNTIME_ROOT_DIRECTORIES = ("szl_khipu", "artifacts")
 IGNORE = shutil.ignore_patterns(
     "__pycache__",
@@ -194,49 +196,45 @@ def _workflow_authority(output: Path) -> int:
 
 
 def _publication_policy(output: Path) -> int:
-    """Classify this run without contacting or importing the Hub provider."""
+    """Require provider authority without contacting or importing the Hub."""
     token_available = bool(
         os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
     )
-    event_name = os.environ.get("GITHUB_EVENT_NAME", "")
     if token_available:
         _append_publication_output(output, True)
         print("::notice::Provider publication enabled after offline validation.")
         return 0
-    if event_name == "repository_dispatch":
-        print(
-            "::error::Explicit Hugging Face publication requested, but "
-            "HF_TOKEN / HF_ORG_TOKEN is not set.",
-            file=sys.stderr,
-        )
-        return 2
-
-    _append_publication_output(output, False)
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "unknown")
     message = (
-        "Offline manifest/source validation passed; provider publication NOT DEPLOYED "
-        "for this ordinary push because no Hugging Face credential is configured."
+        "Provider publication is required for every accepted protected-main run, "
+        "but HF_TOKEN / HF_ORG_TOKEN is not set; "
+        f"event={event_name} is BLOCKED."
     )
-    print(f"::notice::{message}")
+    print(f"::error::{message}", file=sys.stderr)
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         with Path(summary_path).open("a", encoding="utf-8", newline="\n") as summary:
             summary.write("### Hugging Face publication\n\n")
-            summary.write(f"**NOT DEPLOYED.** {message}\n")
-    return 0
+            summary.write(f"**BLOCKED.** {message}\n")
+    return 2
 
 
 def _stage_space() -> Path:
+    root_files = ("Dockerfile", "README.md", *RUNTIME_ROOT_FILES)
+    missing = [name for name in root_files if not (ROOT / "space" / name).is_file()]
+    if missing:
+        raise RuntimeError(f"required Space source files are missing: {missing}")
     staging = Path(tempfile.mkdtemp(prefix="szl-khipu-space-"))
-    for name in ("Dockerfile", "server.py", "index.html", "README.md", "energy.py"):
-        src = ROOT / "space" / name
-        if src.is_file():
-            shutil.copy2(src, staging / name)
-    pkg = ROOT / "szl_khipu"
-    if pkg.is_dir():
-        shutil.copytree(pkg, staging / "szl_khipu", ignore=IGNORE)
-    art = ROOT / "artifacts"
-    if art.is_dir():
-        shutil.copytree(art, staging / "artifacts", ignore=IGNORE)
+    try:
+        for name in root_files:
+            shutil.copy2(ROOT / "space" / name, staging / name)
+        for name in RUNTIME_ROOT_DIRECTORIES:
+            src = ROOT / name
+            if src.is_dir():
+                shutil.copytree(src, staging / name, ignore=IGNORE)
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
     return staging
 
 
@@ -333,7 +331,7 @@ def _parser() -> argparse.ArgumentParser:
     mode.add_argument(
         "--publication-policy",
         action="store_true",
-        help="classify optional provider publication without contacting the Hub",
+        help="check required provider authority without contacting the Hub",
     )
     mode.add_argument(
         "--validate-workflow-authority",
