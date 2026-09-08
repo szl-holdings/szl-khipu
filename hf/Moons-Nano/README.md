@@ -8,7 +8,17 @@ tags:
   - moons
   - mlp
   - silhouette
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
+
+This Hub repository contains a bare NumPy archive. The loading and forward-pass
+implementation lives in the canonical `szl_khipu` package; no packaged Hub
+loader or `config.json` is shipped alongside these weights. Treat this as a
+software fixture until its complete inference contract is independently verified.
 
 # Moons-Nano
 
@@ -61,3 +71,23 @@ Infers on `POST /api/infer {"kind":"moons","x":0.2,"y":0.3}`. **Not 1.5B. Not a 
 | CUDA | UNAVAILABLE | CPU numpy LIVE |
 
 Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+
+## Artifact evidence
+
+`moons.npz` is present (1,302 bytes). SHA-256:
+
+`dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104`
+
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `W1` | `[8, 2]` | `float64` |
+| `b1` | `[8]` | `float64` |
+| `W2` | `[2, 8]` | `float64` |
+| `b2` | `[2]` | `float64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.
