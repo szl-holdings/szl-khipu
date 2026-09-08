@@ -2,8 +2,8 @@
 # GitHub remains canonical. Hub is the mirror.
 #
 # Every run verifies the exact staged source locally without provider access.
-# An ordinary push without a provider token reports NOT DEPLOYED and stays green.
-# Explicit publication uses a typed default-branch event and fails closed without a token.
+# Provider publication is required for every accepted protected-main run.
+# Missing provider authority is a failed deployment check, never a green skip.
 name: publish-hf
 on:
   repository_dispatch:
@@ -44,7 +44,7 @@ jobs:
         run: python scripts/publish_hf.py --prepare-provenance hf-deployment-provenance.json
       - name: Validate exact staged source offline
         run: python scripts/publish_hf.py --validate-provenance hf-deployment-provenance.json
-      - name: Decide provider publication
+      - name: Require provider publication
         if: steps.authority.outputs.authority_valid == 'true'
         id: publication
         env:

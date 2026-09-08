@@ -317,9 +317,8 @@ class SpaceSourceBindingTests(unittest.TestCase):
             runtime = Path(directory) / "runtime-app"
             staging.mkdir()
             runtime.mkdir()
-            (staging / "server.py").write_text("server\n", encoding="utf-8")
-            (staging / "index.html").write_text("index\n", encoding="utf-8")
-            (staging / "energy.py").write_text("energy\n", encoding="utf-8")
+            for name in PUBLISH.RUNTIME_ROOT_FILES:
+                (staging / name).write_text(f"{name}\n", encoding="utf-8")
             (staging / "Dockerfile").write_text("build-only\n", encoding="utf-8")
             (staging / "README.md").write_text("build-only\n", encoding="utf-8")
             package = staging / "szl_khipu"
@@ -353,14 +352,8 @@ class SpaceSourceBindingTests(unittest.TestCase):
             self.assertNotIn("szl_khipu/hf-deployment-provenance.json", paths)
 
         dockerfile = (ROOT / "space" / "Dockerfile").read_text(encoding="utf-8")
-        for instruction in (
-            "COPY server.py ./server.py",
-            "COPY index.html ./index.html",
-            "COPY energy.py ./energy.py",
-            "COPY szl_khipu ./szl_khipu",
-            "COPY artifacts ./artifacts",
-        ):
-            self.assertIn(instruction, dockerfile)
+        for name in (*PUBLISH.RUNTIME_ROOT_FILES, *PUBLISH.RUNTIME_ROOT_DIRECTORIES):
+            self.assertIn(f"COPY {name} ./{name}", dockerfile)
         self.assertNotIn("COPY Dockerfile", dockerfile)
         self.assertNotIn("COPY README.md", dockerfile)
 
@@ -402,15 +395,12 @@ class SpaceSourceBindingTests(unittest.TestCase):
                     PUBLISH.main(
                         ["--publication-policy", "--github-output", str(output)]
                     ),
-                    0,
+                    2,
                 )
-            self.assertEqual(
-                output.read_text(encoding="utf-8"),
-                "publish_enabled=false\n",
-            )
-            self.assertIn("NOT DEPLOYED", summary.read_text(encoding="utf-8"))
+            self.assertFalse(output.exists())
+            self.assertIn("BLOCKED", summary.read_text(encoding="utf-8"))
 
-            output.unlink()
+            output.unlink(missing_ok=True)
             with mock.patch.dict(
                 os.environ,
                 {"GITHUB_EVENT_NAME": "repository_dispatch"},
@@ -454,7 +444,8 @@ class SpaceSourceBindingTests(unittest.TestCase):
         self.assertIn("--validate-provenance", workflow)
         self.assertIn("--publication-policy", workflow)
         self.assertIn("--validate-workflow-authority", workflow)
-        self.assertIn("NOT DEPLOYED", workflow)
+        self.assertIn("Require provider publication", workflow)
+        self.assertIn("never a green skip", workflow)
         self.assertNotIn("workflow_dispatch", workflow)
         self.assertNotIn("pull_request_target", workflow)
         self.assertIn("repository_dispatch:\n    types: [publish-hf]", workflow)

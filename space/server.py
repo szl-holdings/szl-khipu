@@ -27,6 +27,10 @@ elif (ROOT.parent / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT.parent))
 
 HTML = ROOT / "index.html"
+STATIC_ASSETS = {
+    "/szl-holo-v2.css": ("szl-holo-v2.css", "text/css; charset=utf-8"),
+    "/szl-holo-v2.js": ("szl-holo-v2.js", "text/javascript; charset=utf-8"),
+}
 BUILD_INFO = ROOT / "szl_khipu" / "build-info.json"
 PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
@@ -354,7 +358,22 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
-        self.wfile.write(body)
+        if self.command != "HEAD":
+            self.wfile.write(body)
+
+    def _static_asset(self, path: str) -> bool:
+        """Serve only the two fixed frontend assets, never a request-derived path."""
+        asset = STATIC_ASSETS.get(path)
+        if asset is None:
+            return False
+        filename, content_type = asset
+        try:
+            body = (ROOT / filename).read_bytes()
+        except OSError:
+            self._send(404, b"not found", "text/plain")
+        else:
+            self._send(200, body, content_type)
+        return True
 
     def _json(self, code: int, payload: dict) -> None:
         self._send(code, json.dumps(payload).encode(), "application/json")
@@ -362,6 +381,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self) -> None:  # noqa: N802
         """HF probes HEAD. BaseHTTP 501s otherwise."""
         path = urlparse(self.path).path
+        if self._static_asset(path):
+            return
         if path in ("/api/build-info", "/.well-known/szl-source.json"):
             schema = (
                 "szl.build-info/v1"
@@ -404,6 +425,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
+        if self._static_asset(path):
+            return
         if path in ("/", "/index.html"):
             body = HTML.read_bytes() if HTML.is_file() else b"<h1>SZL KHIPU</h1>"
             self._send(200, body, "text/html; charset=utf-8")

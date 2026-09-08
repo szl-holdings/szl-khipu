@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir "numpy>=1.26"
 COPY server.py ./server.py
 COPY index.html ./index.html
 COPY energy.py ./energy.py
+COPY szl-holo-v2.css ./szl-holo-v2.css
+COPY szl-holo-v2.js ./szl-holo-v2.js
 COPY szl_khipu ./szl_khipu
 COPY artifacts ./artifacts
 EXPOSE 7860
