@@ -7,7 +7,17 @@ tags:
   - szl-holdings
   - embedding
   - silhouette
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
+
+This Hub repository contains a bare NumPy archive. The loading and forward-pass
+implementation lives in the canonical `szl_khipu` package; no packaged Hub
+loader or `config.json` is shipped alongside these weights. Treat this as a
+software fixture until its complete inference contract is independently verified.
 
 # MiniEmbed-Nano
 
@@ -64,3 +74,22 @@ Infers on `POST /api/infer {"kind":"mini_embed","token":"F18"}`. **Not neural. N
 | CUDA | UNAVAILABLE | CPU numpy LIVE |
 
 Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+
+## Artifact evidence
+
+`mini_embed.npz` is present (6,892 bytes). SHA-256:
+
+`ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b`
+
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `table` | `[64, 12]` | `float64` |
+| `V` | `[]` | `int64` |
+| `D` | `[]` | `int64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.
