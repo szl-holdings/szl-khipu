@@ -24,3 +24,24 @@ jobs:
         run: python -m pip install --upgrade pip && pip install -e ".[test]"
       - name: Unit tests
         run: python -m unittest discover -s tests -v
+
+  gradio-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    env:
+      GRADIO_ANALYTICS_ENABLED: "False"
+      HF_HUB_OFFLINE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install pinned demo and test dependencies
+        run: python -m pip install -e ".[test,gradio]" -r spaces/requirements.txt
+      - name: Check dependency consistency
+        run: python -m pip check
+      - name: Real Gradio startup and callback smoke
+        run: python -m unittest discover -s tests -p gradio_runtime.py -v

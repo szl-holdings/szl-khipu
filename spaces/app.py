@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 SZL Holdings
-"""SZL KHIPU holographic Gradio 5 space.
+"""SZL KHIPU holographic Gradio 6 demo.
 
 Chrome copies the estate holograms (lambda-gate-holo / governed-norm-holo):
 void backdrop, lattice grid, gold = OPEN, proof teal = LIVE, never green-as-proven.
@@ -646,10 +646,6 @@ def chain_status() -> str:
 
 with gr.Blocks(
     title="SZL KHIPU",
-    theme=THEME,
-    css=HOLO_CSS,
-    js=HOLO_JS,
-    head=HOLO_HEAD,
     analytics_enabled=False,
     fill_width=True,
 ) as demo:
@@ -781,9 +777,27 @@ with gr.Blocks(
     gr.HTML(FOOTER, elem_classes=["holo-html"])
 
 
-if __name__ == "__main__":
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=int(os.environ.get("PORT", 7860)),
+def launch_demo(
+    *,
+    server_name: str = "0.0.0.0",
+    server_port: int | None = None,
+    prevent_thread_lock: bool = False,
+):
+    """Launch the same styled demo for local use and the loopback CI smoke test."""
+    return demo.launch(
+        theme=THEME,
+        css=HOLO_CSS,
+        js=HOLO_JS,
+        head=HOLO_HEAD,
+        server_name=server_name,
+        server_port=int(os.environ.get("PORT", 7860)) if server_port is None else server_port,
+        prevent_thread_lock=prevent_thread_lock,
+        share=False,
+        ssr_mode=False,
+        footer_links=[],
         show_error=True,
     )
+
+
+if __name__ == "__main__":
+    launch_demo()

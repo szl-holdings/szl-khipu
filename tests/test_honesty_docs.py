@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -52,7 +53,14 @@ class HonestyDocs(unittest.TestCase):
         self.assertIn("title: SZL KHIPU", text)
         self.assertIn("emoji:", text)
         self.assertIn("sdk: gradio", text)
-        self.assertIn("sdk_version: 5.29.0", text)
+        version = re.search(r"^sdk_version: (\d+\.\d+\.\d+)$", text, re.MULTILINE)
+        self.assertIsNotNone(version)
+        sdk_version = version.group(1)
+        self.assertGreaterEqual(tuple(map(int, sdk_version.split("."))), (6, 27, 0))
+        self.assertEqual(int(sdk_version.split(".")[0]), 6)
+        self.assertIn(f"gradio=={sdk_version}", _read(ROOT / "spaces" / "requirements.txt").splitlines())
+        project = tomllib.loads(_read(ROOT / "pyproject.toml"))
+        self.assertEqual(project["project"]["optional-dependencies"]["gradio"], ["gradio>=6.27.0,<7"])
         self.assertIn("app_file: app.py", text)
 
     def test_space_holographic_chrome(self) -> None:
