@@ -82,6 +82,13 @@ class HonestyDocs(unittest.TestCase):
         self.assertIn("szl-holdings/anatomy", text)
         self.assertIn("Not a Three.js rehost", text)
 
+    def test_readme_runtime_and_pricing_boundary(self) -> None:
+        text = _read(ROOT / "README.md")
+        self.assertNotIn("governed agent change management** in production", text)
+        self.assertIn("does not itself prove or authorize a production deployment", text)
+        self.assertNotIn("docs/pricing", text)
+        self.assertIn("Pricing + SKUs:** not maintained in this repository", text)
+
     def test_pyproject(self) -> None:
         text = _read(ROOT / "pyproject.toml")
         self.assertIn('name = "szl-khipu"', text)
