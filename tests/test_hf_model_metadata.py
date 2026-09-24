@@ -9,6 +9,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_CARD = ROOT / "atelier" / "hf" / "SZLHOLDINGS.md"
 SPACE_CARD = ROOT / "atelier-space" / "cards" / "SZLHOLDINGS.md"
+NANO_CARDS = ("MiniEmbed-Nano", "Moons-Nano", "ReceiptAgent-Nano", "TinyKhipu-Nano")
+REFERENCE_CARDS = ("chakana", "qantu", "tinku", "waman")
 
 
 def _normalized(path: Path) -> str:
@@ -53,6 +55,42 @@ class ModelMetadataContractTests(unittest.TestCase):
         self.assertNotIn("pipeline_tag", metadata)
         self.assertIn("Not a checkpoint.", text)
         self.assertIn("Not a model.", text)
+
+    def test_atlas_nano_cards_preserve_canonical_publisher_scope(self) -> None:
+        for name in NANO_CARDS:
+            canonical = [
+                line.rstrip()
+                for line in _normalized(ROOT / "hf" / name / "README.md").splitlines()
+            ]
+            for directory in (ROOT / "atelier" / "hf", ROOT / "atelier-space" / "cards"):
+                with self.subTest(name=name, directory=directory):
+                    copied = [
+                        line.rstrip()
+                        for line in _normalized(directory / f"{name}.md").splitlines()
+                    ]
+                    self.assertEqual(copied, canonical)
+
+    def test_reference_cards_preserve_matching_document_copies(self) -> None:
+        for name in REFERENCE_CARDS:
+            with self.subTest(name=name):
+                self.assertEqual(
+                    _normalized(ROOT / "atelier" / "hf" / f"{name}.md"),
+                    _normalized(ROOT / "atelier-space" / "cards" / f"{name}.md"),
+                )
+
+    def test_reference_cards_distinguish_artifact_presence_from_readiness(self) -> None:
+        for name in NANO_CARDS + REFERENCE_CARDS:
+            with self.subTest(name=name):
+                text = _normalized(ROOT / "atelier" / "hf" / f"{name}.md")
+                metadata = _frontmatter(text)
+                self.assertEqual(metadata.get("license"), "apache-2.0")
+                self.assertIn("test-fixture", metadata.get("tags", []))
+                self.assertIn("Not a production model.", text)
+                self.assertIn("config.json", text)
+                self.assertIn("reported synthetic", text)
+                self.assertIn("## Artifact evidence", text)
+                self.assertNotIn("**Weights.** none", text)
+                self.assertNotIn("- No weights.", text)
 
 
 if __name__ == "__main__":

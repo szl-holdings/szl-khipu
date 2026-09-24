@@ -7,49 +7,60 @@ tags:
   - doctrine-v11
   - roadmap
   - roadmap
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 # waman
 
-Roadmap organ on the killinchu line. Not a checkpoint.
-
-**Family.** roadmap · **Evidence.** ROADMAP · **Weights.** none
-
-Hub: [SZLHOLDINGS/waman](https://huggingface.co/SZLHOLDINGS/waman)
-
-## The cut
-
-Same as qantu: the empty seat is published on purpose.
-
-Sensing lineage with a named next body.
-
-### Silhouette → leave → SZL
-
-| Leader | Take, then tweak |
-|---|---|
-| Anthropic | No. |
-| NVIDIA | No. |
-| Unsloth | No. |
-
-Nobody else ships this combination. That is the point of a one-of-one.
+This repository contains a small NumPy reference artifact: C-UAS detector silhouette: box-and-receipt or fail-closed.
+The broader organ remains roadmap work. The synthetic archive is present;
+earlier statements that this repository had no weights are superseded.
 
 ## Intended use
 
-Killinchu lineage placeholder.
+Inspect synthetic artifacts and exercise software fixtures. The archive does
+not include a packaged loader or `config.json` in this repository.
+`from_pretrained` compatibility and hosted inference are unverified.
 
-## Limitations
+## Artifact evidence
 
-- No weights.
+`waman.npz` is present (4,189 bytes). SHA-256:
 
-## Honesty
+`9b31cf28e1877fb15eb9ef5ecafb4054612dc8418d1707b3f1f164b7296ef325`
 
-| Claim | Label |
-|---|---|
-| This card's numbers | ROADMAP |
-| Energy / joules | UNAVAILABLE unless a signed meter says MEASURED |
-| Λ uniqueness | Conjecture 1 OPEN — not a theorem |
-| GGUF as the signed object | FALSE |
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 
-Doctrine v11 LOCKED · 749 declarations · 14 axioms · 163 sorries · locked-proven 8.
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `w1` | `[20, 16]` | `float64` |
+| `b1` | `[16]` | `float64` |
+| `w2` | `[16, 3]` | `float64` |
+| `b2` | `[3]` | `float64` |
+| `holdoutAcc` | `[]` | `float64` |
+| `seed` | `[]` | `int64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.
+
+## Reported training
+
+The repository receipt reports seed `20260721`, `2000` steps,
+synthetic accuracy `0.671667`, and loss `0.694394`.
+These values were read from the receipt and were not independently rerun.
+They do not establish field performance or authority to make operational decisions.
+
+## Evidence boundaries
+
+- Artifact bytes and receipt hash: checked at the pinned repository revision.
+- Training and evaluation: reported synthetic evidence only.
+- Production deployment, runtime correctness, and energy: unverified.
+- Proven trust: false in the published training receipt.
+- Lambda uniqueness remains Conjecture 1 OPEN, not a theorem.
 
 Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
