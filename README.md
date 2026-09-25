@@ -231,8 +231,8 @@ Stephen P. Lutar Jr. / SZL Holdings · ORCID [0009-0001-0110-4173](https://orcid
 
 ## Work with SZL Holdings
 
-szl-khipu participates in the SZL governed-AI estate; the flagship control plane **governed agent change management** in production: signal → investigation → policy eval → human approval → bounded patch → signed closure receipt.
+szl-khipu participates in the SZL governed-AI estate. The flagship control plane targets governed agent change management, but production/runtime qualification is tracked separately through the GitHub → Hugging Face → product → proof evidence chain. This repository does not itself prove or authorize a production deployment.
 
 - **Design partners (6-month, paid):** governed-action receipts in your environment → [stephenlutar2@gmail.com](mailto:stephenlutar2@gmail.com)
 - **Verify our claims offline:** [github.com/szl-holdings/szl-gov](https://github.com/szl-holdings/szl-gov) — signed estate receipt + public verifier
-- **Pricing + SKUs:** see `docs/pricing` (Control / Assurance / Sovereign)
+- **Pricing + SKUs:** not maintained in this repository.
