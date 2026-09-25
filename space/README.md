@@ -22,7 +22,7 @@ Holographic docker Space: numpy kernels behind stdlib HTTP on port 7860. No Grad
 
 | Surface | What you get | What you do not get |
 |---|---|---|
-| Λ gate | score + blocked | proven trust, uniqueness theorem |
+| Λ gate | score + blocked | proven trust, a Λ uniqueness theorem (Conjecture 1 stays open) |
 | GreenLight | signed assent, sorry cannot paint | amber, proven_trust true |
 | YARQA | `n_canals` + leaked | SageAttention, CUDA cubins, tokens/s |
 | Anatomy | 5 organs LIVE or fail-closed | 3D Three.js rehost, joules |
