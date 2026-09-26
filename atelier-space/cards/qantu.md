@@ -7,49 +7,60 @@ tags:
   - doctrine-v11
   - roadmap
   - roadmap
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 # qantu
 
-Roadmap organ. Not a checkpoint. The name is reserved so the estate does not lose the word.
-
-**Family.** roadmap · **Evidence.** ROADMAP · **Weights.** none
-
-Hub: [SZLHOLDINGS/qantu](https://huggingface.co/SZLHOLDINGS/qantu)
-
-## The cut
-
-We publish the empty seat. Pretending it is a model would be the sin the doctrine forbids.
-
-A public backlog that cannot be confused with a weight.
-
-### Silhouette → leave → SZL
-
-| Leader | Take, then tweak |
-|---|---|
-| Anthropic | No. |
-| NVIDIA | No. |
-| Unsloth | No. |
-
-Nobody else ships this combination. That is the point of a one-of-one.
+This repository contains a small NumPy reference artifact: empty-seat visual-organ silhouette: 4 synthetic image-class prototypes.
+The broader organ remains roadmap work. The synthetic archive is present;
+earlier statements that this repository had no weights are superseded.
 
 ## Intended use
 
-Hold the name. Fill later with a receipt, or delete.
+Inspect synthetic artifacts and exercise software fixtures. The archive does
+not include a packaged loader or `config.json` in this repository.
+`from_pretrained` compatibility and hosted inference are unverified.
 
-## Limitations
+## Artifact evidence
 
-- No weights. No train. No bench.
+`qantu.npz` is present (3,842 bytes). SHA-256:
 
-## Honesty
+`ce908e597662dd5a89f0a479cf47f7fe30540944104db956476e21149c9c96e3`
 
-| Claim | Label |
-|---|---|
-| This card's numbers | ROADMAP |
-| Energy / joules | UNAVAILABLE unless a signed meter says MEASURED |
-| Λ uniqueness | Conjecture 1 OPEN — not a theorem |
-| GGUF as the signed object | FALSE |
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 
-Doctrine v11 LOCKED · 749 declarations · 14 axioms · 163 sorries · locked-proven 8.
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `w1` | `[16, 16]` | `float64` |
+| `b1` | `[16]` | `float64` |
+| `w2` | `[16, 4]` | `float64` |
+| `b2` | `[4]` | `float64` |
+| `holdoutAcc` | `[]` | `float64` |
+| `seed` | `[]` | `int64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.
+
+## Reported training
+
+The repository receipt reports seed `20260721`, `2000` steps,
+synthetic accuracy `0.541250`, and loss `1.054862`.
+These values were read from the receipt and were not independently rerun.
+They do not establish field performance or authority to make operational decisions.
+
+## Evidence boundaries
+
+- Artifact bytes and receipt hash: checked at the pinned repository revision.
+- Training and evaluation: reported synthetic evidence only.
+- Production deployment, runtime correctness, and energy: unverified.
+- Proven trust: false in the published training receipt.
+- Lambda uniqueness remains Conjecture 1 OPEN, not a theorem.
 
 Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).

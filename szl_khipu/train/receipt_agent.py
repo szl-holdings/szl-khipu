@@ -19,10 +19,24 @@ LABELS: tuple[str, ...] = ("ALLOW", "WARN", "BLOCKED", "ESCALATE")
 ALLOW, WARN, BLOCKED, ESCALATE = 0, 1, 2, 3
 
 
+def _validated_features(features: np.ndarray) -> np.ndarray | None:
+    """Validate actual values; a caller-supplied finite flag is not evidence."""
+    try:
+        raw = np.asarray(features)
+        if raw.size != FEATURE_DIM or np.iscomplexobj(raw):
+            return None
+        z = np.array(raw, dtype=np.float64, copy=True).ravel()
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if not np.isfinite(z).all():
+        return None
+    return z
+
+
 def rule_check(z: np.ndarray) -> int:
     """Kernel ground truth. The MLP does not override this."""
-    z = np.asarray(z, dtype=np.float64).ravel()
-    if z.size != FEATURE_DIM:
+    z = _validated_features(z)
+    if z is None:
         return BLOCKED
     lam = float(z[0])
     any_zero = float(z[1]) > 0.5
@@ -241,7 +255,17 @@ def train(
 
 
 def decide(features: np.ndarray, weights: dict[str, np.ndarray] | None = None) -> dict[str, Any]:
-    """Kernel always wins. Surrogate is advisory."""
+    """Kernel always wins; invalid features block without running the surrogate."""
+    features = _validated_features(features)
+    if features is None:
+        return {
+            "kernel": LABELS[BLOCKED],
+            "surrogate": None,
+            "agree": None,
+            "advisory": True,
+            "decision": LABELS[BLOCKED],
+            "reason": "invalid or non-finite features; surrogate not evaluated",
+        }
     kernel = int(rule_check(features))
     model = int(predict(weights, features)) if weights is not None else kernel
     return {

@@ -3,53 +3,91 @@ license: apache-2.0
 library_name: numpy
 tags:
   - governed-ai
+  - khipu
   - szl-holdings
-  - doctrine-v11
-  - nano
-  - measured
+  - moons
+  - mlp
+  - silhouette
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
+
+This Hub repository contains a bare NumPy archive. The loading and forward-pass
+implementation lives in the canonical `szl_khipu` package; no packaged Hub
+loader or `config.json` is shipped alongside these weights. Treat this as a
+software fixture until its complete inference contract is independently verified.
 
 # Moons-Nano
 
-Two interlocking moons. A 2-8-2 tanh MLP. The toy that teaches fail-closed before anyone touches 1.5B.
+Two-moons **2→8→2** tanh-softmax SGD. A few hundred floats. **Not 1.5B. Not Qwen. Not a foundation model.**
 
-**Family.** nano · **Evidence.** MEASURED · **Weights.** numpy · **Params.** 2-8-2
+Canonical source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)
+Sibling card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)
 
-Hub: [SZLHOLDINGS/Moons-Nano](https://huggingface.co/SZLHOLDINGS/Moons-Nano)
+```python
+from szl_khipu.train import moons
 
-## The cut
+weights, ev = moons.train(seed=20260721, steps=400)
+print(ev["acc"], ev["loss"])
+# REPORTED: acc 0.93 · loss ~0.13 on the training moons
+moons.save_npz("moons.npz", weights)
+```
 
-Accuracy is the wrong headline. We publish holdout accuracy AND silhouette AND the decision boundary you can click. Leaders hide the toy. We hang it in the foyer.
+## What it does
 
-A model card that is a laboratory: click the plane, watch the gate, read the loss.
+- Classic two-moons toy classification. Hidden width 8. Softmax over 2.
+- Trained here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
 
-### Silhouette → leave → SZL
+## Bench (this tree)
 
-| Leader | Take, then tweak |
+`TRAINING_RECEIPT.json` seed `20260721` · steps 400 · honesty **REPORTED**
+
+| Metric | Value |
 |---|---|
-| Anthropic | Small, inspectable, no capability theater. |
-| NVIDIA | MLP instead of cuDNN flex — the kernel idea at 2D. |
-| Unsloth | SGD on 400 points, not QLoRA. Same honesty about scale. |
+| acc | 0.93 |
+| loss | ~0.13 |
+| weights | `moons.npz` sha256 `dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104` |
 
-Nobody else ships this combination. That is the point of a one-of-one.
+Infers on `POST /api/infer {"kind":"moons","x":0.2,"y":0.3}`. **Not 1.5B. Not a published benchmark.**
 
-## Intended use
+## What it is NOT
 
-Onboard the cut: measured numbers, visible boundary.
-
-## Limitations
-
-- Toy. 2D. Noise 0.13. Not a product model.
+- **Not SZL-Khipu-1.5B.** Not QLoRA. Not a chat model.
+- **Not sklearn moons as a product claim.** A live silhouette so the estate has a TRAINED tiny MLP that actually ran.
+- **Not proven trust.** Λ uniqueness remains Conjecture 1 OPEN.
+- Energy **UNAVAILABLE**. CUDA **UNAVAILABLE**. Never a fabricated joule.
 
 ## Honesty
 
-| Claim | Label |
-|---|---|
-| This card's numbers | MEASURED |
-| Energy / joules | UNAVAILABLE unless a signed meter says MEASURED |
-| Λ uniqueness | Conjecture 1 OPEN — not a theorem |
-| GGUF as the signed object | FALSE |
+| Claim | Label | What-NOT |
+|---|---|---|
+| Weights trained in this package | REPORTED | silhouette, Not 1.5B |
+| acc 0.93 on the training moons | REPORTED | not a published benchmark |
+| Λ | ADVISORY · Conjecture 1 OPEN | never a theorem |
+| Energy | UNAVAILABLE | never a fabricated joule |
+| CUDA | UNAVAILABLE | CPU numpy LIVE |
 
-Doctrine v11 LOCKED · 749 declarations · 14 axioms · 163 sorries · locked-proven 8.
+Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
 
-Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+## Artifact evidence
+
+`moons.npz` is present (1,302 bytes). SHA-256:
+
+`dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104`
+
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `W1` | `[8, 2]` | `float64` |
+| `b1` | `[8]` | `float64` |
+| `W2` | `[2, 8]` | `float64` |
+| `b2` | `[2]` | `float64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.

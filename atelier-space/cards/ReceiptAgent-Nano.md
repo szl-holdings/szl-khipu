@@ -7,13 +7,23 @@ tags:
   - doctrine-v11
   - nano
   - synthetic
+  - software
+  - reference
+  - test-fixture
 ---
+
+> **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
+
+This Hub repository contains a bare NumPy archive. The loading and forward-pass
+implementation lives in the canonical `szl_khipu` package; no packaged Hub
+loader or `config.json` is shipped alongside these weights. Treat this as a
+software fixture until its complete inference contract is independently verified.
 
 # ReceiptAgent-Nano
 
-ALLOW · DENY · ABSTAIN · ESCALATE. Escalation is a class, not a retry loop.
+ALLOW · WARN · BLOCKED · ESCALATE. Escalation is a class, not a retry loop.
 
-**Family.** nano · **Evidence.** SYNTHETIC · **Weights.** numpy · **Params.** 4-10-4
+**Family.** nano · **Evidence.** SYNTHETIC · **Weights.** numpy · **Architecture.** 24-16-8-4 MLP
 
 Hub: [SZLHOLDINGS/ReceiptAgent-Nano](https://huggingface.co/SZLHOLDINGS/ReceiptAgent-Nano)
 
@@ -37,9 +47,20 @@ Nobody else ships this combination. That is the point of a one-of-one.
 
 Fail-closed unit tests for the 4-way gate.
 
+## Bench (this tree)
+
+`TRAINING_RECEIPT.json` seed `20260721` · honesty **REPORTED** · kernel is truth
+
+| Metric | Value |
+|---|---|
+| held-out agree vs rule_check | 0.905 |
+| weights | `receipt_agent.npz` sha256 `8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381` |
+
+Infers on `POST /api/infer {"kind":"receipt_agent"}`. Surrogate may disagree. Kernel wins. **Not 1.5B.**
+
 ## Limitations
 
-- Synthetic 4-D features. Not a substitute for the 1.5B agent.
+- Synthetic 24-dimensional features. Not a substitute for the 1.5B agent.
 - Hub kernel labels are ALLOW/WARN/BLOCKED/ESCALATE — kernel is truth. This atelier MLP is a 4-class silhouette, not rule_check.
 
 ## Honesty
@@ -54,3 +75,25 @@ Fail-closed unit tests for the 4-way gate.
 Doctrine v11 LOCKED · 749 declarations · 14 axioms · 163 sorries · locked-proven 8.
 
 Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+
+## Artifact evidence
+
+`receipt_agent.npz` is present (6,014 bytes). SHA-256:
+
+`8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381`
+
+The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
+with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+
+| Array | Shape | Data type |
+| --- | --- | --- |
+| `W1` | `[16, 24]` | `float64` |
+| `b1` | `[16]` | `float64` |
+| `W2` | `[8, 16]` | `float64` |
+| `b2` | `[8]` | `float64` |
+| `W3` | `[4, 8]` | `float64` |
+| `b3` | `[4]` | `float64` |
+
+A matching unsigned receipt establishes local artifact consistency. Training
+metrics remain reported synthetic results; this check does not independently
+reproduce training or establish deployment, general intelligence, or production readiness.
