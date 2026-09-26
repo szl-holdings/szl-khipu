@@ -1,0 +1,1370 @@
+{
+  "cases": [
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "e4ddf3a0025d9b8b7d89788df49e226ea6cb0ee38551e91093c91f6ebf3cda26",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 1410.6,
+          "p95_us": 5996.009999999999,
+          "samples_us": [
+            1410.6,
+            1222.0,
+            6505.5
+          ],
+          "traced_peak_allocation_bytes": 395403
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1577.4,
+          "p95_us": 6004.32,
+          "samples_us": [
+            1577.4,
+            1534.2,
+            6496.2
+          ],
+          "traced_peak_allocation_bytes": 1575699
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 3559.6,
+          "p95_us": 3770.11,
+          "samples_us": [
+            1996.6,
+            3559.6,
+            3793.5
+          ],
+          "traced_peak_allocation_bytes": 2433699
+        }
+      },
+      "seed": 7,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "2a622887b602f5b4437112130fdfc0b79449c60e4e80659ca70f39d6bfee7da3",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 1490.5,
+          "p95_us": 1713.52,
+          "samples_us": [
+            1490.5,
+            1469.5,
+            1738.3
+          ],
+          "traced_peak_allocation_bytes": 395403
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1528.1,
+          "p95_us": 10205.81,
+          "samples_us": [
+            1419.3,
+            1528.1,
+            11170.0
+          ],
+          "traced_peak_allocation_bytes": 1575699
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 2203.2,
+          "p95_us": 7176.69,
+          "samples_us": [
+            1729.3,
+            2203.2,
+            7729.3
+          ],
+          "traced_peak_allocation_bytes": 2433699
+        }
+      },
+      "seed": 17,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "7afafeda051b92aa46d3fc440362de4c2927ff3b517a4cc18b5b6186f022aeb1",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 1478.2,
+          "p95_us": 1495.93,
+          "samples_us": [
+            1497.9,
+            1478.2,
+            1027.0
+          ],
+          "traced_peak_allocation_bytes": 395403
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1727.6,
+          "p95_us": 5991.53,
+          "samples_us": [
+            1727.6,
+            1580.0,
+            6465.3
+          ],
+          "traced_peak_allocation_bytes": 1575579
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 2050.5,
+          "p95_us": 2229.69,
+          "samples_us": [
+            2050.5,
+            2249.6,
+            1778.3
+          ],
+          "traced_peak_allocation_bytes": 2433579
+        }
+      },
+      "seed": 42,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "e4ddf3a0025d9b8b7d89788df49e226ea6cb0ee38551e91093c91f6ebf3cda26",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 362.9,
+          "p95_us": 429.14,
+          "samples_us": [
+            436.5,
+            358.8,
+            362.9
+          ],
+          "traced_peak_allocation_bytes": 199635
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1472.6,
+          "p95_us": 1484.03,
+          "samples_us": [
+            1472.6,
+            1364.9,
+            1485.3
+          ],
+          "traced_peak_allocation_bytes": 1575603
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1622.3,
+          "p95_us": 1911.83,
+          "samples_us": [
+            1944.0,
+            1622.3,
+            1553.3
+          ],
+          "traced_peak_allocation_bytes": 2101891
+        }
+      },
+      "seed": 7,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "2a622887b602f5b4437112130fdfc0b79449c60e4e80659ca70f39d6bfee7da3",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 456.0,
+          "p95_us": 527.73,
+          "samples_us": [
+            535.7,
+            456.0,
+            453.9
+          ],
+          "traced_peak_allocation_bytes": 199635
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1896.0,
+          "p95_us": 1912.38,
+          "samples_us": [
+            1914.2,
+            1850.2,
+            1896.0
+          ],
+          "traced_peak_allocation_bytes": 1575603
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1817.6,
+          "p95_us": 1848.11,
+          "samples_us": [
+            1817.6,
+            1851.5,
+            1817.1
+          ],
+          "traced_peak_allocation_bytes": 2101891
+        }
+      },
+      "seed": 17,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "7afafeda051b92aa46d3fc440362de4c2927ff3b517a4cc18b5b6186f022aeb1",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 681.3,
+          "p95_us": 939.5999999999999,
+          "samples_us": [
+            524.0,
+            968.3,
+            681.3
+          ],
+          "traced_peak_allocation_bytes": 199635
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1733.2,
+          "p95_us": 1953.43,
+          "samples_us": [
+            1411.9,
+            1733.2,
+            1977.9
+          ],
+          "traced_peak_allocation_bytes": 1575603
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 2338.6,
+          "p95_us": 2547.67,
+          "samples_us": [
+            2053.7,
+            2570.9,
+            2338.6
+          ],
+          "traced_peak_allocation_bytes": 2101891
+        }
+      },
+      "seed": 42,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "e4ddf3a0025d9b8b7d89788df49e226ea6cb0ee38551e91093c91f6ebf3cda26",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2048,
+          "max_abs_error": 0.0,
+          "p50_us": 570.7,
+          "p95_us": 598.87,
+          "samples_us": [
+            602.0,
+            570.7,
+            448.2
+          ],
+          "traced_peak_allocation_bytes": 151189
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1762.0,
+          "p95_us": 1949.65,
+          "samples_us": [
+            1762.0,
+            1751.4,
+            1970.5
+          ],
+          "traced_peak_allocation_bytes": 1575699
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 2374.0,
+          "p95_us": 2425.39,
+          "samples_us": [
+            1861.6,
+            2374.0,
+            2431.1
+          ],
+          "traced_peak_allocation_bytes": 2236387
+        }
+      },
+      "seed": 7,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "2a622887b602f5b4437112130fdfc0b79449c60e4e80659ca70f39d6bfee7da3",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2048,
+          "max_abs_error": 0.0,
+          "p50_us": 668.1,
+          "p95_us": 696.9,
+          "samples_us": [
+            433.8,
+            700.1,
+            668.1
+          ],
+          "traced_peak_allocation_bytes": 151189
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1763.9,
+          "p95_us": 3504.2299999999996,
+          "samples_us": [
+            1468.0,
+            3697.6,
+            1763.9
+          ],
+          "traced_peak_allocation_bytes": 1575699
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 2112.5,
+          "p95_us": 2946.62,
+          "samples_us": [
+            1674.5,
+            3039.3,
+            2112.5
+          ],
+          "traced_peak_allocation_bytes": 2236387
+        }
+      },
+      "seed": 17,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "7afafeda051b92aa46d3fc440362de4c2927ff3b517a4cc18b5b6186f022aeb1",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2048,
+          "max_abs_error": 0.0,
+          "p50_us": 846.5,
+          "p95_us": 936.6800000000001,
+          "samples_us": [
+            946.7,
+            846.5,
+            730.4
+          ],
+          "traced_peak_allocation_bytes": 151189
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 3175.4,
+          "p95_us": 8002.639999999999,
+          "samples_us": [
+            3175.4,
+            2682.4,
+            8539.0
+          ],
+          "traced_peak_allocation_bytes": 1575699
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 1895.4,
+          "p95_us": 3948.03,
+          "samples_us": [
+            1895.4,
+            4176.1,
+            1834.6
+          ],
+          "traced_peak_allocation_bytes": 2236387
+        }
+      },
+      "seed": 42,
+      "sequence": 256,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "48a3a989844f284b312e89abb680f93185ef113e0cad1fd1470bbcc186618bcd",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 21444.7,
+          "p95_us": 29468.289999999997,
+          "samples_us": [
+            30359.8,
+            21444.7,
+            18981.0
+          ],
+          "traced_peak_allocation_bytes": 1575179
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 82484.4,
+          "p95_us": 83188.74,
+          "samples_us": [
+            82484.4,
+            49460.0,
+            83267.0
+          ],
+          "traced_peak_allocation_bytes": 25174683
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 117990.6,
+          "p95_us": 132729.9,
+          "samples_us": [
+            117990.6,
+            48675.5,
+            134367.6
+          ],
+          "traced_peak_allocation_bytes": 36202188
+        }
+      },
+      "seed": 7,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "59adac068e360ce4197cbe6290b3d5215394559d9f68fe6c3a5f3b988cbc28f4",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 16824.5,
+          "p95_us": 60405.649999999994,
+          "samples_us": [
+            16824.5,
+            15310.8,
+            65248.0
+          ],
+          "traced_peak_allocation_bytes": 1575179
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 40586.6,
+          "p95_us": 238984.49,
+          "samples_us": [
+            40586.6,
+            35705.8,
+            261028.7
+          ],
+          "traced_peak_allocation_bytes": 25174683
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 68139.2,
+          "p95_us": 115353.47,
+          "samples_us": [
+            68139.2,
+            56886.1,
+            120599.5
+          ],
+          "traced_peak_allocation_bytes": 36202188
+        }
+      },
+      "seed": 17,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "36cf1b096fb8f9d6177ec094f20ce651fc4856755745c2571d160c945e6ccad9",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 65685.4,
+          "p95_us": 70469.98000000001,
+          "samples_us": [
+            22011.3,
+            71001.6,
+            65685.4
+          ],
+          "traced_peak_allocation_bytes": 1575179
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 50600.1,
+          "p95_us": 53317.56,
+          "samples_us": [
+            50600.1,
+            47403.2,
+            53619.5
+          ],
+          "traced_peak_allocation_bytes": 25174683
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 140612.1,
+          "p95_us": 162093.93,
+          "samples_us": [
+            98358.2,
+            164480.8,
+            140612.1
+          ],
+          "traced_peak_allocation_bytes": 36202188
+        }
+      },
+      "seed": 42,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "48a3a989844f284b312e89abb680f93185ef113e0cad1fd1470bbcc186618bcd",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 12250.5,
+          "p95_us": 37702.32,
+          "samples_us": [
+            40530.3,
+            5192.4,
+            12250.5
+          ],
+          "traced_peak_allocation_bytes": 788803
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 179823.9,
+          "p95_us": 187989.96,
+          "samples_us": [
+            188897.3,
+            179823.9,
+            47982.8
+          ],
+          "traced_peak_allocation_bytes": 25174707
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 69839.7,
+          "p95_us": 158150.31,
+          "samples_us": [
+            167962.6,
+            69839.7,
+            66118.9
+          ],
+          "traced_peak_allocation_bytes": 31995651
+        }
+      },
+      "seed": 7,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "59adac068e360ce4197cbe6290b3d5215394559d9f68fe6c3a5f3b988cbc28f4",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 7994.5,
+          "p95_us": 10916.619999999999,
+          "samples_us": [
+            11241.3,
+            3498.3,
+            7994.5
+          ],
+          "traced_peak_allocation_bytes": 788803
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 87052.5,
+          "p95_us": 169466.75999999998,
+          "samples_us": [
+            178623.9,
+            87052.5,
+            36707.9
+          ],
+          "traced_peak_allocation_bytes": 25174707
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 45384.0,
+          "p95_us": 111932.34,
+          "samples_us": [
+            119326.6,
+            29240.5,
+            45384.0
+          ],
+          "traced_peak_allocation_bytes": 31995651
+        }
+      },
+      "seed": 17,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "36cf1b096fb8f9d6177ec094f20ce651fc4856755745c2571d160c945e6ccad9",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 8541.4,
+          "p95_us": 9428.44,
+          "samples_us": [
+            8541.4,
+            9527.0,
+            6627.7
+          ],
+          "traced_peak_allocation_bytes": 788803
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 64836.1,
+          "p95_us": 74012.14,
+          "samples_us": [
+            39480.5,
+            75031.7,
+            64836.1
+          ],
+          "traced_peak_allocation_bytes": 25174707
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 45570.3,
+          "p95_us": 51539.28,
+          "samples_us": [
+            37167.9,
+            52202.5,
+            45570.3
+          ],
+          "traced_peak_allocation_bytes": 31995651
+        }
+      },
+      "seed": 42,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "48a3a989844f284b312e89abb680f93185ef113e0cad1fd1470bbcc186618bcd",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 4168.3,
+          "p95_us": 5527.48,
+          "samples_us": [
+            4168.3,
+            5678.5,
+            3599.8
+          ],
+          "traced_peak_allocation_bytes": 624437
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 76326.5,
+          "p95_us": 132103.28,
+          "samples_us": [
+            55050.5,
+            76326.5,
+            138300.7
+          ],
+          "traced_peak_allocation_bytes": 25174803
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 125740.0,
+          "p95_us": 148977.81999999998,
+          "samples_us": [
+            122398.9,
+            151559.8,
+            125740.0
+          ],
+          "traced_peak_allocation_bytes": 34155363
+        }
+      },
+      "seed": 7,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "59adac068e360ce4197cbe6290b3d5215394559d9f68fe6c3a5f3b988cbc28f4",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 9958.0,
+          "p95_us": 13711.359999999999,
+          "samples_us": [
+            14128.4,
+            7575.4,
+            9958.0
+          ],
+          "traced_peak_allocation_bytes": 624437
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 90862.1,
+          "p95_us": 111455.71999999999,
+          "samples_us": [
+            113743.9,
+            90862.1,
+            34628.0
+          ],
+          "traced_peak_allocation_bytes": 25174803
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 109682.6,
+          "p95_us": 112172.63,
+          "samples_us": [
+            107070.3,
+            109682.6,
+            112449.3
+          ],
+          "traced_peak_allocation_bytes": 34155363
+        }
+      },
+      "seed": 17,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "36cf1b096fb8f9d6177ec094f20ce651fc4856755745c2571d160c945e6ccad9",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 32768,
+          "max_abs_error": 0.0,
+          "p50_us": 2110.9,
+          "p95_us": 6251.08,
+          "samples_us": [
+            6711.1,
+            2110.9,
+            1647.4
+          ],
+          "traced_peak_allocation_bytes": 624437
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 65360.9,
+          "p95_us": 123708.62,
+          "samples_us": [
+            65360.9,
+            59235.5,
+            130191.7
+          ],
+          "traced_peak_allocation_bytes": 25174803
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 8388608,
+          "max_abs_error": 0.0,
+          "p50_us": 89736.4,
+          "p95_us": 159544.53999999998,
+          "samples_us": [
+            167301.0,
+            43533.0,
+            89736.4
+          ],
+          "traced_peak_allocation_bytes": 34155363
+        }
+      },
+      "seed": 42,
+      "sequence": 1024,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "43e0916fa1a21bc7259fff8be8f94dcef7454b1cbf11409c496311f0dcdc71f6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2097152,
+          "max_abs_error": 0.0,
+          "p50_us": 509175.4,
+          "p95_us": 1277224.96,
+          "samples_us": [
+            1362563.8,
+            509175.4,
+            503418.2
+          ],
+          "traced_peak_allocation_bytes": 6293771
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1462094.1,
+          "p95_us": 1494324.9000000001,
+          "samples_us": [
+            1462094.1,
+            1497906.1,
+            562907.3
+          ],
+          "traced_peak_allocation_bytes": 402686619
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1131454.2,
+          "p95_us": 1243194.7799999998,
+          "samples_us": [
+            504518.1,
+            1131454.2,
+            1255610.4
+          ],
+          "traced_peak_allocation_bytes": 572622540
+        }
+      },
+      "seed": 7,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "1a14939f51a68cb3ea2959fd30f97b1538665949cdd2ec2178bf4a6a3d31b61d",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2097152,
+          "max_abs_error": 0.0,
+          "p50_us": 754006.4,
+          "p95_us": 1074022.46,
+          "samples_us": [
+            754006.4,
+            575218.4,
+            1109579.8
+          ],
+          "traced_peak_allocation_bytes": 6293771
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1474273.2,
+          "p95_us": 1655121.99,
+          "samples_us": [
+            1474273.2,
+            953170.1,
+            1675216.3
+          ],
+          "traced_peak_allocation_bytes": 402686619
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 2462740.0,
+          "p95_us": 2736965.4099999997,
+          "samples_us": [
+            1585919.6,
+            2767434.9,
+            2462740.0
+          ],
+          "traced_peak_allocation_bytes": 572622540
+        }
+      },
+      "seed": 17,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 1,
+      "head_dim": 64,
+      "input_sha256": "5149adce4a24b8d8867d67267172384fc945b871ceaf642eb22dd9e1037dd6e6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 2097152,
+          "max_abs_error": 0.0,
+          "p50_us": 274573.9,
+          "p95_us": 1074686.8599999999,
+          "samples_us": [
+            253472.6,
+            274573.9,
+            1163588.3
+          ],
+          "traced_peak_allocation_bytes": 6293771
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 401893.1,
+          "p95_us": 944292.1399999999,
+          "samples_us": [
+            380007.1,
+            401893.1,
+            1004558.7
+          ],
+          "traced_peak_allocation_bytes": 402686619
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1292627.7,
+          "p95_us": 1621996.2,
+          "samples_us": [
+            489617.0,
+            1292627.7,
+            1658592.7
+          ],
+          "traced_peak_allocation_bytes": 572622540
+        }
+      },
+      "seed": 42,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "43e0916fa1a21bc7259fff8be8f94dcef7454b1cbf11409c496311f0dcdc71f6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 261898.8,
+          "p95_us": 265110.99,
+          "samples_us": [
+            261898.8,
+            265467.9,
+            118928.9
+          ],
+          "traced_peak_allocation_bytes": 3148099
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1323899.3,
+          "p95_us": 1556065.01,
+          "samples_us": [
+            1219256.0,
+            1323899.3,
+            1581861.2
+          ],
+          "traced_peak_allocation_bytes": 402686643
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1415123.9,
+          "p95_us": 1433968.91,
+          "samples_us": [
+            989606.4,
+            1415123.9,
+            1436062.8
+          ],
+          "traced_peak_allocation_bytes": 505464579
+        }
+      },
+      "seed": 7,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "1a14939f51a68cb3ea2959fd30f97b1538665949cdd2ec2178bf4a6a3d31b61d",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 63446.7,
+          "p95_us": 67553.76000000001,
+          "samples_us": [
+            63446.7,
+            59064.4,
+            68010.1
+          ],
+          "traced_peak_allocation_bytes": 3148099
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 412862.5,
+          "p95_us": 646199.83,
+          "samples_us": [
+            412862.5,
+            388445.9,
+            672126.2
+          ],
+          "traced_peak_allocation_bytes": 402686643
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 373634.6,
+          "p95_us": 426771.41,
+          "samples_us": [
+            432675.5,
+            359709.2,
+            373634.6
+          ],
+          "traced_peak_allocation_bytes": 505464579
+        }
+      },
+      "seed": 17,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 4,
+      "head_dim": 64,
+      "input_sha256": "5149adce4a24b8d8867d67267172384fc945b871ceaf642eb22dd9e1037dd6e6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 524288,
+          "max_abs_error": 0.0,
+          "p50_us": 53998.6,
+          "p95_us": 65295.219999999994,
+          "samples_us": [
+            66550.4,
+            53998.6,
+            51068.1
+          ],
+          "traced_peak_allocation_bytes": 3148099
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 457494.3,
+          "p95_us": 711798.3,
+          "samples_us": [
+            740054.3,
+            457494.3,
+            371239.4
+          ],
+          "traced_peak_allocation_bytes": 402686643
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 393717.1,
+          "p95_us": 951413.71,
+          "samples_us": [
+            1013380.0,
+            393717.1,
+            381343.7
+          ],
+          "traced_peak_allocation_bytes": 505464579
+        }
+      },
+      "seed": 42,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "43e0916fa1a21bc7259fff8be8f94dcef7454b1cbf11409c496311f0dcdc71f6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 16995.9,
+          "p95_us": 70549.94999999998,
+          "samples_us": [
+            76500.4,
+            16995.9,
+            16870.3
+          ],
+          "traced_peak_allocation_bytes": 2492213
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1012180.1,
+          "p95_us": 1277325.41,
+          "samples_us": [
+            1012180.1,
+            1306786.0,
+            956102.1
+          ],
+          "traced_peak_allocation_bytes": 402686739
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 425955.1,
+          "p95_us": 1226078.14,
+          "samples_us": [
+            1314980.7,
+            425955.1,
+            418633.2
+          ],
+          "traced_peak_allocation_bytes": 540055395
+        }
+      },
+      "seed": 7,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "1a14939f51a68cb3ea2959fd30f97b1538665949cdd2ec2178bf4a6a3d31b61d",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 35718.4,
+          "p95_us": 87468.13,
+          "samples_us": [
+            93218.1,
+            35718.4,
+            19417.6
+          ],
+          "traced_peak_allocation_bytes": 2492213
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 1180154.9,
+          "p95_us": 1498645.73,
+          "samples_us": [
+            1534033.6,
+            1180154.9,
+            958258.6
+          ],
+          "traced_peak_allocation_bytes": 402686739
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 753363.6,
+          "p95_us": 1016796.84,
+          "samples_us": [
+            651992.8,
+            1046067.2,
+            753363.6
+          ],
+          "traced_peak_allocation_bytes": 540055395
+        }
+      },
+      "seed": 17,
+      "sequence": 4096,
+      "value_dim": 64
+    },
+    {
+      "canals": 16,
+      "head_dim": 64,
+      "input_sha256": "5149adce4a24b8d8867d67267172384fc945b871ceaf642eb22dd9e1037dd6e6",
+      "methods": {
+        "block_local_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 131072,
+          "max_abs_error": 0.0,
+          "p50_us": 23748.1,
+          "p95_us": 27199.149999999998,
+          "samples_us": [
+            23748.1,
+            27582.6,
+            16061.2
+          ],
+          "traced_peak_allocation_bytes": 2492213
+        },
+        "dense_masked_output": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 512907.5,
+          "p95_us": 644175.11,
+          "samples_us": [
+            658760.4,
+            512907.5,
+            500990.7
+          ],
+          "traced_peak_allocation_bytes": 402686739
+        },
+        "legacy_diagnostics": {
+          "correctness_parity_pass": true,
+          "largest_score_tensor_bytes_derived": 134217728,
+          "max_abs_error": 0.0,
+          "p50_us": 566397.3,
+          "p95_us": 576905.43,
+          "samples_us": [
+            578073.0,
+            566397.3,
+            496003.4
+          ],
+          "traced_peak_allocation_bytes": 540055395
+        }
+      },
+      "seed": 42,
+      "sequence": 4096,
+      "value_dim": 64
+    }
+  ],
+  "hardware": {
+    "gpu": "NOT_EXERCISED",
+    "logical_cpus": 16,
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 197 Stepping 2, GenuineIntel",
+    "release": "11",
+    "system": "Windows"
+  },
+  "integrity": "SHA256_ONLY_NOT_A_SIGNATURE",
+  "observation": "LOCAL_MEASUREMENT",
+  "observed_at": "2026-09-19T22:39:22.187323+00:00",
+  "protocol": {
+    "atol": 1e-12,
+    "autograd": "NOT_SUPPORTED_NUMPY_API",
+    "comparability": "legacy returns dense probabilities and leakage diagnostics; dense_masked_output and block_local_output return outputs only",
+    "dtype": "float64",
+    "energy_joules": null,
+    "memory": "separate tracemalloc run; traced allocation proxy only; excludes inputs allocated before tracing and may omit BLAS/native allocations",
+    "peak_process_memory_bytes": null,
+    "query_block_size": 64,
+    "rtol": 1e-12,
+    "samples": 3,
+    "timing": "perf_counter_ns; interleaved method order; no tracing",
+    "warmup": 1
+  },
+  "receipt_sha256": "300283554146b09a6b4b7ecf8abd5d24a6c1491ae82e5b60694d3e4e5f61338d",
+  "schema": "szl.yarqa-cpu-benchmark/v1",
+  "software": {
+    "numpy": "2.3.5",
+    "numpy_config": "Build Dependencies:\n  blas:\n    detection method: pkgconfig\n    found: true\n    include directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-q7k2ejt3/cp312-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/include\n    lib directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-q7k2ejt3/cp312-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/lib\n    name: scipy-openblas\n    openblas configuration: OpenBLAS 0.3.30  USE64BITINT DYNAMIC_ARCH NO_AFFINITY\n      Haswell MAX_THREADS=24\n    pc file directory: D:/a/numpy-release/numpy-release/.openblas\n    version: 0.3.30\n  lapack:\n    detection method: pkgconfig\n    found: true\n    include directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-q7k2ejt3/cp312-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/include\n    lib directory: C:/Users/runneradmin/AppData/Local/Temp/cibw-run-q7k2ejt3/cp312-win_amd64/build/venv/Lib/site-packages/scipy_openblas64/lib\n    name: scipy-openblas\n    openblas configuration: OpenBLAS 0.3.30  USE64BITINT DYNAMIC_ARCH NO_AFFINITY\n      Haswell MAX_THREADS=24\n    pc file directory: D:/a/numpy-release/numpy-release/.openblas\n    version: 0.3.30\nCompilers:\n  c:\n    commands: cl\n    linker: link\n    name: msvc\n    version: 19.44.35219\n  c++:\n    commands: cl\n    linker: link\n    name: msvc\n    version: 19.44.35219\n  cython:\n    commands: cython\n    linker: cython\n    name: cython\n    version: 3.2.1\nMachine Information:\n  build:\n    cpu: x86_64\n    endian: little\n    family: x86_64\n    system: windows\n  host:\n    cpu: x86_64\n    endian: little\n    family: x86_64\n    system: windows\nPython Information:\n  path: C:\\Users\\runneradmin\\AppData\\Local\\Temp\\build-env-fls87aak\\Scripts\\python.exe\n  version: '3.12'\nSIMD Extensions:\n  baseline:\n  - SSE\n  - SSE2\n  - SSE3\n  found:\n  - SSSE3\n  - SSE41\n  - POPCNT\n  - SSE42\n  - AVX\n  - F16C\n  - FMA3\n  - AVX2\n  not found:\n  - AVX512F\n  - AVX512CD\n  - AVX512_SKX\n  - AVX512_CLX\n  - AVX512_CNL\n  - AVX512_ICL\n\n",
+    "python": "3.12.14"
+  },
+  "source_files_sha256": {
+    "benchmarks/yarqa_cpu.py": "931e7032a8ad4de6ee94751eff8a5885611ab401a5e4e0299ae9644310c6a3fd",
+    "szl_khipu/yarqa.py": "14c7e1b91fefc5b21e9154a5f314701e3e2a7811dee05be6db70b7bab032e039"
+  },
+  "source_revision": "0e56e9a8451294e462160d64819add10e03f5dde",
+  "thread_controls_requested": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "tracked_worktree_dirty": false
+}

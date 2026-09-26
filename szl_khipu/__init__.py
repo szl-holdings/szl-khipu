@@ -53,7 +53,7 @@ from .maskmod import causal_mask, future_mass, maskmod_attn, prefix_mask, slidin
 from .ouroboros import OUROBOROS_SELFCHECK, loop_tax
 from .receipt_attn import naive_attn, tiled_attn
 from .train import mini_embed, moons, receipt_agent, tiny_khipu
-from .yarqa import canal_bounds, leaked_attn, yarqa_attn
+from .yarqa import canal_bounds, leaked_attn, yarqa_attn, yarqa_attn_output
 from .anatomy import (
     ORGAN_SPEC,
     WILLAY_CLASSIFIERS,
@@ -175,6 +175,7 @@ __all__ = [
     "LambdaEval",
     "canal_bounds",
     "yarqa_attn",
+    "yarqa_attn_output",
     "leaked_attn",
     "naive_attn",
     "tiled_attn",
