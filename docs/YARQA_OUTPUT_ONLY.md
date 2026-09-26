@@ -63,3 +63,30 @@ digest verifies content integrity, not the truth or independence of measurements
 Report all measured shapes, including slowdowns. This code makes no speedup
 claim before a run, and a CPU comparison does not establish GPU performance,
 model quality, deployment readiness, or an overall estate promotion.
+
+## Retained local measurement, September 19, 2026
+
+The [complete 27-case CPU receipt](../benchmarks/results/yarqa-cpu-2026-09-19.json)
+is retained without editing its observations. It measures source commit
+`0e56e9a8451294e462160d64819add10e03f5dde`; both measured files still match
+that commit byte-for-byte after the additive integration of current main.
+Its canonical body digest is
+`300283554146b09a6b4b7ecf8abd5d24a6c1491ae82e5b60694d3e4e5f61338d`.
+
+All 27 cases passed numerical parity against the dense masked reference.
+This run used **one warmup and three timed samples**, not the stronger default
+protocol above. It requested one BLAS thread, on a Windows CPU, for all three
+sequence lengths, canal counts, and seeds. It was not independently witnessed.
+
+The per-case dense-output p50 divided by block-output p50 ranged from 0.770 to
+59.554. The block path was **slower** at S=1024, C=1, seed=42 (ratio 0.770);
+the largest ratio occurred at S=4096, C=16, seed=7. These are observations of
+this short, locally noisy run, not guaranteed speedups, confidence intervals,
+or a hardware-comparable performance claim. Every raw sample is included.
+
+Regression tests verify the retained digest, measured file hashes, complete
+case coverage, raw timing percentiles, and the reported slowdown. They check
+the retained record and current implementation binding; they do not rerun all
+27 timings, independently attest measurements, or convert the historical run
+into a current-date benchmark. GPU, energy, process peak RSS, autograd,
+model-quality impact, and deployment readiness remain unmeasured.
