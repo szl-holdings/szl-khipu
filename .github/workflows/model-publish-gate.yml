@@ -48,7 +48,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Secret pattern scan (stdlib)
         run: |
           # gitleaks for orgs is paid; the scan is replaced with a self-contained grep
@@ -67,7 +67,7 @@ jobs:
     needs: scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Recompute dataset digest
         run: |
           python scripts/dataset_digest.py \
@@ -79,7 +79,7 @@ jobs:
             --computed /tmp/dataset.digest.json \
             --receipt receipts/dataset-admission.json
           # fail-closed: any mismatch blocks the pipeline
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with: { name: dataset-digest, path: /tmp/dataset.digest.json }
 
   # ── Gate 2: held-out GENERATION eval (train loss is not eval) ───────────
@@ -87,7 +87,7 @@ jobs:
     needs: dataset-provenance
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run held-out generation eval
         run: |
           python eval/run_heldout.py \
@@ -105,7 +105,7 @@ jobs:
           PY
       - name: Refusal / abstention eval must not regress
         run: python eval/run_refusal.py --model "${{ inputs.model_dir }}" --assert-no-regression
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with: { name: heldout-eval, path: release/heldout-eval.json }
 
   # ── Gate 3: build the Model BOM (CycloneDX) ─────────────────────────────
@@ -113,7 +113,7 @@ jobs:
     needs: heldout-eval
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Generate Model BOM
         run: |
           python scripts/build_model_bom.py \
@@ -129,7 +129,7 @@ jobs:
         run: |
           syft "${{ inputs.model_dir }}" -o cyclonedx-json=/tmp/env.cdx.json
           grype sbom:/tmp/env.cdx.json --fail-on high
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with: { name: model-bom, path: bom/ }
 
   # ── Gate 4: sign — run manifest, Model BOM, weights (Sigstore keyless) ──
@@ -137,7 +137,7 @@ jobs:
     needs: model-bom
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Emit run manifest
         run: |
           python scripts/emit_run_manifest.py \
@@ -160,10 +160,10 @@ jobs:
           cosign sign-blob --yes release/weights.sha256 \
             --output-signature release/weights.sha256.sig \
             --output-certificate release/weights.sha256.crt
-      - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: "${{ inputs.model_dir }}/*.safetensors"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with: { name: signed-release, path: release/ }
 
   # ── Gate 5: adversarial conformance suite (14 vectors, incl. SIGv1 bug) ──
@@ -171,7 +171,7 @@ jobs:
     needs: sign
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run receipt conformance vectors
         run: |
           python conformance/run_vectors.py \
@@ -189,8 +189,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: hub-production           # requires required-approver review
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with: { name: signed-release, path: release/ }
       - name: Assert publication gate
         run: |
