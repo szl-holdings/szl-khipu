@@ -124,7 +124,7 @@ class StaticPayloadTests(unittest.TestCase):
         self.assertEqual(set(SERVER.STATIC_ASSETS), {f"/{name}" for name in ASSETS})
         for name in ASSETS:
             self.assertIn(f'"./{name}"', html)
-            self.assertIn(f"COPY {name} ./{name}", dockerfile.splitlines())
+            self.assertIn(f"COPY --chown=appuser:appuser {name} ./{name}", dockerfile.splitlines())
             self.assertIn(name, PUBLISH.RUNTIME_ROOT_FILES)
 
 
