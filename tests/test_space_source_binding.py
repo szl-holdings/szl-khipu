@@ -353,7 +353,7 @@ class SpaceSourceBindingTests(unittest.TestCase):
 
         dockerfile = (ROOT / "space" / "Dockerfile").read_text(encoding="utf-8")
         for name in (*PUBLISH.RUNTIME_ROOT_FILES, *PUBLISH.RUNTIME_ROOT_DIRECTORIES):
-            self.assertIn(f"COPY {name} ./{name}", dockerfile)
+            self.assertIn(f"COPY --chown=appuser:appuser {name} ./{name}", dockerfile)
         self.assertNotIn("COPY Dockerfile", dockerfile)
         self.assertNotIn("COPY README.md", dockerfile)
 

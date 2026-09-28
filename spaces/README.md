@@ -33,7 +33,7 @@ The dedicated CI smoke test imports the real SDK, starts a loopback server, chec
 
 | Tab | What you get | What you do not get |
 |---|---|---|
-| Λ gate | score + blocked on 13 sliders | proven trust, uniqueness theorem |
+| Λ gate | score + blocked on 13 sliders | proven trust, a Λ uniqueness theorem (Conjecture 1 stays open) |
 | YARQA | `n_canals` + leaked | SageAttention, CUDA cubins, tokens/s |
 | TinyKhipu | plan-valid / abstain / hallucinated | 1.5B, Qwen, GGUF |
 | Moons | acc / loss on 2→8→2 | 1.5B, published benchmark |
