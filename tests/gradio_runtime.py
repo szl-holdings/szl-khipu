@@ -45,7 +45,7 @@ class GradioRuntime(unittest.TestCase):
         cls.addClassCleanup(cls.client.close)
 
     def test_pinned_runtime_and_styling_config(self) -> None:
-        self.assertEqual(gradio.__version__, "6.27.0")
+        self.assertEqual(gradio.__version__, "6.28.0")
         self.assertFalse(self.client.analytics_enabled)
         response = httpx.get(f"{self.url}config", timeout=15.0)
         response.raise_for_status()
