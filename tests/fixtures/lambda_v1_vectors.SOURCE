@@ -1,0 +1,11 @@
+# Vendored szl.lambda/v1 golden vectors. Do not edit lambda_v1_vectors.json by hand:
+# re-copy it from the source below and update every line of this file.
+source_repository: szl-holdings/szl-lambda-gate
+source_commit: d3443b0539ad9fdbd407a0b0bf0454b416102089
+source_path: spec/lambda_v1_vectors.json
+source_pr: https://github.com/szl-holdings/szl-lambda-gate/pull/53
+spec_path: spec/szl.lambda.v1.json
+git_blob_sha1: e271fd9df5c730efed5c5ed729aec408e3376d1a
+canonical_sha256: 2a3fef3d17ca36142139fa6bd08b7f0e41526c749abc7cfd810b77cc50ab5d1f
+canonical_json: sort_keys=true separators=(",",":") ensure_ascii=false allow_nan=false utf-8
+vectors: 50
