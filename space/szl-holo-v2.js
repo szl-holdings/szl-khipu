@@ -2,6 +2,7 @@
  * A11oy Holo-Constellation v2.0.0
  * Deterministic route identity, accessible estate navigation, and low-cost
  * progressive visual enhancement. No fetch, tracking, storage, or cookies.
+ * Palettes re-point at SZL Kanchay tokens; route identity and motifs are unchanged.
  * SPDX-License-Identifier: Apache-2.0
  */
 (() => {
@@ -17,86 +18,84 @@
   const FINE_POINTER = window.matchMedia("(pointer: fine)");
   const SAVE_DATA = Boolean(navigator.connection && navigator.connection.saveData);
 
-  const PALETTES = [
-    ["#07131a", "#102633", "#f2fbff", "#9ab4c2", "#64dcff", "#a88bff"],
-    ["#130a10", "#291522", "#fff6fb", "#c2a2b3", "#ff7bc3", "#ffb56b"],
-    ["#07140d", "#12281a", "#f5fff7", "#9db8a4", "#72efa0", "#5ad6ff"],
-    ["#130e06", "#2a1d0e", "#fffaf0", "#c2b297", "#ffc66d", "#ff7d73"],
-    ["#090a18", "#171932", "#f6f6ff", "#a6a8c4", "#878cff", "#54e4d7"],
-    ["#0f0715", "#24102f", "#fff6ff", "#bca6c5", "#d88cff", "#74c6ff"],
-    ["#061315", "#10272b", "#f1feff", "#9bb9bb", "#50e3d4", "#b4ed70"],
-    ["#140808", "#2d1414", "#fff6f4", "#c2a3a0", "#ff6c63", "#e9cf6f"],
-    ["#0a1115", "#16242c", "#f5fbff", "#a3b2bb", "#83c7ff", "#8df0bd"],
-    ["#111006", "#282512", "#fffef0", "#beb99b", "#e5f36b", "#e8a85f"],
-    ["#0b0714", "#1c122c", "#faf6ff", "#aea2c0", "#b697ff", "#ff82ad"],
-    ["#07120f", "#12251f", "#f2fff9", "#9db6aa", "#75e8b4", "#c1a0ff"],
-  ];
+  // SZL Kanchay roles (kanchay/kanchay.css): ground, surface, text, paragraph,
+  // gold accent, teal proof. Every surface shares them; its motif still varies.
+  const KANCHAY_PALETTE = Object.freeze([
+    "var(--color-a11oy-bg)",
+    "var(--color-a11oy-surface)",
+    "var(--color-a11oy-text)",
+    "var(--color-a11oy-text-sub)",
+    "var(--color-a11oy-gold)",
+    "var(--color-ink-signal)",
+  ]);
+
+  const PALETTES = [KANCHAY_PALETTE];
 
   const CURATED = {
     a11oy: {
-      label: "A11oy Command",
+      label: "a11oy Command",
       motif: "command-constellation",
-      palette: ["#050806", "#0c1513", "#f3fff8", "#9fb7ad", "#b8ff45", "#31e6d1"],
+      palette: KANCHAY_PALETTE,
     },
     proof: {
-      label: "A11oy Proof Network",
+      label: "a11oy Proof Network",
       motif: "evidence-vault",
-      palette: ["#060a10", "#101722", "#f1f5f8", "#9eabb6", "#76d8aa", "#e2bb6d"],
+      palette: KANCHAY_PALETTE,
     },
     lyte: {
       label: "Lyte",
       motif: "signal-aurora",
-      palette: ["#03100f", "#0a211d", "#effffb", "#92bdb2", "#50ffd0", "#78a8ff"],
+      palette: KANCHAY_PALETTE,
     },
     vessels: {
       label: "Vessels",
       motif: "bathymetric-radar",
-      palette: ["#020d18", "#09243a", "#effbff", "#8cb5c9", "#50ddff", "#2d7cff"],
+      palette: KANCHAY_PALETTE,
     },
     terra: {
       label: "Terra",
       motif: "topographic-parcels",
-      palette: ["#06110b", "#12271a", "#f5fff7", "#9db7a3", "#7bea98", "#d9a45c"],
+      palette: KANCHAY_PALETTE,
     },
     aegis: {
       label: "Aegis",
       motif: "threat-lattice",
-      palette: ["#120606", "#281010", "#fff4f2", "#c6a19c", "#ff625b", "#ffb34d"],
+      palette: KANCHAY_PALETTE,
     },
     "prism-counsel": {
       label: "PRISM Counsel",
       motif: "case-facets",
-      palette: ["#070b18", "#141a31", "#f8f9ff", "#a8b0ca", "#7da8ff", "#d7c4ff"],
+      palette: KANCHAY_PALETTE,
     },
     "carlota-jo": {
       label: "Carlota Jo",
       motif: "editorial-orbit",
-      palette: ["#140a17", "#2b1330", "#fff7ff", "#c6a8c7", "#e2a8ff", "#ef9b67"],
+      palette: KANCHAY_PALETTE,
     },
     nexus: {
       label: "Nexus",
       motif: "connection-field",
-      palette: ["#070918", "#151831", "#f7f7ff", "#a5aac8", "#9a8cff", "#53e9ff"],
+      palette: KANCHAY_PALETTE,
     },
     factory: {
-      label: "A11oy Factory",
+      label: "a11oy Factory",
       motif: "assembly-circuit",
-      palette: ["#070c07", "#171f13", "#fafff5", "#abb9a4", "#c9ff5c", "#7e9cff"],
+      palette: KANCHAY_PALETTE,
     },
     ouroboros: {
       label: "Ouroboros",
       motif: "recursive-ring",
-      palette: ["#100b05", "#24180b", "#fffaf0", "#c4b59b", "#ffd36e", "#c094ff"],
+      palette: KANCHAY_PALETTE,
     },
     khipu: {
       label: "KHIPU",
       motif: "woven-proof",
-      palette: ["#120b05", "#271a0e", "#fff9ee", "#c6b39b", "#e9c66e", "#c87945"],
+      palette: KANCHAY_PALETTE,
     },
     killinchu: {
       label: "Killinchu",
       motif: "agent-swarm",
-      palette: ["#100615", "#26102e", "#fff5ff", "#c5a4c9", "#ff74d4", "#68e8ff"],
+      palette: KANCHAY_PALETTE,
     },
   };
 
@@ -193,7 +192,7 @@
   }
 
   function resolveTheme() {
-    return {"id":"szl-khipu","label":"Szl Khipu","motif":"woven-proof","palette":["#090a18","#171932","#f6f6ff","#a6a8c4","#878cff","#54e4d7"],"source":"space-specific"};
+    return {"id":"szl-khipu","label":"Szl Khipu","motif":"woven-proof","palette":KANCHAY_PALETTE,"source":"space-specific"};
     const id = surfaceCandidate();
     const curated = CURATED[id];
     if (curated) return { id, ...curated, source: "curated" };
@@ -202,7 +201,7 @@
     const palette = PALETTES[seed % PALETTES.length];
     return {
       id,
-      label: titleCase(id) || "A11oy Space",
+      label: titleCase(id) || "a11oy Space",
       motif: MOTIFS[(seed >>> 8) % MOTIFS.length],
       palette,
       source: "deterministic",
@@ -268,7 +267,7 @@
     const identity = createElement("a", {
       className: "szl-holo-identity",
       href: `${PRODUCT}/`,
-      "aria-label": "Open the A11oy Command origin",
+      "aria-label": "Open the a11oy Command origin",
     });
     identity.append(createElement("span", { className: "szl-holo-mark", "aria-hidden": "true" }));
     const copy = createElement("span", { className: "szl-holo-copy" });
@@ -287,7 +286,7 @@
     const nav = createElement("nav", {
       className: "szl-holo-nav",
       id: "szl-holo-nav",
-      "aria-label": "A11oy ecosystem",
+      "aria-label": "a11oy ecosystem",
       dataset: { open: "false" },
     });
     for (const [label, href] of LINKS) {

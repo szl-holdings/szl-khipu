@@ -65,13 +65,15 @@ class HonestyDocs(unittest.TestCase):
 
     def test_space_holographic_chrome(self) -> None:
         text = _read(ROOT / "spaces" / "app.py")
-        self.assertIn("--proof:#3af4c8", text)
-        self.assertIn("--gold:#e8c074", text)
-        self.assertIn("--bg:#05070d", text)
+        # SZL Kanchay roles replace the legacy hologram hex (#3af4c8 / #e8c074 / #05070d).
+        self.assertIn("var(--color-ink-signal)", text)
+        self.assertIn("var(--color-a11oy-gold)", text)
+        self.assertIn("var(--color-a11oy-bg)", text)
+        self.assertIn('KANCHAY_DIR = ROOT / "szl_khipu" / "kanchay"', text)
         self.assertIn("footer { display: none", text)
         self.assertIn("Conjecture 1", text)
         self.assertIn("energy UNAVAILABLE", text)
-        self.assertIn("system fonts", text.lower())
+        self.assertIn("no google fonts", text.lower())
         self.assertNotIn("proven_trust=true", text)
         self.assertIn("evaluate_anatomy", text)
         self.assertIn("five-organ", text.lower())

@@ -20,7 +20,7 @@ tags:
 
 Walk every Hugging Face model id under [SZLHOLDINGS](https://huggingface.co/SZLHOLDINGS). Forty cards. Unique cuts. GitHub-aligned Python. Kernel playgrounds that run in the browser.
 
-YAML `emoji` is Hub metadata, not product chrome. System fonts. No Google Fonts. Gold is OPEN. Never green-as-proven. Never a fabricated joule.
+YAML `emoji` is Hub metadata, not product chrome. SZL Kanchay chrome with local fonts (`kanchay/`). No Google Fonts. Gold is OPEN. Never green-as-proven. Never a fabricated joule.
 
 **Source.** [szl-holdings/szl-atelier](https://github.com/szl-holdings/szl-atelier)  
 **Kernels.** [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)  

@@ -11,7 +11,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from szl_khipu.doctrine import proven_trust
-from szl_khipu.http_app import make_server
+from szl_khipu.http_app import KANCHAY_ASSETS, KANCHAY_DIR, make_server
 
 
 class HttpAppTests(unittest.TestCase):
@@ -135,6 +135,28 @@ class HttpAppTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as ctx:
             self._get("/nope")
         self.assertEqual(ctx.exception.code, 404)
+
+    def test_page_loads_vendored_kanchay_locally(self) -> None:
+        _code, raw, _ctype = self._get("/")
+        text = raw.decode("utf-8")
+        self.assertIn('href="./kanchay/kanchay.css"', text)
+        self.assertIn('href="./kanchay/kanchay-components.css"', text)
+        self.assertNotIn("fonts.googleapis", text)
+        for path, (name, content_type) in KANCHAY_ASSETS.items():
+            with self.subTest(path=path):
+                code, body, ctype = self._get(path)
+                self.assertEqual(code, 200)
+                self.assertEqual(ctype, content_type.split(";")[0])
+                self.assertEqual(body, (KANCHAY_DIR / name).read_bytes())
+                req = Request(f"http://127.0.0.1:{self.port}{path}", method="HEAD")
+                with urlopen(req, timeout=5) as r:
+                    self.assertEqual(r.status, 200)
+                    self.assertEqual(r.headers["content-length"], str(len(body)))
+                    self.assertEqual(r.read(), b"")
+        for path in ("/kanchay/SOURCE.json", "/kanchay/../page.html", "/kanchay/fonts/Syncopate-400.woff2"):
+            with self.subTest(path=path), self.assertRaises(HTTPError) as ctx:
+                self._get(path)
+            self.assertEqual(ctx.exception.code, 404)
 
 
 if __name__ == "__main__":

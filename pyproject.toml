@@ -51,7 +51,13 @@ szl-khipu = "szl_khipu.cli:main"
 include = ["szl_khipu*"]
 
 [tool.setuptools.package-data]
-szl_khipu = ["py.typed", "page.html"]
+szl_khipu = [
+  "py.typed",
+  "page.html",
+  "kanchay/SOURCE.json",
+  "kanchay/*.css",
+  "kanchay/fonts/*.woff2",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

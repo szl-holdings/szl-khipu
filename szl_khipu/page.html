@@ -3,38 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title>SZL KHIPU — knot · hash · fail closed</title>
 <meta name="description" content="Live Python kernels. Λ advisory. Energy UNAVAILABLE. Conjecture 1 OPEN.">
+<link rel="stylesheet" href="./kanchay/kanchay.css">
+<link rel="stylesheet" href="./kanchay/kanchay-components.css">
 <style>
-:root{--bg:#05070d;--ink:#e8edf4;--muted:#8b96a6;--line:#1c2430;--gold:#e8c074;--proof:#3af4c8;--block:#c17a72;--panel:#0c1118}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 ui-sans-serif,system-ui,sans-serif}
-body{min-height:100vh;background-image:linear-gradient(rgba(58,244,200,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(58,244,200,.04) 1px,transparent 1px);background-size:48px 48px}
-a{color:var(--proof)}button,input,select{font:inherit}button{cursor:pointer}
-header{padding:2.2rem 1.2rem 1rem;max-width:980px;margin:0 auto}
-.ey{font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-h1{font:500 2.4rem/1.1 Georgia,serif;letter-spacing:-.03em;margin:.4rem 0}
-.lede{color:var(--muted);max-width:40rem}
-.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0}
-.chip{border:1px solid var(--line);padding:.2rem .55rem;font:11px/1.4 ui-monospace,Menlo,monospace;color:var(--muted)}
-.chip.open{color:var(--gold);border-color:#5a4a28}.chip.live{color:var(--proof);border-color:#1a5c4e}
-main{max-width:980px;margin:0 auto;padding:0 1.2rem 4rem;display:grid;gap:1rem}
-.panel{background:var(--panel);border:1px solid var(--line);padding:1rem 1.1rem}
-.panel h2{font:500 1.05rem/1.2 Georgia,serif;margin:0 0 .6rem}
-.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.4rem 0}
-label{font:12px/1.3 ui-monospace,Menlo,monospace;color:var(--muted)}
-input[type=range]{width:min(100%,16rem)}
-button.run{background:transparent;color:var(--proof);border:1px solid #1a5c4e;padding:.45rem .8rem}
-button.run:hover{background:#0d2a24}button.run:disabled{opacity:.5}
-pre{white-space:pre-wrap;word-break:break-word;font:12px/1.45 ui-monospace,Menlo,monospace;color:var(--ink);margin:.6rem 0 0}
-.orgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem}
-.org{border:1px solid var(--line);padding:.55rem .7rem;font:12px/1.35 ui-monospace,Menlo,monospace}
-.org b{display:block;font:500 13px/1.2 Georgia,serif;color:var(--ink)}
-.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.35rem .8rem}
-footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);font:12px/1.5 ui-monospace,Menlo,monospace}
+/* SZL Kanchay surface styles: every color and face is a token from kanchay.css. */
+*{box-sizing:border-box}
+html{background:var(--color-a11oy-bg)}
+body{min-height:100vh;font:16px/1.5 var(--font-sans);color:var(--color-a11oy-text)}
+a{color:var(--color-ink-signal);text-underline-offset:3px}
+button,input,select{font:inherit}button{cursor:pointer}
+:where(a,button,input,select):focus-visible{outline:var(--border-focus) solid var(--color-focus);outline-offset:2px}
+.skip{position:absolute;left:var(--space-2);top:var(--space-2);z-index:var(--z-toast);display:inline-flex;align-items:center;min-height:var(--szl-touch-target);padding:0 var(--space-4);border-radius:var(--radius-sm);background:var(--color-a11oy-gold);color:var(--color-on-accent);font-weight:600;text-decoration:none;transform:translateY(-200%)}
+.skip:focus{transform:none}
+header{position:relative;isolation:isolate;max-width:980px;margin:0 auto;padding:var(--space-12) var(--space-5) var(--space-8)}
+header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%)}
+.ey{font:400 10px/16px var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--color-a11oy-gold)}
+h1{margin:var(--space-3) 0 var(--space-4);font-family:var(--font-display);font-weight:300;font-size:clamp(2.25rem,6vw,3.25rem);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
+.lede{max-width:var(--szl-readable-measure);margin:0;color:var(--color-a11oy-text-sub);text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-5) 0 0}
+.chip{display:inline-flex;align-items:center;padding:2px var(--space-2);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:500 11px/16px var(--font-mono);letter-spacing:.05em;color:var(--color-a11oy-text-sub)}
+.chip.open{color:var(--color-a11oy-gold);border-color:var(--gold-line)}.chip.live{color:var(--color-ink-signal);border-color:var(--teal-line)}
+main{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-16);display:grid;gap:var(--space-4)}
+.panel{min-width:0;background:var(--color-a11oy-surface);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-md);padding:var(--space-5)}
+.panel h2{margin:0 0 var(--space-2);font-family:var(--font-display);font-weight:600;font-size:1.125rem;line-height:1.3;letter-spacing:-.02em;text-wrap:balance}
+.panel .lede{font-size:14px;line-height:1.625}
+.row{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin:var(--space-4) 0 0}
+label{font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub);overflow-wrap:anywhere}
+input[type=range]{width:min(100%,16rem);min-height:var(--szl-touch-target);accent-color:var(--color-a11oy-gold)}
+.kc-btn{height:auto;min-height:var(--szl-touch-target)}
+.kc-btn:disabled{opacity:.5}
+pre{margin:var(--space-4) 0 0;padding:var(--space-3) var(--space-4);white-space:pre-wrap;word-break:break-word;background:var(--color-a11oy-deep);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-sub);font-variant-numeric:tabular-nums}
+.orgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);margin-top:var(--space-4)}
+.orgs:empty{display:none}
+.org{border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);background:var(--color-a11oy-deep);padding:var(--space-2) var(--space-3);font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub)}
+.org b{display:block;margin-bottom:2px;font:600 13px/1.3 var(--font-display);color:var(--color-a11oy-text)}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-1) var(--space-4);margin-top:var(--space-4)}
+footer{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-10);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-ghost)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header>
   <div class="ey">SZL Holdings · Doctrine v11 LOCKED · Python FE+BE</div>
   <h1>Knot the run. Hash the proof. Fail closed.</h1>
@@ -47,14 +59,14 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <span class="chip">locked-proven 8</span>
   </div>
 </header>
-<main>
+<main id="main">
   <section class="panel" id="lambda">
     <h2>Λ gate — 13 Yuyay axes</h2>
     <p class="lede">Weighted geometric mean. Any zero or non-finite axis fail-closes. Advisory, not a uniqueness proof.</p>
     <div class="axes" id="axis-box"></div>
     <div class="row">
-      <button class="run" id="run-lambda">score Λ</button>
-      <button class="run" id="zero-lambda">zero-route heart</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-lambda">Score Λ</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="zero-lambda">Zero-route heart</button>
     </div>
     <pre id="out-lambda">idle</pre>
   </section>
@@ -62,9 +74,9 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <h2>Anatomy — five organs</h2>
     <p class="lede">HEART/YUYAY · YAWAR · YACHAY · OTel · Khipu skeleton. Any DOWN organ or WILLAY veto blocks the body. Not a Three.js rehost.</p>
     <div class="row">
-      <button class="run" id="run-anatomy">evaluate body</button>
-      <button class="run" id="kill-heart">zero HEART</button>
-      <button class="run" id="fake-joule">fabricate joule</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-anatomy">Evaluate body</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="kill-heart">Zero HEART</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="fake-joule">Fabricate joule</button>
     </div>
     <div class="orgs" id="org-box"></div>
     <pre id="out-anatomy">idle</pre>
@@ -73,17 +85,17 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <h2>GreenLight — Ari</h2>
     <p class="lede">Signed assent. A sorry cannot be painted green. Claiming Λ uniqueness or stamping a joule fail-closes. proven_trust stays false.</p>
     <div class="row">
-      <button class="run" id="run-green">green-light this bound</button>
-      <button class="run" id="paint-sorry">paint a sorry green</button>
-      <button class="run" id="claim-proven">claim Λ proven</button>
-      <button class="run" id="stamp-joule">stamp MEASURED joules</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-green">Green-light this bound</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="paint-sorry">Paint a sorry green</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="claim-proven">Claim Λ proven</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="stamp-joule">Stamp MEASURED joules</button>
     </div>
     <pre id="out-green">idle</pre>
   </section>
   <section class="panel" id="yarqa">
     <h2>YARQA — canal attention</h2>
     <p class="lede">Attend inside the compartment. Leak is the bound. Not SageAttention. Not CUDA.</p>
-    <div class="row"><button class="run" id="run-yarqa">run canals</button></div>
+    <div class="row"><button type="button" class="kc-btn kc-btn--outline" id="run-yarqa">Run canals</button></div>
     <pre id="out-yarqa">idle</pre>
   </section>
   <section class="panel" id="grid">
@@ -91,7 +103,7 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <p class="lede">Residual-vs-naive can hold while the grid lies. Tamper 1 coarsens Br. Tamper 2 drops a K-tile.</p>
     <div class="row">
       <label>tamper <input id="tamper" type="range" min="0" max="2" value="0"></label>
-      <button class="run" id="run-grid">receipt grid</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-grid">Receipt grid</button>
     </div>
     <pre id="out-grid">idle</pre>
   </section>
@@ -99,8 +111,8 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <h2>PrefixWitness — radix digest</h2>
     <p class="lede">Original cut of SGLang RadixAttention. Poison the cached KV after the digest — BLOCKED. Not SGLang. No tokens/s.</p>
     <div class="row">
-      <button class="run" id="run-prefix">honest prefix</button>
-      <button class="run" id="hijack-prefix">poison after digest</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-prefix">Honest prefix</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="hijack-prefix">Poison after digest</button>
     </div>
     <pre id="out-prefix">idle</pre>
   </section>
@@ -108,8 +120,8 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <h2>RouteWitness — expert digest</h2>
     <p class="lede">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
     <div class="row">
-      <button class="run" id="run-route">honest route</button>
-      <button class="run" id="swap-route">swap expert</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-route">Honest route</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="swap-route">Swap expert</button>
     </div>
     <pre id="out-route">idle</pre>
   </section>
@@ -117,8 +129,8 @@ footer{max-width:980px;margin:0 auto;padding:0 1.2rem 2.5rem;color:var(--muted);
     <h2>Inference Bay</h2>
     <p class="lede">Kernel is truth. TinyKhipu / ReceiptAgent / moons infer here. 1.5B QLoRA stays RESEARCH. CUDA UNAVAILABLE.</p>
     <div class="row">
-      <button class="run" id="run-bench">bench kernels</button>
-      <button class="run" id="run-infer">infer TinyKhipu</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-bench">Bench kernels</button>
+      <button type="button" class="kc-btn kc-btn--outline" id="run-infer">Infer TinyKhipu</button>
     </div>
     <pre id="out-infer">idle</pre>
   </section>

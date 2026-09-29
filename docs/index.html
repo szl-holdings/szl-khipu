@@ -3,26 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title>SZL KHIPU — knot · hash · fail closed</title>
 <meta name="description" content="GitHub Pages silhouette of the Python khipu. Live kernels: clone and szl-khipu serve. Λ is Conjecture 1 OPEN. Energy UNAVAILABLE.">
+<link rel="stylesheet" href="./kanchay/kanchay.css">
+<link rel="stylesheet" href="./kanchay/kanchay-components.css">
 <style>
-:root{--bg:#05070d;--ink:#e8edf4;--muted:#8b96a6;--line:#1c2430;--gold:#e8c074;--proof:#3af4c8}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 ui-sans-serif,system-ui,sans-serif}
-body{min-height:100vh;background-image:linear-gradient(rgba(58,244,200,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(58,244,200,.04) 1px,transparent 1px);background-size:48px 48px}
-a{color:var(--proof)}button{cursor:pointer;background:transparent;color:var(--proof);border:1px solid #1a5c4e;padding:.45rem .8rem;font:inherit}
-header,main,footer{max-width:880px;margin:0 auto;padding:1.4rem 1.2rem}
-.ey{font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-h1{font:500 2.3rem/1.1 Georgia,serif;letter-spacing:-.03em;margin:.4rem 0}
-.lede{color:var(--muted)}
-.panel{border:1px solid var(--line);background:#0c1118;padding:1rem;margin:1rem 0}
-.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.4rem}
-label{font:12px/1.3 ui-monospace,Menlo,monospace;color:var(--muted)}
-pre{font:12px/1.45 ui-monospace,Menlo,monospace;white-space:pre-wrap}
-.chip{display:inline-block;border:1px solid var(--line);padding:.15rem .5rem;margin:.15rem;font:11px ui-monospace,Menlo,monospace;color:var(--muted)}
-.gold{color:var(--gold);border-color:#5a4a28}
+/* SZL Kanchay surface styles: every color and face is a token from kanchay.css. */
+*{box-sizing:border-box}
+html{background:var(--color-a11oy-bg)}
+body{min-height:100vh;font:16px/1.5 var(--font-sans);color:var(--color-a11oy-text)}
+a{color:var(--color-ink-signal);text-underline-offset:3px}
+button{cursor:pointer;font:inherit}
+:where(a,button,input):focus-visible{outline:var(--border-focus) solid var(--color-focus);outline-offset:2px}
+.skip{position:absolute;left:var(--space-2);top:var(--space-2);z-index:var(--z-toast);display:inline-flex;align-items:center;min-height:var(--szl-touch-target);padding:0 var(--space-4);border-radius:var(--radius-sm);background:var(--color-a11oy-gold);color:var(--color-on-accent);font-weight:600;text-decoration:none;transform:translateY(-200%)}
+.skip:focus{transform:none}
+header,main,footer{max-width:880px;margin:0 auto;padding:var(--space-6) var(--space-5)}
+header{position:relative;isolation:isolate;padding-top:var(--space-12)}
+header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%)}
+.ey{font:400 10px/16px var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--color-a11oy-gold)}
+h1{margin:var(--space-3) 0 var(--space-4);font-family:var(--font-display);font-weight:300;font-size:clamp(2.25rem,6vw,3.25rem);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
+h2{margin:0 0 var(--space-2);font-family:var(--font-display);font-weight:600;font-size:1.125rem;line-height:1.3;letter-spacing:-.02em;text-wrap:balance}
+.lede{max-width:var(--szl-readable-measure);color:var(--color-a11oy-text-sub);text-wrap:pretty}
+.panel .lede{font-size:14px;line-height:1.625}
+.panel{min-width:0;border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-md);background:var(--color-a11oy-surface);padding:var(--space-5);margin:var(--space-4) 0}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-1) var(--space-4)}
+label{font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub);overflow-wrap:anywhere}
+input[type=range]{width:100%;min-height:var(--szl-touch-target);accent-color:var(--color-a11oy-gold)}
+.actions{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.kc-btn{height:auto;min-height:var(--szl-touch-target)}
+pre{margin:var(--space-4) 0 0;padding:var(--space-3) var(--space-4);overflow-x:auto;white-space:pre-wrap;word-break:break-word;background:var(--color-a11oy-deep);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-sub);font-variant-numeric:tabular-nums}
+code{font-family:var(--font-mono);font-size:.875em;color:var(--color-ink-signal)}
+.chip{display:inline-flex;align-items:center;padding:2px var(--space-2);margin:var(--space-2) var(--space-1) 0 0;border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:500 11px/16px var(--font-mono);letter-spacing:.05em;color:var(--color-a11oy-text-sub)}
+.gold{color:var(--color-a11oy-gold);border-color:var(--gold-line)}
+footer{font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-ghost)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header>
   <div class="ey">SZL Holdings · GitHub Pages · JS silhouette</div>
   <h1>Knot the run. Hash the proof. Fail closed.</h1>
@@ -36,22 +55,22 @@ szl-khipu serve --host 127.0.0.1 --port 7860</pre>
   <span class="chip">CUDA UNAVAILABLE</span>
   <span class="chip">locked-proven 8</span>
 </header>
-<main>
+<main id="main">
   <section class="panel">
     <h2>Λ silhouette — 13 equal weights</h2>
     <p class="lede">Same WGM as the Python gate. Zero-route fail-closes. This is not a uniqueness proof.</p>
     <div class="axes" id="axes"></div>
-    <p><button id="score">score Λ</button> <button id="zero">zero-route</button></p>
+    <p class="actions"><button type="button" class="kc-btn kc-btn--outline" id="score">Score Λ</button> <button type="button" class="kc-btn kc-btn--secondary" id="zero">Zero-route</button></p>
     <pre id="out">idle — JS silhouette, not the NumPy kernel</pre>
   </section>
   <section class="panel">
     <h2>GreenLight silhouette — Ari</h2>
     <p class="lede">A sorry cannot be painted green. This is the JS dual of the Python kernel. proven_trust stays false. Energy UNAVAILABLE.</p>
-    <p>
-      <button id="g-ok">green-light</button>
-      <button id="g-sorry">paint a sorry green</button>
-      <button id="g-claim">claim Λ proven</button>
-      <button id="g-joule">stamp a joule</button>
+    <p class="actions">
+      <button type="button" class="kc-btn kc-btn--outline" id="g-ok">Green-light</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="g-sorry">Paint a sorry green</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="g-claim">Claim Λ proven</button>
+      <button type="button" class="kc-btn kc-btn--secondary" id="g-joule">Stamp a joule</button>
     </p>
     <pre id="gout">idle</pre>
   </section>
