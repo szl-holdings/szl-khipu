@@ -44,6 +44,8 @@ jobs:
         run: python scripts/publish_hf.py --prepare-provenance hf-deployment-provenance.json
       - name: Validate exact staged source offline
         run: python scripts/publish_hf.py --validate-provenance hf-deployment-provenance.json
+      - name: Validate immutable model software scope offline
+        run: python scripts/publish_hf.py --validate-model-source
       - name: Require provider publication
         if: steps.authority.outputs.authority_valid == 'true'
         id: publication
@@ -83,5 +85,6 @@ jobs:
           path: |
             hf-deployment-provenance.json
             hf-deployment-receipt.json
+            hf-model-source-receipt.json
           if-no-files-found: error
           retention-days: 90
