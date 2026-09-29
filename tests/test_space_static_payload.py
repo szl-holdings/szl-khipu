@@ -27,32 +27,22 @@ ASSETS = {
     "szl-holo-v2.css": (b"body { color: white; }\n", "text/css; charset=utf-8"),
     "szl-holo-v2.js": (b"const ready = true;\n", "text/javascript; charset=utf-8"),
 }
-# SZL Kanchay is vendored once in the package (szl_khipu/kanchay/), which the Space
-# payload already carries; the server maps fixed /kanchay/ paths onto those files.
-KANCHAY_ASSETS = {
-    "/kanchay/kanchay.css": ("szl_khipu/kanchay/kanchay.css", "text/css; charset=utf-8"),
-    "/kanchay/kanchay-components.css": (
-        "szl_khipu/kanchay/kanchay-components.css",
+# SZL KANCHAY (founder direction) is vendored once in the package (szl_khipu/szl/),
+# which the Space payload already carries; the server maps fixed /szl/ paths onto it.
+SZL_ASSETS = {
+    "/szl/szl-design-system.css": (
+        "szl_khipu/szl/szl-design-system.css",
         "text/css; charset=utf-8",
     ),
-    "/kanchay/fonts/SpaceGrotesk-latin.woff2": (
-        "szl_khipu/kanchay/fonts/SpaceGrotesk-latin.woff2",
-        "font/woff2",
-    ),
-    "/kanchay/fonts/Inter-latin.woff2": ("szl_khipu/kanchay/fonts/Inter-latin.woff2", "font/woff2"),
-    "/kanchay/fonts/JetBrainsMono-latin.woff2": (
-        "szl_khipu/kanchay/fonts/JetBrainsMono-latin.woff2",
-        "font/woff2",
-    ),
+    "/szl/logos/szl_favicon.svg": ("szl_khipu/szl/logos/szl_favicon.svg", "image/svg+xml"),
 }
-KANCHAY_STYLESHEETS = ("./kanchay/kanchay.css", "./kanchay/kanchay-components.css")
 
 
-def _kanchay_fixture(root: Path) -> dict[str, bytes]:
+def _szl_fixture(root: Path) -> dict[str, bytes]:
     """Write distinct stand-in bytes at each vendored payload path under root."""
     bodies = {}
-    for served, (relative, _content_type) in KANCHAY_ASSETS.items():
-        body = f"kanchay fixture {served}\n".encode()
+    for served, (relative, _content_type) in SZL_ASSETS.items():
+        body = f"szl fixture {served}\n".encode()
         target = root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(body)
@@ -102,11 +92,11 @@ class StaticPayloadTests(unittest.TestCase):
                             self.assertEqual(handler.wfile.getvalue(), body if method == "GET" else b"")
                             provider.assert_not_called()
 
-    def test_kanchay_assets_serve_from_the_payload_package(self):
+    def test_szl_assets_serve_from_the_payload_package(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            bodies = _kanchay_fixture(root)
-            for served, (_relative, content_type) in KANCHAY_ASSETS.items():
+            bodies = _szl_fixture(root)
+            for served, (_relative, content_type) in SZL_ASSETS.items():
                 for method in ("GET", "HEAD"):
                     with self.subTest(path=served, method=method):
                         handler = CapturedHandler(method, served)
@@ -123,12 +113,12 @@ class StaticPayloadTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             repository = Path(directory)
             (repository / "space").mkdir()
-            bodies = _kanchay_fixture(repository)
-            handler = CapturedHandler("GET", "/kanchay/kanchay.css")
+            bodies = _szl_fixture(repository)
+            handler = CapturedHandler("GET", "/szl/szl-design-system.css")
             with mock.patch.object(SERVER, "ROOT", repository / "space"):
                 handler.do_GET()
             self.assertEqual(handler.status, 200)
-            self.assertEqual(handler.wfile.getvalue(), bodies["/kanchay/kanchay.css"])
+            self.assertEqual(handler.wfile.getvalue(), bodies["/szl/szl-design-system.css"])
 
     def test_unknown_and_missing_assets_remain_not_found(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -136,11 +126,12 @@ class StaticPayloadTests(unittest.TestCase):
                 "/missing.css",
                 "/szl-holo-v2.css",
                 "/szl-holo-v2.js",
-                *KANCHAY_ASSETS,
-                "/kanchay/SOURCE.json",
-                "/kanchay/fonts/Syncopate-400.woff2",
-                "/szl_khipu/kanchay/kanchay.css",
-                "/kanchay/../server.py",
+                *SZL_ASSETS,
+                "/szl/SOURCE.json",
+                "/szl/szl-console.css",
+                "/szl_khipu/szl/szl-design-system.css",
+                "/szl/../server.py",
+                "/kanchay/kanchay.css",
             ):
                 for method in ("GET", "HEAD"):
                     with self.subTest(path=path, method=method):
@@ -159,7 +150,7 @@ class StaticPayloadTests(unittest.TestCase):
             space.mkdir(parents=True)
             for name in ("Dockerfile", "README.md", *PUBLISH.RUNTIME_ROOT_FILES):
                 (space / name).write_bytes(ASSETS.get(name, (b"fixture\n", ""))[0])
-            kanchay = _kanchay_fixture(source)
+            szl = _szl_fixture(source)
             staging = root / "staging"
             staging.mkdir()
             with (
@@ -176,9 +167,9 @@ class StaticPayloadTests(unittest.TestCase):
             for name, (body, _content_type) in ASSETS.items():
                 self.assertEqual((staging / name).read_bytes(), body)
                 self.assertEqual(records[name]["sha256"], hashlib.sha256(body).hexdigest())
-            for served, (relative, _content_type) in KANCHAY_ASSETS.items():
-                self.assertEqual((staging / relative).read_bytes(), kanchay[served])
-                self.assertEqual(records[relative]["sha256"], hashlib.sha256(kanchay[served]).hexdigest())
+            for served, (relative, _content_type) in SZL_ASSETS.items():
+                self.assertEqual((staging / relative).read_bytes(), szl[served])
+                self.assertEqual(records[relative]["sha256"], hashlib.sha256(szl[served]).hexdigest())
 
     def test_missing_required_source_fails_before_creating_payload(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -195,24 +186,24 @@ class StaticPayloadTests(unittest.TestCase):
         dockerfile = (ROOT / "space" / "Dockerfile").read_text(encoding="utf-8")
         self.assertEqual(
             set(SERVER.STATIC_ASSETS),
-            {f"/{name}" for name in ASSETS} | set(KANCHAY_ASSETS),
+            {f"/{name}" for name in ASSETS} | set(SZL_ASSETS),
         )
         for name in ASSETS:
             self.assertIn(f'"./{name}"', html)
             self.assertIn(f"COPY --chown=appuser:appuser {name} ./{name}", dockerfile.splitlines())
             self.assertIn(name, PUBLISH.RUNTIME_ROOT_FILES)
-        # Kanchay rides in the package directory the container and manifest already carry.
+        # The design system rides in the package directory the container and manifest already carry.
         self.assertIn("COPY --chown=appuser:appuser szl_khipu ./szl_khipu", dockerfile.splitlines())
         self.assertIn("szl_khipu", PUBLISH.RUNTIME_ROOT_DIRECTORIES)
-        tokens = (ROOT / "szl_khipu" / "kanchay" / "kanchay.css").read_text(encoding="utf-8")
-        for served, (relative, content_type) in KANCHAY_ASSETS.items():
+        for served, (relative, content_type) in SZL_ASSETS.items():
             self.assertEqual(SERVER.STATIC_ASSETS[served], (relative, content_type))
             self.assertTrue((ROOT / relative).is_file(), relative)
-            if content_type == "font/woff2":
-                self.assertIn(f"url('./fonts/{Path(relative).name}')", tokens)
-        # Tokens load before the components, and both before the Space's own stylesheet.
-        positions = [html.index(f'"{href}"') for href in (*KANCHAY_STYLESHEETS, "./szl-holo-v2.css")]
-        self.assertEqual(positions, sorted(positions))
+        # The rail mark is the vendored orbit mark; the favicon link uses the same file.
+        holo = (ROOT / "space" / "szl-holo-v2.css").read_text(encoding="utf-8")
+        self.assertIn('url("./szl/logos/szl_favicon.svg")', holo)
+        self.assertIn('href="./szl/logos/szl_favicon.svg"', html)
+        # The design system loads before the Space's own stylesheet.
+        self.assertLess(html.index('"./szl/szl-design-system.css"'), html.index('"./szl-holo-v2.css"'))
 
 
 if __name__ == "__main__":

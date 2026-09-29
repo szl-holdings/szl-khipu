@@ -16,7 +16,7 @@ short_description: Knot the run. Hash the proof. Fail closed.
 
 Knot the run. Hash the proof. Fail closed.
 
-Holographic Gradio 6 demo for the `szl-khipu` package **on GitHub**. The separate Docker publisher uses `../space/` (stdlib HTTP, no Gradio); this demo is not a request to create or replace a Hub Space. Chrome is SZL Kanchay, vendored byte-for-byte in `szl_khipu/kanchay/` (ground `--color-a11oy-bg`, gold `--color-a11oy-gold` = OPEN, proof teal `--color-ink-signal` = LIVE). Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. Local Kanchay fonts (Space Grotesk, Inter, JetBrains Mono). No Google Fonts.
+Holographic Gradio 6 demo for the `szl-khipu` package **on GitHub**. The separate Docker publisher uses `../space/` (stdlib HTTP, no Gradio); this demo is not a request to create or replace a Hub Space. Chrome is SZL KANCHAY (founder direction), vendored byte-for-byte in `szl_khipu/szl/`: space-navy ground `--bg`, one coral primary `--accent` per tab, status as worded chips, receipts as `.receipt`. Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. System fonts. No Google Fonts.
 
 From the repository root, install and run the pinned demo in a virtual environment:
 

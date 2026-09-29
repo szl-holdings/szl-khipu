@@ -6,7 +6,7 @@ const esc = (s) =>
     .replaceAll(">", ">")
     .replaceAll('"', """);
 
-// Canvas cannot resolve CSS custom properties, so drawings read Kanchay token values at draw time.
+// Canvas cannot resolve CSS custom properties, so drawings read SZL KANCHAY token values at draw time.
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 let DATA = { models: [], estate: [], doctrine: "" };
@@ -409,7 +409,7 @@ function mountPlay(root, m) {
           const same = cid(i) === cid(j);
           const mass = same ? 0.7 : 0;
           if (!same) leaked += mass;
-          ctx.fillStyle = same ? token("--color-a11oy-text") : token("--color-a11oy-surface");
+          ctx.fillStyle = same ? token("--text") : token("--surface");
           ctx.globalAlpha = same ? 0.15 + 0.7 * (i === j ? 1 : 0.25) : 1;
           ctx.fillRect(j * cell + 1, i * cell + 1, cell - 2, cell - 2);
           ctx.globalAlpha = 1;
@@ -441,7 +441,7 @@ function mountPlay(root, m) {
           tot++;
           if (ok) keep++;
           if (j > i && ok) future++;
-          ctx.fillStyle = ok ? token("--color-a11oy-text-sub") : token("--color-a11oy-surface");
+          ctx.fillStyle = ok ? token("--text-sub") : token("--surface");
           ctx.fillRect(j * cell + 1, i * cell + 1, cell - 2, cell - 2);
         }
       }
@@ -526,7 +526,7 @@ function mountPlay(root, m) {
         const n = Math.hypot(...vec) || 1;
         vec = vec.map((v) => v / n);
       } else vec = ids.map((id) => (id / 64) * 2 - 1).slice(0, 12);
-      $("#bars").innerHTML = vec.map((v) => `<span style="flex:1;background:var(--color-a11oy-text-sub);height:${Math.max(8, (v + 1) * 50)}%;border-radius:2px"></span>`).join("");
+      $("#bars").innerHTML = vec.map((v) => `<span style="flex:1;background:var(--text-sub);height:${Math.max(8, (v + 1) * 50)}%;border-radius:2px"></span>`).join("");
       gate($("#g"), "RECEIPT", true, `V=64 d=12 · hit@2 SAMPLE 0.40 · Hub analogy UNAVAILABLE`);
     };
     $("#q").oninput = () => run();
@@ -562,7 +562,7 @@ function mountPlay(root, m) {
     const ctx = cv.getContext("2d");
     const cloud = NANO?.moons?.cloud ?? [];
     const draw = (pick) => {
-      ctx.fillStyle = token("--color-a11oy-surface");
+      ctx.fillStyle = token("--surface");
       ctx.fillRect(0, 0, 640, 360);
       const xs = cloud.map((p) => p.x);
       const ys = cloud.map((p) => p.y);
@@ -573,13 +573,13 @@ function mountPlay(root, m) {
       const sx = (x) => ((x - x0) / (x1 - x0)) * 640;
       const sy = (y) => 360 - ((y - y0) / (y1 - y0)) * 360;
       for (const p of cloud) {
-        ctx.fillStyle = p.yTrue === 1 ? token("--color-a11oy-text-sub") : token("--color-a11oy-gold");
+        ctx.fillStyle = p.yTrue === 1 ? token("--text") : token("--text-ghost");
         ctx.beginPath();
         ctx.arc(sx(p.x), sy(p.y), 2.2, 0, Math.PI * 2);
         ctx.fill();
       }
       if (pick) {
-        ctx.strokeStyle = token("--color-a11oy-text");
+        ctx.strokeStyle = token("--text");
         ctx.beginPath();
         ctx.arc(sx(pick.x), sy(pick.y), 7, 0, Math.PI * 2);
         ctx.stroke();

@@ -2,7 +2,7 @@
  * A11oy Holo-Constellation v2.0.0
  * Deterministic route identity, accessible estate navigation, and low-cost
  * progressive visual enhancement. No fetch, tracking, storage, or cookies.
- * Palettes re-point at SZL Kanchay tokens; route identity and motifs are unchanged.
+ * Palettes re-point at SZL KANCHAY founder tokens; route identity and motifs are unchanged.
  * SPDX-License-Identifier: Apache-2.0
  */
 (() => {
@@ -18,84 +18,85 @@
   const FINE_POINTER = window.matchMedia("(pointer: fine)");
   const SAVE_DATA = Boolean(navigator.connection && navigator.connection.saveData);
 
-  // SZL Kanchay roles (kanchay/kanchay.css): ground, surface, text, paragraph,
-  // gold accent, teal proof. Every surface shares them; its motif still varies.
-  const KANCHAY_PALETTE = Object.freeze([
-    "var(--color-a11oy-bg)",
-    "var(--color-a11oy-surface)",
-    "var(--color-a11oy-text)",
-    "var(--color-a11oy-text-sub)",
-    "var(--color-a11oy-gold)",
-    "var(--color-ink-signal)",
+  // SZL KANCHAY founder roles (szl/szl-design-system.css): ground, surface, text,
+  // paragraph, silver linework, silver shadow. Coral stays the one node in the mark;
+  // every surface shares these roles and its motif still varies.
+  const FOUNDER_PALETTE = Object.freeze([
+    "var(--bg)",
+    "var(--surface)",
+    "var(--text)",
+    "var(--text-sub)",
+    "var(--color-silver-300)",
+    "var(--color-silver-500)",
   ]);
 
-  const PALETTES = [KANCHAY_PALETTE];
+  const PALETTES = [FOUNDER_PALETTE];
 
   const CURATED = {
     a11oy: {
-      label: "a11oy Command",
+      label: "A11oy Command",
       motif: "command-constellation",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     proof: {
-      label: "a11oy Proof Network",
+      label: "A11oy Proof Network",
       motif: "evidence-vault",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     lyte: {
       label: "Lyte",
       motif: "signal-aurora",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     vessels: {
       label: "Vessels",
       motif: "bathymetric-radar",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     terra: {
       label: "Terra",
       motif: "topographic-parcels",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     aegis: {
       label: "Aegis",
       motif: "threat-lattice",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     "prism-counsel": {
       label: "PRISM Counsel",
       motif: "case-facets",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     "carlota-jo": {
       label: "Carlota Jo",
       motif: "editorial-orbit",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     nexus: {
       label: "Nexus",
       motif: "connection-field",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     factory: {
-      label: "a11oy Factory",
+      label: "A11oy Factory",
       motif: "assembly-circuit",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     ouroboros: {
       label: "Ouroboros",
       motif: "recursive-ring",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     khipu: {
       label: "KHIPU",
       motif: "woven-proof",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
     killinchu: {
       label: "Killinchu",
       motif: "agent-swarm",
-      palette: KANCHAY_PALETTE,
+      palette: FOUNDER_PALETTE,
     },
   };
 
@@ -192,7 +193,7 @@
   }
 
   function resolveTheme() {
-    return {"id":"szl-khipu","label":"Szl Khipu","motif":"woven-proof","palette":KANCHAY_PALETTE,"source":"space-specific"};
+    return {"id":"szl-khipu","label":"Szl Khipu","motif":"woven-proof","palette":FOUNDER_PALETTE,"source":"space-specific"};
     const id = surfaceCandidate();
     const curated = CURATED[id];
     if (curated) return { id, ...curated, source: "curated" };
@@ -201,7 +202,7 @@
     const palette = PALETTES[seed % PALETTES.length];
     return {
       id,
-      label: titleCase(id) || "a11oy Space",
+      label: titleCase(id) || "A11oy Space",
       motif: MOTIFS[(seed >>> 8) % MOTIFS.length],
       palette,
       source: "deterministic",
@@ -267,7 +268,7 @@
     const identity = createElement("a", {
       className: "szl-holo-identity",
       href: `${PRODUCT}/`,
-      "aria-label": "Open the a11oy Command origin",
+      "aria-label": "Open the A11oy Command origin",
     });
     identity.append(createElement("span", { className: "szl-holo-mark", "aria-hidden": "true" }));
     const copy = createElement("span", { className: "szl-holo-copy" });
@@ -286,7 +287,7 @@
     const nav = createElement("nav", {
       className: "szl-holo-nav",
       id: "szl-holo-nav",
-      "aria-label": "a11oy ecosystem",
+      "aria-label": "A11oy ecosystem",
       dataset: { open: "false" },
     });
     for (const [label, href] of LINKS) {

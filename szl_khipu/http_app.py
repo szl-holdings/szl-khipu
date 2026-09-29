@@ -43,15 +43,11 @@ from szl_khipu.train import mini_embed, moons, receipt_agent, tiny_khipu
 SOURCE = "szl-holdings/szl-khipu"
 CHAIN = UnifiedReceiptChain()
 PAGE_PATH = Path(__file__).with_name("page.html")
-# SZL Kanchay design system, vendored byte-for-byte (see kanchay/SOURCE.json).
-# Fixed allowlist: the page's stylesheets and the three font files they load.
-KANCHAY_DIR = Path(__file__).with_name("kanchay")
-KANCHAY_ASSETS = {
-    "/kanchay/kanchay.css": ("kanchay.css", "text/css; charset=utf-8"),
-    "/kanchay/kanchay-components.css": ("kanchay-components.css", "text/css; charset=utf-8"),
-    "/kanchay/fonts/SpaceGrotesk-latin.woff2": ("fonts/SpaceGrotesk-latin.woff2", "font/woff2"),
-    "/kanchay/fonts/Inter-latin.woff2": ("fonts/Inter-latin.woff2", "font/woff2"),
-    "/kanchay/fonts/JetBrainsMono-latin.woff2": ("fonts/JetBrainsMono-latin.woff2", "font/woff2"),
+# SZL KANCHAY (founder direction), vendored byte-for-byte (see szl/SOURCE.json).
+# Fixed allowlist: the one stylesheet the page loads. System fonts; no webfonts.
+SZL_DIR = Path(__file__).with_name("szl")
+SZL_ASSETS = {
+    "/szl/szl-design-system.css": ("szl-design-system.css", "text/css; charset=utf-8"),
 }
 
 
@@ -452,14 +448,14 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
 
-    def _kanchay_asset(self, path: str) -> bool:
-        """Serve a vendored Kanchay file from the fixed allowlist, never a request-derived path."""
-        asset = KANCHAY_ASSETS.get(path)
+    def _szl_asset(self, path: str) -> bool:
+        """Serve a vendored SZL design file from the fixed allowlist, never a request-derived path."""
+        asset = SZL_ASSETS.get(path)
         if asset is None:
             return False
         name, content_type = asset
         try:
-            raw = (KANCHAY_DIR / name).read_bytes()
+            raw = (SZL_DIR / name).read_bytes()
         except OSError:
             self._send(404, {"error": "not found", "proven_trust": False})
             return True
@@ -481,7 +477,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_HEAD(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if self._kanchay_asset(path):
+        if self._szl_asset(path):
             return
         if path in ("/", "/index.html", "/healthz", "/version", "/api/version") or path in ROUTES:
             self.send_response(200)
@@ -495,7 +491,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if self._kanchay_asset(path):
+        if self._szl_asset(path):
             return
         if path in ("/", "/index.html"):
             self._send(200, _page(), "text/html")

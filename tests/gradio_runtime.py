@@ -62,19 +62,13 @@ class GradioRuntime(unittest.TestCase):
         labels = [item["props"].get("label") for item in config["components"] if item["type"] == "tabitem"]
         self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Receipts"])
 
-    def test_kanchay_stylesheet_and_fonts_are_served_locally(self) -> None:
-        self.assertIn(self.app.KANCHAY_CSS_URL, self.app.HOLO_HEAD)
+    def test_szl_design_system_is_served_locally(self) -> None:
+        self.assertIn(self.app.SZL_CSS_URL, self.app.HOLO_HEAD)
         self.assertNotIn("fonts.googleapis", self.app.HOLO_HEAD)
-        css = httpx.get(f"{self.url}{self.app.KANCHAY_CSS_URL}", timeout=15.0)
+        css = httpx.get(f"{self.url}{self.app.SZL_CSS_URL}", timeout=15.0)
         css.raise_for_status()
         self.assertEqual(css.headers["content-type"].split(";")[0], "text/css")
-        self.assertEqual(css.content, (self.app.KANCHAY_DIR / "kanchay.css").read_bytes())
-        # kanchay.css resolves url('./fonts/...') next to itself.
-        base = self.app.KANCHAY_CSS_URL.rsplit("/", 1)[0]
-        for name in ("SpaceGrotesk-latin.woff2", "Inter-latin.woff2", "JetBrainsMono-latin.woff2"):
-            font = httpx.get(f"{self.url}{base}/fonts/{name}", timeout=15.0)
-            font.raise_for_status()
-            self.assertEqual(font.content, (self.app.KANCHAY_DIR / "fonts" / name).read_bytes())
+        self.assertEqual(css.content, (self.app.SZL_DIR / "szl-design-system.css").read_bytes())
 
     def test_live_lambda_pass_and_fail_closed(self) -> None:
         passing = self.client.predict(*([1.0] * len(self.app.AXES)), api_name="/score_lambda")

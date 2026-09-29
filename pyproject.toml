@@ -54,9 +54,9 @@ include = ["szl_khipu*"]
 szl_khipu = [
   "py.typed",
   "page.html",
-  "kanchay/SOURCE.json",
-  "kanchay/*.css",
-  "kanchay/fonts/*.woff2",
+  "szl/SOURCE.json",
+  "szl/*.css",
+  "szl/logos/*.svg",
 ]
 
 [tool.pytest.ini_options]

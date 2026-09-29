@@ -6,133 +6,124 @@
 <meta name="color-scheme" content="dark">
 <title>SZL KHIPU — knot · hash · fail closed</title>
 <meta name="description" content="Live Python kernels. Λ advisory. Energy UNAVAILABLE. Conjecture 1 OPEN.">
-<link rel="stylesheet" href="./kanchay/kanchay.css">
-<link rel="stylesheet" href="./kanchay/kanchay-components.css">
+<link rel="stylesheet" href="./szl/szl-design-system.css">
 <style>
-/* SZL Kanchay surface styles: every color and face is a token from kanchay.css. */
+/* SZL KANCHAY (founder direction), dark operator surface. Tokens and classes come
+   from szl-design-system.css; no color or font literals here. */
 *{box-sizing:border-box}
-html{background:var(--color-a11oy-bg)}
-body{min-height:100vh;font:16px/1.5 var(--font-sans);color:var(--color-a11oy-text)}
-a{color:var(--color-ink-signal);text-underline-offset:3px}
-button,input,select{font:inherit}button{cursor:pointer}
-:where(a,button,input,select):focus-visible{outline:var(--border-focus) solid var(--color-focus);outline-offset:2px}
-.skip{position:absolute;left:var(--space-2);top:var(--space-2);z-index:var(--z-toast);display:inline-flex;align-items:center;min-height:var(--szl-touch-target);padding:0 var(--space-4);border-radius:var(--radius-sm);background:var(--color-a11oy-gold);color:var(--color-on-accent);font-weight:600;text-decoration:none;transform:translateY(-200%)}
-.skip:focus{transform:none}
-header{position:relative;isolation:isolate;max-width:980px;margin:0 auto;padding:var(--space-12) var(--space-5) var(--space-8)}
-header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%)}
-.ey{font:400 10px/16px var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--color-a11oy-gold)}
-h1{margin:var(--space-3) 0 var(--space-4);font-family:var(--font-display);font-weight:300;font-size:clamp(2.25rem,6vw,3.25rem);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
-.lede{max-width:var(--szl-readable-measure);margin:0;color:var(--color-a11oy-text-sub);text-wrap:pretty}
+.skip-link:focus{min-height:var(--target-size-coarse);display:inline-flex;align-items:center}
+header{max-width:980px;margin:0 auto;padding:var(--space-12) var(--space-5) 0}
+header .eyebrow{margin:0}
+h1{margin:var(--space-3) 0 var(--space-4);font-size:clamp(var(--text-2xl),6vw,var(--text-4xl));text-wrap:balance}
+.lede{max-width:var(--measure);color:var(--text-sub);text-wrap:pretty}
 .chips{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-5) 0 0}
-.chip{display:inline-flex;align-items:center;padding:2px var(--space-2);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:500 11px/16px var(--font-mono);letter-spacing:.05em;color:var(--color-a11oy-text-sub)}
-.chip.open{color:var(--color-a11oy-gold);border-color:var(--gold-line)}.chip.live{color:var(--color-ink-signal);border-color:var(--teal-line)}
-main{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-16);display:grid;gap:var(--space-4)}
-.panel{min-width:0;background:var(--color-a11oy-surface);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-md);padding:var(--space-5)}
-.panel h2{margin:0 0 var(--space-2);font-family:var(--font-display);font-weight:600;font-size:1.125rem;line-height:1.3;letter-spacing:-.02em;text-wrap:balance}
-.panel .lede{font-size:14px;line-height:1.625}
-.row{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin:var(--space-4) 0 0}
-label{font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub);overflow-wrap:anywhere}
-input[type=range]{width:min(100%,16rem);min-height:var(--szl-touch-target);accent-color:var(--color-a11oy-gold)}
-.kc-btn{height:auto;min-height:var(--szl-touch-target)}
-.kc-btn:disabled{opacity:.5}
-pre{margin:var(--space-4) 0 0;padding:var(--space-3) var(--space-4);white-space:pre-wrap;word-break:break-word;background:var(--color-a11oy-deep);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-sub);font-variant-numeric:tabular-nums}
+.orbit-rule{margin:var(--space-10) 0 var(--space-8)}
+.card{min-width:0}
+.card .lede{font-size:var(--text-sm)}
+label{font:var(--weight-regular) var(--text-xs)/1.4 var(--font-mono);color:var(--text-sub);overflow-wrap:anywhere}
+input[type=range]{width:min(100%,16rem);min-height:var(--target-size-min);accent-color:var(--color-silver-300)}
+@media (pointer:coarse){input[type=range]{min-height:var(--target-size-coarse)}}
+.actions{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin:var(--space-4) 0 0}
+.code{margin:var(--space-4) 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{max-width:980px;margin:0 auto;padding:var(--space-8) var(--space-5) var(--space-10);font:var(--weight-regular) var(--text-xs)/1.7 var(--font-mono);color:var(--text-ghost)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+main{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-8);display:grid;gap:var(--space-4)}
 .orgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);margin-top:var(--space-4)}
 .orgs:empty{display:none}
-.org{border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);background:var(--color-a11oy-deep);padding:var(--space-2) var(--space-3);font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub)}
-.org b{display:block;margin-bottom:2px;font:600 13px/1.3 var(--font-display);color:var(--color-a11oy-text)}
+.org{border:var(--border-hairline) solid var(--border);border-radius:var(--radius-md);background:var(--surface-alt);padding:var(--space-2) var(--space-3);font:var(--weight-regular) var(--text-xs)/1.5 var(--font-mono);color:var(--text-sub)}
+.org b{display:block;margin-bottom:2px;font:var(--weight-semibold) var(--text-sm)/1.3 var(--font-display);color:var(--text)}
 .axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-1) var(--space-4);margin-top:var(--space-4)}
-footer{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-10);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-ghost)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to content</a>
 <header>
-  <div class="ey">SZL Holdings · Doctrine v11 LOCKED · Python FE+BE</div>
+  <div class="eyebrow">SZL Holdings · Doctrine v11 LOCKED · Python FE+BE</div>
   <h1>Knot the run. Hash the proof. Fail closed.</h1>
   <p class="lede">This page is served by the same Python process that runs the kernels. Gold is OPEN. Proof teal is LIVE. Never green-as-proven. Energy UNAVAILABLE. Λ uniqueness is Conjecture 1.</p>
   <div class="chips">
-    <span class="chip live">numpy LIVE</span>
-    <span class="chip">CUDA UNAVAILABLE</span>
-    <span class="chip open">Conjecture 1 OPEN</span>
+    <span class="chip chip-live">numpy LIVE</span>
+    <span class="chip chip-unavailable">CUDA UNAVAILABLE</span>
+    <span class="chip chip-conjecture">Conjecture 1 OPEN</span>
     <span class="chip">proven_trust false</span>
-    <span class="chip">locked-proven 8</span>
+    <span class="chip chip-proven">locked-proven 8</span>
   </div>
+  <div class="orbit-rule" aria-hidden="true"><span class="orbit-rule__node"></span></div>
 </header>
 <main id="main">
-  <section class="panel" id="lambda">
-    <h2>Λ gate — 13 Yuyay axes</h2>
+  <section class="card" id="lambda">
+    <h2 class="card-title">Λ gate — 13 Yuyay axes</h2>
     <p class="lede">Weighted geometric mean. Any zero or non-finite axis fail-closes. Advisory, not a uniqueness proof.</p>
     <div class="axes" id="axis-box"></div>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-lambda">Score Λ</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="zero-lambda">Zero-route heart</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-lambda">score Λ</button>
+      <button type="button" class="btn btn-ghost" id="zero-lambda">zero-route heart</button>
     </div>
-    <pre id="out-lambda">idle</pre>
+    <pre class="code" data-lang="json" id="out-lambda">idle</pre>
   </section>
-  <section class="panel" id="anatomy">
-    <h2>Anatomy — five organs</h2>
+  <section class="card" id="anatomy">
+    <h2 class="card-title">Anatomy — five organs</h2>
     <p class="lede">HEART/YUYAY · YAWAR · YACHAY · OTel · Khipu skeleton. Any DOWN organ or WILLAY veto blocks the body. Not a Three.js rehost.</p>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-anatomy">Evaluate body</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="kill-heart">Zero HEART</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="fake-joule">Fabricate joule</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-anatomy">evaluate body</button>
+      <button type="button" class="btn btn-ghost" id="kill-heart">zero HEART</button>
+      <button type="button" class="btn btn-ghost" id="fake-joule">fabricate joule</button>
     </div>
     <div class="orgs" id="org-box"></div>
-    <pre id="out-anatomy">idle</pre>
+    <pre class="code" data-lang="json" id="out-anatomy">idle</pre>
   </section>
-  <section class="panel" id="greenlight">
-    <h2>GreenLight — Ari</h2>
+  <section class="card" id="greenlight">
+    <h2 class="card-title">GreenLight — Ari</h2>
     <p class="lede">Signed assent. A sorry cannot be painted green. Claiming Λ uniqueness or stamping a joule fail-closes. proven_trust stays false.</p>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-green">Green-light this bound</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="paint-sorry">Paint a sorry green</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="claim-proven">Claim Λ proven</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="stamp-joule">Stamp MEASURED joules</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-green">green-light this bound</button>
+      <button type="button" class="btn btn-ghost" id="paint-sorry">paint a sorry green</button>
+      <button type="button" class="btn btn-ghost" id="claim-proven">claim Λ proven</button>
+      <button type="button" class="btn btn-ghost" id="stamp-joule">stamp MEASURED joules</button>
     </div>
-    <pre id="out-green">idle</pre>
+    <pre class="code" data-lang="json" id="out-green">idle</pre>
   </section>
-  <section class="panel" id="yarqa">
-    <h2>YARQA — canal attention</h2>
+  <section class="card" id="yarqa">
+    <h2 class="card-title">YARQA — canal attention</h2>
     <p class="lede">Attend inside the compartment. Leak is the bound. Not SageAttention. Not CUDA.</p>
-    <div class="row"><button type="button" class="kc-btn kc-btn--outline" id="run-yarqa">Run canals</button></div>
-    <pre id="out-yarqa">idle</pre>
+    <div class="actions"><button type="button" class="btn btn-secondary" id="run-yarqa">run canals</button></div>
+    <pre class="code" data-lang="json" id="out-yarqa">idle</pre>
   </section>
-  <section class="panel" id="grid">
-    <h2>TileDigest — schedule receipt</h2>
+  <section class="card" id="grid">
+    <h2 class="card-title">TileDigest — schedule receipt</h2>
     <p class="lede">Residual-vs-naive can hold while the grid lies. Tamper 1 coarsens Br. Tamper 2 drops a K-tile.</p>
-    <div class="row">
+    <div class="actions">
       <label>tamper <input id="tamper" type="range" min="0" max="2" value="0"></label>
-      <button type="button" class="kc-btn kc-btn--outline" id="run-grid">Receipt grid</button>
+      <button type="button" class="btn btn-secondary" id="run-grid">receipt grid</button>
     </div>
-    <pre id="out-grid">idle</pre>
+    <pre class="code" data-lang="json" id="out-grid">idle</pre>
   </section>
-  <section class="panel" id="prefix">
-    <h2>PrefixWitness — radix digest</h2>
+  <section class="card" id="prefix">
+    <h2 class="card-title">PrefixWitness — radix digest</h2>
     <p class="lede">Original cut of SGLang RadixAttention. Poison the cached KV after the digest — BLOCKED. Not SGLang. No tokens/s.</p>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-prefix">Honest prefix</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="hijack-prefix">Poison after digest</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-prefix">honest prefix</button>
+      <button type="button" class="btn btn-ghost" id="hijack-prefix">poison after digest</button>
     </div>
-    <pre id="out-prefix">idle</pre>
+    <pre class="code" data-lang="json" id="out-prefix">idle</pre>
   </section>
-  <section class="panel" id="route">
-    <h2>RouteWitness — expert digest</h2>
+  <section class="card" id="route">
+    <h2 class="card-title">RouteWitness — expert digest</h2>
     <p class="lede">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-route">Honest route</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="swap-route">Swap expert</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-route">honest route</button>
+      <button type="button" class="btn btn-ghost" id="swap-route">swap expert</button>
     </div>
-    <pre id="out-route">idle</pre>
+    <pre class="code" data-lang="json" id="out-route">idle</pre>
   </section>
-  <section class="panel" id="infer">
-    <h2>Inference Bay</h2>
+  <section class="card" id="infer">
+    <h2 class="card-title">Inference Bay</h2>
     <p class="lede">Kernel is truth. TinyKhipu / ReceiptAgent / moons infer here. 1.5B QLoRA stays RESEARCH. CUDA UNAVAILABLE.</p>
-    <div class="row">
-      <button type="button" class="kc-btn kc-btn--outline" id="run-bench">Bench kernels</button>
-      <button type="button" class="kc-btn kc-btn--outline" id="run-infer">Infer TinyKhipu</button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="run-bench">bench kernels</button>
+      <button type="button" class="btn btn-secondary" id="run-infer">infer TinyKhipu</button>
     </div>
-    <pre id="out-infer">idle</pre>
+    <pre class="code" data-lang="json" id="out-infer">idle</pre>
   </section>
 </main>
 <footer>

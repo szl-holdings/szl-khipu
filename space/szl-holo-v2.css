@@ -2,30 +2,32 @@
  * A11oy Holo-Constellation v2.0.0
  * SZL-original visual material and interaction system.
  * No external assets, tracking, storage, network fetches, or copied design code.
- * Colors, faces, radii and shadows re-point at SZL Kanchay tokens (kanchay/kanchay.css,
- * loaded first); the holo-v2 mechanics below are unchanged.
+ * Colors, faces, radii and shadows re-point at SZL KANCHAY founder tokens
+ * (szl/szl-design-system.css, loaded first): neutrals carry the field, silver is the
+ * linework, teal is focus, and the one coral node is the orbit mark in the rail.
+ * The holo-v2 mechanics below are unchanged.
  * SPDX-License-Identifier: Apache-2.0
  */
 
 :root {
-  --szl-holo-bg: var(--color-a11oy-bg);
-  --szl-holo-bg-deep: var(--color-a11oy-bg);
-  --szl-holo-surface: var(--color-a11oy-surface);
-  --szl-holo-surface-2: var(--color-a11oy-overlay);
-  --szl-holo-ink: var(--color-a11oy-text);
-  --szl-holo-muted: var(--color-a11oy-text-sub);
-  --szl-holo-accent: var(--color-a11oy-gold);
-  --szl-holo-accent-2: var(--color-ink-signal);
-  --szl-holo-danger: var(--color-ink-danger);
-  --szl-holo-warning: var(--color-ink-caution);
-  --szl-holo-success: var(--color-success);
+  --szl-holo-bg: var(--bg);
+  --szl-holo-bg-deep: var(--bg-deep);
+  --szl-holo-surface: var(--surface);
+  --szl-holo-surface-2: var(--surface-raised);
+  --szl-holo-ink: var(--text);
+  --szl-holo-muted: var(--text-sub);
+  --szl-holo-accent: var(--color-silver-300);
+  --szl-holo-accent-2: var(--color-silver-500);
+  --szl-holo-danger: var(--color-error-light);
+  --szl-holo-warning: var(--color-warning-light);
+  --szl-holo-success: var(--color-success-light);
   --szl-holo-line: color-mix(in srgb, var(--szl-holo-accent) 20%, transparent);
-  --szl-holo-line-soft: var(--color-a11oy-border-subtle);
+  --szl-holo-line-soft: var(--border-subtle);
   --szl-holo-glow: color-mix(in srgb, var(--szl-holo-accent) 16%, transparent);
   --szl-holo-glow-2: color-mix(in srgb, var(--szl-holo-accent-2) 12%, transparent);
   --szl-holo-shadow: var(--shadow-xl);
-  --szl-holo-radius-sm: var(--radius-sm);
-  --szl-holo-radius-md: var(--szl-fluid-radius);
+  --szl-holo-radius-sm: var(--radius-md);
+  --szl-holo-radius-md: var(--radius-lg);
   --szl-holo-radius-lg: var(--radius-xl);
   --szl-holo-radius-xl: var(--radius-2xl);
   --szl-holo-space-1: clamp(.45rem, .35rem + .3vw, .7rem);
@@ -343,7 +345,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(20px) saturate(135%);
   -webkit-backdrop-filter: blur(20px) saturate(135%);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
 }
 
 .szl-holo-rail *,
@@ -362,25 +364,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-mark {
   position: relative;
-  width: 28px;
+  width: 48px;
   height: 28px;
   flex: 0 0 auto;
-  border: 1px solid color-mix(in srgb, var(--szl-holo-accent) 62%, transparent);
-  border-radius: var(--radius-md);
-  background:
-    radial-gradient(circle at 26% 24%, var(--szl-holo-accent), transparent 34%),
-    linear-gradient(145deg, color-mix(in srgb, var(--szl-holo-accent-2) 72%, transparent), transparent 72%);
-  box-shadow: 0 0 28px var(--szl-holo-glow);
-  transform: rotate(8deg);
-}
-
-.szl-holo-mark::after {
-  position: absolute;
-  inset: 5px;
-  border: 1px solid color-mix(in srgb, var(--szl-holo-ink) 36%, transparent);
-  border-radius: var(--radius-sm);
-  content: "";
-  transform: rotate(-18deg);
+  background: url("./szl/logos/szl_favicon.svg") center / contain no-repeat;
 }
 
 .szl-holo-copy {
@@ -391,11 +378,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-eyebrow {
   overflow: hidden;
-  color: var(--szl-holo-accent);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: .3em;
+  color: var(--text-ghost);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
@@ -404,9 +390,9 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 .szl-holo-label {
   overflow: hidden;
   font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -.02em;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -429,7 +415,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   border-radius: var(--radius-md);
   color: var(--szl-holo-muted);
   background: transparent;
-  font: 500 13px/1.2 var(--font-sans);
+  font: var(--weight-medium) var(--text-sm)/1.2 var(--font-body);
   letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
@@ -490,11 +476,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-kicker,
 [data-szl-holo-kicker] {
-  color: var(--szl-holo-accent);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: .3em;
+  color: var(--text-ghost);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
 }
 
@@ -502,7 +487,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 [data-szl-holo-title] {
   color: var(--szl-holo-ink);
   font-family: var(--font-display);
-  background: linear-gradient(112deg, var(--szl-holo-ink), var(--szl-holo-accent) 58%, var(--szl-holo-accent-2));
+  background: linear-gradient(112deg, var(--szl-holo-ink), var(--szl-holo-muted));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -522,7 +507,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   border-radius: var(--radius-sm);
   color: var(--szl-holo-muted);
   background: color-mix(in srgb, var(--szl-holo-surface) 78%, transparent);
-  font: 500 11px/1.2 var(--font-mono);
+  font: var(--weight-medium) var(--text-xs)/1.2 var(--font-mono);
 }
 
 .szl-holo-chip::before {
@@ -542,7 +527,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   padding: 10px 12px;
   border-block: 1px solid var(--szl-holo-line-soft);
   color: var(--szl-holo-muted);
-  font: 500 11px/1.4 var(--font-mono);
+  font: var(--weight-semibold) var(--text-xs)/1.4 var(--font-mono);
 }
 
 .szl-holo-evidence-ribbon strong { color: var(--szl-holo-ink); }
@@ -563,13 +548,13 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   top: 8px;
   left: 8px;
   z-index: calc(var(--szl-holo-z-rail) + 3);
-  min-height: var(--szl-touch-target);
+  min-height: var(--target-size-coarse);
   padding: 13px 16px;
-  border: 0;
+  border: var(--border-hairline) solid var(--border);
   border-radius: var(--szl-holo-radius-sm);
-  color: var(--color-on-accent);
-  background: var(--color-a11oy-gold);
-  font: 600 14px/1.2 var(--font-sans);
+  color: var(--text);
+  background: var(--surface);
+  font: var(--weight-semibold) var(--text-sm)/1.2 var(--font-body);
   text-decoration: none;
   transform: translateY(-160%);
   transition: transform .16s ease;
@@ -578,7 +563,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 .szl-holo-skip:focus { transform: translateY(0); }
 
 html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline: var(--border-focus) solid var(--color-focus) !important;
+  outline: var(--border-focus) solid var(--focus) !important;
   outline-offset: 2px !important;
 }
 
@@ -642,7 +627,7 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
 
 @media (max-width: 390px) {
   .szl-holo-label { max-width: 48vw; }
-  .szl-holo-mark { width: 25px; height: 25px; }
+  .szl-holo-mark { width: 42px; height: 25px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -696,7 +681,7 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
     background: none;
     -webkit-text-fill-color: currentColor;
   }
-  .szl-holo-mark { border-color: CanvasText; background: CanvasText; box-shadow: none; }
+  .szl-holo-mark { forced-color-adjust: none; }
   .szl-holo-skip { color: Canvas; background: CanvasText; border-color: CanvasText; }
 }
 
@@ -715,13 +700,13 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
   html[data-szl-holo="v2"],
   html[data-szl-holo="v2"] body {
     color: var(--color-gray-900) !important;
-    background: var(--color-gray-50) !important;
+    background: var(--color-white) !important;
   }
   .szl-holo-panel,
   [data-szl-holo-panel] {
-    border: 1px solid var(--color-gray-400);
+    border: 1px solid var(--color-gray-500);
     color: var(--color-gray-900);
-    background: var(--color-gray-50);
+    background: var(--color-white);
     box-shadow: none;
   }
 }

@@ -2,11 +2,11 @@
 # Copyright 2026 SZL Holdings
 """SZL KHIPU holographic Gradio 6 demo.
 
-Chrome is SZL Kanchay (vendored byte-for-byte in szl_khipu/kanchay/): navy-black
-ground, command grid, gold = OPEN, proof teal = LIVE, never green-as-proven.
-Kernels stay live NumPy. sdk remains gradio. YAML emoji is Hub metadata only.
-Local Kanchay fonts (Space Grotesk, Inter, JetBrains Mono). No Google Fonts.
-Gradio still injects iframe-resizer.
+Chrome is SZL KANCHAY, founder direction (vendored byte-for-byte in szl_khipu/szl/):
+space-navy operator ground, one silver orbit arc, one coral primary per tab, status
+as worded chips, receipts as .receipt. Kernels stay live NumPy. sdk remains gradio.
+YAML emoji is Hub metadata only. System fonts. No Google Fonts. Gradio still
+injects iframe-resizer.
 """
 
 from __future__ import annotations
@@ -22,8 +22,8 @@ ROOT = Path(__file__).resolve().parent
 if not (ROOT / "szl_khipu").is_dir() and (ROOT.parent / "szl_khipu").is_dir():
     ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT))
-# SZL Kanchay design system, vendored once in the package and served read-only.
-KANCHAY_DIR = ROOT / "szl_khipu" / "kanchay"
+# SZL KANCHAY (founder direction), vendored once in the package and served read-only.
+SZL_DIR = ROOT / "szl_khipu" / "szl"
 
 import gradio as gr  # noqa: E402
 import numpy as np  # noqa: E402
@@ -61,7 +61,7 @@ def _mint(kernel: str, op: str, payload: dict) -> int:
 
 
 def _lrow(kind: str, title: str, detail: str, tag: str) -> str:
-    mark = {"ok": "✓", "false": "✕"}.get(kind, "·")
+    mark = {"ok": "✓", "false": "✗", "part": "◐", "conj": "⬡"}.get(kind, "⬡")
     return (
         f'<div class="lrow">'
         f'<div class="mark {kind}">{mark}</div>'
@@ -86,13 +86,13 @@ HEADER = """
       means LIVE. Nothing on this page is a joule, a cubin, or a theorem.
     </p>
     <div class="badges">
-      <span class="badge">status <b>CONJECTURE-1</b></span>
-      <span class="badge">trust ceiling <b>0.97</b> · never 100%</span>
-      <span class="badge">proven_trust <b>false</b></span>
-      <span class="badge">energy <b>UNAVAILABLE</b></span>
-      <span class="badge">CPU numpy <b>LIVE</b></span>
-      <span class="badge">CUDA <b>UNAVAILABLE</b></span>
-      <span class="badge">local fonts · no Google Fonts</span>
+      <span class="chip chip-conjecture">status <b>CONJECTURE-1</b></span>
+      <span class="chip">trust ceiling <b>0.97</b> · never 100%</span>
+      <span class="chip">proven_trust <b>false</b></span>
+      <span class="chip chip-unavailable">energy <b>UNAVAILABLE</b></span>
+      <span class="chip chip-live">CPU numpy <b>LIVE</b></span>
+      <span class="chip chip-unavailable">CUDA <b>UNAVAILABLE</b></span>
+      <span class="chip">system fonts · no Google Fonts</span>
     </div>
   </header>
   <section class="identity" aria-label="Evidence identity">
@@ -111,17 +111,17 @@ HEADER = """
     </div>
   </section>
   <div class="ledger static-ledger">
-    <div class="lrow"><div class="mark conj">·</div><div>
+    <div class="lrow"><div class="mark conj">⬡</div><div>
       <p class="t">Λ uniqueness — OPEN CONJECTURE 1</p>
       <p class="d">Any two aggregators satisfying A1–A4 agree on every input. OPEN (sorry). Advisory always.</p>
       <span class="tag">never a theorem · never green</span>
     </div></div>
-    <div class="lrow"><div class="mark false">✕</div><div>
+    <div class="lrow"><div class="mark false">✗</div><div>
       <p class="t">Unconditional uniqueness — machine-checked FALSE</p>
       <p class="d">A maxAgg counterexample refutes unconditional uniqueness. Kept on the record — not hidden.</p>
       <span class="tag">lutar-lean Uniqueness.lean · F23</span>
     </div></div>
-    <div class="lrow"><div class="mark part">·</div><div>
+    <div class="lrow"><div class="mark part">◐</div><div>
       <p class="t">Conditional Theorem U — PROVEN (axiom-free)</p>
       <p class="d">Under its stated conditions. Strictly weaker than the conjecture. Never rounded up to it.</p>
       <span class="tag">conditional · proven</span>
@@ -145,13 +145,15 @@ FOOTER = """
 """
 
 HOLO_CSS = """
-/* SZL Kanchay: kanchay.css (loaded in HOLO_HEAD) defines every token used here. */
+/* SZL KANCHAY, founder direction: szl-design-system.css (loaded in HOLO_HEAD)
+   defines every token and the .chip/.receipt classes used here. Dark operator
+   surface; the one coral moment per view is the tab's primary button. */
 :root, .gradio-container { color-scheme: dark; }
 html, body, .gradio-container, .gradio-container.light, .gradio-container.dark,
 .contain, .app, .main, .wrap, .body-background-fill {
-  background: var(--color-a11oy-bg) !important;
-  color: var(--color-a11oy-text) !important;
-  font-family: var(--font-sans) !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
 }
 html, body { min-height: 100%; margin: 0; }
 .gradio-container {
@@ -161,19 +163,12 @@ html, body { min-height: 100%; margin: 0; }
   position: relative;
   isolation: isolate;
 }
-/* Command grid: 1px text lines at 2.5%, 56px pitch, masked to an ellipse. */
+/* The orbit motif: one faint silver arc at the -22deg tilt. No node here; coral is the primary action. */
 .gradio-container::after{
-  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:
-    linear-gradient(color-mix(in srgb, var(--color-a11oy-text) 2.5%, transparent) 1px, transparent 1px) 0 0 / 56px 56px,
-    linear-gradient(90deg, color-mix(in srgb, var(--color-a11oy-text) 2.5%, transparent) 1px, transparent 1px) 0 0 / 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, currentColor 35%, transparent 80%);
-  mask-image: radial-gradient(ellipse at 50% 0%, currentColor 35%, transparent 80%);
-  animation: drift 24s linear infinite;
-}
-@keyframes drift { to { background-position: 0 56px, 56px 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .gradio-container::after { animation: none; }
+  content:""; position:fixed; z-index:-1; pointer-events:none;
+  top:6%; right:-8%; width:min(54vw,760px); aspect-ratio:1.9/1;
+  border:1px solid color-mix(in srgb, var(--color-silver-300) 22%, transparent);
+  border-radius:var(--radius-full); transform:rotate(-22deg);
 }
 
 /* Crush default Gradio chrome. */
@@ -188,159 +183,171 @@ a[href="https://www.gradio.app"] { display: none !important; }
 .gr-panel, .gr-box, .gr-padded, .gr-input-label,
 div.styler, .wrap > .contain {
   background: transparent !important;
-  border-color: var(--color-a11oy-border-subtle) !important;
+  border-color: var(--border) !important;
   box-shadow: none !important;
 }
 .block {
-  background: var(--color-a11oy-surface) !important;
-  border: 1px solid var(--color-a11oy-border-subtle) !important;
-  border-radius: var(--radius-md) !important;
+  background: var(--surface) !important;
+  border: var(--border-hairline) solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
   padding: 4px !important;
 }
 label, .label-wrap, .block-label, span.label-text, .block-info {
-  color: var(--color-a11oy-text-sub) !important;
-  font: 500 11px/16px var(--font-mono) !important;
-  letter-spacing: .15em !important;
+  color: var(--text-sub) !important;
+  font: var(--weight-semibold) var(--text-xs)/1.4 var(--font-body) !important;
+  letter-spacing: var(--tracking-caps) !important;
   text-transform: uppercase !important;
 }
 input, textarea, select {
-  background: var(--color-a11oy-deep) !important;
-  color: var(--color-a11oy-text) !important;
-  border: 1px solid var(--color-control-border) !important;
-  border-radius: var(--radius-sm) !important;
+  background: var(--bg-deep) !important;
+  color: var(--text) !important;
+  border: var(--border-hairline) solid var(--color-gray-400) !important;
+  border-radius: var(--radius-md) !important;
 }
 input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: none !important;
-  border-color: var(--color-focus) !important;
+  border-color: var(--focus) !important;
   box-shadow: var(--shadow-focus) !important;
 }
-input[type=range] { accent-color: var(--color-a11oy-gold) !important; }
-input[type=checkbox] { accent-color: var(--color-a11oy-gold) !important; }
+input[type=range], input[type=checkbox] { accent-color: var(--color-silver-300) !important; }
 
 button.primary, button.primary.svelte-1ipelgc, .primary {
-  background: var(--color-a11oy-gold) !important;
-  color: var(--color-on-accent) !important;
-  border: 1px solid var(--color-a11oy-gold) !important;
-  border-radius: var(--radius-sm) !important;
-  font: 500 14px/20px var(--font-sans) !important;
-  letter-spacing: 0 !important;
+  background: var(--accent) !important;
+  color: var(--accent-ink) !important;
+  border: var(--border-hairline) solid var(--accent) !important;
+  border-radius: var(--radius-md) !important;
+  font: var(--weight-semibold) var(--text-sm)/1 var(--font-body) !important;
+  letter-spacing: .005em !important;
   text-transform: none !important;
   min-height: 44px !important;
-  box-shadow: var(--shadow-sm) !important;
+  box-shadow: none !important;
 }
-button.primary:hover { background: var(--gold-bright) !important; border-color: var(--gold-bright) !important; }
+button.primary:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
 button.lg, button.sm, button { cursor: pointer; }
 :where(a, button, [role="tab"], summary):focus-visible {
-  outline: var(--border-focus) solid var(--color-focus) !important;
-  outline-offset: 2px !important;
+  outline: var(--border-focus) solid transparent !important;
+  box-shadow: var(--shadow-focus) !important;
 }
 
 .tab-nav, .tabitem, .tabs > div:first-child {
-  border-color: var(--color-a11oy-border-subtle) !important;
+  border-color: var(--border) !important;
   background: transparent !important;
 }
 .tab-nav button, button[role="tab"] {
-  color: var(--color-a11oy-text-sub) !important;
+  color: var(--text-sub) !important;
   background: transparent !important;
-  font: 500 13px/20px var(--font-sans) !important;
+  font: var(--weight-medium) var(--text-sm)/1.4 var(--font-body) !important;
   letter-spacing: 0 !important;
   text-transform: none !important;
   border-radius: 0 !important;
   min-height: 44px !important;
 }
-.tab-nav button:hover, button[role="tab"]:hover { color: var(--color-a11oy-text) !important; }
+.tab-nav button:hover, button[role="tab"]:hover { color: var(--text) !important; }
 .tab-nav button.selected, button[role="tab"].selected, button[role="tab"][aria-selected="true"] {
-  color: var(--color-a11oy-gold) !important;
-  border-bottom: 2px solid var(--color-a11oy-gold) !important;
-  background: color-mix(in srgb, var(--color-a11oy-gold) 8%, transparent) !important;
+  color: var(--text) !important;
+  border-bottom: 2px solid var(--text) !important;
+  background: color-mix(in srgb, var(--text) 6%, transparent) !important;
 }
 
 /* Markdown prose reads as paragraph text; hologram HTML keeps its own roles. */
-.prose:not(.holo-html), .prose:not(.holo-html) * { color: var(--color-a11oy-text-sub) !important; }
+.prose:not(.holo-html), .prose:not(.holo-html) * { color: var(--text-sub) !important; }
 .prose code, code {
   font-family: var(--font-mono) !important;
-  font-size: 12px !important;
-  color: var(--color-ink-signal) !important;
-  background: var(--color-a11oy-deep) !important;
+  font-size: var(--text-xs) !important;
+  color: var(--text) !important;
+  background: var(--bg-deep) !important;
   padding: 1px 5px !important;
   border-radius: var(--radius-sm) !important;
 }
 
 /* Hologram chrome (injected HTML). */
-.holo-wrap, .holo-html { color: var(--color-a11oy-text); }
-.holo-wrap header { border-bottom: 1px solid var(--color-a11oy-border-subtle); padding-bottom: 16px; margin-bottom: 18px; }
-.eyebrow { font: 400 10px/16px var(--font-mono); letter-spacing: .3em; text-transform: uppercase; color: var(--color-a11oy-gold); }
-.glyph { font-family: var(--font-display); font-weight: 300; font-size: clamp(48px, 11vw, 86px); line-height: 1; color: var(--color-a11oy-gold); margin: .15em 0 0; }
-.holo-wrap h1 { font-family: var(--font-display); font-size: clamp(22px, 3.6vw, 34px); line-height: 1.1; margin: .15em 0 .1em; letter-spacing: -.03em; color: var(--color-a11oy-text); font-weight: 300; text-wrap: balance; }
-.lede { color: var(--color-a11oy-text-sub); max-width: 72ch; margin: .35em 0 0; font-size: 14.5px; line-height: 1.6; }
+.holo-wrap, .holo-html { color: var(--text); }
+.holo-wrap header { border-bottom: var(--border-hairline) solid var(--border); padding-bottom: 16px; margin-bottom: 18px; }
+/* Hologram HTML sits on --surface, where --text-ghost misses AA (4.27): use --text-sub. */
+.holo-wrap .eyebrow { margin: 0; color: var(--text-sub); }
+.glyph { font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: var(--text-2xl); line-height: 1; color: var(--text-sub); margin: .4em 0 0; }
+.holo-wrap h1 { font-family: var(--font-display); font-size: clamp(var(--text-xl), 3.6vw, var(--text-3xl)); line-height: var(--leading-tight); margin: .25em 0 .2em; letter-spacing: var(--tracking-tight); color: var(--text); font-weight: var(--weight-bold); text-wrap: balance; }
+.lede { color: var(--text-sub); max-width: var(--measure); margin: .35em 0 0; font-size: var(--text-base); line-height: var(--leading-normal); }
 .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.badge { font: 500 11px/16px var(--font-mono); padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid var(--color-a11oy-border-subtle); color: var(--color-a11oy-text-sub); background: var(--color-a11oy-deep); white-space: nowrap; }
-.badge b { color: var(--color-a11oy-gold); font-weight: 500; }
+.badges .chip { white-space: nowrap; }
+.chip b { font-weight: var(--weight-semibold); }
+/* Gradio's `.gradio-container-<ver> .prose *` repaints every descendant with the body
+   color; restore the design system's worded status inks inside hologram HTML. */
+.holo-html .chip, .holo-html .receipt { color: var(--text-sub); }
+.holo-html .chip-live, .holo-html .chip-proven { color: var(--color-success-light); }
+.holo-html .chip-conjecture, .holo-html .chip-simulated { color: var(--color-warning-light); }
+.holo-html .chip-sorry, .holo-html .chip-unavailable { color: var(--color-error-light); }
+.holo-html .chip b { color: inherit; }
+.holo-html .receipt__label { color: var(--text-sub); }
+.holo-html .receipt__root { color: var(--text); }
+.badge { white-space: nowrap; }
 .identity { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; margin: 18px 0 18px; }
-.identity > div { border: 1px solid var(--color-a11oy-border-subtle); border-radius: var(--radius-md); background: var(--color-a11oy-surface); padding: 15px; }
-.identity h2 { margin: 0 0 7px; font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: -.02em; color: var(--color-a11oy-text); }
-.identity p { margin: 0; color: var(--color-a11oy-text-sub); font-size: 13px; }
-.identity dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; margin: 0; font: 11px/1.5 var(--font-mono); }
-.identity dt { color: var(--color-a11oy-text-sub); }
-.identity dd { margin: 0; color: var(--color-a11oy-text); overflow-wrap: anywhere; }
+.identity > div { border: var(--border-hairline) solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 15px; }
+.identity h2 { margin: 0 0 7px; font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: var(--text-base); letter-spacing: var(--tracking-tight); color: var(--text); }
+.identity p { margin: 0; color: var(--text-sub); font-size: var(--text-sm); }
+.identity dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; margin: 0; font: var(--text-xs)/1.5 var(--font-mono); }
+.identity dt { color: var(--text-sub); }
+.identity dd { margin: 0; color: var(--text); overflow-wrap: anywhere; }
 .ledger { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .static-ledger { margin-bottom: 8px; }
-.lrow { border: 1px solid var(--color-a11oy-border-subtle); border-radius: var(--radius-md); background: var(--color-a11oy-surface); padding: 13px 15px; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
-.mark { font-size: 20px; line-height: 1.2; width: 26px; text-align: center; }
-.mark.ok { color: var(--color-ink-signal); }
-.mark.false { color: var(--color-ink-danger); }
-.mark.part { color: var(--color-a11oy-text-sub); }
-.mark.conj { color: var(--color-a11oy-gold); }
-.lrow .t { font-family: var(--font-display); font-size: 15px; letter-spacing: -.02em; color: var(--color-a11oy-text); margin: 0 0 3px; font-weight: 600; }
-.lrow .d { color: var(--color-a11oy-text-sub); font-size: 13px; margin: 0; }
-.lrow .tag { font: 500 10px/14px var(--font-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--color-a11oy-text-sub); display: inline-block; margin-top: 5px; border: 1px solid var(--color-a11oy-border-subtle); padding: 1px 7px; border-radius: var(--radius-sm); }
+.lrow { border: var(--border-hairline) solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 13px 15px; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.mark { font-size: var(--text-lg); line-height: 1.2; width: 26px; text-align: center; }
+.mark.ok { color: var(--color-success-light); }
+.mark.false { color: var(--color-error-light); }
+.mark.part { color: var(--text-sub); }
+.mark.conj { color: var(--color-warning-light); }
+.lrow .t { font-family: var(--font-display); font-size: var(--text-base); letter-spacing: var(--tracking-tight); color: var(--text); margin: 0 0 3px; font-weight: var(--weight-semibold); }
+.lrow .d { color: var(--text-sub); font-size: var(--text-sm); margin: 0; max-width: none; }
+.lrow .d .receipt { margin-left: var(--space-1); vertical-align: middle; }
+.lrow .tag { font: var(--weight-semibold) 10px/14px var(--font-mono); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-sub); display: inline-block; margin-top: 5px; border: var(--border-hairline) solid var(--border); padding: 1px 7px; border-radius: var(--radius-sm); }
 .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-.metric { border: 1px solid var(--color-a11oy-border-subtle); border-radius: var(--radius-md); background: var(--color-a11oy-surface); padding: 12px 14px; }
-.metric .k { font: 400 10px/16px var(--font-mono); letter-spacing: .15em; text-transform: uppercase; color: var(--color-a11oy-text-sub); }
-.metric .v { font: 300 28px/1.1 var(--font-sans); color: var(--color-a11oy-text); margin-top: 4px; font-variant-numeric: tabular-nums; }
-.metric .v.ok { color: var(--color-ink-signal); }
-.metric .v.conj { color: var(--color-a11oy-gold); }
-.metric .v.false { color: var(--color-ink-danger); }
-.hero { border: 1px solid var(--gold-line); border-radius: var(--radius-md); background: var(--color-a11oy-surface); padding: 16px 18px; margin: 0 0 12px; position: relative; overflow: hidden; }
-.hero .k { font: 400 10px/16px var(--font-mono); letter-spacing: .15em; text-transform: uppercase; color: var(--color-a11oy-text-sub); }
-.hero .statement { font-size: 15.5px; color: var(--color-a11oy-text); margin: .4em 0 0; line-height: 1.6; font-variant-numeric: tabular-nums; }
-.verdict { display: inline-block; font: 500 11px/16px var(--font-mono); letter-spacing: .05em; padding: 2px 10px; border-radius: var(--radius-sm); border: 1px solid color-mix(in srgb, var(--color-a11oy-gold) 40%, transparent); color: var(--color-a11oy-gold); background: color-mix(in srgb, var(--color-a11oy-gold) 8%, transparent); margin-top: 10px; }
-.verdict.ok { border-color: var(--teal-line); color: var(--color-ink-signal); background: var(--teal-soft); }
-.verdict.false { border-color: color-mix(in srgb, var(--color-error) 45%, transparent); color: var(--color-ink-danger); background: color-mix(in srgb, var(--color-error) 10%, transparent); }
-.holo-foot { margin-top: 28px; border-top: 1px solid var(--color-a11oy-border-subtle); padding-top: 16px; color: var(--color-a11oy-text-ghost); font: 11px/1.7 var(--font-mono); }
-.holo-foot a { color: var(--color-ink-signal); text-decoration: none; }
-.holo-foot a:hover { text-decoration: underline; }
-.lab-lede { color: var(--color-a11oy-text-sub); font-size: 13.5px; max-width: 72ch; margin: 4px 0 12px; }
+.metric { border: var(--border-hairline) solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 12px 14px; }
+.metric .k { font: var(--weight-semibold) var(--text-xs)/1.4 var(--font-body); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-sub); }
+.metric .v { font: var(--weight-semibold) var(--text-2xl)/1.1 var(--font-mono); color: var(--text); margin-top: 4px; font-variant-numeric: tabular-nums lining-nums; }
+.metric .v.ok { color: var(--color-success-light); }
+.metric .v.conj { color: var(--color-warning-light); }
+.metric .v.false { color: var(--color-error-light); }
+/* .hero here is a result panel, not the design system's hero band. */
+.holo-html .hero { isolation: auto; border: var(--border-hairline) solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 16px 18px; margin: 0 0 12px; position: relative; overflow: hidden; }
+.hero .k { font: var(--weight-semibold) var(--text-xs)/1.4 var(--font-body); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-sub); }
+.hero .statement { font-size: var(--text-lg); color: var(--text); margin: .4em 0 0; line-height: var(--leading-normal); font-variant-numeric: tabular-nums lining-nums; max-width: none; }
+.verdict { display: inline-block; font: var(--weight-medium) var(--text-xs)/1.5 var(--font-mono); padding: 2px 10px; border-radius: var(--radius-sm); border: var(--border-hairline) solid var(--border); color: var(--color-warning-light); background: var(--surface-alt); margin-top: 10px; }
+.verdict.ok { color: var(--color-success-light); }
+.verdict.false { color: var(--color-error-light); }
+.holo-foot { margin-top: 28px; border-top: var(--border-hairline) solid var(--border); padding-top: 16px; color: var(--text-sub); font: var(--text-xs)/1.7 var(--font-mono); }
+.holo-foot a { color: var(--link); text-decoration: none; }
+.holo-foot a:hover { color: var(--link-hover); text-decoration: underline; }
+.lab-lede { color: var(--text-sub); font-size: var(--text-sm); max-width: var(--measure); margin: 4px 0 12px; }
 @media (max-width: 640px) {
   .identity, .metrics { grid-template-columns: 1fr; }
   .lrow { grid-template-columns: 32px minmax(0, 1fr); }
-  .badge { white-space: normal; }
+  .badges .chip, .badge { white-space: normal; }
   .gradio-container { padding: 12px 10px 40px !important; }
 }
 
 :root, .dark, .gradio-container {
-  --body-background-fill: var(--color-a11oy-bg) !important;
-  --body-text-color: var(--color-a11oy-text) !important;
-  --background-fill-primary: var(--color-a11oy-surface) !important;
-  --background-fill-secondary: var(--color-a11oy-deep) !important;
-  --border-color-primary: var(--color-a11oy-border-subtle) !important;
-  --block-background-fill: var(--color-a11oy-surface) !important;
-  --block-border-color: var(--color-a11oy-border-subtle) !important;
-  --block-label-text-color: var(--color-a11oy-text-sub) !important;
-  --block-title-text-color: var(--color-a11oy-text) !important;
-  --button-primary-background-fill: var(--color-a11oy-gold) !important;
-  --button-primary-text-color: var(--color-on-accent) !important;
-  --button-primary-background-fill-hover: var(--gold-bright) !important;
-  --color-accent: var(--color-a11oy-gold) !important;
-  --color-accent-soft: var(--color-a11oy-gold-soft) !important;
-  --input-background-fill: var(--color-a11oy-deep) !important;
-  --input-border-color: var(--color-control-border) !important;
-  --slider-color: var(--color-a11oy-gold) !important;
-  --link-text-color: var(--color-ink-signal) !important;
-  --neutral-950: var(--color-a11oy-bg) !important;
-  --neutral-900: var(--color-a11oy-deep) !important;
-  --neutral-800: var(--color-a11oy-surface) !important;
-  --neutral-700: var(--color-a11oy-overlay) !important;
+  --body-background-fill: var(--bg) !important;
+  --body-text-color: var(--text) !important;
+  --background-fill-primary: var(--surface) !important;
+  --background-fill-secondary: var(--bg-deep) !important;
+  --border-color-primary: var(--border) !important;
+  --block-background-fill: var(--surface) !important;
+  --block-border-color: var(--border) !important;
+  --block-label-text-color: var(--text-sub) !important;
+  --block-title-text-color: var(--text) !important;
+  --button-primary-background-fill: var(--accent) !important;
+  --button-primary-text-color: var(--accent-ink) !important;
+  --button-primary-background-fill-hover: var(--accent-hover) !important;
+  --color-accent: var(--text-sub) !important;
+  --color-accent-soft: color-mix(in srgb, var(--text) 8%, transparent) !important;
+  --input-background-fill: var(--bg-deep) !important;
+  --input-border-color: var(--color-gray-400) !important;
+  --slider-color: var(--color-silver-300) !important;
+  --link-text-color: var(--link) !important;
+  --neutral-950: var(--bg) !important;
+  --neutral-900: var(--bg-deep) !important;
+  --neutral-800: var(--surface) !important;
+  --neutral-700: var(--surface-raised) !important;
 }
 """
 
@@ -349,60 +356,65 @@ function() {
   document.documentElement.setAttribute('data-theme', 'dark');
   document.documentElement.classList.add('dark');
   if (document.body) document.body.classList.add('dark');
-  document.documentElement.style.background = 'var(--color-a11oy-bg)';
+  document.documentElement.style.background = 'var(--bg)';
 }
 """
 
-# Gradio serves the vendored folder read-only through allowed_paths (see launch_demo);
-# kanchay.css then loads its fonts from ./fonts/ next to it. No font CDN.
-KANCHAY_CSS_URL = "gradio_api/file=" + quote((KANCHAY_DIR / "kanchay.css").as_posix(), safe="/:")
+# Gradio serves the vendored folder read-only through allowed_paths (see launch_demo).
+SZL_CSS_URL = "gradio_api/file=" + quote((SZL_DIR / "szl-design-system.css").as_posix(), safe="/:")
 HOLO_HEAD = f"""
 <meta name="color-scheme" content="dark">
-<link rel="stylesheet" href="{html.escape(KANCHAY_CSS_URL, quote=True)}">
-<style>html,body{{background:var(--color-a11oy-bg)!important;color:var(--color-a11oy-text)!important}}</style>
+<!-- theme-color cannot read CSS variables: #030F29 is --bg (--color-space-900). -->
+<meta name="theme-color" content="#030F29">
+<link rel="stylesheet" href="{html.escape(SZL_CSS_URL, quote=True)}">
+<style>html,body{{background:var(--bg)!important;color:var(--text)!important}}</style>
 """
 
+# Gradio's theme API takes font lists; these mirror --font-body / --font-mono exactly.
 THEME = gr.themes.Base(
-    primary_hue="teal",
+    primary_hue="slate",
     secondary_hue="slate",
     neutral_hue="slate",
-    font=["Inter", "system-ui", "sans-serif"],
-    font_mono=["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+    font=["system-ui", "-apple-system", "Segoe UI", "Helvetica Neue", "Liberation Sans", "Arial", "sans-serif"],
+    font_mono=[
+        "ui-monospace", "SF Mono", "Cascadia Code", "JetBrains Mono", "IBM Plex Mono",
+        "Liberation Mono", "Menlo", "Consolas", "monospace",
+    ],
 )
 try:
     THEME = THEME.set(
-        body_background_fill="var(--color-a11oy-bg)",
-        body_background_fill_dark="var(--color-a11oy-bg)",
-        body_text_color="var(--color-a11oy-text)",
-        body_text_color_dark="var(--color-a11oy-text)",
-        background_fill_primary="var(--color-a11oy-surface)",
-        background_fill_primary_dark="var(--color-a11oy-surface)",
-        background_fill_secondary="var(--color-a11oy-deep)",
-        background_fill_secondary_dark="var(--color-a11oy-deep)",
-        border_color_primary="var(--color-a11oy-border-subtle)",
-        border_color_primary_dark="var(--color-a11oy-border-subtle)",
-        block_background_fill="var(--color-a11oy-surface)",
-        block_background_fill_dark="var(--color-a11oy-surface)",
-        block_border_color="var(--color-a11oy-border-subtle)",
-        block_border_color_dark="var(--color-a11oy-border-subtle)",
-        button_primary_background_fill="var(--color-a11oy-gold)",
-        button_primary_background_fill_dark="var(--color-a11oy-gold)",
-        button_primary_text_color="var(--color-on-accent)",
-        button_primary_text_color_dark="var(--color-on-accent)",
-        button_primary_background_fill_hover="var(--gold-bright)",
-        button_primary_background_fill_hover_dark="var(--gold-bright)",
-        color_accent="var(--color-a11oy-gold)",
-        color_accent_soft="var(--color-a11oy-gold-soft)",
-        input_background_fill="var(--color-a11oy-deep)",
-        input_background_fill_dark="var(--color-a11oy-deep)",
-        slider_color="var(--color-a11oy-gold)",
-        slider_color_dark="var(--color-a11oy-gold)",
-        link_text_color="var(--color-ink-signal)",
-        link_text_color_dark="var(--color-ink-signal)",
-        checkbox_background_color_selected="var(--color-a11oy-gold)",
-        checkbox_background_color_selected_dark="var(--color-a11oy-gold)",
-        checkbox_border_color_selected="var(--color-a11oy-gold)",
-        checkbox_border_color_selected_dark="var(--color-a11oy-gold)",
+        body_background_fill="var(--bg)",
+        body_background_fill_dark="var(--bg)",
+        body_text_color="var(--text)",
+        body_text_color_dark="var(--text)",
+        background_fill_primary="var(--surface)",
+        background_fill_primary_dark="var(--surface)",
+        background_fill_secondary="var(--bg-deep)",
+        background_fill_secondary_dark="var(--bg-deep)",
+        border_color_primary="var(--border)",
+        border_color_primary_dark="var(--border)",
+        block_background_fill="var(--surface)",
+        block_background_fill_dark="var(--surface)",
+        block_border_color="var(--border)",
+        block_border_color_dark="var(--border)",
+        button_primary_background_fill="var(--accent)",
+        button_primary_background_fill_dark="var(--accent)",
+        button_primary_text_color="var(--accent-ink)",
+        button_primary_text_color_dark="var(--accent-ink)",
+        button_primary_background_fill_hover="var(--accent-hover)",
+        button_primary_background_fill_hover_dark="var(--accent-hover)",
+        input_background_fill="var(--bg-deep)",
+        input_background_fill_dark="var(--bg-deep)",
+        slider_color="var(--color-silver-300)",
+        slider_color_dark="var(--color-silver-300)",
+        link_text_color="var(--link)",
+        link_text_color_dark="var(--link)",
+        checkbox_background_color_selected="var(--surface-raised)",
+        checkbox_background_color_selected_dark="var(--surface-raised)",
+        checkbox_border_color_selected="var(--text-sub)",
+        checkbox_border_color_selected_dark="var(--text-sub)",
+        color_accent="var(--text-sub)",
+        color_accent_soft="color-mix(in srgb, var(--text) 8%, transparent)",
     )
 except ValueError:
     pass
@@ -419,7 +431,7 @@ def score_lambda(*values: float) -> str:
     verdict = "BLOCKED" if blocked else "advisory pass · Conjecture 1 OPEN"
     axiom_bits = []
     for a in ev["axioms"]:
-        color = "var(--color-ink-danger)" if not a["ok"] else "var(--color-ink-signal)"
+        color = "var(--color-error-light)" if not a["ok"] else "var(--color-success-light)"
         word = "fail" if not a["ok"] else "ok"
         axiom_bits.append(
             f'<span class="badge">{_esc(a["id"])} {_esc(a["detail"])} '
@@ -641,11 +653,17 @@ def chain_status() -> str:
     else:
         for rec in receipts:
             short = rec.digest[:12]
+            receipt = (
+                f'<span class="receipt" data-state="{"verified" if ok else "failed"}">'
+                f'<span class="receipt__dot" aria-hidden="true"></span>'
+                f'<span class="receipt__label">{"chain ok" if ok else "chain break"}</span>'
+                f'<span class="receipt__root">{_esc(short)}…</span></span>'
+            )
             rows.append(
                 _lrow(
                     "ok" if ok else "false",
                     f"{rec.kernel} · {rec.op}",
-                    f"seq {rec.seq} · {rec.alg} · {short}…",
+                    f"seq {rec.seq} · {rec.alg} · {receipt}",
                     f"prev {rec.prev[:8]}…",
                 )
             )
@@ -805,7 +823,7 @@ def launch_demo(
         css=HOLO_CSS,
         js=HOLO_JS,
         head=HOLO_HEAD,
-        allowed_paths=[str(KANCHAY_DIR)],
+        allowed_paths=[str(SZL_DIR)],
         server_name=server_name,
         server_port=int(os.environ.get("PORT", 7860)) if server_port is None else server_port,
         prevent_thread_lock=prevent_thread_lock,

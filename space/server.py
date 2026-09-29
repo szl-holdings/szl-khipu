@@ -30,21 +30,12 @@ HTML = ROOT / "index.html"
 STATIC_ASSETS = {
     "/szl-holo-v2.css": ("szl-holo-v2.css", "text/css; charset=utf-8"),
     "/szl-holo-v2.js": ("szl-holo-v2.js", "text/javascript; charset=utf-8"),
-    # SZL Kanchay design system, vendored once in the package (szl_khipu/kanchay/).
-    "/kanchay/kanchay.css": ("szl_khipu/kanchay/kanchay.css", "text/css; charset=utf-8"),
-    "/kanchay/kanchay-components.css": (
-        "szl_khipu/kanchay/kanchay-components.css",
+    # SZL KANCHAY (founder direction), vendored once in the package (szl_khipu/szl/).
+    "/szl/szl-design-system.css": (
+        "szl_khipu/szl/szl-design-system.css",
         "text/css; charset=utf-8",
     ),
-    "/kanchay/fonts/SpaceGrotesk-latin.woff2": (
-        "szl_khipu/kanchay/fonts/SpaceGrotesk-latin.woff2",
-        "font/woff2",
-    ),
-    "/kanchay/fonts/Inter-latin.woff2": ("szl_khipu/kanchay/fonts/Inter-latin.woff2", "font/woff2"),
-    "/kanchay/fonts/JetBrainsMono-latin.woff2": (
-        "szl_khipu/kanchay/fonts/JetBrainsMono-latin.woff2",
-        "font/woff2",
-    ),
+    "/szl/logos/szl_favicon.svg": ("szl_khipu/szl/logos/szl_favicon.svg", "image/svg+xml"),
 }
 BUILD_INFO = ROOT / "szl_khipu" / "build-info.json"
 PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"

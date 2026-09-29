@@ -6,76 +6,72 @@
 <meta name="color-scheme" content="dark">
 <title>SZL KHIPU — knot · hash · fail closed</title>
 <meta name="description" content="GitHub Pages silhouette of the Python khipu. Live kernels: clone and szl-khipu serve. Λ is Conjecture 1 OPEN. Energy UNAVAILABLE.">
-<link rel="stylesheet" href="./kanchay/kanchay.css">
-<link rel="stylesheet" href="./kanchay/kanchay-components.css">
+<link rel="stylesheet" href="./szl/szl-design-system.css">
 <style>
-/* SZL Kanchay surface styles: every color and face is a token from kanchay.css. */
+/* SZL KANCHAY (founder direction), dark docs surface. Tokens and classes come
+   from szl-design-system.css; no color or font literals here. */
 *{box-sizing:border-box}
-html{background:var(--color-a11oy-bg)}
-body{min-height:100vh;font:16px/1.5 var(--font-sans);color:var(--color-a11oy-text)}
-a{color:var(--color-ink-signal);text-underline-offset:3px}
-button{cursor:pointer;font:inherit}
-:where(a,button,input):focus-visible{outline:var(--border-focus) solid var(--color-focus);outline-offset:2px}
-.skip{position:absolute;left:var(--space-2);top:var(--space-2);z-index:var(--z-toast);display:inline-flex;align-items:center;min-height:var(--szl-touch-target);padding:0 var(--space-4);border-radius:var(--radius-sm);background:var(--color-a11oy-gold);color:var(--color-on-accent);font-weight:600;text-decoration:none;transform:translateY(-200%)}
-.skip:focus{transform:none}
-header,main,footer{max-width:880px;margin:0 auto;padding:var(--space-6) var(--space-5)}
-header{position:relative;isolation:isolate;padding-top:var(--space-12)}
-header::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-a11oy-text) 2.5%,transparent) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,currentColor 25%,transparent 72%)}
-.ey{font:400 10px/16px var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--color-a11oy-gold)}
-h1{margin:var(--space-3) 0 var(--space-4);font-family:var(--font-display);font-weight:300;font-size:clamp(2.25rem,6vw,3.25rem);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
-h2{margin:0 0 var(--space-2);font-family:var(--font-display);font-weight:600;font-size:1.125rem;line-height:1.3;letter-spacing:-.02em;text-wrap:balance}
-.lede{max-width:var(--szl-readable-measure);color:var(--color-a11oy-text-sub);text-wrap:pretty}
-.panel .lede{font-size:14px;line-height:1.625}
-.panel{min-width:0;border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-md);background:var(--color-a11oy-surface);padding:var(--space-5);margin:var(--space-4) 0}
-.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-1) var(--space-4)}
-label{font:400 12px/1.4 var(--font-mono);color:var(--color-a11oy-text-sub);overflow-wrap:anywhere}
-input[type=range]{width:100%;min-height:var(--szl-touch-target);accent-color:var(--color-a11oy-gold)}
-.actions{display:flex;flex-wrap:wrap;gap:var(--space-2)}
-.kc-btn{height:auto;min-height:var(--szl-touch-target)}
-pre{margin:var(--space-4) 0 0;padding:var(--space-3) var(--space-4);overflow-x:auto;white-space:pre-wrap;word-break:break-word;background:var(--color-a11oy-deep);border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-sub);font-variant-numeric:tabular-nums}
-code{font-family:var(--font-mono);font-size:.875em;color:var(--color-ink-signal)}
-.chip{display:inline-flex;align-items:center;padding:2px var(--space-2);margin:var(--space-2) var(--space-1) 0 0;border:1px solid var(--color-a11oy-border-subtle);border-radius:var(--radius-sm);font:500 11px/16px var(--font-mono);letter-spacing:.05em;color:var(--color-a11oy-text-sub)}
-.gold{color:var(--color-a11oy-gold);border-color:var(--gold-line)}
-footer{font:400 12px/1.6 var(--font-mono);color:var(--color-a11oy-text-ghost)}
+.skip-link:focus{min-height:var(--target-size-coarse);display:inline-flex;align-items:center}
+header{max-width:980px;margin:0 auto;padding:var(--space-12) var(--space-5) 0}
+header .eyebrow{margin:0}
+h1{margin:var(--space-3) 0 var(--space-4);font-size:clamp(var(--text-2xl),6vw,var(--text-4xl));text-wrap:balance}
+.lede{max-width:var(--measure);color:var(--text-sub);text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-5) 0 0}
+.orbit-rule{margin:var(--space-10) 0 var(--space-8)}
+.card{min-width:0}
+.card .lede{font-size:var(--text-sm)}
+label{font:var(--weight-regular) var(--text-xs)/1.4 var(--font-mono);color:var(--text-sub);overflow-wrap:anywhere}
+input[type=range]{width:min(100%,16rem);min-height:var(--target-size-min);accent-color:var(--color-silver-300)}
+@media (pointer:coarse){input[type=range]{min-height:var(--target-size-coarse)}}
+.actions{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin:var(--space-4) 0 0}
+.code{margin:var(--space-4) 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{max-width:980px;margin:0 auto;padding:var(--space-8) var(--space-5) var(--space-10);font:var(--weight-regular) var(--text-xs)/1.7 var(--font-mono);color:var(--text-ghost)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+header .code{margin:var(--space-4) 0 0}
+main{max-width:980px;margin:0 auto;padding:0 var(--space-5) var(--space-8);display:grid;gap:var(--space-4)}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-1) var(--space-4)}
+footer{padding-top:0}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to content</a>
 <header>
-  <div class="ey">SZL Holdings · GitHub Pages · JS silhouette</div>
+  <div class="eyebrow">SZL Holdings · GitHub Pages · JS silhouette</div>
   <h1>Knot the run. Hash the proof. Fail closed.</h1>
   <p class="lede">This page is a <strong>JavaScript silhouette</strong> of the NumPy kernel. It does not run Python. Live frontend + backend:</p>
-  <pre>git clone https://github.com/szl-holdings/szl-khipu
+  <pre class="code" data-lang="sh">git clone https://github.com/szl-holdings/szl-khipu
 cd szl-khipu && pip install -e .
 szl-khipu serve --host 127.0.0.1 --port 7860</pre>
-  <span class="chip gold">Conjecture 1 OPEN</span>
-  <span class="chip">energy UNAVAILABLE</span>
+  <div class="chips">
+  <span class="chip chip-conjecture">Conjecture 1 OPEN</span>
+  <span class="chip chip-unavailable">energy UNAVAILABLE</span>
   <span class="chip">proven_trust false</span>
-  <span class="chip">CUDA UNAVAILABLE</span>
-  <span class="chip">locked-proven 8</span>
+  <span class="chip chip-unavailable">CUDA UNAVAILABLE</span>
+  <span class="chip chip-proven">locked-proven 8</span>
+  </div>
+  <div class="orbit-rule" aria-hidden="true"><span class="orbit-rule__node"></span></div>
 </header>
 <main id="main">
-  <section class="panel">
-    <h2>Λ silhouette — 13 equal weights</h2>
+  <section class="card">
+    <h2 class="card-title">Λ silhouette — 13 equal weights</h2>
     <p class="lede">Same WGM as the Python gate. Zero-route fail-closes. This is not a uniqueness proof.</p>
     <div class="axes" id="axes"></div>
-    <p class="actions"><button type="button" class="kc-btn kc-btn--outline" id="score">Score Λ</button> <button type="button" class="kc-btn kc-btn--secondary" id="zero">Zero-route</button></p>
-    <pre id="out">idle — JS silhouette, not the NumPy kernel</pre>
+    <p class="actions"><button type="button" class="btn btn-secondary" id="score">score Λ</button> <button type="button" class="btn btn-ghost" id="zero">zero-route</button></p>
+    <pre class="code" data-lang="json" id="out">idle — JS silhouette, not the NumPy kernel</pre>
   </section>
-  <section class="panel">
-    <h2>GreenLight silhouette — Ari</h2>
+  <section class="card">
+    <h2 class="card-title">GreenLight silhouette — Ari</h2>
     <p class="lede">A sorry cannot be painted green. This is the JS dual of the Python kernel. proven_trust stays false. Energy UNAVAILABLE.</p>
     <p class="actions">
-      <button type="button" class="kc-btn kc-btn--outline" id="g-ok">Green-light</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="g-sorry">Paint a sorry green</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="g-claim">Claim Λ proven</button>
-      <button type="button" class="kc-btn kc-btn--secondary" id="g-joule">Stamp a joule</button>
+      <button type="button" class="btn btn-secondary" id="g-ok">green-light</button>
+      <button type="button" class="btn btn-ghost" id="g-sorry">paint a sorry green</button>
+      <button type="button" class="btn btn-ghost" id="g-claim">claim Λ proven</button>
+      <button type="button" class="btn btn-ghost" id="g-joule">stamp a joule</button>
     </p>
-    <pre id="gout">idle</pre>
+    <pre class="code" data-lang="json" id="gout">idle</pre>
   </section>
-  <section class="panel">
-    <h2>Source of truth</h2>
+  <section class="card">
+    <h2 class="card-title">Source of truth</h2>
     <p><a href="https://github.com/szl-holdings/szl-khipu">szl-holdings/szl-khipu</a> is canonical. Python FE+BE lives in <code>szl_khipu/http_app.py</code>. Docker hologram: <a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-khipu">SZLHOLDINGS/szl-khipu</a>. 3D atlas: <a href="https://github.com/szl-holdings/anatomy">anatomy</a>. Founder notebook: <a href="https://stephenlutar2-hash.github.io/founder-page/">Stephen Lutar</a>.</p>
   </section>
 </main>
