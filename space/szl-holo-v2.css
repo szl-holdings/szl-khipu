@@ -2,30 +2,34 @@
  * A11oy Holo-Constellation v2.0.0
  * SZL-original visual material and interaction system.
  * No external assets, tracking, storage, network fetches, or copied design code.
+ * Colors, faces, radii and shadows re-point at SZL KANCHAY founder tokens
+ * (szl/szl-design-system.css, loaded first): neutrals carry the field, silver is the
+ * linework, teal is focus, and the one coral node is the orbit mark in the rail.
+ * The holo-v2 mechanics below are unchanged.
  * SPDX-License-Identifier: Apache-2.0
  */
 
 :root {
-  --szl-holo-bg: #050806;
-  --szl-holo-bg-deep: #020403;
-  --szl-holo-surface: #0c1513;
-  --szl-holo-surface-2: #14201d;
-  --szl-holo-ink: #f3fff8;
-  --szl-holo-muted: #9fb7ad;
-  --szl-holo-accent: #b8ff45;
-  --szl-holo-accent-2: #31e6d1;
-  --szl-holo-danger: #ff625b;
-  --szl-holo-warning: #e2bb6d;
-  --szl-holo-success: #76d8aa;
+  --szl-holo-bg: var(--bg);
+  --szl-holo-bg-deep: var(--bg-deep);
+  --szl-holo-surface: var(--surface);
+  --szl-holo-surface-2: var(--surface-raised);
+  --szl-holo-ink: var(--text);
+  --szl-holo-muted: var(--text-sub);
+  --szl-holo-accent: var(--color-silver-300);
+  --szl-holo-accent-2: var(--color-silver-500);
+  --szl-holo-danger: var(--color-error-light);
+  --szl-holo-warning: var(--color-warning-light);
+  --szl-holo-success: var(--color-success-light);
   --szl-holo-line: color-mix(in srgb, var(--szl-holo-accent) 20%, transparent);
-  --szl-holo-line-soft: color-mix(in srgb, var(--szl-holo-ink) 10%, transparent);
+  --szl-holo-line-soft: var(--border-subtle);
   --szl-holo-glow: color-mix(in srgb, var(--szl-holo-accent) 16%, transparent);
   --szl-holo-glow-2: color-mix(in srgb, var(--szl-holo-accent-2) 12%, transparent);
-  --szl-holo-shadow: 0 24px 84px rgb(0 0 0 / 0.42);
-  --szl-holo-radius-sm: 10px;
-  --szl-holo-radius-md: 18px;
-  --szl-holo-radius-lg: 30px;
-  --szl-holo-radius-xl: 44px;
+  --szl-holo-shadow: var(--shadow-xl);
+  --szl-holo-radius-sm: var(--radius-md);
+  --szl-holo-radius-md: var(--radius-lg);
+  --szl-holo-radius-lg: var(--radius-xl);
+  --szl-holo-radius-xl: var(--radius-2xl);
   --szl-holo-space-1: clamp(.45rem, .35rem + .3vw, .7rem);
   --szl-holo-space-2: clamp(.8rem, .65rem + .5vw, 1.2rem);
   --szl-holo-space-3: clamp(1.2rem, .95rem + .8vw, 1.9rem);
@@ -79,8 +83,8 @@ html[data-szl-holo="v2"] body::after {
   content: "";
   opacity: .14;
   background-image:
-    repeating-linear-gradient(0deg, transparent 0 3px, rgb(255 255 255 / .018) 4px),
-    repeating-linear-gradient(90deg, transparent 0 5px, rgb(255 255 255 / .012) 6px);
+    repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--szl-holo-ink) 1.8%, transparent) 4px),
+    repeating-linear-gradient(90deg, transparent 0 5px, color-mix(in srgb, var(--szl-holo-ink) 1.2%, transparent) 6px);
   mix-blend-mode: soft-light;
 }
 
@@ -110,7 +114,7 @@ html[data-szl-holo-motif="command-constellation"] #szl-holo-ambient::before {
     linear-gradient(var(--szl-holo-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--szl-holo-line) 1px, transparent 1px);
   background-size: 112px 112px, 56px 56px, 56px 56px;
-  mask-image: radial-gradient(ellipse at 63% 29%, #000 0 18%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 63% 29%, currentColor 0 18%, transparent 70%);
   transform: perspective(720px) rotateX(58deg) translate3d(0, 22%, 0) scale(1.12);
 }
 
@@ -138,7 +142,7 @@ html[data-szl-holo-motif="signal-aurora"] #szl-holo-ambient::after {
   background:
     repeating-linear-gradient(90deg, transparent 0 43px, var(--szl-holo-line) 44px, transparent 45px 82px),
     linear-gradient(170deg, transparent 38%, var(--szl-holo-glow-2) 39% 40%, transparent 41% 58%, var(--szl-holo-glow) 59% 60%, transparent 61%);
-  mask-image: linear-gradient(transparent, #000 28% 78%, transparent 92%);
+  mask-image: linear-gradient(transparent, currentColor 28% 78%, transparent 92%);
   transform: skewY(-7deg) translateY(calc(var(--szl-holo-scroll) * -2px));
 }
 
@@ -184,7 +188,7 @@ html[data-szl-holo-motif="threat-lattice"] #szl-holo-ambient::before {
     linear-gradient(148deg, transparent 47%, color-mix(in srgb, var(--szl-holo-accent-2) 18%, transparent) 48% 49%, transparent 50%);
   background-size: 84px 84px;
   transform: skewX(-8deg) scale(1.12);
-  mask-image: radial-gradient(circle at 72% 28%, #000, transparent 62%);
+  mask-image: radial-gradient(circle at 72% 28%, currentColor, transparent 62%);
 }
 
 html[data-szl-holo-motif="threat-lattice"] #szl-holo-ambient::after {
@@ -204,7 +208,7 @@ html[data-szl-holo-motif="case-facets"] #szl-holo-ambient::before {
     repeating-linear-gradient(0deg, transparent 0 51px, var(--szl-holo-line) 52px),
     repeating-linear-gradient(90deg, transparent 0 219px, color-mix(in srgb, var(--szl-holo-accent-2) 17%, transparent) 220px 221px);
   transform: rotate(-2deg);
-  mask-image: linear-gradient(90deg, transparent 2%, #000 20% 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent 2%, currentColor 20% 91%, transparent);
 }
 
 html[data-szl-holo-motif="case-facets"] #szl-holo-ambient::after {
@@ -234,7 +238,7 @@ html[data-szl-holo-motif="connection-field"] #szl-holo-ambient::before {
     linear-gradient(30deg, transparent 49%, var(--szl-holo-line) 50%, transparent 51%),
     linear-gradient(150deg, transparent 49%, var(--szl-holo-line) 50%, transparent 51%);
   background-size: 96px 96px;
-  mask-image: radial-gradient(circle at 55% 40%, #000, transparent 72%);
+  mask-image: radial-gradient(circle at 55% 40%, currentColor, transparent 72%);
   transform: translate3d(calc(var(--szl-holo-scroll) * .4px), calc(var(--szl-holo-scroll) * -.25px), 0);
 }
 
@@ -263,7 +267,7 @@ html[data-szl-holo-motif="recursive-ring"] #szl-holo-ambient::before {
   inset: -24% -12%;
   border-radius: 50%;
   background: repeating-conic-gradient(from 0deg, var(--szl-holo-line) 0 1deg, transparent 1deg 13deg);
-  mask-image: repeating-radial-gradient(circle, #000 0 1px, transparent 2px 54px);
+  mask-image: repeating-radial-gradient(circle, currentColor 0 1px, transparent 2px 54px);
   animation: szl-holo-recurse 42s linear infinite;
 }
 
@@ -298,7 +302,7 @@ html[data-szl-holo-motif="agent-swarm"] #szl-holo-ambient::before {
     radial-gradient(circle at center, var(--szl-holo-accent-2) 0 1px, transparent 2px);
   background-position: 0 0, 31px 27px;
   background-size: 72px 68px, 89px 83px;
-  mask-image: radial-gradient(circle at 60% 42%, #000, transparent 68%);
+  mask-image: radial-gradient(circle at 60% 42%, currentColor, transparent 68%);
   animation: szl-holo-swarm 24s ease-in-out infinite alternate;
 }
 
@@ -315,7 +319,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::before {
   background:
     repeating-linear-gradient(0deg, transparent 0 35px, var(--szl-holo-line-soft) 36px),
     linear-gradient(90deg, transparent 0 13%, var(--szl-holo-line) 13.1%, transparent 13.3% 76%, var(--szl-holo-line) 76.1%, transparent 76.3%);
-  mask-image: linear-gradient(90deg, transparent, #000 14% 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, currentColor 14% 86%, transparent);
 }
 
 html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
@@ -338,10 +342,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   border-bottom: 1px solid var(--szl-holo-line);
   color: var(--szl-holo-ink);
   background: color-mix(in srgb, var(--szl-holo-bg) 86%, transparent);
-  box-shadow: 0 14px 44px rgb(0 0 0 / .24);
+  box-shadow: var(--shadow-lg);
   backdrop-filter: blur(20px) saturate(135%);
   -webkit-backdrop-filter: blur(20px) saturate(135%);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
 .szl-holo-rail *,
@@ -360,25 +364,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-mark {
   position: relative;
-  width: 28px;
+  width: 48px;
   height: 28px;
   flex: 0 0 auto;
-  border: 1px solid color-mix(in srgb, var(--szl-holo-accent) 62%, white 10%);
-  border-radius: 9px;
-  background:
-    radial-gradient(circle at 26% 24%, var(--szl-holo-accent), transparent 34%),
-    linear-gradient(145deg, color-mix(in srgb, var(--szl-holo-accent-2) 72%, transparent), transparent 72%);
-  box-shadow: 0 0 28px var(--szl-holo-glow);
-  transform: rotate(8deg);
-}
-
-.szl-holo-mark::after {
-  position: absolute;
-  inset: 5px;
-  border: 1px solid color-mix(in srgb, var(--szl-holo-ink) 36%, transparent);
-  border-radius: 5px;
-  content: "";
-  transform: rotate(-18deg);
+  background: url("./szl/logos/szl_favicon.svg") center / contain no-repeat;
 }
 
 .szl-holo-copy {
@@ -389,10 +378,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-eyebrow {
   overflow: hidden;
-  color: var(--szl-holo-muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .19em;
+  color: var(--text-ghost);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
@@ -400,9 +389,10 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-label {
   overflow: hidden;
-  font-size: 13px;
-  font-weight: 760;
-  letter-spacing: -.01em;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -422,11 +412,11 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   justify-content: center;
   padding: 8px 11px;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   color: var(--szl-holo-muted);
   background: transparent;
-  font: 660 11px/1.2 Inter, ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: .045em;
+  font: var(--weight-medium) var(--text-sm)/1.2 var(--font-body);
+  letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
   touch-action: manipulation;
@@ -486,17 +476,18 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 
 .szl-holo-kicker,
 [data-szl-holo-kicker] {
-  color: var(--szl-holo-accent);
-  font-size: .72rem;
-  font-weight: 780;
-  letter-spacing: .18em;
+  color: var(--text-ghost);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
 }
 
 .szl-holo-title,
 [data-szl-holo-title] {
   color: var(--szl-holo-ink);
-  background: linear-gradient(112deg, var(--szl-holo-ink), var(--szl-holo-accent) 58%, var(--szl-holo-accent-2));
+  font-family: var(--font-display);
+  background: linear-gradient(112deg, var(--szl-holo-ink), var(--szl-holo-muted));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -513,16 +504,16 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   gap: 7px;
   padding: 5px 10px;
   border: 1px solid var(--szl-holo-line-soft);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   color: var(--szl-holo-muted);
   background: color-mix(in srgb, var(--szl-holo-surface) 78%, transparent);
-  font: 650 11px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: var(--weight-medium) var(--text-xs)/1.2 var(--font-mono);
 }
 
 .szl-holo-chip::before {
   width: 7px;
   height: 7px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: var(--szl-holo-accent);
   box-shadow: 0 0 14px var(--szl-holo-accent);
   content: "";
@@ -536,7 +527,7 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   padding: 10px 12px;
   border-block: 1px solid var(--szl-holo-line-soft);
   color: var(--szl-holo-muted);
-  font: 600 11px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: var(--weight-semibold) var(--text-xs)/1.4 var(--font-mono);
 }
 
 .szl-holo-evidence-ribbon strong { color: var(--szl-holo-ink); }
@@ -557,12 +548,13 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
   top: 8px;
   left: 8px;
   z-index: calc(var(--szl-holo-z-rail) + 3);
-  padding: 11px 14px;
-  border: 2px solid var(--szl-holo-accent);
+  min-height: var(--target-size-coarse);
+  padding: 13px 16px;
+  border: var(--border-hairline) solid var(--border);
   border-radius: var(--szl-holo-radius-sm);
-  color: var(--szl-holo-bg);
-  background: var(--szl-holo-accent);
-  font: 760 14px/1.2 ui-sans-serif, system-ui, sans-serif;
+  color: var(--text);
+  background: var(--surface);
+  font: var(--weight-semibold) var(--text-sm)/1.2 var(--font-body);
   text-decoration: none;
   transform: translateY(-160%);
   transition: transform .16s ease;
@@ -571,8 +563,8 @@ html[data-szl-holo-motif="evidence-vault"] #szl-holo-ambient::after {
 .szl-holo-skip:focus { transform: translateY(0); }
 
 html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--szl-holo-accent) !important;
-  outline-offset: 3px !important;
+  outline: var(--border-focus) solid var(--focus) !important;
+  outline-offset: 2px !important;
 }
 
 @keyframes szl-holo-orbit {
@@ -623,7 +615,7 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
     padding: 8px;
     border: 1px solid var(--szl-holo-line);
     border-radius: var(--szl-holo-radius-md);
-    background: color-mix(in srgb, var(--szl-holo-bg) 96%, white 2%);
+    background: var(--szl-holo-surface);
     box-shadow: var(--szl-holo-shadow);
   }
   .szl-holo-nav[data-open="true"] { display: flex; }
@@ -635,7 +627,7 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
 
 @media (max-width: 390px) {
   .szl-holo-label { max-width: 48vw; }
-  .szl-holo-mark { width: 25px; height: 25px; }
+  .szl-holo-mark { width: 42px; height: 25px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -689,11 +681,11 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
     background: none;
     -webkit-text-fill-color: currentColor;
   }
-  .szl-holo-mark { border-color: CanvasText; background: CanvasText; box-shadow: none; }
+  .szl-holo-mark { forced-color-adjust: none; }
   .szl-holo-skip { color: Canvas; background: CanvasText; border-color: CanvasText; }
 }
 
-@supports not (color: color-mix(in srgb, black 50%, white)) {
+@supports not (color: color-mix(in srgb, currentColor 50%, transparent)) {
   .szl-holo-rail,
   .szl-holo-panel,
   [data-szl-holo-panel] { background: var(--szl-holo-surface); }
@@ -707,14 +699,14 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
   .szl-holo-skip { display: none !important; }
   html[data-szl-holo="v2"],
   html[data-szl-holo="v2"] body {
-    color: #000 !important;
-    background: #fff !important;
+    color: var(--color-gray-900) !important;
+    background: var(--color-white) !important;
   }
   .szl-holo-panel,
   [data-szl-holo-panel] {
-    border: 1px solid #444;
-    color: #000;
-    background: #fff;
+    border: 1px solid var(--color-gray-500);
+    color: var(--color-gray-900);
+    background: var(--color-white);
     box-shadow: none;
   }
 }

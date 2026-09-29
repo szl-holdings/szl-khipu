@@ -4,7 +4,7 @@ emoji: 🪢
 colorFrom: gray
 colorTo: green
 sdk: gradio
-sdk_version: 6.27.0
+sdk_version: 6.28.0
 python_version: "3.11"
 app_file: app.py
 pinned: true
@@ -16,7 +16,7 @@ short_description: Knot the run. Hash the proof. Fail closed.
 
 Knot the run. Hash the proof. Fail closed.
 
-Holographic Gradio 6 demo for the `szl-khipu` package **on GitHub**. The separate Docker publisher uses `../space/` (stdlib HTTP, no Gradio); this demo is not a request to create or replace a Hub Space. Chrome is the estate hologram language (`lambda-gate-holo` tokens: void `#05070d`, proof `#3af4c8`, gold `#e8c074` = OPEN). Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. System fonts. No Google Fonts.
+Holographic Gradio 6 demo for the `szl-khipu` package **on GitHub**. The separate Docker publisher uses `../space/` (stdlib HTTP, no Gradio); this demo is not a request to create or replace a Hub Space. Chrome is SZL KANCHAY (founder direction), vendored byte-for-byte in `szl_khipu/szl/`: space-navy ground `--bg`, one coral primary `--accent` per tab, status as worded chips, receipts as `.receipt`. Kernels are live NumPy. Not default Gradio orange. YAML `emoji` is Hub metadata, not product chrome. System fonts. No Google Fonts.
 
 From the repository root, install and run the pinned demo in a virtual environment:
 

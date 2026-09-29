@@ -30,6 +30,12 @@ HTML = ROOT / "index.html"
 STATIC_ASSETS = {
     "/szl-holo-v2.css": ("szl-holo-v2.css", "text/css; charset=utf-8"),
     "/szl-holo-v2.js": ("szl-holo-v2.js", "text/javascript; charset=utf-8"),
+    # SZL KANCHAY (founder direction), vendored once in the package (szl_khipu/szl/).
+    "/szl/szl-design-system.css": (
+        "szl_khipu/szl/szl-design-system.css",
+        "text/css; charset=utf-8",
+    ),
+    "/szl/logos/szl_favicon.svg": ("szl_khipu/szl/logos/szl_favicon.svg", "image/svg+xml"),
 }
 BUILD_INFO = ROOT / "szl_khipu" / "build-info.json"
 PROVENANCE = ROOT / "szl_khipu" / "hf-deployment-provenance.json"
@@ -362,13 +368,18 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(body)
 
     def _static_asset(self, path: str) -> bool:
-        """Serve only the two fixed frontend assets, never a request-derived path."""
+        """Serve only the fixed frontend assets, never a request-derived path."""
         asset = STATIC_ASSETS.get(path)
         if asset is None:
             return False
         filename, content_type = asset
+        # The Space payload carries szl_khipu/ at its root; a local run from
+        # the repository finds the package one level up (same rule as sys.path).
+        base = ROOT
+        if filename.startswith("szl_khipu/") and not (ROOT / "szl_khipu").is_dir():
+            base = ROOT.parent
         try:
-            body = (ROOT / filename).read_bytes()
+            body = (base / filename).read_bytes()
         except OSError:
             self._send(404, b"not found", "text/plain")
         else:

@@ -45,7 +45,7 @@ class GradioRuntime(unittest.TestCase):
         cls.addClassCleanup(cls.client.close)
 
     def test_pinned_runtime_and_styling_config(self) -> None:
-        self.assertEqual(gradio.__version__, "6.27.0")
+        self.assertEqual(gradio.__version__, "6.28.0")
         self.assertFalse(self.client.analytics_enabled)
         response = httpx.get(f"{self.url}config", timeout=15.0)
         response.raise_for_status()
@@ -61,6 +61,14 @@ class GradioRuntime(unittest.TestCase):
         self.assertFalse(self.app.demo.ssr_mode)
         labels = [item["props"].get("label") for item in config["components"] if item["type"] == "tabitem"]
         self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Receipts"])
+
+    def test_szl_design_system_is_served_locally(self) -> None:
+        self.assertIn(self.app.SZL_CSS_URL, self.app.HOLO_HEAD)
+        self.assertNotIn("fonts.googleapis", self.app.HOLO_HEAD)
+        css = httpx.get(f"{self.url}{self.app.SZL_CSS_URL}", timeout=15.0)
+        css.raise_for_status()
+        self.assertEqual(css.headers["content-type"].split(";")[0], "text/css")
+        self.assertEqual(css.content, (self.app.SZL_DIR / "szl-design-system.css").read_bytes())
 
     def test_live_lambda_pass_and_fail_closed(self) -> None:
         passing = self.client.predict(*([1.0] * len(self.app.AXES)), api_name="/score_lambda")

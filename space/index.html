@@ -4,43 +4,48 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>SZL KHIPU</title>
+  <meta name="color-scheme" content="dark"/>
+  <link rel="icon" href="./szl/logos/szl_favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="./szl/szl-design-system.css" data-szl-holo-space-asset="szl-design-system" />
   <style>
-    :root { --bg:#05070d; --fg:#eef3f6; --muted:#9fb1bf; --proof:#3af4c8; --gold:#e8c074; --line:#1b2734; --surf:#0b121b; --false:#d76a6a; }
-    * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 ui-sans-serif,system-ui,sans-serif; }
-    header, main { max-width:920px; margin:0 auto; padding:24px 20px; }
-    h1 { font-weight:600; letter-spacing:-.03em; }
-    .kicker { font:11px/1 ui-monospace,Menlo,monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
-    .grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
-    .card { background:var(--surf); border:1px solid var(--line); border-radius:16px; padding:16px; }
-    a { color:var(--proof); }
-    input[type=range] { width:100%; accent-color:var(--proof); }
-    .mono { font-family: ui-monospace, Menlo, monospace; }
-    .muted { color:var(--muted); font-size:14px; }
-    .badge { font:10.5px ui-monospace,monospace; padding:3px 9px; border:1px solid var(--line); border-radius:6px; color:var(--muted); display:inline-block; margin:0 6px 6px 0; }
-    .badge b { color:var(--gold); }
-    button { min-height:44px; padding:0 16px; border-radius:8px; border:1px solid var(--proof); background:var(--proof); color:var(--bg); font:600 12px ui-monospace,monospace; letter-spacing:.8px; text-transform:uppercase; cursor:pointer; }
-    button.ghost { background:transparent; color:var(--fg); border-color:var(--line); }
-    button.on { border-color:var(--false); color:var(--false); }
-    #lam { font-size:28px; color:var(--proof); margin:8px 0; }
-    .down { color:var(--false); }
-    .row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-    .orgs { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:12px; }
-    .org { border:1px solid var(--line); border-radius:10px; padding:10px; font:12px ui-monospace,Menlo,monospace; }
-    .org.down { border-color:var(--false); color:var(--false); }
+    /* SZL KANCHAY (founder direction), dark operator Space. Tokens and classes come from
+       szl-design-system.css; no color or font literals here. Coral is the rail mark's node. */
+    header:not(.szl-holo-rail), main { max-width:920px; margin:0 auto; padding:var(--space-6) clamp(var(--space-4), 3vw, var(--space-12)); }
+    h1 { margin:var(--space-3) 0 var(--space-4); font-size:clamp(var(--text-3xl), 7vw, var(--text-5xl)); }
+    h2 { font-size:var(--text-lg); margin:0 0 var(--space-2); }
+    .eyebrow { margin:0; }
+    .grid { display:grid; gap:var(--space-3); grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr)); }
+    .card { min-width:0; }
+    a.card { display:flex; align-items:center; min-height:var(--target-size-coarse); font-weight:var(--weight-semibold); }
+    input[type=range] { width:100%; min-height:var(--target-size-min); accent-color:var(--color-silver-300); }
+    @media (pointer: coarse) { input[type=range] { min-height:var(--target-size-coarse); } }
+    .muted { font-size:var(--text-sm); }
+    #sliders label { display:block; font-size:var(--text-xs); }
+    .chips { display:flex; flex-wrap:wrap; gap:var(--space-2); margin:0; }
+    .chip b { font-weight:var(--weight-semibold); }
+    .btn.on, .btn.on:hover { border-color:var(--color-error-light); color:var(--color-error-light); }
+    .btn.on::after { content:" · on"; }
+    #lam { font-size:var(--text-2xl); line-height:1.2; color:var(--text); font-variant-numeric:tabular-nums lining-nums; margin:var(--space-2) 0; }
+    .down, #lam.down { color:var(--color-error-light); }
+    .row { display:flex; flex-wrap:wrap; gap:var(--space-2); margin-top:var(--space-3); }
+    .orgs { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:var(--space-2); margin-top:var(--space-3); }
+    .org { border:var(--border-hairline) solid var(--border); border-radius:var(--radius-md); background:var(--surface-alt); padding:var(--space-2) var(--space-3); font:var(--weight-regular) var(--text-xs)/1.5 var(--font-mono); color:var(--text-sub); }
+    .org b { color:var(--text); }
+    .org.down { border-color:var(--color-error-light); color:var(--color-error-light); }
+    .org.down b { color:var(--color-error-light); }
   </style>
   <link rel="stylesheet" href="./szl-holo-v2.css" data-szl-holo-space-asset="style-v2" />
 </head>
 <body>
   <header>
-    <p class="kicker">SZL Holdings · Knot the run · Hash the proof</p>
+    <p class="eyebrow">SZL Holdings · Knot the run · Hash the proof</p>
     <h1>SZL KHIPU</h1>
     <p class="muted">Numpy kernels behind stdlib HTTP. No Gradio. Full package lives on GitHub. Λ uniqueness is Conjecture 1 — never a theorem.</p>
-    <p>
-      <span class="badge">kernel <b id="kstatus">…</b></span>
-      <span class="badge">uniqueness <b>Conjecture 1</b></span>
-      <span class="badge">energy <b>UNAVAILABLE</b></span>
-      <span class="badge">proven_trust <b>false</b></span>
+    <p class="chips">
+      <span class="chip">kernel <b id="kstatus">…</b></span>
+      <span class="chip chip-conjecture">uniqueness <b>Conjecture 1</b></span>
+      <span class="chip chip-unavailable">energy <b>UNAVAILABLE</b></span>
+      <span class="chip">proven_trust <b>false</b></span>
     </p>
   </header>
   <main>
@@ -55,10 +60,10 @@
       <p class="muted">A sorry cannot be painted green. Claiming uniqueness or stamping a joule fail-closes.</p>
       <p class="mono" id="green">—</p>
       <div class="row">
-        <button class="ghost" type="button" id="paint">Paint a sorry green</button>
-        <button class="ghost" type="button" id="claim">Claim Λ proven</button>
-        <button class="ghost" type="button" id="joule">Stamp MEASURED joules</button>
-        <button type="button" id="push-green">Green-light this bound</button>
+        <button class="btn btn-ghost" type="button" id="paint">Paint a sorry green</button>
+        <button class="btn btn-ghost" type="button" id="claim">Claim Λ proven</button>
+        <button class="btn btn-ghost" type="button" id="joule">Stamp MEASURED joules</button>
+        <button class="btn btn-secondary" type="button" id="push-green">Green-light this bound</button>
       </div>
     </section>
     <section class="card" style="margin-top:12px">
@@ -67,24 +72,24 @@
       <p class="mono" id="anatomy">—</p>
       <div class="orgs" id="orgs"></div>
       <div class="row">
-        <button class="ghost" type="button" id="kill-heart">Zero HEART</button>
-        <button class="ghost" type="button" id="fake-joule">Fabricate a joule</button>
-        <button type="button" id="walk">Walk anatomy</button>
+        <button class="btn btn-ghost" type="button" id="kill-heart">Zero HEART</button>
+        <button class="btn btn-ghost" type="button" id="fake-joule">Fabricate a joule</button>
+        <button class="btn btn-secondary" type="button" id="walk">Walk anatomy</button>
       </div>
     </section>
     <section class="card" style="margin-top:12px">
       <h2>YARQA</h2>
       <p class="muted">Canal attention. CUDA UNAVAILABLE. Not SageAttention.</p>
       <p class="mono" id="yarqa">—</p>
-      <button id="run-yarqa" type="button">Run YARQA</button>
+      <button class="btn btn-secondary" id="run-yarqa" type="button">Run YARQA</button>
     </section>
     <section class="card" style="margin-top:12px">
       <h2>PrefixWitness · radix</h2>
       <p class="muted">Original cut of SGLang RadixAttention. Poison after digest — BLOCKED. Not SGLang.</p>
       <p class="mono" id="prefix">—</p>
       <div class="row">
-        <button class="ghost" type="button" id="hijack-prefix">Poison cache</button>
-        <button type="button" id="run-prefix">Honest prefix</button>
+        <button class="btn btn-ghost" type="button" id="hijack-prefix">Poison cache</button>
+        <button class="btn btn-secondary" type="button" id="run-prefix">Honest prefix</button>
       </div>
     </section>
     <section class="card" style="margin-top:12px">
@@ -92,8 +97,8 @@
       <p class="muted">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
       <p class="mono" id="route">—</p>
       <div class="row">
-        <button class="ghost" type="button" id="swap-route">Swap expert</button>
-        <button type="button" id="run-route">Honest route</button>
+        <button class="btn btn-ghost" type="button" id="swap-route">Swap expert</button>
+        <button class="btn btn-secondary" type="button" id="run-route">Honest route</button>
       </div>
     </section>
     <section class="card" style="margin-top:12px">
@@ -101,8 +106,8 @@
       <p class="muted">Kernel is truth. TinyKhipu infers here. 1.5B QLoRA stays RESEARCH.</p>
       <p class="mono" id="infer">—</p>
       <div class="row">
-        <button class="ghost" type="button" id="run-bench">Bench kernels</button>
-        <button type="button" id="run-infer">Infer TinyKhipu</button>
+        <button class="btn btn-ghost" type="button" id="run-bench">Bench kernels</button>
+        <button class="btn btn-secondary" type="button" id="run-infer">Infer TinyKhipu</button>
       </div>
     </section>
     <h2>Organs</h2>

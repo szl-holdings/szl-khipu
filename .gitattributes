@@ -1,2 +1,5 @@
 *.npz binary
 *.png binary
+# Vendored SZL KANCHAY (founder direction) export: byte-for-byte copies pinned by
+# szl/SOURCE.json. Never let Git rewrite their line endings.
+**/szl/** -text

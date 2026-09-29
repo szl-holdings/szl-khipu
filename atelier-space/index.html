@@ -4,14 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SZL Atelier</title>
-    <meta name="theme-color" content="#09090b" />
+    <!-- theme-color cannot read CSS variables: #030F29 is --bg (--color-space-900). -->
+    <meta name="theme-color" content="#030F29" />
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="Walk all 40 SZLHOLDINGS Hub models. Unique cuts, receipted Python, fail-closed kernels."
     />
+    <link rel="stylesheet" href="./szl/szl-design-system.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#app">Skip to content</a>
     <div class="shell">
       <header>
         <div class="hdr">
