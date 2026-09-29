@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 from types import SimpleNamespace
 import unittest
-from unittest import mock
+import unittest.mock as mock
 
 import numpy as np
 
