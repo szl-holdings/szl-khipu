@@ -106,6 +106,12 @@ print(out.leaked)  # bound: leaked ≤ 1e-9
 szl-khipu demo-yarqa --n-canals 3
 ```
 
+For numerical output without dense probability diagnostics, use
+`yarqa_attn_output(q, k, v, n_canals=3)`. This NumPy path computes query tiles
+inside each canal and avoids full sequence-square score/probability matrices.
+The [API contract and reproducible CPU comparison](docs/YARQA_OUTPUT_ONLY.md)
+document validation, memory limits, attribution, and measurement boundaries.
+
 ### Organ integrity (five organs)
 
 Fail-closed substrate. Any DOWN organ or a WILLAY veto blocks the body. Λ stays Conjecture 1 OPEN. Energy UNAVAILABLE. Locked-proven stays 8. Not a Three.js rehost.
