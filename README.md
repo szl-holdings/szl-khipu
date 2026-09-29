@@ -25,6 +25,13 @@ Canonical GitHub source: [szl-holdings/szl-khipu](https://github.com/szl-holding
 Hub card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)  
 Kernels: [SZLHOLDINGS/szl-khipu-kernels](https://huggingface.co/kernels/SZLHOLDINGS/szl-khipu-kernels)
 
+The canonical `publish-hf` workflow mirrors `szl_khipu/`, `README.md`, `LICENSE`,
+and `pyproject.toml` from immutable Git blobs in one Hub model commit. Its
+`MODEL_SOURCE_BINDING.json` records the Git commit, tree, and each file digest;
+publication succeeds only after immutable provider readback matches every byte.
+Historical Hub files outside this software scope are preserved and are not
+attested by this binding. Software parity makes no trained-checkpoint claim.
+
 ## What it is
 
 - A Python package (`szl_khipu`) that knots a run, hashes a receipt, and fail-closes on a zero axis or a broken chain.

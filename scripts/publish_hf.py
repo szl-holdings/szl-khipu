@@ -11,9 +11,10 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_REPOSITORY = "szl-holdings/szl-khipu"
@@ -26,6 +27,9 @@ ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
+MODEL_BINDING_NAME = "MODEL_SOURCE_BINDING.json"
+MODEL_RECEIPT_NAME = "hf-model-source-receipt.json"
+MODEL_ROOT_FILES = ("README.md", "LICENSE", "pyproject.toml")
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 ARTIFACT_NAME_PATTERN = re.compile(
@@ -315,6 +319,122 @@ def _put(api, repo: str, local: Path, dest: str, kind: str, message: str) -> Non
     print("uploaded", dest, "->", repo, flush=True)
 
 
+def _git(*arguments: str) -> bytes:
+    return subprocess.run(
+        ["git", "-C", str(ROOT), *arguments],
+        check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    ).stdout
+
+
+def _stage_model_source() -> tuple[Path, dict]:
+    """Stage only the maintained software scope from immutable Git blobs.
+
+    The Hub model repository also contains historical artifacts. They remain
+    untouched and outside this package parity claim.
+    """
+    identity = _identity()
+    source = identity["source_commit"]
+    if _git("rev-parse", "HEAD").decode().strip() != source:
+        raise RuntimeError("model publication source must equal checked-out HEAD")
+    tree = _git("rev-parse", f"{source}^{{tree}}").decode().strip()
+    records = _git("ls-tree", "-rz", "--full-tree", source, "--",
+                   *MODEL_ROOT_FILES, "szl_khipu").split(b"\0")
+    staging = Path(tempfile.mkdtemp(prefix="szl-khipu-model-"))
+    try:
+        files = []
+        total = 0
+        for record in filter(None, records):
+            metadata, raw_path = record.split(b"\t", 1)
+            mode, kind, blob = metadata.decode("ascii").split()
+            name = raw_path.decode("utf-8")
+            path = PurePosixPath(name)
+            if (mode not in ("100644", "100755") or kind != "blob"
+                    or path.is_absolute() or ".." in path.parts or "\\" in name
+                    or ":" in name or "__pycache__" in path.parts
+                    or name.endswith((".pyc", ".pyo"))
+                    or not (name in MODEL_ROOT_FILES or name.startswith("szl_khipu/"))):
+                raise RuntimeError(f"unsafe model source entry: {name}")
+            size = int(_git("cat-file", "-s", blob))
+            total += size
+            if size > 8 * 1024 * 1024 or total > 32 * 1024 * 1024:
+                raise RuntimeError("model software mirror exceeds the bounded size")
+            content = _git("cat-file", "blob", blob)
+            target = staging / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+            files.append({"path": name, "git_blob": blob, "size": len(content),
+                          "sha256": hashlib.sha256(content).hexdigest()})
+        required = {*MODEL_ROOT_FILES, "szl_khipu/__init__.py",
+                    "szl_khipu/train/receipt_agent.py"}
+        if not required.issubset({item["path"] for item in files}):
+            raise RuntimeError("required canonical model package source is missing")
+        manifest = {
+            "schema": "szl.hf-model-software-source/v1",
+            **identity,
+            "source_tree": tree,
+            "repo_type": "model",
+            "scope": [*MODEL_ROOT_FILES, "szl_khipu/"],
+            "unmanaged_hub_files": "preserved; not attested",
+            "trained_checkpoint_claimed": False,
+            "files": sorted(files, key=lambda item: item["path"]),
+        }
+        _write_json(staging / MODEL_BINDING_NAME, manifest)
+        return staging, manifest
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
+
+
+def _publish_model_source(api, download) -> dict:
+    """Atomically update the package, then verify every byte at the returned SHA."""
+    staging, manifest = _stage_model_source()
+    try:
+        parent = str(api.model_info(HF_REPOSITORY).sha).lower()
+        if not SHA40.fullmatch(parent):
+            raise RuntimeError("model parent revision is not immutable")
+        result = api.upload_folder(
+            repo_id=HF_REPOSITORY, repo_type="model", folder_path=str(staging),
+            parent_commit=parent,
+            commit_message=f"mirror canonical software {manifest['source_commit']}",
+            delete_patterns=["szl_khipu/*", "szl_khipu/**"],
+        )
+        revision = str(getattr(result, "oid", "")).lower()
+        if not SHA40.fullmatch(revision):
+            raise RuntimeError("model upload did not return an immutable commit")
+        expected = {item["path"] for item in manifest["files"]} | {MODEL_BINDING_NAME}
+        observed = set(api.list_repo_files(
+            HF_REPOSITORY, repo_type="model", revision=revision))
+        managed = {name for name in observed if name.startswith("szl_khipu/")
+                   or name in MODEL_ROOT_FILES or name == MODEL_BINDING_NAME}
+        if managed != expected:
+            raise RuntimeError("model software file set differs from canonical source")
+        with tempfile.TemporaryDirectory(prefix="szl-khipu-model-readback-") as directory:
+            for name in sorted(expected):
+                resolved = download(
+                    repo_id=HF_REPOSITORY, repo_type="model", filename=name,
+                    revision=revision, token=api.token, local_dir=directory,
+                )
+                if Path(resolved).read_bytes() != (staging / name).read_bytes():
+                    raise RuntimeError(f"model software byte mismatch: {name}")
+        if str(api.model_info(HF_REPOSITORY).sha).lower() != revision:
+            raise RuntimeError("model head changed during immutable readback")
+        receipt = {
+            "schema": "szl.hf-model-software-receipt/v1",
+            **_identity(), "repo_type": "model", "hf_revision": revision,
+            "previous_hf_revision": parent, "source_tree": manifest["source_tree"],
+            "manifest_sha256": hashlib.sha256(
+                (staging / MODEL_BINDING_NAME).read_bytes()).hexdigest(),
+            "verified_file_count": len(expected), "byte_parity_verified": True,
+            "scope": manifest["scope"], "trained_checkpoint_claimed": False,
+            "unmanaged_hub_files": manifest["unmanaged_hub_files"],
+        }
+        _write_json(Path(MODEL_RECEIPT_NAME), receipt)
+        print("verified canonical model software", revision, flush=True)
+        return receipt
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
@@ -327,6 +447,10 @@ def _parser() -> argparse.ArgumentParser:
         "--validate-provenance",
         metavar="PATH",
         help="verify a staged-tree manifest and exit without a Hub mutation",
+    )
+    mode.add_argument(
+        "--validate-model-source", action="store_true",
+        help="verify immutable canonical model package staging without Hub access",
     )
     mode.add_argument(
         "--publication-policy",
@@ -350,6 +474,11 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.validate_model_source:
+        staging, manifest = _stage_model_source()
+        shutil.rmtree(staging)
+        print("validated immutable model software", manifest["source_tree"])
+        return 0
     if args.prepare_provenance:
         manifest = prepare_provenance(Path(args.prepare_provenance))
         print("prepared staged deployment tree", manifest["tree_sha256"])
@@ -371,7 +500,7 @@ def main(argv: list[str] | None = None) -> int:
     if not token:
         print("HF_TOKEN unset — Hub publish blocked. GitHub remains the source.", file=sys.stderr)
         return 2
-    from huggingface_hub import HfApi
+    from huggingface_hub import HfApi, hf_hub_download
 
     org = os.environ.get("HF_ORG", "SZLHOLDINGS")
     if org != "SZLHOLDINGS":
@@ -400,14 +529,7 @@ def main(argv: list[str] | None = None) -> int:
         "model",
         "szl-khipu-kernels card — original cuts, not rehosts",
     )
-    _put(
-        api,
-        f"{org}/szl-khipu",
-        ROOT / "README.md",
-        "README.md",
-        "model",
-        "szl-khipu card pointer — GitHub canonical",
-    )
+    _publish_model_source(api, hf_hub_download)
 
     provenance_path = Path(args.provenance_file).resolve()
     receipt_path = Path(args.receipt_file).resolve()
