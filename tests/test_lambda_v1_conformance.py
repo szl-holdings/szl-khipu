@@ -309,7 +309,7 @@ class LambdaV1AcceptanceTests(unittest.TestCase):
         from szl_khipu.http_app import api_lambda
 
         out = api_lambda({"axes": [1.5, 0.9]})
-        self.assertTrue({"value", "blocked", "reason", "axioms", "advisory"} <= set(out))
+        self.assertLessEqual({"value", "blocked", "reason", "axioms", "advisory"}, set(out))
         self.assertTrue(out["blocked"])
         self.assertEqual(out["value"], 0.0)
         self.assertIn("LAMBDA_AXIS_OUT_OF_RANGE", out["reason"])

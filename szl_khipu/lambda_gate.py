@@ -309,6 +309,24 @@ def _check_tau(tau: Any) -> float:
     return float(tau)
 
 
+def _gate_verdict(ev: LambdaEval, log_lam: float, threshold: Any) -> tuple[float | None, str, str | None, str]:
+    """(tau, verdict, code, reason) under the szl.lambda/v1 gate rules, in rule order."""
+    try:
+        tau = _check_tau(threshold)
+    except _V1Rejected as rej:
+        return None, BLOCK, rej.code, f"{V1_SCHEMA} {rej.code}: {rej.detail}"
+    if ev["code"] == ZERO_VETO:
+        return tau, NO_GO, ZERO_VETO, ev["reason"]
+    if ev["code"] is not None:
+        return tau, BLOCK, ev["code"], ev["reason"]
+    delta = log_lam - math.log(tau)
+    if abs(delta) <= TIE_EPS:
+        return tau, ABSTAIN, NUMERIC_TIE, f"|log Λ − log threshold| <= {TIE_EPS:g} (NUMERIC_TIE): abstain, not a pass"
+    if delta > 0:
+        return tau, GO, None, ev["reason"]
+    return tau, NO_GO, BELOW_TAU, "Λ below threshold (BELOW_TAU): advisory, not a pass"
+
+
 def lambda_gate(
     axes: ArrayLike,
     threshold: float = 0.5,
@@ -323,27 +341,7 @@ def lambda_gate(
     it. The compare is in log space on the unrounded value. ``passed`` is True only on GO.
     """
     ev, log_lam = _evaluate(axes, weights)
-    tau: float | None
-    try:
-        tau = _check_tau(threshold)
-    except _V1Rejected as rej:
-        tau = None
-        verdict, code, reason = BLOCK, rej.code, f"{V1_SCHEMA} {rej.code}: {rej.detail}"
-    if tau is not None:
-        if ev["code"] == ZERO_VETO:
-            verdict, code, reason = NO_GO, ZERO_VETO, ev["reason"]
-        elif ev["code"] is not None:
-            verdict, code, reason = BLOCK, ev["code"], ev["reason"]
-        else:
-            delta = log_lam - math.log(tau)
-            if abs(delta) <= TIE_EPS:
-                verdict, code = ABSTAIN, NUMERIC_TIE
-                reason = f"|log Λ − log threshold| <= {TIE_EPS:g} (NUMERIC_TIE): abstain, not a pass"
-            elif delta > 0:
-                verdict, code, reason = GO, None, ev["reason"]
-            else:
-                verdict, code = NO_GO, BELOW_TAU
-                reason = "Λ below threshold (BELOW_TAU): advisory, not a pass"
+    tau, verdict, code, reason = _gate_verdict(ev, log_lam, threshold)
     score = float(ev["value"])
     passed = verdict == GO
     return LambdaEval(
