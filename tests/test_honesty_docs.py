@@ -107,12 +107,86 @@ class HonestyDocs(unittest.TestCase):
             self.assertIn(kw, text)
 
     def test_kernel_card_get_kernel(self) -> None:
+        import ast
+        import copy
+
         text = _read(ROOT / "hf" / "szl-khipu-kernels" / "README.md")
-        self.assertIn("library_name: kernels", text)
-        self.assertIn("get_kernel", text)
-        self.assertIn("CUDA", text)
-        self.assertIn("UNAVAILABLE", text)
-        self.assertIn("LIVE", text)
+        for phrase in (
+            "library_name: kernels", "SOFTWARE", "advisory", "proven_trust=false",
+            "Conjecture 1 OPEN", "CUDA", "UNAVAILABLE",
+            "First-class kernel release qualification: UNKNOWN",
+            "Artifact presence alone does not establish trained-model validity.",
+            "uploads only this card", "do not establish", "package API parity",
+            "not a successful loader or runtime test",
+        ):
+            self.assertIn(phrase, text)
+        normalized = " ".join(text.split())
+        self.assertIn("permits execution of the selected repository's Python", normalized)
+        self.assertIn("does not verify hashes, publisher authorization or compatibility", normalized)
+        self.assertIn("observations, not kernel publication approval", normalized)
+        self.assertNotIn("LIVE", text)
+        self.assertNotRegex(text, r"(?m)^\s*(?:GET|POST)\s+/api/")
+        self.assertNotIn("Field leader", text)
+
+        loaders = []
+        for snippet in re.findall(r"```python\n(.*?)\n```", text, re.DOTALL):
+            tree = ast.parse(snippet)
+            calls = [node for node in ast.walk(tree)
+                     if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                     and node.func.id == "get_kernel"]
+            for call in calls:
+                self.assertEqual(len(call.args), 1)
+                self.assertIsInstance(call.args[0], ast.Constant)
+                self.assertEqual(call.args[0].value, "SZLHOLDINGS/szl-khipu-kernels")
+                keywords = {item.arg: item.value for item in call.keywords}
+                self.assertEqual(set(keywords), {"revision", "trust_remote_code"})
+                self.assertIsInstance(keywords["trust_remote_code"], ast.Constant)
+                self.assertIs(keywords["trust_remote_code"].value, True)
+                revision = keywords["revision"]
+                self.assertIsInstance(revision, ast.Name)
+
+                prefix = []
+                for node in tree.body:
+                    if isinstance(node, ast.ImportFrom) and node.module == "kernels":
+                        self.assertEqual([item.name for item in node.names], ["get_kernel"])
+                        break
+                    if isinstance(node, ast.Import):
+                        self.assertEqual([item.name for item in node.names], ["re"])
+                        continue
+                    self.assertIsInstance(node, (ast.Assign, ast.If))
+                    prefix.append(node)
+                else:
+                    self.fail("Revision guard must precede the kernels import")
+                assignments = [node for node in prefix if isinstance(node, ast.Assign)]
+                self.assertEqual(len(assignments), 1)
+                assignment = assignments[0]
+                self.assertEqual(len(assignment.targets), 1)
+                self.assertIsInstance(assignment.targets[0], ast.Name)
+                self.assertEqual(assignment.targets[0].id, revision.id)
+                self.assertIsInstance(assignment.value, ast.Constant)
+                self.assertEqual(assignment.value.value, "")
+                self.assertTrue(any(isinstance(node, ast.If) for node in prefix))
+                # Evaluate only the pre-import guard using synthetic revisions.
+                # A valid format fixture is not publisher approval or a Hub read.
+                candidates = ("", "main", "v1", "a" * 39, "a" * 41, "A" * 40,
+                              "a" * 39 + "g", "a" * 40 + "\n", " " + "a" * 40,
+                              None, 123, "a" * 40)
+                for candidate in candidates:
+                    with self.subTest(revision=candidate):
+                        fixture = copy.deepcopy(prefix)
+                        fixture[0].value = ast.Constant(value=candidate)
+                        module = ast.fix_missing_locations(ast.Module(body=fixture, type_ignores=[]))
+                        namespace = {"re": re, "__builtins__": {"ValueError": ValueError}}
+                        try:
+                            exec(compile(module, "<kernel-card revision guard>", "exec"), namespace)
+                        except (TypeError, ValueError):
+                            self.assertNotEqual(candidate, "a" * 40)
+                        else:
+                            self.assertEqual(candidate, "a" * 40,
+                                             "Invalid revision reached the provider import")
+                            self.assertEqual(namespace[revision.id], candidate)
+                loaders.append(call)
+        self.assertEqual(len(loaders), 1, "Retain one guarded first-class kernel example")
 
     def test_tiny_and_agent_cards(self) -> None:
         tiny = _read(ROOT / "hf" / "TinyKhipu-Nano" / "README.md")

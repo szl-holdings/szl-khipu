@@ -6,10 +6,20 @@ tags:
   - szl-holdings
   - doctrine-v11
   - roadmap
-  - roadmap
   - software
   - reference
   - test-fixture
+szl:
+  doctrine: v11-LOCKED
+  artifact_class: SYNTHETIC_NUMPY_SILHOUETTE
+  synthetic_silhouette: qantu.npz
+  weights_on_hub: OBSERVED_SYNTHETIC_SILHOUETTE_ONLY
+  production_weights: UNAVAILABLE
+  base_model_finetune_on_hub: UNAVAILABLE
+  training_receipt: TRAINING_RECEIPT.json
+  receipt_hash_binding: STATED_BY_CARD_NOT_RECHECKED_2026_09_25
+  jobs: UNKNOWN
+  publication_eligible: false
 ---
 
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
@@ -20,6 +30,27 @@ This repository contains a small NumPy reference artifact: empty-seat visual-org
 The broader organ remains roadmap work. The synthetic archive is present;
 earlier statements that this repository had no weights are superseded.
 
+## Source and review scope
+
+The reviewed card-authoring baseline is
+[`szl-khipu/atelier/hf/qantu.md`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/atelier/hf/qantu.md).
+The existing 2026-09-30 source audit identifies the separate intended-organ
+kit as
+[`szl-forge/qantu/README.md`](https://github.com/szl-holdings/szl-forge/blob/5b3dfdf9beafe0d6d1e6043ca005ec4b17c45204/qantu/README.md).
+The kit is not evidence of a published production checkpoint or base-model
+fine-tune for this synthetic fixture. No `base_model` metadata is claimed here.
+
+The 2026-09-30 documentation review read the card, unsigned training receipt,
+license and license-publication records at model-type Hub revision
+[`d1b5621d3403745d38d420a52f05ea47d06327f0`](https://huggingface.co/SZLHOLDINGS/qantu/tree/d1b5621d3403745d38d420a52f05ea47d06327f0).
+The earlier 2026-09-25 re-sync reported an inventory observation without
+capturing its revision SHA. This later small-file review does not retroactively
+identify that observation's revision or recheck the archive bytes.
+
+The automated Hugging Face model-card consumer for this authoring file remains
+UNKNOWN. Matching `atelier-space/cards/qantu.md` is a document-parity
+requirement; it does not establish a model publication route or served revision.
+
 ## Intended use
 
 Inspect synthetic artifacts and exercise software fixtures. The archive does
@@ -28,12 +59,16 @@ not include a packaged loader or `config.json` in this repository.
 
 ## Artifact evidence
 
-`qantu.npz` is present (3,842 bytes). SHA-256:
+The earlier card and 2026-09-25 re-sync report `qantu.npz` at
+3,842 bytes. The unsigned `TRAINING_RECEIPT.json` states this SHA-256:
 
 `ce908e597662dd5a89f0a479cf47f7fe30540944104db956476e21149c9c96e3`
 
-The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
-with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+The earlier card reports that the archive matched that receipt and that
+`numpy.load(..., allow_pickle=False)` found finite numeric arrays. The re-sync
+did not repeat the digest or array checks. This 2026-09-30 documentation review
+also did not download, rehash or load the archive. The table retains the
+earlier card's reported array description; it is not a new validation result.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -44,9 +79,9 @@ with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 | `holdoutAcc` | `[]` | `float64` |
 | `seed` | `[]` | `int64` |
 
-A matching unsigned receipt establishes local artifact consistency. Training
-metrics remain reported synthetic results; this check does not independently
-reproduce training or establish deployment, general intelligence, or production readiness.
+Reading a receipt's stated digest does not independently verify the current
+archive or the signer. No training replay, runtime test, deployment, general
+intelligence or production-readiness claim follows from this review.
 
 ## Reported training
 
@@ -55,11 +90,36 @@ synthetic accuracy `0.541250`, and loss `1.054862`.
 These values were read from the receipt and were not independently rerun.
 They do not establish field performance or authority to make operational decisions.
 
+The unsigned receipt is dated 2026-09-01. It does not record a sample count,
+split digest, evaluation protocol or GitHub source commit. The historically
+reported `holdoutAcc` field does not establish an independently verified
+held-out evaluation. `TRAINING_RECEIPT.batch.json`, referenced as a full
+six-organ receipt, was unavailable on the reviewed Hub ID.
+
+## License-publication evidence
+
+The Apache-2.0 declaration and standalone `LICENSE` are retained unchanged.
+`provenance.json` and `status.json` describe an earlier license-file publication
+from parent `9dbe03d86ed8867277b57ff98f57fa56d5bdbec9`.
+Their PUBLISHED state concerns `LICENSE`, `provenance.json` and `status.json`;
+it does not qualify the synthetic archive, its training or a production release.
+
+Those records leave copyright ownership and relicensing authority UNKNOWN.
+Artifact lineage, consent, privacy review, training suitability, deployment and
+served revision remain BLOCKED; `production_ready` is false. License-file
+presence does not resolve those boundaries.
+
 ## Evidence boundaries
 
-- Artifact bytes and receipt hash: checked at the pinned repository revision.
-- Training and evaluation: reported synthetic evidence only.
-- Production deployment, runtime correctness, and energy: unverified.
+- Archive digest and array inspection: historical card reports, not rechecked
+  by the 2026-09-25 re-sync or this 2026-09-30 documentation review.
+- Training and evaluation: reported synthetic evidence only; no independent
+  replay or qualified held-out result.
+- Intended organ: roadmap work; jobs UNKNOWN, publication eligibility false.
+  The present synthetic fixture is not the intended organ's checkpoint.
+- Production weights and base-model fine-tune: UNAVAILABLE in the reviewed
+  card's stated scope.
+- Current runtime, CUDA, production deployment and energy: unverified.
 - Proven trust: false in the published training receipt.
 - Lambda uniqueness remains Conjecture 1 OPEN, not a theorem.
 
