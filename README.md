@@ -38,7 +38,11 @@ attested by this binding. Software parity makes no trained-checkpoint claim.
 - Λ: weighted geometric mean over 13 Yuyay axes, advisory, never proven trust.
 - YARQA: contiguous canals; attend only inside the compartment; leak is the bound.
 - TinyKhipu-Nano: NAVIGATE / ABSTAIN silhouette. A few thousand floats. Hard ID filter.
-- ReceiptAgent-Nano: 4-way gate (HARD_DENY / DENY_DEFAULT / LAMBDA_VETO / ALLOW). **The kernel is truth.** The agent does not override it.
+- ReceiptAgent-Nano: the reviewed `szl_khipu/train/receipt_agent.py` defines
+  `0=ALLOW`, `1=WARN`, `2=BLOCKED`, `3=ESCALATE`. The deterministic
+  `rule_check` decision remains authoritative; learned predictions do not
+  override it. This software binding does not attest the sibling archive, its
+  card, or its historical training/class-index contract.
 - Receipts: sha256 of weights, seed, steps, loss. Honesty **REPORTED**. Joules **null**.
 - Organ integrity: five-organ fail-closed kernel of [szl-holdings/anatomy](https://github.com/szl-holdings/anatomy). HEART/YUYAY, YAWAR, YACHAY, OTel, Khipu skeleton. Not a Three.js rehost. The 3D atlas is SLSA L1 static viz.
 
@@ -55,7 +59,7 @@ attested by this binding. Software parity makes no trained-checkpoint claim.
 
 ```bash
 pip install -e .
-pip install -e ".[gradio]"   # optional — Gradio 4 space
+pip install -e ".[gradio]"   # optional — Gradio 6 demo; gradio>=6.27.0,<7
 pip install -e ".[torch]"    # optional — torch path; CUDA still UNAVAILABLE here
 ```
 
@@ -116,8 +120,10 @@ szl-khipu demo-yarqa --n-canals 3
 For numerical output without dense probability diagnostics, use
 `yarqa_attn_output(q, k, v, n_canals=3)`. This NumPy path computes query tiles
 inside each canal and avoids full sequence-square score/probability matrices.
-The [API contract and reproducible CPU comparison](docs/YARQA_OUTPUT_ONLY.md)
-document validation, memory limits, attribution, and measurement boundaries.
+The [API contract and reproducible CPU comparison](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/docs/YARQA_OUTPUT_ONLY.md)
+document validation, memory limits, attribution, and measurement boundaries
+at the reviewed source commit. This document is outside the model software
+mirror scope and is not included in that Hub model snapshot.
 
 ### Organ integrity (five organs)
 
