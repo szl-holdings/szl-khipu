@@ -24,7 +24,7 @@ software fixture until its complete inference contract is independently verified
 
 Two-moons **2→8→2** tanh-softmax SGD. A few hundred floats. **Not 1.5B. Not Qwen. Not a foundation model.**
 
-Canonical source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)
+Canonical source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)  
 Sibling card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)
 
 ```python
@@ -41,17 +41,23 @@ moons.save_npz("moons.npz", weights)
 - Classic two-moons toy classification. Hidden width 8. Softmax over 2.
 - Trained here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
 
-## Bench (this tree)
+## Reported synthetic fixture evidence
 
 `TRAINING_RECEIPT.json` seed `20260721` · steps 400 · honesty **REPORTED**
 
+Accuracy `0.93` and loss `0.12973121797997034` are reported on the training
+moons. They are not held-out generalization or a published benchmark. The
+construction example above trains a new fixture; it does not load this archive.
+
 | Metric | Value |
 |---|---|
-| acc | 0.93 |
-| loss | ~0.13 |
-| weights | `moons.npz` sha256 `dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104` |
+| training accuracy | 0.93 |
+| training loss | 0.12973121797997034 |
+| weights | `moons.npz` receipt-reported sha256 `dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104` |
 
-Infers on `POST /api/infer {"kind":"moons","x":0.2,"y":0.3}`. **Not 1.5B. Not a published benchmark.**
+The related demo documents an application-specific `POST /api/infer` route.
+This archive repository establishes no hosted endpoint, served revision, or
+deployment guarantee. The route is illustrative application context.
 
 ## What it is NOT
 
@@ -74,12 +80,15 @@ Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026
 
 ## Artifact evidence
 
-`moons.npz` is present (1,302 bytes). SHA-256:
+The previous card reports `moons.npz` (1,302 bytes). Receipt-reported SHA-256 (not rehashed in this review):
 
 `dda50e3b293534de3f5aec01ebf9f8d6688e06069931618dfd35f01369904104`
 
-The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
-with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+The previous card reported that the archive matched the unsigned training
+receipt and that `numpy.load(..., allow_pickle=False)` found finite numeric
+arrays. The table below preserves that historical report. The September 30,
+2026 card review read pinned text and the receipt; it did not download, rehash,
+or inspect the archive, and did not replay training.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -88,6 +97,17 @@ with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 | `W2` | `[2, 8]` | `float64` |
 | `b2` | `[2]` | `float64` |
 
-A matching unsigned receipt establishes local artifact consistency. Training
-metrics remain reported synthetic results; this check does not independently
-reproduce training or establish deployment, general intelligence, or production readiness.
+The retained receipt labels these reported synthetic fixture results **REPORTED**.
+
+An independently checked archive/receipt match could establish local artifact
+consistency; an unsigned digest would still not authenticate authorship or
+measurement. These preserved receipt and array reports establish no new
+training replay, independent evaluation, deployment, or production readiness.
+
+Reviewed Hub text: [immutable snapshot `77d002f9314dc0c86cd0f14e63fff60364929652`](https://huggingface.co/SZLHOLDINGS/Moons-Nano/blob/77d002f9314dc0c86cd0f14e63fff60364929652/README.md).
+Reviewed publisher source: [`hf/Moons-Nano/README.md` at `e53e3d24b22e356eb986c373aee27b3b3e7947ec`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/hf/Moons-Nano/README.md).
+The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS/Moons-Nano/blob/77d002f9314dc0c86cd0f14e63fff60364929652/TRAINING_RECEIPT.json), timestamped
+`2026-08-29T17:11:32.518042+00:00`, enumerates four artifacts. Only its
+`artifacts["moons.npz"]` entry describes this archive; the other
+entries do not establish that sibling artifacts are present in this repository.
+The receipt does not bind its training run to the reviewed source commit.

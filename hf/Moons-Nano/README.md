@@ -97,6 +97,8 @@ or inspect the archive, and did not replay training.
 | `W2` | `[2, 8]` | `float64` |
 | `b2` | `[2]` | `float64` |
 
+The retained receipt labels these reported synthetic fixture results **REPORTED**.
+
 An independently checked archive/receipt match could establish local artifact
 consistency; an unsigned digest would still not authenticate authorship or
 measurement. These preserved receipt and array reports establish no new

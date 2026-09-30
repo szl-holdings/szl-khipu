@@ -21,47 +21,48 @@ software fixture until its complete inference contract is independently verified
 
 # ReceiptAgent-Nano
 
-ALLOW · WARN · BLOCKED · ESCALATE. Escalation is a class, not a retry loop.
+Synthetic four-class policy surrogate. Escalation is a class in the reviewed
+implementation; this fixture does not establish a runtime retry loop.
 
 **Family.** nano · **Evidence.** SYNTHETIC · **Weights.** numpy · **Architecture.** 24-16-8-4 MLP
 
 Hub: [SZLHOLDINGS/ReceiptAgent-Nano](https://huggingface.co/SZLHOLDINGS/ReceiptAgent-Nano)
 
-## The cut
+## Reference fixture
 
-Anthropic refuses. NVIDIA rails. Unsloth trains. We add a fourth way: hand the decision to a human with a receipt. Loop-tax lives here.
-
-A policy head that cannot silently succeed. Every output is one of four named gates.
-
-### Silhouette → leave → SZL
-
-| Leader | Take, then tweak |
-|---|---|
-| Anthropic | Constitutional refuse → typed DENY/ABSTAIN. |
-| NVIDIA | NeMo Guardrails flow → four-way head. |
-| Unsloth | Grown form is SZL-Forge-1.5B-ReceiptAgent. |
-
-Nobody else ships this combination. That is the point of a one-of-one.
+A small synthetic four-class reference fixture for testing policy-output
+schemas. Its learned predictions are advisory; they do not override the
+deterministic rule checker. No comparative safety or ecosystem-wide novelty
+claim is made.
 
 ## Intended use
 
-Fail-closed unit tests for the 4-way gate.
+Test advisory four-class output schemas alongside the separately authoritative rule checker.
 
-## Bench (this tree)
+## Reported synthetic fixture evidence
 
 `TRAINING_RECEIPT.json` seed `20260721` · honesty **REPORTED** · kernel is truth
 
 | Metric | Value |
 |---|---|
-| held-out agree vs rule_check | 0.905 |
-| weights | `receipt_agent.npz` sha256 `8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381` |
+| receipt-reported agreement vs rule_check | 0.905 |
+| weights | `receipt_agent.npz` receipt-reported sha256 `8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381` |
 
-Infers on `POST /api/infer {"kind":"receipt_agent"}`. Surrogate may disagree. Kernel wins. **Not 1.5B.**
+The related demo documents an application-specific `POST /api/infer` route.
+This archive repository establishes no hosted endpoint, served revision, or
+deployment guarantee. The route is illustrative application context.
 
 ## Limitations
 
 - Synthetic 24-dimensional features. Not a substitute for the 1.5B agent.
-- Hub kernel labels are ALLOW/WARN/BLOCKED/ESCALATE — kernel is truth. This atelier MLP is a 4-class silhouette, not rule_check.
+- The [reviewed implementation](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/szl_khipu/train/receipt_agent.py)
+  defines class indices `0=ALLOW`, `1=WARN`, `2=BLOCKED`, `3=ESCALATE`, and keeps
+  the deterministic `rule_check` decision authoritative. The former package
+  summary named a different label set; that set must not be substituted here.
+- The shared receipt does not bind an exact training/source revision, class
+  mapping, held-out sample count, or split digest to this archive. Current-source
+  inspection is not a recovered historical training contract. Agreement `0.905`
+  is a reported synthetic result, not independently auditable production accuracy.
 
 ## Honesty
 
@@ -78,12 +79,15 @@ Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0
 
 ## Artifact evidence
 
-`receipt_agent.npz` is present (6,014 bytes). SHA-256:
+The previous card reports `receipt_agent.npz` (6,014 bytes). Receipt-reported SHA-256 (not rehashed in this review):
 
 `8aca4d24c90d6159cbb2bb885c7a94822d715899437f58abe69fb5c9664a1381`
 
-The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
-with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+The previous card reported that the archive matched the unsigned training
+receipt and that `numpy.load(..., allow_pickle=False)` found finite numeric
+arrays. The table below preserves that historical report. The September 30,
+2026 card review read pinned text and the receipt; it did not download, rehash,
+or inspect the archive, and did not replay training.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -94,6 +98,15 @@ with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 | `W3` | `[4, 8]` | `float64` |
 | `b3` | `[4]` | `float64` |
 
-A matching unsigned receipt establishes local artifact consistency. Training
-metrics remain reported synthetic results; this check does not independently
-reproduce training or establish deployment, general intelligence, or production readiness.
+An independently checked archive/receipt match could establish local artifact
+consistency; an unsigned digest would still not authenticate authorship or
+measurement. These preserved receipt and array reports establish no new
+training replay, independent evaluation, deployment, or production readiness.
+
+Reviewed Hub text: [immutable snapshot `463df555fee339b776b938846238327100f573ab`](https://huggingface.co/SZLHOLDINGS/ReceiptAgent-Nano/blob/463df555fee339b776b938846238327100f573ab/README.md).
+Reviewed publisher source: [`hf/ReceiptAgent-Nano/README.md` at `e53e3d24b22e356eb986c373aee27b3b3e7947ec`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/hf/ReceiptAgent-Nano/README.md).
+The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS/ReceiptAgent-Nano/blob/463df555fee339b776b938846238327100f573ab/TRAINING_RECEIPT.json), timestamped
+`2026-08-29T17:11:32.518042+00:00`, enumerates four artifacts. Only its
+`artifacts["receipt_agent.npz"]` entry describes this archive; the other
+entries do not establish that sibling artifacts are present in this repository.
+The receipt does not bind its training run to the reviewed source commit.
