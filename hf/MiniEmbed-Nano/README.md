@@ -27,6 +27,10 @@ Canonical source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-k
 Sibling card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)  
 The larger statistical MiniEmbed (3290 × 128) lives on [SZLHOLDINGS/szl-kernels](https://huggingface.co/SZLHOLDINGS/szl-kernels) — a different artifact. Do not mix them.
 
+Construction example for the canonical package: this builds and saves a
+new deterministic 64 × 12 table. It does not load or independently verify the
+published `mini_embed.npz`.
+
 ```python
 from szl_khipu.train import mini_embed
 
@@ -43,7 +47,7 @@ emb.save_npz("mini_embed.npz")
 - Built here on CPU NumPy. Honesty **REPORTED**. Energy **UNAVAILABLE**.
 - No analogy score. No retrieval score. No SVD variance claim (that belongs to the 3290×128 table).
 
-## Bench (this tree)
+## Reported synthetic fixture evidence
 
 `TRAINING_RECEIPT.json` seed `20260721` · honesty **REPORTED**
 
@@ -51,9 +55,11 @@ emb.save_npz("mini_embed.npz")
 |---|---|
 | V×d | 64 × 12 |
 | method | hash+table L2 |
-| weights | `mini_embed.npz` sha256 `ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b` |
+| weights | `mini_embed.npz` receipt-reported sha256 `ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b` |
 
-Infers on `POST /api/infer {"kind":"mini_embed","token":"F18"}`. **Not neural. Not 3290×128.**
+The related demo documents an application-specific `POST /api/infer` route.
+This archive repository establishes no hosted endpoint, served revision, or
+deployment guarantee. The route is illustrative application context.
 
 ## What it is NOT
 
@@ -77,12 +83,15 @@ Doctrine v11 LOCKED · 749/14/163 · locked-proven 8. Apache-2.0. Copyright 2026
 
 ## Artifact evidence
 
-`mini_embed.npz` is present (6,892 bytes). SHA-256:
+The previous card reports `mini_embed.npz` (6,892 bytes). Receipt-reported SHA-256 (not rehashed in this review):
 
 `ae31a3a7214d1f142d8ea3f4f86c35bdedd7c108bc5d04ea00c87e7b674e6e3b`
 
-The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
-with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+The previous card reported that the archive matched the unsigned training
+receipt and that `numpy.load(..., allow_pickle=False)` found finite numeric
+arrays. The table below preserves that historical report. The September 30,
+2026 card review read pinned text and the receipt; it did not download, rehash,
+or inspect the archive, and did not replay training.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -90,6 +99,15 @@ with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 | `V` | `[]` | `int64` |
 | `D` | `[]` | `int64` |
 
-A matching unsigned receipt establishes local artifact consistency. Training
-metrics remain reported synthetic results; this check does not independently
-reproduce training or establish deployment, general intelligence, or production readiness.
+An independently checked archive/receipt match could establish local artifact
+consistency; an unsigned digest would still not authenticate authorship or
+measurement. These preserved receipt and array reports establish no new
+training replay, independent evaluation, deployment, or production readiness.
+
+Reviewed Hub text: [immutable snapshot `01e82f36ff722528233f76daf899c18f8cb5aaa2`](https://huggingface.co/SZLHOLDINGS/MiniEmbed-Nano/blob/01e82f36ff722528233f76daf899c18f8cb5aaa2/README.md).
+Reviewed publisher source: [`hf/MiniEmbed-Nano/README.md` at `e53e3d24b22e356eb986c373aee27b3b3e7947ec`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/hf/MiniEmbed-Nano/README.md).
+The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS/MiniEmbed-Nano/blob/01e82f36ff722528233f76daf899c18f8cb5aaa2/TRAINING_RECEIPT.json), timestamped
+`2026-08-29T17:11:32.518042+00:00`, enumerates four artifacts. Only its
+`artifacts["mini_embed.npz"]` entry describes this archive; the other
+entries do not establish that sibling artifacts are present in this repository.
+The receipt does not bind its training run to the reviewed source commit.

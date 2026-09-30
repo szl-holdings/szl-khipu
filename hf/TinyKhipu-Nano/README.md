@@ -27,27 +27,18 @@ Token embeddings and handles in. NAVIGATE or ABSTAIN out. Abstain is the default
 
 Hub: [SZLHOLDINGS/TinyKhipu-Nano](https://huggingface.co/SZLHOLDINGS/TinyKhipu-Nano)
 
-## The cut
+## Reference fixture
 
-Leaders train models to answer. We train a silhouette to shut up when overlap is thin or the lure is adversarial. This nano is the token-and-handle reference model of that cut. Not 1.5B.
-
-A synthetic navigator that mean-pools token embeddings, scores handle notes, and returns NAVIGATE or ABSTAIN.
-
-### Silhouette → leave → SZL
-
-| Leader | Take, then tweak |
-|---|---|
-| Anthropic | Refusal as a typed output, not a polite paragraph. |
-| NVIDIA | Guardrail inside the head, not a sidecar. |
-| Unsloth | The 1.5B QLoRA is the grown form of this MLP. |
-
-Nobody else ships this combination. That is the point of a one-of-one.
+A synthetic token-and-handle reference fixture for the NAVIGATE/ABSTAIN schema.
+It mean-pools token embeddings and scores handle notes. This card makes no
+ecosystem-wide novelty claim and establishes no predecessor relationship or
+quality proxy for a 1.5B checkpoint.
 
 ## Intended use
 
 Unit-test the NAVIGATE|ABSTAIN schema before GPU spend.
 
-## Bench (this tree)
+## Reported synthetic fixture evidence
 
 `TRAINING_RECEIPT.json` seed `20260721` · steps 280 · honesty **REPORTED**
 
@@ -56,14 +47,18 @@ Unit-test the NAVIGATE|ABSTAIN schema before GPU spend.
 | plan_valid | 1.00 |
 | abstain | 1.00 |
 | hallucinated | 0 |
-| weights | `tiny_khipu.npz` sha256 `cc8d0385b2c75079669df809d7e4823f1ad8d9d535aec511446347490b11dff9` |
+| weights | `tiny_khipu.npz` receipt-reported sha256 `cc8d0385b2c75079669df809d7e4823f1ad8d9d535aec511446347490b11dff9` |
 
-Infers on `POST /api/infer {"kind":"tiny_khipu"}`. Hard ID filter. **Not Qwen. Not 1.5B.**
+The related demo documents an application-specific `POST /api/infer` route.
+This archive repository establishes no hosted endpoint, served revision, or
+deployment guarantee. The route is illustrative application context.
 
 ## Limitations
 
-- Synthetic features. Perfect holdout is a design fact, not a field claim.
-- The 1.5B abstain rate is 2/6 — this nano does not wash that.
+- The shared unsigned receipt reports `plan_valid=1.0`, `abstain=1.0`, and
+  `hallucinated=0.0` on its synthetic fixture. Named sample count, split identity,
+  and generalization are not independently established by that receipt.
+- These reported values are not a reliability guarantee or a sibling model evaluation.
 
 ## Honesty
 
@@ -80,12 +75,15 @@ Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0
 
 ## Artifact evidence
 
-`tiny_khipu.npz` is present (3,568 bytes). SHA-256:
+The previous card reports `tiny_khipu.npz` (3,568 bytes). Receipt-reported SHA-256 (not rehashed in this review):
 
 `cc8d0385b2c75079669df809d7e4823f1ad8d9d535aec511446347490b11dff9`
 
-The archive hash matches `TRAINING_RECEIPT.json`. Its arrays were inspected
-with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
+The previous card reported that the archive matched the unsigned training
+receipt and that `numpy.load(..., allow_pickle=False)` found finite numeric
+arrays. The table below preserves that historical report. The September 30,
+2026 card review read pinned text and the receipt; it did not download, rehash,
+or inspect the archive, and did not replay training.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -94,6 +92,15 @@ with `numpy.load(..., allow_pickle=False)`; numeric values were finite.
 | `b` | `[2]` | `float64` |
 | `Wc` | `[12]` | `float64` |
 
-A matching unsigned receipt establishes local artifact consistency. Training
-metrics remain reported synthetic results; this check does not independently
-reproduce training or establish deployment, general intelligence, or production readiness.
+An independently checked archive/receipt match could establish local artifact
+consistency; an unsigned digest would still not authenticate authorship or
+measurement. These preserved receipt and array reports establish no new
+training replay, independent evaluation, deployment, or production readiness.
+
+Reviewed Hub text: [immutable snapshot `d890010f874ecafd3f2f1ef4066d84b810ba775e`](https://huggingface.co/SZLHOLDINGS/TinyKhipu-Nano/blob/d890010f874ecafd3f2f1ef4066d84b810ba775e/README.md).
+Reviewed publisher source: [`hf/TinyKhipu-Nano/README.md` at `e53e3d24b22e356eb986c373aee27b3b3e7947ec`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/hf/TinyKhipu-Nano/README.md).
+The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS/TinyKhipu-Nano/blob/d890010f874ecafd3f2f1ef4066d84b810ba775e/TRAINING_RECEIPT.json), timestamped
+`2026-08-29T17:11:32.518042+00:00`, enumerates four artifacts. Only its
+`artifacts["tiny_khipu.npz"]` entry describes this archive; the other
+entries do not establish that sibling artifacts are present in this repository.
+The receipt does not bind its training run to the reviewed source commit.
