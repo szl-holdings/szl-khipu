@@ -710,3 +710,343 @@ html[data-szl-holo="v2"] :where(a, button, input, textarea, select, summary, [ta
     box-shadow: none;
   }
 }
+
+/*
+ * SZL Public Experience v3.1
+ * Responsive, zoom-safe, theatre-scale adaptation for every Holographic Space.
+ * Additive only: product-owned layout and information architecture remain authoritative.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+:root {
+  --szl-public-experience-version: 3.1;
+  --szl-touch-target: 44px;
+  --szl-touch-target-coarse: 48px;
+  --szl-readable-measure: 72ch;
+  --szl-viewport-height: 100vh;
+  --szl-effective-inline-size: 100vw;
+  --szl-theatre-gutter: clamp(16px, 3vw, 72px);
+  --szl-fluid-gap: clamp(10px, 1.5vw, 24px);
+  --szl-fluid-radius: clamp(12px, 1vw, 20px);
+}
+
+@supports (height: 100dvh) {
+  :root { --szl-viewport-height: 100dvh; }
+}
+
+html[data-szl-space-holo-v2="true"] {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+html[data-szl-space-holo-v2="true"] body {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  min-block-size: var(--szl-viewport-height);
+  overflow-x: clip;
+  overflow-wrap: break-word;
+}
+
+html[data-szl-space-holo-v2="true"] :where(
+  main, header, footer, nav, section, article, aside,
+  form, fieldset, figure, div, ul, ol, li,
+  #root, .app, .main, .container, .wrapper,
+  .gradio-container, [data-testid="stApp"], [data-testid="stAppViewContainer"],
+  [data-testid="stMain"], [data-testid="stMainBlockContainer"]
+) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+html[data-szl-space-holo-v2="true"] :where(
+  h1, h2, h3, h4, h5, h6, p, li, dd, dt,
+  a, button, label, legend, figcaption, blockquote
+) {
+  overflow-wrap: anywhere;
+}
+
+html[data-szl-space-holo-v2="true"] :where(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+html[data-szl-space-holo-v2="true"] :where(p, li, dd, figcaption, blockquote) {
+  text-wrap: pretty;
+}
+
+html[data-szl-space-holo-v2="true"] :where(img, svg, video, picture) {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+html[data-szl-space-holo-v2="true"] :where(canvas, iframe, object, embed) {
+  max-inline-size: 100%;
+}
+
+html[data-szl-space-holo-v2="true"] iframe {
+  inline-size: 100%;
+  border: 0;
+}
+
+html[data-szl-space-holo-v2="true"] :where(input, textarea, select, button) {
+  max-inline-size: 100%;
+}
+
+html[data-szl-space-holo-v2="true"] :where(pre, [data-code-block], .code-block) {
+  max-inline-size: 100%;
+  overflow: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+html[data-szl-space-holo-v2="true"] pre code {
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: pre;
+}
+
+html[data-szl-space-holo-v2="true"] table {
+  max-inline-size: 100%;
+}
+
+html[data-szl-space-holo-v2="true"] :where(dialog, [role="dialog"], [aria-modal="true"]) {
+  max-inline-size: min(92vw, 920px);
+  max-block-size: min(92vh, 92dvh);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+html[data-szl-space-holo-v2="true"] :where(.szl-space-panel, [data-szl-panel]) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  border-radius: var(--szl-fluid-radius);
+}
+
+/* Shared navigation remains source-visible, compact, and nonblocking. */
+szl-space-ecosystem-bar {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  position: relative;
+  z-index: 2147483000;
+}
+
+/* CSS zoom used by browser audits can otherwise leave fixed chrome at four times
+   the visual viewport. The runtime controller records the effective layout width. */
+html[data-szl-space-holo-v2="true"][data-szl-zoom-tier="high"] body,
+html[data-szl-space-holo-v2="true"][data-szl-zoom-tier="extreme"] body {
+  inline-size: var(--szl-effective-inline-size);
+  max-inline-size: var(--szl-effective-inline-size);
+}
+
+html[data-szl-space-holo-v2="true"][data-szl-zoom-tier="high"] :where(
+  .szl-flow-rail, .szl-holo-rail, [data-szl-floating-chrome]
+),
+html[data-szl-space-holo-v2="true"][data-szl-zoom-tier="extreme"] :where(
+  .szl-flow-rail, .szl-holo-rail, [data-szl-floating-chrome]
+) {
+  position: relative !important;
+  inset: auto !important;
+  inline-size: auto !important;
+  max-inline-size: 100% !important;
+  margin: 8px !important;
+  transform: none !important;
+}
+
+/* Phone: one readable column, compact ambience, no hidden horizontal content. */
+@media (max-width: 479px) {
+  :root {
+    --szl-theatre-gutter: max(12px, env(safe-area-inset-left, 0px));
+    --szl-fluid-gap: 10px;
+  }
+
+  html[data-szl-space-holo-v2="true"] body {
+    font-size: max(15px, 1rem);
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(input, textarea, select) {
+    font-size: max(16px, 1em);
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(table) {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(
+    [data-szl-responsive-grid], .grid, [class*="grid-cols"]
+  ) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #szl-space-holo-v2-ambient {
+    opacity: .34;
+  }
+
+  #szl-space-holo-v2-ambient .szl-space-scan,
+  #szl-space-holo-v2-ambient .szl-space-beam {
+    display: none;
+  }
+
+  .szl-space-orbit {
+    inline-size: min(118vw, 560px);
+    inset-inline-start: 18vw;
+  }
+}
+
+/* Large phones and compact landscape. */
+@media (min-width: 480px) and (max-width: 767px) {
+  html[data-szl-space-holo-v2="true"] :where(table) {
+    display: block;
+    max-inline-size: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  #szl-space-holo-v2-ambient { opacity: .44; }
+}
+
+/* Tablet: preserve product structure while preventing cramped split panes. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --szl-theatre-gutter: clamp(20px, 3vw, 36px);
+    --szl-fluid-gap: clamp(12px, 2vw, 20px);
+  }
+
+  html[data-szl-space-holo-v2="true"] :where([data-szl-responsive-grid]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: full product density, bounded reading lines. */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root { --szl-theatre-gutter: clamp(24px, 3vw, 48px); }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --szl-theatre-gutter: clamp(36px, 4vw, 80px);
+    --szl-fluid-gap: clamp(16px, 1.25vw, 28px);
+  }
+
+  #szl-space-holo-v2-ambient { opacity: .74; }
+}
+
+/* Theatre and ultrawide: increase spatial field, not text-line length. */
+@media (min-width: 1920px) {
+  :root {
+    --szl-theatre-gutter: clamp(56px, 5vw, 128px);
+    --szl-fluid-gap: clamp(20px, 1.35vw, 36px);
+    --szl-fluid-radius: 20px;
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(
+    p, li, dd, blockquote, figcaption
+  ) {
+    max-inline-size: var(--szl-readable-measure);
+  }
+
+  #szl-space-holo-v2-ambient {
+    opacity: .82;
+    transform: scale(1.035);
+    transform-origin: center;
+  }
+
+  .szl-space-orbit {
+    inline-size: min(54vw, 1040px);
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --szl-theatre-gutter: clamp(88px, 6vw, 180px);
+    --szl-fluid-gap: 36px;
+  }
+
+  #szl-space-holo-v2-ambient {
+    transform: scale(1.08);
+  }
+}
+
+/* Coarse pointers and touch must not depend on hover or tiny hit areas. */
+@media (hover: none), (pointer: coarse) {
+  html[data-szl-space-holo-v2="true"] :where(
+    a[href], button, input:not([type="hidden"]), select, textarea,
+    summary, [role="button"], [tabindex]:not([tabindex="-1"])
+  ) {
+    min-block-size: var(--szl-touch-target-coarse);
+    touch-action: manipulation;
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(
+    button, input[type="button"], input[type="submit"], input[type="reset"],
+    summary, [role="button"]
+  ) {
+    min-inline-size: var(--szl-touch-target-coarse);
+  }
+}
+
+/* Zoom/reflow support: no fixed-width content island may force the page wider. */
+@media (max-width: 640px) {
+  html[data-szl-space-holo-v2="true"] :where(
+    [style*="width:"], [style*="min-width:"]
+  ) {
+    max-inline-size: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-szl-space-holo-v2="true"] {
+    scroll-behavior: auto;
+  }
+
+  html[data-szl-space-holo-v2="true"] *,
+  html[data-szl-space-holo-v2="true"] *::before,
+  html[data-szl-space-holo-v2="true"] *::after {
+    scroll-behavior: auto !important;
+  }
+
+  #szl-space-holo-v2-ambient {
+    opacity: .22;
+  }
+}
+
+@media (prefers-contrast: more) {
+  html[data-szl-space-holo-v2="true"] {
+    --szl-space-line: color-mix(in srgb, var(--color-silver-100) 56%, transparent);
+  }
+}
+
+@media (forced-colors: active) {
+  html[data-szl-space-holo-v2="true"] {
+    scrollbar-color: CanvasText Canvas;
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(
+    a, button, input, textarea, select, summary
+  ) {
+    forced-color-adjust: auto;
+  }
+}
+
+@media print {
+  html[data-szl-space-holo-v2="true"] {
+    overflow: visible;
+  }
+
+  html[data-szl-space-holo-v2="true"] body {
+    min-block-size: auto;
+    overflow: visible;
+  }
+
+  html[data-szl-space-holo-v2="true"] :where(pre, table) {
+    overflow: visible;
+    white-space: pre-wrap;
+  }
+}
