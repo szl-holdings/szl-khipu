@@ -43,6 +43,7 @@ Repository = "https://github.com/szl-holdings/szl-khipu"
 "Hugging Face" = "https://huggingface.co/SZLHOLDINGS/szl-khipu"
 ORCID = "https://orcid.org/0009-0001-0110-4173"
 Issues = "https://github.com/szl-holdings/szl-khipu/issues"
+Changelog = "https://github.com/szl-holdings/szl-khipu/releases"
 
 [project.scripts]
 szl-khipu = "szl_khipu.cli:main"
@@ -62,3 +63,6 @@ szl_khipu = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.szl.release]
+import_names = ["szl_khipu"] # wheel top-level import names; the release gate fails if the built wheel differs
