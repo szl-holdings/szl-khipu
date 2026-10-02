@@ -47,7 +47,7 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 VECTORS_PATH = FIXTURES / "lambda_v1_vectors.json"
 SOURCE_PATH = FIXTURES / "lambda_v1_vectors.SOURCE"
 
-FF01_MERGE = "d3443b0539ad9fdbd407a0b0bf0454b416102089"
+FF01_MERGE = "6a874e11ab948a47e982be3651b8021ba6b82e19"
 
 #: spec/szl.lambda.v1.json error_codes, in precedence order (szl-lambda-gate @ FF01_MERGE).
 V1_ERROR_CODES = (
