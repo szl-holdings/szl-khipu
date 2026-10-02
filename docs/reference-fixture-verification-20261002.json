@@ -1,0 +1,688 @@
+{
+  "schema": "szl.synthetic-fixture-verification/v1",
+  "numpy_version": "2.4.6",
+  "provider_writes": false,
+  "training_replayed": false,
+  "fixtures": [
+    {
+      "model": "SZLHOLDINGS/chakana",
+      "hf_revision": "503cf50d56f786b4ea4e950c18c556e976b484d2",
+      "observed_at": "2026-10-02T01:31:13.187164+00:00",
+      "archive_sha256": "3849772ee86fe09e8752e98250573564de66e814231b50c36e7d29b5b6c3dbd5",
+      "archive_size": 3219,
+      "arrays": {
+        "w1": {
+          "shape": [
+            12,
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b1": {
+          "shape": [
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "w2": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b2": {
+          "shape": [
+            3
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "holdoutAcc": {
+          "shape": [],
+          "dtype": "float64",
+          "finite": true
+        },
+        "seed": {
+          "shape": [],
+          "dtype": "int64",
+          "finite": true
+        }
+      },
+      "TRAINING_RECEIPT.json": {
+        "id": "szl-khipu.training.v0.1.0",
+        "what": "chakana synthetic silhouette \u2014 organ-specific receipt (full 6-organ receipt in TRAINING_RECEIPT.batch.json)",
+        "artifacts": {
+          "chakana.npz": {
+            "sha256": "3849772ee86fe09e8752e98250573564de66e814231b50c36e7d29b5b6c3dbd5",
+            "loss": 0.8206029937360197,
+            "acc": 0.5883333333333334,
+            "steps": 2000,
+            "seed": 20260721,
+            "what": "evidence-class crossing silhouette: MEASURED/SIGNED/MODELED kept separate"
+          }
+        },
+        "seed": 20260721,
+        "cpu_numpy": "LIVE",
+        "cuda": "UNAVAILABLE (sandbox CPU; own-metal GPU run pending)",
+        "energy_j": null,
+        "energy_status": "UNAVAILABLE",
+        "honesty": "SYNTHETIC \u2014 no production, benchmark, or capability claim",
+        "proven_trust": false,
+        "doctrine": "v11 LOCKED",
+        "conjecture_1": "OPEN",
+        "locked": {
+          "formulas": 8,
+          "kernel": "c7c0ba17"
+        },
+        "whatNot": [
+          "not production models",
+          "not benchmarks",
+          "not admitted-data runs",
+          "not a replacement for the curriculum-specified training",
+          "synthetic silhouettes only \u2014 honest placeholders with real weights"
+        ],
+        "ts": "2026-09-01T00:17:55.805222+00:00",
+        "computed_at": "2026-09-01T00:17:55.805274+00:00"
+      },
+      "provenance.json": {
+        "schema": "szl.hf-license-candidate-provenance/v1",
+        "repository": {
+          "id": "SZLHOLDINGS/chakana",
+          "type": "model",
+          "parent_sha": "46e3b791026ac17200f9ba2ee691de4f69955ad9",
+          "remote_file_count_at_observation": 2
+        },
+        "readme_evidence": {
+          "path": "README.md",
+          "sha256": "d210412d225b6feb03c73c04ad9e5fd0e29d7354d418c60cee78b2880e2c31da",
+          "size_bytes": 1307,
+          "observed_front_matter_license": "apache-2.0",
+          "observation": "EXACT_TOP_LEVEL_SCALAR",
+          "observed_at": "2026-08-31T03:02:26.2432944+00:00"
+        },
+        "standalone_license_evidence": {
+          "root_license_present_at_parent": false,
+          "candidate_path": "LICENSE",
+          "candidate_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "candidate_size_bytes": 11357,
+          "candidate_state": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+          "materialization_basis": "Exact README front matter at parent_sha declares apache-2.0.",
+          "legal_review": "NOT_PERFORMED",
+          "new_license_assignment": false
+        },
+        "evidence_boundaries": {
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy_review": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "served_revision": "BLOCKED",
+          "production_ready": false
+        },
+        "publication_evidence": {
+          "state": "PUBLISHED",
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "46e3b791026ac17200f9ba2ee691de4f69955ad9",
+          "target_paths": [
+            "LICENSE",
+            "provenance.json",
+            "status.json"
+          ],
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "post_commit_head_verification": "REQUIRED"
+        }
+      },
+      "status.json": {
+        "schema": "szl.hf-license-candidate-status/v1",
+        "repository_id": "SZLHOLDINGS/chakana",
+        "repository_type": "model",
+        "parent_sha": "46e3b791026ac17200f9ba2ee691de4f69955ad9",
+        "candidate_state": "PUBLISHED",
+        "remote_mutation": "PERFORMED_BY_THIS_ATOMIC_COMMIT",
+        "license_declaration": "OBSERVED_AT_EXACT_PARENT",
+        "standalone_license": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+        "claims": {
+          "repository_card_declares_apache_2_0": "OBSERVED",
+          "standalone_license_published": true,
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "production_ready": false
+        },
+        "prohibited_interpretations": [
+          "The local candidate proves copyright ownership.",
+          "The local candidate proves authority to relicense any repository artifact.",
+          "The README declaration proves artifact lineage, consent, privacy review, or training suitability.",
+          "The candidate is deployed, served, promoted, or production-ready."
+        ],
+        "publication": {
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "46e3b791026ac17200f9ba2ee691de4f69955ad9",
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "head_verification": "REQUIRED_POST_COMMIT"
+        }
+      },
+      "head_unchanged": true
+    },
+    {
+      "model": "SZLHOLDINGS/qantu",
+      "hf_revision": "d1b5621d3403745d38d420a52f05ea47d06327f0",
+      "observed_at": "2026-10-02T01:31:14.646862+00:00",
+      "archive_sha256": "ce908e597662dd5a89f0a479cf47f7fe30540944104db956476e21149c9c96e3",
+      "archive_size": 3842,
+      "arrays": {
+        "w1": {
+          "shape": [
+            16,
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b1": {
+          "shape": [
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "w2": {
+          "shape": [
+            16,
+            4
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b2": {
+          "shape": [
+            4
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "holdoutAcc": {
+          "shape": [],
+          "dtype": "float64",
+          "finite": true
+        },
+        "seed": {
+          "shape": [],
+          "dtype": "int64",
+          "finite": true
+        }
+      },
+      "TRAINING_RECEIPT.json": {
+        "id": "szl-khipu.training.v0.1.0",
+        "what": "qantu synthetic silhouette \u2014 organ-specific receipt (full 6-organ receipt in TRAINING_RECEIPT.batch.json)",
+        "artifacts": {
+          "qantu.npz": {
+            "sha256": "ce908e597662dd5a89f0a479cf47f7fe30540944104db956476e21149c9c96e3",
+            "loss": 1.0548620626166487,
+            "acc": 0.54125,
+            "steps": 2000,
+            "seed": 20260721,
+            "what": "empty-seat visual-organ silhouette: 4 synthetic image-class prototypes"
+          }
+        },
+        "seed": 20260721,
+        "cpu_numpy": "LIVE",
+        "cuda": "UNAVAILABLE (sandbox CPU; own-metal GPU run pending)",
+        "energy_j": null,
+        "energy_status": "UNAVAILABLE",
+        "honesty": "SYNTHETIC \u2014 no production, benchmark, or capability claim",
+        "proven_trust": false,
+        "doctrine": "v11 LOCKED",
+        "conjecture_1": "OPEN",
+        "locked": {
+          "formulas": 8,
+          "kernel": "c7c0ba17"
+        },
+        "whatNot": [
+          "not production models",
+          "not benchmarks",
+          "not admitted-data runs",
+          "not a replacement for the curriculum-specified training",
+          "synthetic silhouettes only \u2014 honest placeholders with real weights"
+        ],
+        "ts": "2026-09-01T00:17:55.805222+00:00",
+        "computed_at": "2026-09-01T00:17:55.805274+00:00"
+      },
+      "provenance.json": {
+        "schema": "szl.hf-license-candidate-provenance/v1",
+        "repository": {
+          "id": "SZLHOLDINGS/qantu",
+          "type": "model",
+          "parent_sha": "9dbe03d86ed8867277b57ff98f57fa56d5bdbec9",
+          "remote_file_count_at_observation": 2
+        },
+        "readme_evidence": {
+          "path": "README.md",
+          "sha256": "53052fbb346848e3bc02b0984c631b503e36df44eb03014dfd716ca489dbae84",
+          "size_bytes": 1365,
+          "observed_front_matter_license": "apache-2.0",
+          "observation": "EXACT_TOP_LEVEL_SCALAR",
+          "observed_at": "2026-08-31T03:02:26.2432944+00:00"
+        },
+        "standalone_license_evidence": {
+          "root_license_present_at_parent": false,
+          "candidate_path": "LICENSE",
+          "candidate_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "candidate_size_bytes": 11357,
+          "candidate_state": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+          "materialization_basis": "Exact README front matter at parent_sha declares apache-2.0.",
+          "legal_review": "NOT_PERFORMED",
+          "new_license_assignment": false
+        },
+        "evidence_boundaries": {
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy_review": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "served_revision": "BLOCKED",
+          "production_ready": false
+        },
+        "publication_evidence": {
+          "state": "PUBLISHED",
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "9dbe03d86ed8867277b57ff98f57fa56d5bdbec9",
+          "target_paths": [
+            "LICENSE",
+            "provenance.json",
+            "status.json"
+          ],
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "post_commit_head_verification": "REQUIRED"
+        }
+      },
+      "status.json": {
+        "schema": "szl.hf-license-candidate-status/v1",
+        "repository_id": "SZLHOLDINGS/qantu",
+        "repository_type": "model",
+        "parent_sha": "9dbe03d86ed8867277b57ff98f57fa56d5bdbec9",
+        "candidate_state": "PUBLISHED",
+        "remote_mutation": "PERFORMED_BY_THIS_ATOMIC_COMMIT",
+        "license_declaration": "OBSERVED_AT_EXACT_PARENT",
+        "standalone_license": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+        "claims": {
+          "repository_card_declares_apache_2_0": "OBSERVED",
+          "standalone_license_published": true,
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "production_ready": false
+        },
+        "prohibited_interpretations": [
+          "The local candidate proves copyright ownership.",
+          "The local candidate proves authority to relicense any repository artifact.",
+          "The README declaration proves artifact lineage, consent, privacy review, or training suitability.",
+          "The candidate is deployed, served, promoted, or production-ready."
+        ],
+        "publication": {
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "9dbe03d86ed8867277b57ff98f57fa56d5bdbec9",
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "head_verification": "REQUIRED_POST_COMMIT"
+        }
+      },
+      "head_unchanged": true
+    },
+    {
+      "model": "SZLHOLDINGS/tinku",
+      "hf_revision": "0a33bd6f75b1d1b54ab962a480765edbf5283990",
+      "observed_at": "2026-10-02T01:31:15.420774+00:00",
+      "archive_sha256": "778c29ff5887888f59fcca832ff75b1785f1e608c896d561e0cdfcb390f241d6",
+      "archive_size": 3063,
+      "arrays": {
+        "w1": {
+          "shape": [
+            12,
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b1": {
+          "shape": [
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "w2": {
+          "shape": [
+            16,
+            2
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b2": {
+          "shape": [
+            2
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "holdoutAcc": {
+          "shape": [],
+          "dtype": "float64",
+          "finite": true
+        },
+        "seed": {
+          "shape": [],
+          "dtype": "int64",
+          "finite": true
+        }
+      },
+      "TRAINING_RECEIPT.json": {
+        "id": "szl-khipu.training.v0.1.0",
+        "what": "tinku synthetic silhouette \u2014 organ-specific receipt (full 6-organ receipt in TRAINING_RECEIPT.batch.json)",
+        "artifacts": {
+          "tinku.npz": {
+            "sha256": "778c29ff5887888f59fcca832ff75b1785f1e608c896d561e0cdfcb390f241d6",
+            "loss": 0.4334948104407808,
+            "acc": 0.768,
+            "steps": 2000,
+            "seed": 20260721,
+            "what": "contested-decision silhouette: two-authority duel, one receipt"
+          }
+        },
+        "seed": 20260721,
+        "cpu_numpy": "LIVE",
+        "cuda": "UNAVAILABLE (sandbox CPU; own-metal GPU run pending)",
+        "energy_j": null,
+        "energy_status": "UNAVAILABLE",
+        "honesty": "SYNTHETIC \u2014 no production, benchmark, or capability claim",
+        "proven_trust": false,
+        "doctrine": "v11 LOCKED",
+        "conjecture_1": "OPEN",
+        "locked": {
+          "formulas": 8,
+          "kernel": "c7c0ba17"
+        },
+        "whatNot": [
+          "not production models",
+          "not benchmarks",
+          "not admitted-data runs",
+          "not a replacement for the curriculum-specified training",
+          "synthetic silhouettes only \u2014 honest placeholders with real weights"
+        ],
+        "ts": "2026-09-01T00:17:55.805222+00:00",
+        "computed_at": "2026-09-01T00:17:55.805274+00:00"
+      },
+      "provenance.json": {
+        "schema": "szl.hf-license-candidate-provenance/v1",
+        "repository": {
+          "id": "SZLHOLDINGS/tinku",
+          "type": "model",
+          "parent_sha": "07ea318ed1f9c6a56dcfd02a42675a077d508166",
+          "remote_file_count_at_observation": 2
+        },
+        "readme_evidence": {
+          "path": "README.md",
+          "sha256": "391ee3614bfa695424f394af4ceaa2eeb2d92aac64a5af30ad2293c9b0516238",
+          "size_bytes": 1359,
+          "observed_front_matter_license": "apache-2.0",
+          "observation": "EXACT_TOP_LEVEL_SCALAR",
+          "observed_at": "2026-08-31T03:02:26.2432944+00:00"
+        },
+        "standalone_license_evidence": {
+          "root_license_present_at_parent": false,
+          "candidate_path": "LICENSE",
+          "candidate_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "candidate_size_bytes": 11357,
+          "candidate_state": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+          "materialization_basis": "Exact README front matter at parent_sha declares apache-2.0.",
+          "legal_review": "NOT_PERFORMED",
+          "new_license_assignment": false
+        },
+        "evidence_boundaries": {
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy_review": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "served_revision": "BLOCKED",
+          "production_ready": false
+        },
+        "publication_evidence": {
+          "state": "PUBLISHED",
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "07ea318ed1f9c6a56dcfd02a42675a077d508166",
+          "target_paths": [
+            "LICENSE",
+            "provenance.json",
+            "status.json"
+          ],
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "post_commit_head_verification": "REQUIRED"
+        }
+      },
+      "status.json": {
+        "schema": "szl.hf-license-candidate-status/v1",
+        "repository_id": "SZLHOLDINGS/tinku",
+        "repository_type": "model",
+        "parent_sha": "07ea318ed1f9c6a56dcfd02a42675a077d508166",
+        "candidate_state": "PUBLISHED",
+        "remote_mutation": "PERFORMED_BY_THIS_ATOMIC_COMMIT",
+        "license_declaration": "OBSERVED_AT_EXACT_PARENT",
+        "standalone_license": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+        "claims": {
+          "repository_card_declares_apache_2_0": "OBSERVED",
+          "standalone_license_published": true,
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "production_ready": false
+        },
+        "prohibited_interpretations": [
+          "The local candidate proves copyright ownership.",
+          "The local candidate proves authority to relicense any repository artifact.",
+          "The README declaration proves artifact lineage, consent, privacy review, or training suitability.",
+          "The candidate is deployed, served, promoted, or production-ready."
+        ],
+        "publication": {
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "07ea318ed1f9c6a56dcfd02a42675a077d508166",
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "head_verification": "REQUIRED_POST_COMMIT"
+        }
+      },
+      "head_unchanged": true
+    },
+    {
+      "model": "SZLHOLDINGS/waman",
+      "hf_revision": "a48b979a765c4f60b497204db2a418dbf0c957ff",
+      "observed_at": "2026-10-02T01:31:16.076846+00:00",
+      "archive_sha256": "9b31cf28e1877fb15eb9ef5ecafb4054612dc8418d1707b3f1f164b7296ef325",
+      "archive_size": 4189,
+      "arrays": {
+        "w1": {
+          "shape": [
+            20,
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b1": {
+          "shape": [
+            16
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "w2": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "b2": {
+          "shape": [
+            3
+          ],
+          "dtype": "float64",
+          "finite": true
+        },
+        "holdoutAcc": {
+          "shape": [],
+          "dtype": "float64",
+          "finite": true
+        },
+        "seed": {
+          "shape": [],
+          "dtype": "int64",
+          "finite": true
+        }
+      },
+      "TRAINING_RECEIPT.json": {
+        "id": "szl-khipu.training.v0.1.0",
+        "what": "waman synthetic silhouette \u2014 organ-specific receipt (full 6-organ receipt in TRAINING_RECEIPT.batch.json)",
+        "artifacts": {
+          "waman.npz": {
+            "sha256": "9b31cf28e1877fb15eb9ef5ecafb4054612dc8418d1707b3f1f164b7296ef325",
+            "loss": 0.6943935951584815,
+            "acc": 0.6716666666666666,
+            "steps": 2000,
+            "seed": 20260721,
+            "what": "C-UAS detector silhouette: box-and-receipt or fail-closed"
+          }
+        },
+        "seed": 20260721,
+        "cpu_numpy": "LIVE",
+        "cuda": "UNAVAILABLE (sandbox CPU; own-metal GPU run pending)",
+        "energy_j": null,
+        "energy_status": "UNAVAILABLE",
+        "honesty": "SYNTHETIC \u2014 no production, benchmark, or capability claim",
+        "proven_trust": false,
+        "doctrine": "v11 LOCKED",
+        "conjecture_1": "OPEN",
+        "locked": {
+          "formulas": 8,
+          "kernel": "c7c0ba17"
+        },
+        "whatNot": [
+          "not production models",
+          "not benchmarks",
+          "not admitted-data runs",
+          "not a replacement for the curriculum-specified training",
+          "synthetic silhouettes only \u2014 honest placeholders with real weights"
+        ],
+        "ts": "2026-09-01T00:17:55.805222+00:00",
+        "computed_at": "2026-09-01T00:17:55.805274+00:00"
+      },
+      "provenance.json": {
+        "schema": "szl.hf-license-candidate-provenance/v1",
+        "repository": {
+          "id": "SZLHOLDINGS/waman",
+          "type": "model",
+          "parent_sha": "3f57b4baeb346a874921291e0c2e3fd9379155c1",
+          "remote_file_count_at_observation": 2
+        },
+        "readme_evidence": {
+          "path": "README.md",
+          "sha256": "ffaaee109b6a0ad53268d647fc924a89fe57397cef587c1da8413a053b3cf8c6",
+          "size_bytes": 1234,
+          "observed_front_matter_license": "apache-2.0",
+          "observation": "EXACT_TOP_LEVEL_SCALAR",
+          "observed_at": "2026-08-31T03:02:26.2432944+00:00"
+        },
+        "standalone_license_evidence": {
+          "root_license_present_at_parent": false,
+          "candidate_path": "LICENSE",
+          "candidate_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "candidate_size_bytes": 11357,
+          "candidate_state": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+          "materialization_basis": "Exact README front matter at parent_sha declares apache-2.0.",
+          "legal_review": "NOT_PERFORMED",
+          "new_license_assignment": false
+        },
+        "evidence_boundaries": {
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy_review": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "served_revision": "BLOCKED",
+          "production_ready": false
+        },
+        "publication_evidence": {
+          "state": "PUBLISHED",
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "3f57b4baeb346a874921291e0c2e3fd9379155c1",
+          "target_paths": [
+            "LICENSE",
+            "provenance.json",
+            "status.json"
+          ],
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "post_commit_head_verification": "REQUIRED"
+        }
+      },
+      "status.json": {
+        "schema": "szl.hf-license-candidate-status/v1",
+        "repository_id": "SZLHOLDINGS/waman",
+        "repository_type": "model",
+        "parent_sha": "3f57b4baeb346a874921291e0c2e3fd9379155c1",
+        "candidate_state": "PUBLISHED",
+        "remote_mutation": "PERFORMED_BY_THIS_ATOMIC_COMMIT",
+        "license_declaration": "OBSERVED_AT_EXACT_PARENT",
+        "standalone_license": "PUBLISHED_IN_THIS_ATOMIC_COMMIT",
+        "claims": {
+          "repository_card_declares_apache_2_0": "OBSERVED",
+          "standalone_license_published": true,
+          "copyright_ownership": "UNKNOWN",
+          "relicensing_authority": "UNKNOWN",
+          "artifact_lineage": "BLOCKED",
+          "consent": "BLOCKED",
+          "privacy": "BLOCKED",
+          "training_suitability": "BLOCKED",
+          "deployment": "BLOCKED",
+          "production_ready": false
+        },
+        "prohibited_interpretations": [
+          "The local candidate proves copyright ownership.",
+          "The local candidate proves authority to relicense any repository artifact.",
+          "The README declaration proves artifact lineage, consent, privacy review, or training suitability.",
+          "The candidate is deployed, served, promoted, or production-ready."
+        ],
+        "publication": {
+          "method": "HUGGING_FACE_ATOMIC_COMMIT",
+          "required_parent_sha": "3f57b4baeb346a874921291e0c2e3fd9379155c1",
+          "commit_sha_binding": "REPOSITORY_HISTORY_AND_EXTERNAL_BATCH_RECEIPT",
+          "head_verification": "REQUIRED_POST_COMMIT"
+        }
+      },
+      "head_unchanged": true
+    }
+  ]
+}
