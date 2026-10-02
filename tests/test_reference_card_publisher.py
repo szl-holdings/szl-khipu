@@ -180,8 +180,8 @@ class ReferenceCardPublisherTests(unittest.TestCase):
         try:
             import huggingface_hub
             from huggingface_hub import CommitOperationAdd
-        except ImportError:
-            self.skipTest("optional Hub dependency is absent")
+        except ImportError as error:
+            raise unittest.SkipTest("optional Hub dependency is absent") from error
         if huggingface_hub.__version__ != publisher.CLIENT_VERSION:
             self.skipTest("explicit publication uses its reviewed pinned client")
         operation = CommitOperationAdd(path_in_repo="README.md", path_or_fileobj=NEW)
