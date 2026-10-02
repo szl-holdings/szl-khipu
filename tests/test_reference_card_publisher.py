@@ -2,6 +2,7 @@
 from __future__ import annotations
 import importlib.util
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -24,13 +25,15 @@ class FakeAPI:
         self.files = {"README.md": "old", "fixture.npz": "fixture", "TRAINING_RECEIPT.json": "receipt"}
         self.calls = []
         self.optimized = self.conflict = self.tamper = self.unmanaged = self.concurrent = False
+        self.oversized_before = self.oversized_after = False
     def model_info(self, repo, **kwargs):
         names = dict(self.files)
         if kwargs.get("revision") == REVISION:
             names["README.md"] = "new"
             if self.unmanaged:
                 names["fixture.npz"] = "tampered"
-        return SimpleNamespace(sha=kwargs.get("revision") or self.head, siblings=[SimpleNamespace(rfilename=k, blob_id=v, size=4, lfs=None) for k, v in names.items()])
+        size = publisher.MAX_CARD_BYTES + 1 if (self.oversized_after and kwargs.get("revision") == REVISION) or self.oversized_before else 4
+        return SimpleNamespace(sha=kwargs.get("revision") or self.head, siblings=[SimpleNamespace(rfilename=k, blob_id=v, size=size if k == "README.md" else 4, lfs=None) for k, v in names.items()])
     def create_commit(self, **kwargs):
         self.calls.append(kwargs)
         if self.conflict:
@@ -46,11 +49,14 @@ class ReferenceCardPublisherTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.api = FakeAPI()
         self.receipts = []
+        self.downloads = []
     def tearDown(self):
         self.temp.cleanup()
     def download(self, **kwargs):
+        self.downloads.append(dict(kwargs))
         self.assertEqual(kwargs["repo_id"], "SZLHOLDINGS/chakana")
         self.assertEqual(kwargs["filename"], "README.md")
+        self.assertEqual(kwargs["endpoint"], "https://huggingface.co")
         path = Path(self.temp.name) / kwargs["revision"]
         raw = OLD if kwargs["revision"] == PARENT else NEW
         if self.api.tamper and kwargs["revision"] == REVISION:
@@ -84,6 +90,25 @@ class ReferenceCardPublisherTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "README bytes changed"):
             self.publish(expected_readme_sha256="f" * 64)
         self.assertFalse(self.api.calls)
+    def test_foreign_environment_endpoint_cannot_receive_download_token(self):
+        self.api.token = "synthetic-credential"
+        with patch.dict(os.environ, {"HF_ENDPOINT": "https://foreign.invalid"}):
+            self.publish()
+        self.assertEqual(len(self.downloads), 2)
+        self.assertTrue(all(call["endpoint"] == "https://huggingface.co" for call in self.downloads))
+        self.assertTrue(all(call["token"] == "synthetic-credential" for call in self.downloads))
+    def test_oversized_parent_readme_blocks_before_download_and_write(self):
+        self.api.oversized_before = True
+        with self.assertRaisesRegex(ValueError, "oversized"):
+            self.publish()
+        self.assertFalse(self.downloads)
+        self.assertFalse(self.api.calls)
+    def test_oversized_returned_readme_blocks_before_readback_download(self):
+        self.api.oversized_after = True
+        with self.assertRaisesRegex(ValueError, "oversized"):
+            self.publish()
+        self.assertEqual(len(self.downloads), 1)
+        self.assertEqual(self.receipts[-1]["hf_revision"], REVISION)
     def test_noop_client_shortcut_fails_closed(self):
         self.api.optimized = True
         with self.assertRaisesRegex(ValueError, "not confirmed"):

@@ -25,6 +25,7 @@ CLIENT_VERSION = "1.29.0"
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 MAX_CARD_BYTES = 100_000
+HUB_ENDPOINT = "https://huggingface.co"
 
 
 def digest(raw: bytes) -> str:
@@ -132,6 +133,12 @@ def file_manifest(info) -> dict:
     return result
 
 
+def require_bounded_readme(manifest: dict) -> None:
+    size = manifest["README.md"]["size"]
+    if type(size) is not int or not 0 <= size <= MAX_CARD_BYTES:
+        raise ValueError("provider README size is unavailable or oversized")
+
+
 def publish_one(api, download, add_operation, *, model: str, source_sha: str,
                 expected_parent: str, expected_readme_sha256: str,
                 card: bytes, checkpoint, freshness=require_fresh_source) -> dict:
@@ -145,8 +152,10 @@ def publish_one(api, download, add_operation, *, model: str, source_sha: str,
     if before.sha != expected_parent:
         raise ValueError("provider head changed from reviewed parent")
     before_files = file_manifest(before)
+    require_bounded_readme(before_files)
     old = Path(download(repo_id=repo_id, repo_type="model", filename="README.md",
-                        revision=expected_parent, token=api.token)).read_bytes()
+                        revision=expected_parent, token=api.token,
+                        endpoint=HUB_ENDPOINT)).read_bytes()
     if len(old) > MAX_CARD_BYTES or digest(old) != expected_readme_sha256:
         raise ValueError("reviewed README bytes changed")
     preserve_metadata(metadata(old), metadata(card))
@@ -190,11 +199,13 @@ def publish_one(api, download, add_operation, *, model: str, source_sha: str,
     if current.sha != revision:
         raise ValueError("provider returned a different immutable revision")
     after_files = file_manifest(current)
+    require_bounded_readme(after_files)
     if {k: v for k, v in before_files.items() if k != "README.md"} != {
             k: v for k, v in after_files.items() if k != "README.md"}:
         raise ValueError("unmanaged provider files changed")
     observed = Path(download(repo_id=repo_id, repo_type="model", filename="README.md",
-                             revision=revision, token=api.token)).read_bytes()
+                             revision=revision, token=api.token,
+                             endpoint=HUB_ENDPOINT)).read_bytes()
     if observed != card or api.model_info(repo_id, timeout=30).sha != revision:
         raise ValueError("immutable bytes or current provider head differ")
     freshness(source_sha)
@@ -253,7 +264,7 @@ def main(argv=None) -> int:
                 handle.write(encoded)
             os.replace(temp, args.receipt)
             last_written = encoded
-        receipt = publish_one(HfApi(token=token, endpoint="https://huggingface.co"),
+        receipt = publish_one(HfApi(token=token, endpoint=HUB_ENDPOINT),
                               hf_hub_download, CommitOperationAdd, model=args.model,
                               source_sha=args.source_sha, expected_parent=args.expected_hf_parent,
                               expected_readme_sha256=args.expected_readme_sha256,

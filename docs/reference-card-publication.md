@@ -23,6 +23,9 @@ fixture check; that update is not training or model qualification.
 Use an isolated environment with `huggingface_hub==1.29.0` and `PyYAML==6.0.3`.
 Use the existing authorized Hub cache or environment credential. Credentials
 are never command-line arguments, receipts or source files.
+The API and both immutable downloads explicitly use `https://huggingface.co`;
+an unrelated `HF_ENDPOINT` cannot redirect the authorized credential. Provider
+README metadata must declare at most 100,000 bytes before either download.
 
 ```sh
 python scripts/publish_reference_card.py --model chakana --source-sha "$SOURCE_SHA" \
