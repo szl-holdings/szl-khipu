@@ -76,7 +76,7 @@ The archive is 3,063 bytes and its computed SHA-256 is:
 The digest matches the receipt's stated digest. `numpy.load(..., allow_pickle=False)`
 with NumPy 2.4.6 inspected the following finite numeric arrays.
 The immutable observations are recorded in
-[`docs/reference-fixture-verification-20261002.json`](../../docs/reference-fixture-verification-20261002.json).
+[`docs/reference-fixture-verification-20261002.json`](https://github.com/szl-holdings/szl-khipu/blob/main/docs/reference-fixture-verification-20261002.json).
 This verifies byte consistency and array structure at that revision. It does not
 replay training, authenticate the unsigned receipt or qualify a production model.
 
