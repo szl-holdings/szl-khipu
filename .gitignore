@@ -1,4 +1,5 @@
 __pycache__/
+.szl-reference-card.lock
 *.py[cod]
 *.egg-info/
 .eggs/

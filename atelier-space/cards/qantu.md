@@ -17,9 +17,11 @@ szl:
   production_weights: UNAVAILABLE
   base_model_finetune_on_hub: UNAVAILABLE
   training_receipt: TRAINING_RECEIPT.json
-  receipt_hash_binding: STATED_BY_CARD_NOT_RECHECKED_2026_09_25
+  receipt_hash_binding: CHECKED_AT_EXACT_REVISION_2026_10_02
   jobs: UNKNOWN
   publication_eligible: false
+  canonical_source: https://github.com/szl-holdings/szl-forge
+  card_resync: 2026-09-25
 ---
 
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
@@ -30,26 +32,17 @@ This repository contains a small NumPy reference artifact: empty-seat visual-org
 The broader organ remains roadmap work. The synthetic archive is present;
 earlier statements that this repository had no weights are superseded.
 
-## Source and review scope
+## Intended-organ source and historical re-sync
 
-The reviewed card-authoring baseline is
-[`szl-khipu/atelier/hf/qantu.md`](https://github.com/szl-holdings/szl-khipu/blob/e53e3d24b22e356eb986c373aee27b3b3e7947ec/atelier/hf/qantu.md).
-The existing 2026-09-30 source audit identifies the separate intended-organ
-kit as
-[`szl-forge/qantu/README.md`](https://github.com/szl-holdings/szl-forge/blob/5b3dfdf9beafe0d6d1e6043ca005ec4b17c45204/qantu/README.md).
-The kit is not evidence of a published production checkpoint or base-model
-fine-tune for this synthetic fixture. No `base_model` metadata is claimed here.
+Canonical source: [https://github.com/szl-holdings/szl-forge](https://github.com/szl-holdings/szl-forge) (kit directory [`qantu/README.md`](https://github.com/szl-holdings/szl-forge/blob/main/qantu/README.md)). The card text itself is mirrored from `szl-khipu/atelier/hf/qantu.md`. GitHub is canonical; Hugging Face is the mirror. Re-synced 2026-09-25.
 
-The 2026-09-30 documentation review read the card, unsigned training receipt,
-license and license-publication records at model-type Hub revision
-[`d1b5621d3403745d38d420a52f05ea47d06327f0`](https://huggingface.co/SZLHOLDINGS/qantu/tree/d1b5621d3403745d38d420a52f05ea47d06327f0).
-The earlier 2026-09-25 re-sync reported an inventory observation without
-capturing its revision SHA. This later small-file review does not retroactively
-identify that observation's revision or recheck the archive bytes.
+## Weights on this Hub ID
 
-The automated Hugging Face model-card consumer for this authoring file remains
-UNKNOWN. Matching `atelier-space/cards/qantu.md` is a document-parity
-requirement; it does not establish a model publication route or served revision.
+- **OBSERVED** — `qantu.npz` (3,842 bytes) is on the Hub tree, together with `TRAINING_RECEIPT.json`, `LICENSE`, `provenance.json`, `status.json` and `bom/model-bom.cdx.json` (listed 2026-09-25 through the Hub file API; revision SHA not captured by this pass). It is a synthetic NumPy silhouette: a small two-layer MLP pack from a CPU/NumPy run, described by its own receipt as "synthetic silhouettes only — honest placeholders with real weights".
+- **UNAVAILABLE** — production weights, any checkpoint of the intended organ, any loader or `config.json`. Intended base per the szl-forge kit: `google/gemma-4-E4B-it` (no fine-tune of it is on this Hub ID, so `base_model` is deliberately not declared in the frontmatter).
+- **UNAVAILABLE** — `TRAINING_RECEIPT.batch.json`, the "full 6-organ receipt" the receipt refers to, is not on this Hub ID.
+
+What the szl-forge kit says: `qantu/README.md` describes the intended organ as a document / receipt VLM with `base_model: google/gemma-4-E4B-it`, with **no trainer in that directory**. Its `skip_receipt.json` records `status: SKIP-NO-ADMITTED-IMAGES`, `weights: UNAVAILABLE`, `jobs: UNKNOWN`, `evals: UNKNOWN`, `publication_eligible: false`, and the claim boundary that `killinchu-osint-corpus` is not an admitted image set.
 
 ## Intended use
 
@@ -57,18 +50,35 @@ Inspect synthetic artifacts and exercise software fixtures. The archive does
 not include a packaged loader or `config.json` in this repository.
 `from_pretrained` compatibility and hosted inference are unverified.
 
+## Source and verification scope
+
+The card-authoring source is `szl-khipu/atelier/hf/qantu.md`; its matching
+`atelier-space/cards/qantu.md` is a document copy. The intended-organ kit
+is separately maintained at
+[`szl-forge/qantu/README.md`](https://github.com/szl-holdings/szl-forge/blob/7b236fafe163ac3e282edf699677e97fd5e1f331/qantu/README.md).
+The kit's roadmap is not a published production checkpoint for this fixture.
+
+The explicit Python consumer is `scripts/publish_reference_card.py`. It accepts
+one reviewed model ID, an immutable GitHub source commit and expected Hub parent,
+then publishes only `README.md` with conditional parent binding and immutable
+byte readback. A paired source document alone does not establish publication.
+No automatic model-card writer or inference deployment is enabled by this card.
+
 ## Artifact evidence
 
-The earlier card and 2026-09-25 re-sync report `qantu.npz` at
-3,842 bytes. The unsigned `TRAINING_RECEIPT.json` states this SHA-256:
+The 2026-10-02 UTC inspection downloaded `qantu.npz` and the unsigned
+`TRAINING_RECEIPT.json` at exact model-type Hub revision
+[`d1b5621d3403745d38d420a52f05ea47d06327f0`](https://huggingface.co/SZLHOLDINGS/qantu/tree/d1b5621d3403745d38d420a52f05ea47d06327f0).
+The archive is 3,842 bytes and its computed SHA-256 is:
 
 `ce908e597662dd5a89f0a479cf47f7fe30540944104db956476e21149c9c96e3`
 
-The earlier card reports that the archive matched that receipt and that
-`numpy.load(..., allow_pickle=False)` found finite numeric arrays. The re-sync
-did not repeat the digest or array checks. This 2026-09-30 documentation review
-also did not download, rehash or load the archive. The table retains the
-earlier card's reported array description; it is not a new validation result.
+The digest matches the receipt's stated digest. `numpy.load(..., allow_pickle=False)`
+with NumPy 2.4.6 inspected the following finite numeric arrays.
+The immutable observations are recorded in
+[`docs/reference-fixture-verification-20261002.json`](https://github.com/szl-holdings/szl-khipu/blob/main/docs/reference-fixture-verification-20261002.json).
+This verifies byte consistency and array structure at that revision. It does not
+replay training, authenticate the unsigned receipt or qualify a production model.
 
 | Array | Shape | Data type |
 | --- | --- | --- |
@@ -79,10 +89,6 @@ earlier card's reported array description; it is not a new validation result.
 | `holdoutAcc` | `[]` | `float64` |
 | `seed` | `[]` | `int64` |
 
-Reading a receipt's stated digest does not independently verify the current
-archive or the signer. No training replay, runtime test, deployment, general
-intelligence or production-readiness claim follows from this review.
-
 ## Reported training
 
 The repository receipt reports seed `20260721`, `2000` steps,
@@ -90,37 +96,30 @@ synthetic accuracy `0.541250`, and loss `1.054862`.
 These values were read from the receipt and were not independently rerun.
 They do not establish field performance or authority to make operational decisions.
 
-The unsigned receipt is dated 2026-09-01. It does not record a sample count,
-split digest, evaluation protocol or GitHub source commit. The historically
-reported `holdoutAcc` field does not establish an independently verified
-held-out evaluation. `TRAINING_RECEIPT.batch.json`, referenced as a full
-six-organ receipt, was unavailable on the reviewed Hub ID.
+The unsigned receipt is dated 2026-09-01. It records no sample count,
+split digest, evaluation protocol or GitHub source commit. Its `holdoutAcc`
+field is not an independently qualified held-out evaluation.
+`TRAINING_RECEIPT.batch.json`, referenced as a full six-organ receipt, is absent
+from the inspected exact Hub tree. No independent training replay was performed.
 
 ## License-publication evidence
 
-The Apache-2.0 declaration and standalone `LICENSE` are retained unchanged.
-`provenance.json` and `status.json` describe an earlier license-file publication
-from parent `9dbe03d86ed8867277b57ff98f57fa56d5bdbec9`.
-Their PUBLISHED state concerns `LICENSE`, `provenance.json` and `status.json`;
-it does not qualify the synthetic archive, its training or a production release.
-
-Those records leave copyright ownership and relicensing authority UNKNOWN.
-Artifact lineage, consent, privacy review, training suitability, deployment and
-served revision remain BLOCKED; `production_ready` is false. License-file
-presence does not resolve those boundaries.
+The Apache-2.0 declaration is retained. Existing `provenance.json` and `status.json`
+describe a license-file publication from parent `9dbe03d86ed8867277b57ff98f57fa56d5bdbec9`.
+Their PUBLISHED state concerns `LICENSE`, `provenance.json` and `status.json`,
+not synthetic-archive qualification, intended-organ training or a production release.
+Those records leave copyright ownership and relicensing authority UNKNOWN;
+artifact lineage, consent, privacy, training suitability, deployment and served
+revision remain BLOCKED. Their `production_ready` value is false.
 
 ## Evidence boundaries
 
-- Archive digest and array inspection: historical card reports, not rechecked
-  by the 2026-09-25 re-sync or this 2026-09-30 documentation review.
-- Training and evaluation: reported synthetic evidence only; no independent
-  replay or qualified held-out result.
-- Intended organ: roadmap work; jobs UNKNOWN, publication eligibility false.
-  The present synthetic fixture is not the intended organ's checkpoint.
-- Production weights and base-model fine-tune: UNAVAILABLE in the reviewed
-  card's stated scope.
-- Current runtime, CUDA, production deployment and energy: unverified.
-- Proven trust: false in the published training receipt.
+- Archive digest and array structure: inspected at the exact revision above.
+- Training and evaluation: reported synthetic results only; no independent replay.
+- Intended organ: roadmap work; jobs UNKNOWN and publication eligibility false.
+- Production weights and base-model fine-tune: UNAVAILABLE in the inspected scope.
+- Runtime, CUDA, operational deployment and energy: unverified.
+- Proven trust: false in the unsigned training receipt.
 - Lambda uniqueness remains Conjecture 1 OPEN, not a theorem.
 
 Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
