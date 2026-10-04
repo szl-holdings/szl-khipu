@@ -10,6 +10,28 @@ tags:
   - numpy
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# SZL Khipu Kernels
+
+Inspect NumPy reference kernels for advisory Λ decisions and YARQA attention.
+
+**Artifact:** Reference kernel software in a model repository · **Stage:** Software / reference
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/szl-khipu-kernels/README.md)
+
+## Before you use it
+
+- First-class kernel release qualification is UNKNOWN. A model-repository README is not a qualified native kernel build.
+- This source publisher updates the card only; card parity does not establish package API parity or a successful loader test.
+- Λ remains advisory with Conjecture 1 OPEN and proven_trust=false. CUDA and energy measurement are UNAVAILABLE.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 # szl-khipu-kernels
 
 **SOFTWARE: NumPy reference kernels.** This card does not establish a trained-checkpoint release, production readiness or a current hosted service. Artifact presence alone does not establish trained-model validity.
@@ -82,3 +104,7 @@ no provider loader is required to inspect the reference implementation.
 The reviewed distribution declares Apache-2.0 and contains an Apache-2.0 LICENSE
 file. Copyright 2026 SZL Holdings. Doctrine v11 LOCKED. Advisory reference behavior,
 source review and receipt presence do not grant production or control authority.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>
