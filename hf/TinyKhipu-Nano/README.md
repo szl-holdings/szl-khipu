@@ -12,6 +12,28 @@ tags:
   - test-fixture
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# TinyKhipu-Nano
+
+A small synthetic fixture for proposing NAVIGATE or ABSTAIN from token embeddings and candidate handles.
+
+**Artifact:** Bare NumPy weight archive · **Stage:** Synthetic test fixture
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/TinyKhipu-Nano/README.md)
+
+## Before you use it
+
+- The forward pass lives in the canonical package; this archive has no packaged Hub loader or config.json.
+- Historical synthetic results and unsigned receipt claims do not establish generalization, a refusal guarantee, or production readiness.
+- This token-and-handle fixture is separate from the Atelier four-feature MLP and the Khipu 1.5B model. Bind the exact archive to its loader and revision.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 This Hub repository contains a bare NumPy archive. The loading and forward-pass
@@ -106,3 +128,7 @@ The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS
 `artifacts["tiny_khipu.npz"]` entry describes this archive; the other
 entries do not establish that sibling artifacts are present in this repository.
 The receipt does not bind its training run to the reviewed source commit.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>

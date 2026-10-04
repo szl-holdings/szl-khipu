@@ -4,6 +4,28 @@ library_name: numpy
 tags: [governed-ai, khipu, szl-holdings, receipts, lambda-gate]
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# SZL Khipu
+
+Inspect advisory NumPy kernels, small reference fixtures, and hash-chained run receipts.
+
+**Artifact:** Python / NumPy software package · **Stage:** Software / reference
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/README.md)
+
+## Before you use it
+
+- Λ is advisory: Conjecture 1 OPEN and proven_trust=false.
+- CUDA and energy measurement are UNAVAILABLE; software source binding does not establish a production deployment.
+- The package and Nano fixtures do not qualify a 1.5B checkpoint. Verify each artifact and its separate inference contract.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 # szl-khipu
 <!-- szl:header v1 -->
 <!-- badges: add this repo's CI / release / status badges here -->
@@ -255,3 +277,7 @@ szl-khipu participates in the SZL governed-AI estate. The flagship control plane
 - **Design partners (6-month, paid):** governed-action receipts in your environment → [stephenlutar2@gmail.com](mailto:stephenlutar2@gmail.com)
 - **Verify our claims offline:** [github.com/szl-holdings/szl-gov](https://github.com/szl-holdings/szl-gov) — signed estate receipt + public verifier
 - **Pricing + SKUs:** not maintained in this repository.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>

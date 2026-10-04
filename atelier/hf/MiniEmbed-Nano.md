@@ -12,6 +12,28 @@ tags:
   - test-fixture
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# MiniEmbed-Nano
+
+A deterministic 64 × 12 NumPy table for inspecting hash-based token vectors and simple pooling.
+
+**Artifact:** NumPy embedding table · **Stage:** Software / reference / test fixture
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/MiniEmbed-Nano/README.md)
+
+## Before you use it
+
+- This is a small reference table, not a trained neural embedding model or the separate 3290 × 128 SVD MiniEmbed artifact.
+- The example constructs a new table; it does not verify loading or reproducing the published archive.
+- No retrieval or analogy score is established for this artifact. Bind its exact revision, array schema, and loader before comparison.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 This Hub repository contains a bare NumPy archive. The loading and forward-pass
@@ -113,3 +135,7 @@ The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS
 `artifacts["mini_embed.npz"]` entry describes this archive; the other
 entries do not establish that sibling artifacts are present in this repository.
 The receipt does not bind its training run to the reviewed source commit.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>

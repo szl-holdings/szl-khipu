@@ -12,6 +12,28 @@ tags:
   - test-fixture
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# ReceiptAgent-Nano
+
+A small synthetic reference head for proposing ALLOW, WARN, BLOCKED, or ESCALATE from receipt features.
+
+**Artifact:** Bare NumPy weight archive · **Stage:** Synthetic test fixture
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/ReceiptAgent-Nano/README.md)
+
+## Before you use it
+
+- The learned head is advisory; deterministic rule_check remains the authority for admission.
+- Reported synthetic agreement is not an independently reproduced holdout result or a production guarantee.
+- The package's 24-feature fixture is separate from the Atelier four-feature MLP and the 1.5B agent. Verify archive, loader, labels, and immutable revision together.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 This Hub repository contains a bare NumPy archive. The loading and forward-pass
@@ -110,3 +132,7 @@ The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS
 `artifacts["receipt_agent.npz"]` entry describes this archive; the other
 entries do not establish that sibling artifacts are present in this repository.
 The receipt does not bind its training run to the reviewed source commit.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>

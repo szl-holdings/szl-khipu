@@ -13,6 +13,28 @@ tags:
   - test-fixture
 ---
 
+<!-- SZL-CARD-PRESENTATION:v1 -->
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# Moons-Nano
+
+A 2→8→2 NumPy classifier for studying a small synthetic two-moons decision boundary.
+
+**Artifact:** Bare NumPy weight archive · **Stage:** Software / reference / test fixture
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/Moons-Nano/README.md)
+
+## Before you use it
+
+- Training accuracy and loss are historical reported fixture results; they do not establish held-out performance or generalization.
+- The example constructs a new fixture rather than loading the published archive. Match its array schema and loader before use.
+- This toy fixture does not qualify a larger model. CUDA and energy measurement are UNAVAILABLE.
+
+<details>
+<summary>Technical details and evidence</summary>
+
+<!-- SZL-CARD-TECHNICAL:v1:START -->
+
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
 This Hub repository contains a bare NumPy archive. The loading and forward-pass
@@ -111,3 +133,7 @@ The shared unsigned [`TRAINING_RECEIPT.json`](https://huggingface.co/SZLHOLDINGS
 `artifacts["moons.npz"]` entry describes this archive; the other
 entries do not establish that sibling artifacts are present in this repository.
 The receipt does not bind its training run to the reviewed source commit.
+
+<!-- SZL-CARD-TECHNICAL:v1:END -->
+
+</details>
