@@ -9,6 +9,8 @@ import json
 import re
 from pathlib import Path
 
+import selective_risk
+
 ROOT = Path(__file__).resolve().parent
 BENCH = ROOT / "khipu_abstention_bench.json"
 INVENTED = re.compile(
@@ -29,6 +31,41 @@ def decide(row: dict, hidden: set[str]) -> str:
     if cited:
         return "NAVIGATE"
     return "ABSTAIN"
+
+
+def _selective(cases: list[dict]) -> dict:
+    """Additive selective-risk view of the controller decisions.
+
+    The controller-only bench grades the decision only (there is no route to
+    check), so a NAVIGATE on a NAVIGATE-expected row counts as correct, the
+    same as the per-case ``pass`` field. No budget is frozen, so no verdict
+    is computed.
+    """
+    rows = [
+        {
+            "expected": c["expect"],
+            "decision": c["got"],
+            "answer_correct": c["expect"] == c["got"] == selective_risk.NAVIGATE,
+        }
+        for c in cases
+    ]
+    block = {
+        "schema": selective_risk.SCHEMA,
+        "grader": "controller-only decision match (no route check)",
+        "status": "CONTROLLER_ONLY_MEASURED",
+        "verdict": "NOT_RUN",
+        "verdict_reason": "NO_FROZEN_BUDGET",
+    }
+    try:
+        block["candidate"] = selective_risk.account(rows)
+        block["baselines"] = {
+            "all_abstain": selective_risk.baseline_all_abstain(rows),
+            "all_answer": selective_risk.baseline_all_answer(rows),
+        }
+    except ValueError as exc:
+        block["status"] = "UNKNOWN"
+        block["error"] = str(exc)
+    return block
 
 
 def run(catalog: dict | None = None) -> dict:
@@ -79,6 +116,7 @@ def run(catalog: dict | None = None) -> dict:
         "navigate_recall": (navigate_ok / n_nav) if n_nav else None,
         "cases": cases,
         "entrants": catalog["family"],
+        "selective": _selective(cases),
     }
 
 
