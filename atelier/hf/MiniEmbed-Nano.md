@@ -13,7 +13,7 @@ tags:
 ---
 
 <!-- SZL-CARD-PRESENTATION:v1 -->
-<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+<p><a href="https://huggingface.co/SZLHOLDINGS"><img src="https://raw.githubusercontent.com/szl-holdings/szl-brand/27d12e77fc0f9f1a0e5fae8b34adf2380d51d070/kit/logos/orbit-v2/suite/szl-icon-32.svg" alt="SZL Holdings" width="48" height="48" /></a></p>
 
 # MiniEmbed-Nano
 
@@ -21,7 +21,7 @@ A deterministic 64 × 12 NumPy table for inspecting hash-based token vectors and
 
 **Artifact:** NumPy embedding table · **Stage:** Software / reference / test fixture
 
-[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-khipu) · [Evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/MiniEmbed-Nano/README.md)
+[Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Canonical source](https://github.com/szl-holdings/szl-khipu) · [Reviewed evidence](https://github.com/szl-holdings/szl-khipu/blob/8d06c9333b636a86a27d88feb49097906833af30/hf/MiniEmbed-Nano/README.md)
 
 ## Before you use it
 
@@ -139,3 +139,7 @@ The receipt does not bind its training run to the reviewed source commit.
 <!-- SZL-CARD-TECHNICAL:v1:END -->
 
 </details>
+
+<!-- SZL-NATIVE-ARTWORK:v1 -->
+SZL Orbit artwork: [source](https://github.com/szl-holdings/szl-brand/blob/27d12e77fc0f9f1a0e5fae8b34adf2380d51d070/kit/logos/orbit-v2/suite/szl-icon-32.svg) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Software and artifact licensing remain declared above.
+<!-- /SZL-NATIVE-ARTWORK:v1 -->

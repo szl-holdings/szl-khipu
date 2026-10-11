@@ -26,6 +26,12 @@ szl:
 
 > **Status: SOFTWARE / REFERENCE / TEST FIXTURE.** Not a production model.
 
+<!-- SZL-NATIVE-CARD-IDENTITY:v1 -->
+<p><a href="https://huggingface.co/SZLHOLDINGS"><img src="https://raw.githubusercontent.com/szl-holdings/szl-brand/27d12e77fc0f9f1a0e5fae8b34adf2380d51d070/kit/logos/orbit-v2/suite/szl-icon-32.svg" alt="SZL Holdings" width="48" height="48" /></a></p>
+
+[Card source](https://github.com/szl-holdings/szl-khipu/blob/991889a248b8c633fa758e34a4e01f5937294524/atelier/hf/chakana.md) · [Historical artifact evidence](#artifact-evidence) · [Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab)
+<!-- /SZL-NATIVE-CARD-IDENTITY:v1 -->
+
 # chakana
 
 This repository contains a small NumPy reference artifact: evidence-class crossing silhouette: MEASURED/SIGNED/MODELED kept separate.
@@ -125,3 +131,7 @@ revision remain BLOCKED. Their `production_ready` value is false.
 - Lambda uniqueness remains Conjecture 1 OPEN, not a theorem.
 
 Apache-2.0. Copyright 2026 SZL Holdings · Stephen P. Lutar Jr. · ORCID [0009-0001-0110-4173](https://orcid.org/0009-0001-0110-4173).
+
+<!-- SZL-NATIVE-ARTWORK:v1 -->
+SZL Orbit artwork: [source](https://github.com/szl-holdings/szl-brand/blob/27d12e77fc0f9f1a0e5fae8b34adf2380d51d070/kit/logos/orbit-v2/suite/szl-icon-32.svg) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Software and artifact licensing remain declared above.
+<!-- /SZL-NATIVE-ARTWORK:v1 -->
