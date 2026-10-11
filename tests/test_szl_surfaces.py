@@ -52,9 +52,9 @@ def _text(relative: str) -> str:
     return (ROOT / relative).read_text(encoding="utf-8")
 
 
-def _bg_hex() -> str:
-    css = _text(f"szl_khipu/szl/{CSS}")
-    token = re.search(r"--bg:var\(--(color-space-900)\)", css).group(1)
+def _bg_hex(folder: str = "szl_khipu/szl") -> str:
+    css = _text(f"{folder}/{CSS}")
+    token = re.search(r"--bg:var\(--(color-[a-z0-9-]+)\)", css).group(1)
     return re.search(rf"--{token}:(#[0-9A-Fa-f]{{6}})", css).group(1)
 
 
@@ -66,14 +66,17 @@ class SzlSurfaceContract(unittest.TestCase):
             source = json.loads((root / "SOURCE.json").read_text(encoding="utf-8"))
             sources.append(source)
             self.assertEqual(source["name"], "szl-kanchay")
-            self.assertEqual(source["version"], "1.1.0")
+            qualified = folder != "atelier-space/szl"
+            self.assertEqual(source["version"], "1.3.0" if qualified else "1.1.0")
             present = {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()}
-            self.assertEqual(present, {"SOURCE.json", *files}, folder)
+            records = {"SOURCE.json", "VENDORED.json"} if qualified else {"SOURCE.json"}
+            self.assertEqual(present, {*records, *files}, folder)
             for name in files:
                 with self.subTest(folder=folder, file=name):
                     digest = hashlib.sha256((root / name).read_bytes()).hexdigest()
                     self.assertEqual(digest, source["sha256"][name])
-        self.assertTrue(all(source == sources[0] for source in sources))
+        self.assertEqual(sources[0], sources[1])
+        self.assertEqual(sources[2]["source_commit"], "168c53a0252b55243e3fa75fa5e3c743b8efb806")
         self.assertFalse(any(ROOT.rglob("kanchay/kanchay.css")), "the v1.0.0 export is withdrawn")
 
     def test_pages_load_the_design_system_first(self) -> None:
@@ -85,8 +88,9 @@ class SzlSurfaceContract(unittest.TestCase):
                 self.assertEqual([href for href in links if href in hrefs], list(hrefs))
 
     def test_surfaces_carry_no_literals_webfonts_or_retired_tokens(self) -> None:
-        bg = _bg_hex()
         for source in SURFACE_SOURCES:
+            folder = "atelier-space/szl" if source.startswith("atelier-space/") else "szl_khipu/szl"
+            bg = _bg_hex(folder)
             text = _text(source)
             with self.subTest(source=source):
                 for value in THEME_COLOR.findall(text):

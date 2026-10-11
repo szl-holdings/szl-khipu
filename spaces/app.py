@@ -364,8 +364,8 @@ function() {
 SZL_CSS_URL = "gradio_api/file=" + quote((SZL_DIR / "szl-design-system.css").as_posix(), safe="/:")
 HOLO_HEAD = f"""
 <meta name="color-scheme" content="dark">
-<!-- theme-color cannot read CSS variables: #030F29 is --bg (--color-space-900). -->
-<meta name="theme-color" content="#030F29">
+<!-- theme-color cannot read CSS variables: #080B12 is --bg (--color-graphite-900). -->
+<meta name="theme-color" content="#080B12">
 <link rel="stylesheet" href="{html.escape(SZL_CSS_URL, quote=True)}">
 <style>html,body{{background:var(--bg)!important;color:var(--text)!important}}</style>
 """
