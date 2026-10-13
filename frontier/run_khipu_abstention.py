@@ -9,7 +9,10 @@ import json
 import re
 from pathlib import Path
 
-import selective_risk
+if __package__:  # python -m frontier.run_khipu_abstention, or import frontier.run_khipu_abstention
+    from . import selective_risk
+else:  # python frontier/run_khipu_abstention.py, or frontier/ on sys.path
+    import selective_risk
 
 ROOT = Path(__file__).resolve().parent
 BENCH = ROOT / "khipu_abstention_bench.json"

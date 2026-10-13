@@ -2,6 +2,7 @@ import contextlib
 import copy
 import io
 import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -80,6 +81,20 @@ class KhipuAbstentionBenchTests(unittest.TestCase):
         self.assertEqual(odd["n_passed"], report["n_passed"] - 1)
         self.assertEqual(odd["selective"]["status"], "UNKNOWN")
         self.assertNotIn("candidate", odd["selective"])
+
+    def test_runner_runs_as_script_and_as_module(self) -> None:
+        # The runner must keep working however it is started; both modes print
+        # the same summary and exit 0.
+        outputs = []
+        for args in (["frontier/run_khipu_abstention.py"], ["-m", "frontier.run_khipu_abstention"]):
+            with self.subTest(args=args):
+                proc = subprocess.run(
+                    [sys.executable, *args], cwd=ROOT, capture_output=True, text=True, timeout=120
+                )
+                self.assertEqual(proc.returncode, 0, proc.stderr)
+                outputs.append(json.loads(proc.stdout))
+        self.assertEqual(outputs[0], outputs[1])
+        self.assertIsNone(outputs[0]["winner"])
 
 
 if __name__ == "__main__":
