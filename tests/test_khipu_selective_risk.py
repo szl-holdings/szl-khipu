@@ -230,16 +230,11 @@ class SelectiveRiskTests(unittest.TestCase):
 
     def test_budget_required_and_exact(self) -> None:
         acct = sr.account(POLICY_A)
-        with self.assertRaises(TypeError):
-            sr.verdict(acct)  # type: ignore[call-arg]
-        with self.assertRaises(TypeError):
-            sr.verdict(acct, max_selective_risk="1/2")  # type: ignore[call-arg]
-        with self.assertRaises(TypeError):
-            sr.verdict(acct, min_coverage="1/2")  # type: ignore[call-arg]
-        with self.assertRaises(TypeError):
-            sr.verdict(acct, "1/2", "1/2")  # type: ignore[misc]
-        with self.assertRaises(TypeError):
-            sr.evaluate(POLICY_A)  # type: ignore[call-arg]
+        self.assertRaises(TypeError, sr.verdict, acct)
+        self.assertRaises(TypeError, sr.verdict, acct, max_selective_risk="1/2")
+        self.assertRaises(TypeError, sr.verdict, acct, min_coverage="1/2")
+        self.assertRaises(TypeError, sr.verdict, acct, "1/2", "1/2")
+        self.assertRaises(TypeError, sr.evaluate, POLICY_A)
         bad = [0.5, math.nan, math.inf, 1, 0, True, None, "0.5", "nan", "1", "3/2",
                "-1/2", "1/0", " 1/2", "1/2 ", "01/2", Fraction(3, 2), Fraction(-1, 2)]
         for value in bad:
