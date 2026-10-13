@@ -34,6 +34,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from collections import Counter
 from collections.abc import Iterable, Mapping
 from fractions import Fraction
 
@@ -52,14 +53,15 @@ RISK_DEFINITION = (
 )
 MALFORMED_SEMANTICS = "M1: a non-ABSTAIN malformed output is accepted and wrong; never dropped"
 _RATIO = re.compile(r"(0|[1-9][0-9]*)/([1-9][0-9]*)")
-_COUNTS = (
-    "total",
-    "expected_navigate",
-    "expected_abstain",
-    "abstained",
-    "accepted",
-    "accepted_errors",
-)
+# The seven kinds of normalized row, as (expected, decision, answer_correct).
+# Every account() field is a function of how many rows of each kind there are.
+_CORRECT = (NAVIGATE, NAVIGATE, True)
+_WRONG_ROUTE = (NAVIGATE, NAVIGATE, False)
+_OVER_ABSTAINED = (NAVIGATE, ABSTAIN, False)
+_MALFORMED_ON_NAVIGATE = (NAVIGATE, MALFORMED, False)
+_ABSTAINED_CORRECT = (ABSTAIN, ABSTAIN, False)
+_FALSE_NAVIGATE = (ABSTAIN, NAVIGATE, False)
+_MALFORMED_ON_ABSTAIN = (ABSTAIN, MALFORMED, False)
 
 
 def _ratio(num: int, den: int) -> dict | str:
@@ -101,25 +103,25 @@ def _rows(rows: Iterable[Mapping]) -> list[dict]:
 
 def account(rows: Iterable[Mapping]) -> dict:
     """Integer counts for graded rows. The denominator ``total`` never shrinks."""
-    norm = _rows(rows)
-    total = len(norm)
-    expected_navigate = sum(1 for r in norm if r["expected"] == NAVIGATE)
-    expected_abstain = total - expected_navigate
-    abstained = sum(1 for r in norm if r["decision"] == ABSTAIN)
-    abstained_correct = sum(
-        1 for r in norm if r["decision"] == ABSTAIN and r["expected"] == ABSTAIN
-    )
-    malformed = sum(1 for r in norm if r["decision"] == MALFORMED)
-    answered_valid = sum(1 for r in norm if r["decision"] == NAVIGATE)
-    false_navigate = sum(
-        1 for r in norm if r["decision"] == NAVIGATE and r["expected"] == ABSTAIN
-    )
-    correct_accepted = sum(1 for r in norm if r["answer_correct"])
-    wrong_route = sum(
-        1
-        for r in norm
-        if r["decision"] == NAVIGATE and r["expected"] == NAVIGATE and not r["answer_correct"]
-    )
+    tally = Counter((r["expected"], r["decision"], r["answer_correct"]) for r in _rows(rows))
+    return _account_from_tally(tally)
+
+
+def _account_from_tally(tally: Mapping[tuple, int]) -> dict:
+    """The ``account`` result for the given number of rows of each kind."""
+    correct_accepted = tally.get(_CORRECT, 0)
+    wrong_route = tally.get(_WRONG_ROUTE, 0)
+    over_abstained = tally.get(_OVER_ABSTAINED, 0)
+    abstained_correct = tally.get(_ABSTAINED_CORRECT, 0)
+    false_navigate = tally.get(_FALSE_NAVIGATE, 0)
+    malformed_on_navigate = tally.get(_MALFORMED_ON_NAVIGATE, 0)
+    malformed_on_abstain = tally.get(_MALFORMED_ON_ABSTAIN, 0)
+    expected_navigate = correct_accepted + wrong_route + over_abstained + malformed_on_navigate
+    expected_abstain = abstained_correct + false_navigate + malformed_on_abstain
+    total = expected_navigate + expected_abstain
+    abstained = abstained_correct + over_abstained
+    malformed = malformed_on_navigate + malformed_on_abstain
+    answered_valid = correct_accepted + wrong_route + false_navigate
     accepted = total - abstained
     accepted_errors = accepted - correct_accepted
     return {
@@ -131,7 +133,7 @@ def account(rows: Iterable[Mapping]) -> dict:
         "expected_abstain": expected_abstain,
         "abstained": abstained,
         "abstained_correct": abstained_correct,
-        "over_abstained": abstained - abstained_correct,
+        "over_abstained": over_abstained,
         "malformed": malformed,
         "answered_valid": answered_valid,
         "false_navigate": false_navigate,
@@ -191,27 +193,76 @@ def _budget_value(name: str, value: object) -> Fraction:
     return frac
 
 
+def _canonical(value: object) -> str | None:
+    try:
+        return json.dumps(
+            value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
+        )
+    except (TypeError, ValueError):
+        return None
+
+
 def _counts(acct: Mapping) -> dict:
+    """Return ``account()`` output recomputed from ``acct``, or raise ValueError.
+
+    ``acct`` is accepted only if it equals ``account()`` output for some
+    multiset of normalized rows: the per-kind row counts it implies are
+    non-negative ints, and every field (counts, ratios, the legacy view,
+    schema and definitions) equals its recomputed value, with no extra keys.
+    Values are compared as canonical JSON, so ``True`` is not ``1`` and
+    ``11.0`` is not ``11``.
+    """
     if not isinstance(acct, Mapping):
         raise ValueError("verdict needs the mapping returned by account()")
-    counts = {}
-    for key in _COUNTS:
+
+    def count(key: str) -> int:
         value = acct.get(key)
         if type(value) is not int or value < 0:
             raise ValueError(f"account field {key!r} must be a non-negative int, got {value!r}")
-        counts[key] = value
-    if (
-        counts["expected_navigate"] + counts["expected_abstain"] != counts["total"]
-        or counts["abstained"] > counts["total"]
-        or counts["accepted"] != counts["total"] - counts["abstained"]
-        or counts["accepted_errors"] > counts["accepted"]
-    ):
-        raise ValueError("account counts are inconsistent")
-    return counts
+        return value
+
+    tally = {
+        _CORRECT: count("correct_accepted"),
+        _WRONG_ROUTE: count("wrong_route"),
+        _OVER_ABSTAINED: count("over_abstained"),
+        _ABSTAINED_CORRECT: count("abstained_correct"),
+        _FALSE_NAVIGATE: count("false_navigate"),
+    }
+    tally[_MALFORMED_ON_NAVIGATE] = (
+        count("expected_navigate")
+        - tally[_CORRECT]
+        - tally[_WRONG_ROUTE]
+        - tally[_OVER_ABSTAINED]
+    )
+    tally[_MALFORMED_ON_ABSTAIN] = (
+        count("expected_abstain") - tally[_ABSTAINED_CORRECT] - tally[_FALSE_NAVIGATE]
+    )
+    if tally[_MALFORMED_ON_NAVIGATE] < 0 or tally[_MALFORMED_ON_ABSTAIN] < 0:
+        raise ValueError(
+            "account counts are inconsistent: more NAVIGATE- or ABSTAIN-expected rows "
+            "are classified than expected_navigate or expected_abstain allows"
+        )
+    expected = _account_from_tally(tally)
+    missing = sorted(set(expected) - set(acct))
+    extra = sorted(str(key) for key in set(acct) - set(expected))
+    if missing or extra:
+        raise ValueError(f"account keys differ from account(): missing {missing}, extra {extra}")
+    mismatched = [
+        key for key in expected if _canonical(acct[key]) != _canonical(expected[key])
+    ]
+    if mismatched:
+        raise ValueError(f"account fields are inconsistent with each other: {mismatched}")
+    return expected
 
 
 def verdict(acct: Mapping, *, max_selective_risk, min_coverage) -> dict:
     """PASS, FAIL or INVALID_SUITE for an ``account`` result against a budget.
+
+    ``acct`` must equal ``account()`` output for some multiset of graded rows
+    (see ``_counts``); a tampered, impossible or partial mapping raises
+    ValueError. That check cannot tell a self-consistent mapping from rows
+    that never happened: a mapping is only as trustworthy as its source, and
+    ``evaluate(rows)`` is the path that starts from the graded rows.
 
     Both budget values are required keywords with no defaults. Each must be a
     ``Fraction`` or a ``'p/q'`` string in [0, 1]. Rules, in order:
