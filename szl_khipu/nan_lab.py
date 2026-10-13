@@ -13,6 +13,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Callable
 from urllib.parse import urlparse
 
+try:
+    from szl_khipu.http_body import SOCKET_TIMEOUT_S, guarded, int_field, read_json_object
+except ImportError:  # standalone `python3 nan_lab.py` from inside szl_khipu/: same stdlib parser
+    from http_body import SOCKET_TIMEOUT_S, guarded, int_field, read_json_object  # type: ignore[no-redef]
+
 DOCTRINE = {"name": "SZL KHIPU", "doctrine": "v11 LOCKED", "locked_declarations": 749, "axioms": 14, "sorries": 163, "locked_proven": 8, "conjecture_1": "OPEN", "energy_status": "UNAVAILABLE", "proven_trust": False, "hash": "djb2 silhouette · not SHA3", "github_org": "szl-holdings", "github_org_not": "SZLHoldings", "hf_org": "SZLHOLDINGS", "canonical_repo": "szl-holdings/szl-khipu", "what_not": "Not Medusa. Not PBFT. Not Lamport. Not a CRDT. Not RAPL. Not a fabricated joule."}
 VISION = {"product": "a-11-oy.com", "proof": "a11oy.net", "lab": "szl-holdings/szl-khipu", "hub": "SZLHOLDINGS/szl-khipu", "l2_abstention": "CONTROLLER_ONLY HOLD"}
 
@@ -303,13 +308,29 @@ run();
 </script>
 """
 
+def _post(name: str, body: dict[str, Any]) -> dict[str, Any]:
+    """One cut, with its inputs checked: absent → default, present but invalid → 400."""
+    if name == "djb2":
+        s = str(body.get("s", ""))
+        return {"algo": "djb2", "digest": djb2(s), "energy_status": "UNAVAILABLE", "proven_trust": False}
+    fn = RUNNERS[name]
+    seed = int_field(body, "seed", 11)
+    kwargs = {k: int_field(body, k, 0) for k in ("mode", "tamper") if k in body and k in inspect.signature(fn).parameters}
+    return fn(seed, **kwargs)
+
 class H(BaseHTTPRequestHandler):
+    # Per-socket-operation timeout: a stalled client cannot hold a worker thread.
+    timeout = SOCKET_TIMEOUT_S
     def log_message(self, *_a: Any) -> None:
         return
     def _send(self, code: int, body: bytes, ctype: str) -> None:
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
+        if code >= 400:
+            # A rejected request may leave unread body bytes; never parse them as the next request.
+            self.close_connection = True
+            self.send_header("Connection", "close")
         self.end_headers()
         self.wfile.write(body)
     def do_GET(self) -> None:
@@ -321,22 +342,12 @@ class H(BaseHTTPRequestHandler):
         self._send(404, b'{"error":"nope"}', "application/json")
     def do_POST(self) -> None:
         path = urlparse(self.path).path
-        n = int(self.headers.get("Content-Length") or 0)
-        raw = self.rfile.read(n) if n else b"{}"
-        try:
-            body = json.loads(raw.decode() or "{}")
-        except json.JSONDecodeError:
-            body = {}
         name = path.rsplit("/", 1)[-1]
-        if name == "djb2":
-            s = str(body.get("s", ""))
-            return self._send(200, json.dumps({"algo": "djb2", "digest": djb2(s), "energy_status": "UNAVAILABLE", "proven_trust": False}).encode(), "application/json")
-        fn = RUNNERS.get(name)
-        if not fn:
+        if name != "djb2" and name not in RUNNERS:
             return self._send(404, b'{"error":"nope"}', "application/json")
-        seed = int(body.get("seed", 11) or 11)
-        kwargs = {k: int(body[k]) for k in ("mode", "tamper") if k in body and k in inspect.signature(fn).parameters}
-        self._send(200, json.dumps(fn(seed, **kwargs)).encode(), "application/json")
+        # One strict parser (szl_khipu.http_body): bounded, strict JSON object, explicit 4xx.
+        code, payload = guarded(lambda: _post(name, read_json_object(self.headers, self.rfile)))
+        self._send(code, json.dumps(payload).encode(), "application/json")
 
 def main() -> int:
     p = argparse.ArgumentParser()

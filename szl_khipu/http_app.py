@@ -38,6 +38,15 @@ from szl_khipu import (
     yarqa_attn,
 )
 from szl_khipu.doctrine import DOCTRINE, proven_trust
+from szl_khipu.http_body import (
+    SOCKET_TIMEOUT_S,
+    RequestRejected,
+    guarded,
+    int_field,
+    read_json_object,
+    real_field,
+    real_list_field,
+)
 from szl_khipu.train import mini_embed, moons, receipt_agent, tiny_khipu
 
 SOURCE = "szl-holdings/szl-khipu"
@@ -73,12 +82,10 @@ def _stamp(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def api_lambda(body: dict[str, Any]) -> dict[str, Any]:
-    axes = body.get("axes") or list(YUYAY_FLOORS)
-    axes = [float(x) for x in axes]
-    if body.get("zero") is not None:
-        i = int(body["zero"])
-        if 0 <= i < len(axes):
-            axes[i] = 0.0
+    # Absent axes take the YUYAY floors; a present but malformed list is a 400, never the floors.
+    axes = real_list_field(body, "axes", YUYAY_FLOORS)
+    if "zero" in body:
+        axes[int_field(body, "zero", 0, minimum=0, maximum=len(axes) - 1)] = 0.0
     ev = evaluate_lambda(axes)
     CHAIN.emit("lambda", "evaluate", {"value": ev["value"], "blocked": ev["blocked"]})
     return _stamp(
@@ -94,7 +101,7 @@ def api_lambda(body: dict[str, Any]) -> dict[str, Any]:
 
 def api_anatomy(body: dict[str, Any]) -> dict[str, Any]:
     ev = evaluate_anatomy(
-        seed=int(body.get("seed", 11)),
+        seed=int_field(body, "seed", 11),
         zero_heart=bool(body.get("zero_heart")),
         leak_canal=bool(body.get("leak_canal")),
         tamper_chain=bool(body.get("tamper_chain")),
@@ -131,11 +138,17 @@ def api_greenlight(body: dict[str, Any]) -> dict[str, Any]:
     return _stamp(dict(ev))
 
 
+# Bounds on the demo attention shape: probs is seq x seq float64 (8 MiB at the cap).
+YARQA_MAX_SEQ = 1024
+YARQA_MAX_DIM = 256
+
+
 def api_yarqa(body: dict[str, Any]) -> dict[str, Any]:
-    rng = np.random.default_rng(int(body.get("seed", 7)))
-    seq = int(body.get("seq", 12))
-    dim = int(body.get("dim", 4))
-    n_canals = int(body.get("n_canals", 3))
+    seed = int_field(body, "seed", 7, minimum=0)
+    seq = int_field(body, "seq", 12, minimum=1, maximum=YARQA_MAX_SEQ)
+    dim = int_field(body, "dim", 4, minimum=1, maximum=YARQA_MAX_DIM)
+    n_canals = int_field(body, "n_canals", 3, minimum=1, maximum=seq)
+    rng = np.random.default_rng(seed)
     q = k = v = rng.standard_normal((seq, dim))
     out, _probs, leaked = yarqa_attn(q, k, v, n_canals=n_canals)
     CHAIN.emit("yarqa", "attn", {"leaked": float(leaked), "n_canals": n_canals})
@@ -152,7 +165,7 @@ def api_yarqa(body: dict[str, Any]) -> dict[str, Any]:
 
 
 def api_tiledigest(body: dict[str, Any]) -> dict[str, Any]:
-    tamper = int(body.get("tamper", 0))
+    tamper = int_field(body, "tamper", 0)
     y = run_tile_grid(8, 4, 4, 4, tamper)
     CHAIN.emit("tiledigest", "run", {"tamper": tamper, "gridBreaks": y.get("gridBreaks")})
     return _stamp(dict(y))
@@ -160,7 +173,7 @@ def api_tiledigest(body: dict[str, Any]) -> dict[str, Any]:
 
 def api_prefix(body: dict[str, Any]) -> dict[str, Any]:
     y = run_prefix(
-        seed=int(body.get("seed", 11)),
+        seed=int_field(body, "seed", 11),
         hijack=_flag(body, "hijack"),
         query=str(body.get("query") or "NAV"),
     )
@@ -169,13 +182,13 @@ def api_prefix(body: dict[str, Any]) -> dict[str, Any]:
 
 
 def api_route(body: dict[str, Any]) -> dict[str, Any]:
-    y = run_route(seed=int(body.get("seed", 11)), tamper=_flag(body, "tamper"))
+    y = run_route(seed=int_field(body, "seed", 11), tamper=_flag(body, "tamper"))
     CHAIN.emit("route", "run", {"hold": y.get("hold"), "tamper": _flag(body, "tamper")})
     return _stamp(dict(y))
 
 
 def api_bench(body: dict[str, Any]) -> dict[str, Any]:
-    seed = int(body.get("seed", 11))
+    seed = int_field(body, "seed", 11)
     lam = evaluate_lambda(list(YUYAY_FLOORS))
     rng = np.random.default_rng(seed)
     q = k = v = rng.standard_normal((12, 4))
@@ -363,9 +376,10 @@ def api_infer(body: dict[str, Any]) -> dict[str, Any]:
             }
         )
     if kind == "moons":
+        # Validate before any weights load: a malformed point is a 400, not a forward pass.
+        x = real_field(body, "x", 0.2)
+        y = real_field(body, "y", 0.3)
         w = _moons_weights()
-        x = float(body.get("x", 0.2))
-        y = float(body.get("y", 0.3))
         pred = moons.predict(w, np.array([[x, y]], dtype=np.float64))
         CHAIN.emit("infer", "moons", {"class": int(pred[0])})
         return _stamp(
@@ -427,13 +441,31 @@ ROUTES = {
 }
 
 
+def _query_body(query: str) -> dict[str, Any]:
+    """GET query-string inputs, converted with the same no-default-substitution rule."""
+    qs = parse_qs(query, keep_blank_values=True)
+    body: dict[str, Any] = {k: v[0] if len(v) == 1 else v for k, v in qs.items()}
+    if "axes" in body:
+        if not isinstance(body["axes"], str):
+            raise RequestRejected(400, "axes must appear once, as comma-separated numbers")
+        try:
+            body["axes"] = [float(x) for x in body["axes"].split(",")] if body["axes"] else []
+        except ValueError:
+            raise RequestRejected(400, "axes must be comma-separated numbers") from None
+    return body
+
+
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
+    # Per-socket-operation timeout: a stalled client cannot hold a worker thread.
+    timeout = SOCKET_TIMEOUT_S
 
     def log_message(self, fmt: str, *args: Any) -> None:  # noqa: A003
         sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
 
-    def _send(self, code: int, payload: Any, content_type: str = "application/json") -> None:
+    def _send(
+        self, code: int, payload: Any, content_type: str = "application/json", *, close: bool = False
+    ) -> None:
         if isinstance(payload, (dict, list)):
             raw = json.dumps(payload, sort_keys=True).encode("utf-8")
         elif isinstance(payload, str):
@@ -445,6 +477,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("content-length", str(len(raw)))
         self.send_header("cache-control", "no-store")
         self.send_header("access-control-allow-origin", "*")
+        if close:
+            # A rejected request may leave unread body bytes; never parse them as the next request.
+            self.close_connection = True
+            self.send_header("connection", "close")
         self.end_headers()
         self.wfile.write(raw)
 
@@ -506,32 +542,21 @@ class Handler(BaseHTTPRequestHandler):
             self._send(200, api_version())
             return
         if path in ROUTES:
-            qs = parse_qs(urlparse(self.path).query)
-            body = {k: v[0] if len(v) == 1 else v for k, v in qs.items()}
-            if "axes" in body and isinstance(body["axes"], str):
-                body["axes"] = [float(x) for x in body["axes"].split(",") if x]
-            self._send(200, ROUTES[path](body))
+            query = urlparse(self.path).query
+            code, payload = guarded(lambda: ROUTES[path](_query_body(query)))
+            self._send(code, payload)
             return
         self._send(404, {"error": "not found", "proven_trust": False})
 
     def do_POST(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
         if path not in ROUTES:
-            self._send(404, {"error": "not found", "proven_trust": False})
+            self._send(404, {"error": "not found", "proven_trust": False}, close=True)
             return
-        length = int(self.headers.get("content-length") or 0)
-        raw = self.rfile.read(length) if length else b"{}"
-        try:
-            body = json.loads(raw.decode("utf-8") or "{}")
-            if not isinstance(body, dict):
-                raise ValueError("body must be an object")
-        except (json.JSONDecodeError, ValueError) as exc:
-            self._send(400, {"error": str(exc), "proven_trust": False})
-            return
-        try:
-            self._send(200, ROUTES[path](body))
-        except Exception as exc:  # noqa: BLE001 — surface kernel fail-closed, never a fake 200
-            self._send(400, {"error": str(exc), "blocked": True, "proven_trust": False})
+        # One strict parser (szl_khipu.http_body): bounded, strict JSON object, explicit 4xx.
+        # Kernel and input faults fail closed as a 400 with the reason, never a fake 200.
+        code, payload = guarded(lambda: ROUTES[path](read_json_object(self.headers, self.rfile)))
+        self._send(code, payload, close=code != 200)
 
 
 def make_server(host: str = "0.0.0.0", port: int = 7860) -> ThreadingHTTPServer:

@@ -10,6 +10,7 @@ Uniqueness of Λ is Conjecture 1 — never a theorem.
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -25,6 +26,34 @@ if (ROOT / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT))
 elif (ROOT.parent / "szl_khipu").is_dir():
     sys.path.insert(0, str(ROOT.parent))
+
+
+def _load_body_parser():
+    """The one strict request-body parser, szl_khipu/http_body.py (stdlib only).
+
+    The package import needs numpy; the parser does not, so the stdlib fallback
+    loads the same file by path. With no parser at all, POST answers 503.
+    """
+    try:
+        from szl_khipu import http_body  # type: ignore
+
+        return http_body
+    except Exception:
+        pass
+    for base in (ROOT, ROOT.parent):
+        path = base / "szl_khipu" / "http_body.py"
+        if path.is_file():
+            spec = importlib.util.spec_from_file_location("szl_khipu_http_body", path)
+            if spec and spec.loader:
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                return module
+    return None
+
+
+_body = _load_body_parser()
+# The Space yarqa demo runs a fixed 12-token sequence; n_canals must split it.
+YARQA_SEQ = 12
 
 HTML = ROOT / "index.html"
 STATIC_ASSETS = {
@@ -355,6 +384,9 @@ def _stdlib_wgm(axes: list[float]) -> float:
 
 
 class Handler(BaseHTTPRequestHandler):
+    # Per-socket-operation timeout: a stalled client cannot hold a worker thread.
+    timeout = _body.SOCKET_TIMEOUT_S if _body is not None else 10.0
+
     def log_message(self, fmt: str, *args) -> None:
         return
 
@@ -363,6 +395,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        if code >= 400:
+            # A rejected request may leave unread body bytes; never read them as a request.
+            self.close_connection = True
+            self.send_header("Connection", "close")
         self.end_headers()
         if self.command != "HEAD":
             self.wfile.write(body)
@@ -486,8 +522,9 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 self._json(200, payload)
             return
+        # GET runs each demo on its explicit defaults.
         if path == "/api/lambda":
-            self._lambda({})
+            self._lambda(list(YUYAY_FLOORS))
             return
         if path == "/api/greenlight":
             self._greenlight({})
@@ -496,40 +533,49 @@ class Handler(BaseHTTPRequestHandler):
             self._anatomy({})
             return
         if path == "/api/yarqa":
-            self._yarqa({})
+            self._yarqa(3)
             return
         if path in _api_extra:
-            self._json(200, _api_extra[path]({}))
+            self._extra(path, {})
             return
         self._send(404, b"not found", "text/plain")
 
     def do_POST(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        n = int(self.headers.get("Content-Length") or 0)
-        raw = self.rfile.read(n) if n else b"{}"
+        if path not in ("/api/lambda", "/api/yarqa", "/api/anatomy", "/api/greenlight") and path not in _api_extra:
+            self._send(404, b"not found", "text/plain")
+            return
+        if _body is None:
+            self._json(503, {"error": "request parser UNAVAILABLE", "kernel": KERNEL, "blocked": True, "proven_trust": False})
+            return
+        # One strict parser (szl_khipu.http_body): bounded, strict JSON object, explicit 4xx.
+        # Content-Length: 0 is the explicit empty body and runs the demo defaults;
+        # a malformed body is rejected, never replaced by the defaults.
         try:
-            data = json.loads(raw.decode())
-        except Exception:
-            data = {}
-        if path == "/api/lambda":
-            self._lambda(data)
-            return
-        if path == "/api/yarqa":
-            self._yarqa(data)
-            return
-        if path == "/api/anatomy":
-            self._anatomy(data)
-            return
-        if path == "/api/greenlight":
-            self._greenlight(data)
-            return
-        if path in _api_extra:
-            self._json(200, _api_extra[path](data if isinstance(data, dict) else {}))
-            return
-        self._send(404, b"not found", "text/plain")
+            data = _body.read_json_object(self.headers, self.rfile)
+            if path == "/api/lambda":
+                self._lambda(_body.real_list_field(data, "axes", YUYAY_FLOORS))
+            elif path == "/api/yarqa":
+                self._yarqa(_body.int_field(data, "n_canals", 3, minimum=1, maximum=YARQA_SEQ))
+            elif path == "/api/anatomy":
+                self._anatomy(data)
+            elif path == "/api/greenlight":
+                self._greenlight(data)
+            else:
+                self._extra(path, data)
+        except _body.RequestRejected as exc:
+            self._json(exc.status, {**exc.payload(), "kernel": KERNEL})
 
-    def _lambda(self, data: dict) -> None:
-        axes = [float(x) for x in (data.get("axes") or list(YUYAY_FLOORS))]
+    def _extra(self, path: str, data: dict) -> None:
+        try:
+            payload = _api_extra[path](data)
+        except Exception as exc:  # noqa: BLE001 — input or kernel fault: explicit 400, never a 500
+            rejected = isinstance(exc, getattr(_body, "RequestRejected", ()))
+            self._json(exc.status if rejected else 400, {"error": str(exc), "kernel": KERNEL, "blocked": True, "proven_trust": False})
+            return
+        self._json(200, payload)
+
+    def _lambda(self, axes: list) -> None:
         try:
             if _evaluate_lambda is not None:
                 ev = _evaluate_lambda(axes)
@@ -556,8 +602,7 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as exc:
             self._json(400, {"error": str(exc), "kernel": KERNEL, "honesty": "MEASURED"})
 
-    def _yarqa(self, data: dict) -> None:
-        n = int(data.get("n_canals") or 3)
+    def _yarqa(self, n: int) -> None:
         if _yarqa_attn is None:
             self._json(
                 200,
@@ -574,7 +619,7 @@ class Handler(BaseHTTPRequestHandler):
             import numpy as np
 
             rng = np.random.default_rng(7)
-            seq, dim = 12, 4
+            seq, dim = YARQA_SEQ, 4
             q = rng.standard_normal((seq, dim))
             k = rng.standard_normal((seq, dim))
             v = rng.standard_normal((seq, dim))
