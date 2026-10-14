@@ -103,6 +103,10 @@ def read_exact(rfile: Any, length: int, *, deadline_s: float = BODY_DEADLINE_S) 
             raise RequestRejected(
                 400, f"truncated request body: received {length - remaining} of {length} bytes"
             )
+        # The final blocking read can return after the total deadline, too.
+        # Keep EOF and I/O failures above on their existing error paths.
+        if time.monotonic() > deadline:
+            raise RequestRejected(408, "request body was not received in time")
         chunks.append(chunk)
         remaining -= len(chunk)
     return b"".join(chunks)
