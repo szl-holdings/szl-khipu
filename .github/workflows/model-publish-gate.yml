@@ -51,8 +51,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Secret pattern scan (stdlib)
         run: |
-          # gitleaks for orgs is paid; the scan is replaced with a self-contained grep
-          grep -rEn "AIza[0-9A-Za-z_-]{35}|ghp_[A-Za-z0-9]{36,}|sk-[A-Za-z0-9]{20,}|-----BEGIN PRIVATE KEY-----" --exclude-dir=.git . && exit 1 || true
+          # Split the marker literal so this scanner does not match its own source.
+          pattern='AIza[0-9A-Za-z_-]{35}|ghp_[A-Za-z0-9]{36,}|sk-[A-Za-z0-9]{20,}|-----BEGIN ''PRIVATE KEY-----'
+          if grep -rE --exclude-dir=.git -- "$pattern" . >/dev/null; then
+            echo '::error::Secret-shaped material detected; inspect locally without exposing values.'
+            exit 1
+          else
+            status=$?
+            if [ "$status" -ne 1 ]; then
+              echo '::error::Secret scan failed to read its selected files.'
+              exit 1
+            fi
+          fi
       - name: Reject pickle payloads
         run: |
           if find "${{ inputs.model_dir }}" -name '*.pkl' -o -name '*.pt' -o -name 'pytorch_model.bin' | grep .; then
