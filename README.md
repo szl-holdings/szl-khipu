@@ -195,6 +195,22 @@ python scripts/train_and_export.py
 # honesty REPORTED · energy_j null · proven_trust false · whatNot listed
 ```
 
+ReceiptAgent keeps the historical 600 training / 200 development examples and
+selects weights and stops using **development** agreement. Its `agree` and
+`n_held` return values are compatibility aliases for `development_agree` and
+`n_development`; they are not independent test results. After selection, the
+trainer measures `test_agree` once on 400 additional synthetic examples from a
+separate deterministic random stream. Duplicate feature rows within or across
+all three splits are rejected before training, independently of labels.
+New export receipts include both scores, split counts, and explicit metric roles.
+Historical receipts and weights are not rewritten by this source change.
+
+This test measures the same synthetic generator, not unseen source families or
+production model quality. Repeated runs on the same seed reuse the same test
+examples, so that test must not become a hyperparameter-selection target. The
+deterministic `rule_check` remains authoritative, including when the surrogate
+disagrees; this evaluation grants no GPU-training or production admission.
+
 ## Kernels vs field leaders (honest deltas)
 
 | SZL cut | Field leader | Honest delta |

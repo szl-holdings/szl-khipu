@@ -80,6 +80,13 @@ def main() -> int:
             "steps": agent_ev.get("steps"),
             "loss": None,
             "agree": agent_ev.get("agree"),
+            "agree_role": "development_selection",
+            "development_agree": agent_ev.get("development_agree"),
+            "test_agree": agent_ev.get("test_agree"),
+            "test_role": "synthetic_post_selection",
+            "n_train": agent_ev.get("n_train"),
+            "n_development": agent_ev.get("n_development"),
+            "n_test": agent_ev.get("n_test"),
             "what": "ReceiptAgent-Nano 4-way gate silhouette; kernel is truth",
         },
         "moons.npz": {
