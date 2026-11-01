@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any, Sequence
 
 import numpy as np
@@ -32,6 +33,10 @@ D: int = 12
 NAVIGATE: int = 1
 ABSTAIN: int = 0
 
+# Curriculum labels use whole identifiers. The legacy model tokenizer below
+# is intentionally unchanged so existing weight files keep their encoding.
+_FORMULA_PATTERN = re.compile(r"\b(?:" + "|".join(FORMULA_TOKS[:8]) + r")\b")
+
 
 def tok_id(s: str) -> int:
     up = s.upper()
@@ -47,11 +52,8 @@ def tok_id(s: str) -> int:
 
 
 def _formula_in(text: str) -> str | None:
-    up = text.upper()
-    for tok in FORMULA_TOKS[:8]:
-        if tok in up:
-            return tok
-    return None
+    match = _FORMULA_PATTERN.search(text.upper())
+    return match.group(0) if match is not None else None
 
 
 def synth_curriculum(n: int = 80, seed: int = 20260721) -> list[dict[str, Any]]:
@@ -71,8 +73,6 @@ def synth_curriculum(n: int = 80, seed: int = 20260721) -> list[dict[str, Any]]:
                 f"{FORMULA_TOKS[int(rng.integers(0, 16))]} spare",
                 "unrelated theorem",
             ]
-            decision = NAVIGATE
-            cite = [0]
         else:
             query = f"ask about {tok} with no handle"
             spare_pool = [t for t in FORMULA_TOKS if t != tok]
@@ -82,14 +82,15 @@ def synth_curriculum(n: int = 80, seed: int = 20260721) -> list[dict[str, Any]]:
                 f"{spare} spare",
                 "unrelated theorem",
             ]
-            decision = ABSTAIN
-            cite = []
         handles = [{"id": f"h.{i}.{tag}", "note": note} for tag, note in zip("abc", notes)]
         # Label is the conjunction the user asked for.
         qtok = _formula_in(query)
-        handle_hit = qtok is not None and any(qtok in h["note"].upper() for h in handles)
-        decision = NAVIGATE if handle_hit else ABSTAIN
-        cite = [0] if decision == NAVIGATE else []
+        matches = [
+            hi for hi, h in enumerate(handles)
+            if qtok is not None and qtok in _FORMULA_PATTERN.findall(h["note"].upper())
+        ]
+        decision = NAVIGATE if matches else ABSTAIN
+        cite = matches[:1]
         out.append(
             {
                 "query": query,
