@@ -82,9 +82,47 @@ def _step(w: dict[str, np.ndarray], X: np.ndarray, y: np.ndarray, lr: float) -> 
     return loss
 
 
+def _evaluation_array(value: np.ndarray, name: str) -> np.ndarray:
+    """Reject non-real and non-finite evaluation values before coercion."""
+    raw = np.asarray(value)
+    if np.iscomplexobj(raw):
+        raise ValueError(f"{name} must contain finite real values")
+    array = np.asarray(raw, dtype=np.float64)
+    if not np.isfinite(array).all():
+        raise ValueError(f"{name} must contain finite real values")
+    return array
+
+
 def accuracy(w: dict[str, np.ndarray], X: np.ndarray, y: np.ndarray) -> float:
-    pred = np.argmax(forward(w, X)["p"], axis=1)
-    return float(np.mean(pred == y))
+    """Score one binary label per example; invalid evidence is not a score."""
+    features = _evaluation_array(X, "X")
+    if features.ndim == 1:
+        features = features[None, :]
+    if features.ndim != 2 or features.shape[1] != IN or not len(features):
+        raise ValueError(f"X must contain at least one row of {IN} features")
+
+    labels = np.asarray(y)
+    if labels.ndim == 0 and len(features) == 1:
+        labels = labels.reshape(1)
+    if (labels.shape != (len(features),) or labels.dtype.kind not in "biuf"
+            or not np.isin(labels, [0, 1]).all()):
+        raise ValueError("y must contain exactly one binary label per example")
+
+    shapes = {"W1": (H, IN), "b1": (H,), "W2": (OUT, H), "b2": (OUT,)}
+    weights = {}
+    for name, shape in shapes.items():
+        if name not in w:
+            raise ValueError(f"missing weight array {name}")
+        weights[name] = _evaluation_array(w[name], name)
+        if weights[name].shape != shape:
+            raise ValueError(f"{name} must have shape {shape}")
+
+    probabilities = forward(weights, features)["p"]
+    if probabilities.shape != (len(features), OUT) or not np.isfinite(probabilities).all():
+        raise ValueError("model produced invalid evaluation probabilities")
+    pred = np.argmax(probabilities, axis=1)
+    return float(np.mean(pred == labels))
+
 
 
 def train(
@@ -116,3 +154,4 @@ def load_npz(path: str) -> dict[str, np.ndarray]:
 
 def predict(w: dict[str, np.ndarray], X: np.ndarray) -> np.ndarray:
     return np.argmax(forward(w, X)["p"], axis=1)
+
