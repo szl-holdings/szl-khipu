@@ -197,7 +197,7 @@ def _step(
 
 
 def agree(w: dict[str, np.ndarray], X: np.ndarray, y: np.ndarray) -> float:
-    """Held-out agreement with rule_check (kernel)."""
+    """Agreement with rule_check; the caller determines the split's role."""
     pred = predict(w, X)
     kernel = np.array([rule_check(row) for row in X], dtype=np.int64)
     # y should already be kernel labels; use kernel explicitly.
@@ -211,11 +211,40 @@ def train(
     lr: float = 0.08,
     batch: int = 10_000,
 ) -> tuple[dict[str, np.ndarray], dict[str, float]]:
+    """Select on development data, then score once on a separate synthetic test.
+
+    ``agree`` and ``n_held`` remain compatibility aliases for the development
+    score/count. They are not independent test results. Only ``test_agree``
+    describes the 400 post-selection examples; all examples are synthetic and
+    drawn from the same generator, not a production qualification corpus.
+    """
     X, y = synth_features(800, seed)
     n = X.shape[0]
     split = int(0.75 * n)
     Xtr, ytr = X[:split], y[:split]
-    Xho, yho = X[split:], y[split:]
+    Xdev, ydev = X[split:], y[split:]
+    # A separate deterministic stream preserves the historical train/dev rows
+    # and optimizer sequence. Its score never controls selection or retries.
+    test_seed = int(np.random.SeedSequence([int(seed), 1_000_003]).generate_state(1)[0])
+    Xtest, ytest = synth_features(400, test_seed)
+    all_features = np.vstack((Xtr, Xdev, Xtest))
+    if np.unique(all_features, axis=0).shape[0] != all_features.shape[0]:
+        # Compare features only (including +0.0 == -0.0), independently of labels.
+        raise ValueError("duplicate feature rows within or across synthetic splits")
+
+    def result(weights: dict[str, np.ndarray], development_agree: float, steps: int):
+        return weights, {
+            "agree": development_agree,
+            "development_agree": development_agree,
+            "test_agree": agree(weights, Xtest, ytest),
+            "steps": float(steps),
+            "n_held": float(Xdev.shape[0]),
+            "n_train": float(Xtr.shape[0]),
+            "n_development": float(Xdev.shape[0]),
+            "n_test": float(Xtest.shape[0]),
+            "kernel_wins": 1.0,
+        }
+
     rng = np.random.default_rng(int(seed) + 1)
     best_w: dict[str, np.ndarray] | None = None
     best_agree = -1.0
@@ -231,27 +260,16 @@ def train(
                 _step(w, Xtr[idx], ytr[idx], lr_i)
             used_steps = step + 1 + attempt * int(max_steps)
             if step % 15 == 0 or step == max_steps - 1:
-                held = agree(w, Xho, yho)
-                if held > best_agree:
-                    best_agree = held
+                development = agree(w, Xdev, ydev)
+                if development > best_agree:
+                    best_agree = development
                     best_w = {k: v.copy() for k, v in w.items()}
-                if held >= target_agree:
-                    return w, {
-                        "agree": held,
-                        "steps": float(used_steps),
-                        "n_held": float(Xho.shape[0]),
-                        "kernel_wins": 1.0,
-                    }
+                if development >= target_agree:
+                    return result(w, development, used_steps)
             if step > 0 and step % 120 == 0:
                 lr_i *= 0.8
     assert best_w is not None
-    held = agree(best_w, Xho, yho)
-    return best_w, {
-        "agree": held,
-        "steps": float(used_steps),
-        "n_held": float(Xho.shape[0]),
-        "kernel_wins": 1.0,
-    }
+    return result(best_w, best_agree, used_steps)
 
 
 def decide(features: np.ndarray, weights: dict[str, np.ndarray] | None = None) -> dict[str, Any]:
