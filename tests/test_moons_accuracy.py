@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 """Accuracy must compare one finite, valid prediction per labelled example."""
-import unittest
-from unittest import mock
+from unittest import TestCase, main, mock
 
 import numpy as np
 
 from szl_khipu.train import moons
 
 
-class MoonsAccuracyTests(unittest.TestCase):
+class MoonsAccuracyTests(TestCase):
     def setUp(self):
         self.weights = {
             "W1": np.zeros((moons.H, moons.IN)),
@@ -87,4 +86,4 @@ class MoonsAccuracyTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
