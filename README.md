@@ -90,15 +90,32 @@ pip install -e ".[torch]"    # optional — torch path; CUDA still UNAVAILABLE h
 
 Requires Python ≥ 3.11. Runtime dep: `numpy>=1.26`. Apache-2.0.
 
+## Verify
+
+```bash
+pip install -e ".[test]"
+python -m pytest -q tests                  # package suite (CI also runs it as `python -m unittest discover -s tests`)
+szl-khipu verify artifacts/TRAINING_RECEIPT.json   # recompute the committed archives' sha256 (exit 1 on any mismatch)
+(cd hardware/khipu-x1 && pip install -e ".[dev]" && python -m pytest -q)   # KHIPU-X1 software reference
+```
+
+The Gradio demo has its own pinned install and real-SDK smoke test; see [spaces/README.md](spaces/README.md).
+
 ## Python frontend + backend
 
 Stdlib HTTP. Same process serves the holographic UI and runs the kernels. No Gradio required.
 
 ```bash
 szl-khipu serve --host 0.0.0.0 --port 7860
-# GET  /healthz  /version  /api/lambda  /api/greenlight  /api/anatomy
-# POST /api/lambda  /api/anatomy  /api/greenlight  /api/yarqa  /api/tiledigest
+# GET          /  /healthz  /version  /api/version  /.well-known/szl-source.json
+# GET or POST  /api/lambda  /api/anatomy  /api/greenlight  /api/yarqa  /api/tiledigest
+#              /api/prefix  /api/route  /api/bench  /api/infer
 ```
+
+A malformed request is an explicit 4xx with its reason, never a default-filled 200.
+`/api/infer` reports which weights answered: the committed `artifacts/*.npz`
+(with its sha256) in a checkout or the Space, or a small on-request build when a
+wheel install has no `artifacts/`.
 
 Gold = OPEN. Proof teal = LIVE. Never green-as-proven. Energy UNAVAILABLE. Conjecture 1 stays OPEN.
 
@@ -175,10 +192,14 @@ Canonical anatomy repo: [szl-holdings/anatomy](https://github.com/szl-holdings/a
 ### Train TinyKhipu
 
 ```bash
-szl-khipu train --seed 20260721 --steps 280 --out artifacts
-# writes artifacts/tiny_khipu.npz + artifacts/training_receipt.json
-szl-khipu verify artifacts/training_receipt.json
+szl-khipu train --seed 20260721 --steps 280 --out runs/tinykhipu
+# writes runs/tinykhipu/tiny_khipu.npz + runs/tinykhipu/training_receipt.json
+szl-khipu verify runs/tinykhipu/training_receipt.json
+# exit 1 if a declared file is missing or its sha256 differs
 ```
+
+`--out` defaults to `runs/tinykhipu` under the working directory. Keep runs out
+of `artifacts/`, which holds the committed, Hub-published export.
 
 ```python
 from szl_khipu import train_tiny_khipu
@@ -187,13 +208,22 @@ result = train_tiny_khipu(seed=20260721, steps=280)
 print(result.plan_valid, result.abstain, result.hallucinated)
 ```
 
-Export all three silhouettes (TinyKhipu, ReceiptAgent, moons) and a combined receipt:
+Export all three silhouettes (TinyKhipu, ReceiptAgent, moons), the MiniEmbed table and a combined receipt:
 
 ```bash
-python scripts/train_and_export.py
-# artifacts/*.npz + artifacts/TRAINING_RECEIPT.json
+python scripts/train_and_export.py --out runs/export
+# runs/export/*.npz + runs/export/TRAINING_RECEIPT.json
 # honesty REPORTED · energy_j null · proven_trust false · whatNot listed
+szl-khipu verify runs/export/TRAINING_RECEIPT.json
 ```
+
+Without `--out` the script rewrites the committed `artifacts/` in place. Those
+four archives are the historical 2026-08-29 export; the four Nano Hub repos and
+the Space carry the same bytes (their LFS SHA-256 values equal
+`artifacts/TRAINING_RECEIPT.json`). Current source does not reproduce those file
+digests: TinyKhipu's arrays changed with the curriculum fix in #103, and
+ReceiptAgent, moons and MiniEmbed regenerate identical arrays inside a
+differently versioned zip container, so their file SHA-256 differs too.
 
 ReceiptAgent keeps the historical 600 training / 200 development examples and
 selects weights and stops using **development** agreement. Its `agree` and
@@ -277,6 +307,8 @@ Doctrine **v11 LOCKED** · 749 declarations · 14 axioms · 163 tracked sorries 
 |---|---|
 | [hf/TinyKhipu-Nano](hf/TinyKhipu-Nano/README.md) | NAVIGATE/ABSTAIN silhouette |
 | [hf/ReceiptAgent-Nano](hf/ReceiptAgent-Nano/README.md) | 4-way gate; kernel is truth |
+| [hf/Moons-Nano](hf/Moons-Nano/README.md) | 2→8→2 two-moons fixture |
+| [hf/MiniEmbed-Nano](hf/MiniEmbed-Nano/README.md) | 64 × 12 hash-token table, not a neural embedding |
 | [hf/szl-khipu-kernels](hf/szl-khipu-kernels/README.md) | Kernel Hub card; `get_kernel` |
 | [space/](space/README.md) | Hub docker hologram — stdlib HTTP, no Gradio |
 | [spaces/](spaces/README.md) | Gradio 6 demo (GitHub only; separate Docker publisher uses `space/`) |
