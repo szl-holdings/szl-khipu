@@ -5,13 +5,19 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import threading
 import unittest
+from pathlib import Path
+from unittest import mock
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
+from szl_khipu import http_app
 from szl_khipu.doctrine import proven_trust
 from szl_khipu.http_app import SZL_ASSETS, SZL_DIR, make_server
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class HttpAppTests(unittest.TestCase):
@@ -135,6 +141,38 @@ class HttpAppTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as ctx:
             self._get("/nope")
         self.assertEqual(ctx.exception.code, 404)
+
+    def test_infer_unknown_kind_is_an_explicit_400_not_a_200(self) -> None:
+        for kind in ("nope", "TINY_KHIPU", "1.5B"):
+            with self.subTest(kind=kind), self.assertRaises(HTTPError) as ctx:
+                self._post("/api/infer", {"kind": kind})
+            self.assertEqual(ctx.exception.code, 400)
+            payload = json.loads(ctx.exception.read().decode("utf-8"))
+            self.assertIn("unknown kind", payload["error"])
+            self.assertTrue(payload["blocked"])
+            self.assertIs(payload["proven_trust"], False)
+
+    def test_infer_names_the_committed_archive_that_answered(self) -> None:
+        receipt = json.loads((ROOT / "artifacts" / "TRAINING_RECEIPT.json").read_text("utf-8"))
+        for kind, body, archive in (
+            ("tiny_khipu", {}, "tiny_khipu.npz"),
+            ("receipt_agent", {}, "receipt_agent.npz"),
+            ("moons", {"x": 0.2, "y": 0.3}, "moons.npz"),
+            ("mini_embed", {"query": "F18"}, "mini_embed.npz"),
+        ):
+            with self.subTest(kind=kind):
+                weights = self._post("/api/infer", {"kind": kind, **body})["weights"]
+                self.assertEqual(weights["source"], f"artifacts/{archive}")
+                self.assertEqual(weights["sha256"], receipt["artifacts"][archive]["sha256"])
+
+    def test_infer_without_committed_archives_says_it_built_weights(self) -> None:
+        with tempfile.TemporaryDirectory() as empty, \
+                mock.patch.object(http_app, "_ART", Path(empty)), \
+                mock.patch.dict(http_app._INFER_CACHE, {}, clear=True):
+            weights = http_app.api_infer({"kind": "moons"})["weights"]
+        self.assertEqual(weights["source"], "built-on-request (committed archive absent)")
+        self.assertEqual((weights["seed"], weights["steps"]), (20260721, 80))
+        self.assertNotIn("sha256", weights)
 
     def test_page_loads_vendored_szl_design_system_locally(self) -> None:
         _code, raw, _ctype = self._get("/")

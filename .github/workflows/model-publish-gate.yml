@@ -4,6 +4,14 @@
 #    generate says otherwise."
 # A model MAY NOT be uploaded to the Hub unless every gate below passes and
 # the receipt verifies. Wire as a required status check on the release branch.
+#
+# STATUS (2026-11-06): scaffold, never passed. No model export is committed
+# (artifacts/model/ holds only README.md and .gitkeep), data/dataset-manifest.json
+# and receipts/dataset-admission.json do not exist, and the cyclonedx, syft,
+# grype, cosign and huggingface-cli tools called below are not installed by
+# this workflow, so every run stops at or before Gate 1 (last runs: failures on
+# 2026-09-01 and 2026-09-04). Nothing has been published through this gate.
+# The ledger anchor step is a dry-run stub that exits 1 unless --dry-run.
 name: model-publish-gate
 
 on:
@@ -33,13 +41,12 @@ concurrency:
   group: publish-${{ github.workflow }}-${{ inputs.model_repo || 'push' }}
   cancel-in-progress: false
 
+# Least privilege: read-only by default; only the sign job mints an OIDC token
+# and writes attestations, and only the Hub upload step receives HF_TOKEN.
 permissions:
   contents: read
-  attestations: write
-  id-token: write                      # Sigstore keyless identity
 
 env:
-  HF_TOKEN: ${{ secrets.HF_TOKEN_PUBLISH }}   # write-scoped, rotates quarterly
   BOM_OUT: bom/model-bom.cdx.json
   MANIFEST_OUT: release/run-manifest.json
 
@@ -146,6 +153,10 @@ jobs:
   sign:
     needs: model-bom
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write                  # Sigstore keyless identity
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Emit run manifest
@@ -176,7 +187,7 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with: { name: signed-release, path: release/ }
 
-  # ── Gate 5: adversarial conformance suite (14 vectors, incl. SIGv1 bug) ──
+  # ── Gate 5: receipt conformance suite (5 implemented vectors, V01–V05) ──
   conformance:
     needs: sign
     runs-on: ubuntu-latest
@@ -188,10 +199,13 @@ jobs:
             --vectors conformance/vectors/ \
             --receipt release/run-manifest.json \
             --require-all-pass
-          # Vectors: deletion, reorder, replay, cross-tenant, chain fork,
-          # signer substitution, alg confusion, DSSE PAE malleation (V11 bug),
-          # timestamp rollback, policy-bundle swap, model-digest swap,
-          # trace mismatch, quantization mismatch, fail-open
+          # Implemented (conformance/README.md): V01 canonicalization, V02 DSSE
+          # PAE byte length (V11 malleation regression), V03 minimal-DER
+          # signature parse, V04 prev_hash linkage (fork/replay), V05 timestamp
+          # monotonicity (rollback). NOT implemented: deletion, reorder,
+          # cross-tenant, signer substitution, alg confusion, policy-bundle
+          # swap, model-digest swap, trace mismatch, quantization mismatch,
+          # fail-open.
 
   # ── Final gate: publication_eligible === true, then publish ─────────────
   publish:
@@ -233,6 +247,8 @@ jobs:
             --template cards/model-card.md.tmpl \
             --out release/README.md
       - name: Upload to Hub (gated)
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN_PUBLISH }}   # write-scoped, rotates quarterly
         run: |
           huggingface-cli upload "${{ inputs.model_repo }}" \
             "${{ inputs.model_dir }}" . \

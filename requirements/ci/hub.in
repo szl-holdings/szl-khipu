@@ -1,0 +1,7 @@
+# CI install set for the token-bearing Hub publisher (.github/workflows/publish-hf.yml).
+# Mirrors pyproject.toml [project].dependencies + the `hub` extra;
+# tests/test_ci_requirements.py fails if the two drift apart.
+# Regenerate the hash lock after editing:
+#   uv pip compile requirements/ci/hub.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/hub.txt
+numpy>=1.26
+huggingface_hub>=0.24

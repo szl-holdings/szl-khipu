@@ -18,3 +18,5 @@ htmlcov/
 .vscode/
 artifacts/*.tmp
 *.pyc
+# Local `szl-khipu train` runs (default --out runs/tinykhipu); artifacts/ is the committed export.
+runs/

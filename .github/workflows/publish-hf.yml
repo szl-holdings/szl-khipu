@@ -54,9 +54,14 @@ jobs:
         run: >-
           python scripts/publish_hf.py --publication-policy
           --github-output "$GITHUB_OUTPUT"
+      # Hash-locked (requirements/ci/hub.in mirrors pyproject's deps + `hub`
+      # extra): this job receives the Hub write token, so nothing it executes is
+      # resolved at run time. ci.yml's hub-lock job proves the lock on every PR.
       - name: Install provider dependencies
         if: steps.publication.outputs.publish_enabled == 'true'
-        run: python -m pip install --upgrade pip && pip install -e ".[hub]"
+        run: |
+          python -m pip install --require-hashes -r requirements/ci/hub.txt
+          python -m pip install --no-deps -e .
       - name: Publish to Hugging Face
         if: steps.publication.outputs.publish_enabled == 'true'
         id: publish

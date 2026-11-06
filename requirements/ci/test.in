@@ -1,0 +1,8 @@
+# CI install set for the package test job (.github/workflows/ci.yml, job `test`).
+# Mirrors pyproject.toml [project].dependencies + the `test` extra;
+# tests/test_ci_requirements.py fails if the two drift apart.
+# Regenerate the hash lock after editing:
+#   uv pip compile requirements/ci/test.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/test.txt
+numpy>=1.26
+pytest
+PyYAML>=6.0,<7

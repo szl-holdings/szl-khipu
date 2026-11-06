@@ -9,6 +9,7 @@ Never claims 1.5B trained here. Never fabricates joules.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import sys
@@ -41,10 +42,18 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main() -> int:
+def main(argv: list[str] | tuple[str, ...] = ()) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--out",
+        default=None,
+        help="output directory (default: the repository's artifacts/, i.e. rewrite the committed export "
+        "in place; pass a scratch directory to export without touching it)",
+    )
+    args = parser.parse_args(list(argv))
     if proven_trust is True:
         raise SystemExit("refusing proven_trust true")
-    art = ROOT / "artifacts"
+    art = Path(args.out) if args.out else ROOT / "artifacts"
     art.mkdir(parents=True, exist_ok=True)
 
     seed = 20260721
@@ -144,4 +153,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

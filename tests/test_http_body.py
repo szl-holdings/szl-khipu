@@ -325,6 +325,7 @@ class PackageAppBody(_BodyContract, unittest.TestCase):
             "/api/route": ({"seed": None},),
             "/api/bench": ({"seed": [11]},),
             "/api/tiledigest": ({"tamper": "x"},),
+            "/api/infer": ({"kind": "nope"}, {"kind": "1.5B"}),
         }
         for path, bodies in cases.items():
             for body in bodies:
@@ -409,7 +410,8 @@ class SpaceServerBody(_BodyContract, unittest.TestCase):
                 status, payload = self.post(json.dumps(body).encode(), path="/api/yarqa")
                 self.assertEqual(status, 400, payload)
         for path, body in (("/api/prefix", {"seed": "x"}), ("/api/route", {"seed": True}),
-                           ("/api/bench", {"seed": 1.5}), ("/api/infer", {"kind": "moons", "y": "abc"})):
+                           ("/api/bench", {"seed": 1.5}), ("/api/infer", {"kind": "moons", "y": "abc"}),
+                           ("/api/infer", {"kind": "nope"})):
             with self.subTest(path=path, body=body):
                 status, payload = self.post(json.dumps(body).encode(), path=path)
                 self.assertEqual(status, 400, payload)

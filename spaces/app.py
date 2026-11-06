@@ -139,7 +139,7 @@ FOOTER = """
 <footer class="holo-foot">
   <div>Source: <a href="https://github.com/szl-holdings/szl-khipu" target="_blank" rel="noopener">szl-holdings/szl-khipu</a>
    · Hub <a href="https://huggingface.co/SZLHOLDINGS/szl-khipu" target="_blank" rel="noopener">SZLHOLDINGS/szl-khipu</a>
-   · hologram language from <a href="https://huggingface.co/spaces/SZLHOLDINGS/lambda-gate-holo" target="_blank" rel="noopener">lambda-gate-holo</a>.</div>
+   · hologram language from the retired lambda-gate-holo Space (deleted 2026-09-04); Λ kernel: <a href="https://github.com/szl-holdings/szl-lambda-gate" target="_blank" rel="noopener">szl-holdings/szl-lambda-gate</a>.</div>
   <div>SZL Holdings · governed AI you can prove · Λ = Conjecture 1, never a theorem · trust ceiling 0.97 · energy UNAVAILABLE · never a fabricated joule.</div>
 </footer>
 """
