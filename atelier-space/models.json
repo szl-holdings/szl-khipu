@@ -1255,9 +1255,9 @@
       "intended": "Wrap decode. Write joules into the receipt or write UNAVAILABLE.",
       "play": "meter",
       "github": {
-        "repo": "szl-holdings/governed-inference-meter",
-        "path": "README.md",
-        "module": "governed_inference_meter"
+        "repo": "szl-holdings/szl-energy-attest",
+        "path": "hf-kernels/governed-inference-meter/README.md",
+        "module": "szl_energy_attest.inference_meter"
       }
     },
     {
@@ -1869,10 +1869,10 @@
       "slug": "szl-organ-integrity",
       "name": "szl-organ-integrity",
       "kind": "github",
-      "href": "https://github.com/szl-holdings/szl-organ-integrity",
+      "href": "https://github.com/szl-holdings/anatomy/blob/main/organ_integrity.py",
       "oneLiner": "Five-organ fail-closed integrity kernel. Replay it. SHA-256. Energy UNAVAILABLE.",
       "cut": "Integrity is usually a dashboard. Ours is a kernel you can replay, with joules honestly missing.",
-      "when": "landed today",
+      "when": "repo archived; byte-identical kernel in anatomy",
       "evidence": "GitHub \u00b7 \u039b = Conjecture 1"
     },
     {

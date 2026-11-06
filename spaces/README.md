@@ -43,6 +43,6 @@ The dedicated CI smoke test imports the real SDK, starts a loopback server, chec
 
 Gold means OPEN. Proof teal means LIVE. Never green-as-proven. Never a fabricated joule.
 
-Source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu) · Hub: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu) · hologram: [lambda-gate-holo](https://huggingface.co/spaces/SZLHOLDINGS/lambda-gate-holo)
+Source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu) · Hub: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu) · hologram language from the retired `lambda-gate-holo` Space (deleted 2026-09-04; the Λ kernel lives in [szl-holdings/szl-lambda-gate](https://github.com/szl-holdings/szl-lambda-gate))
 
 Apache-2.0. Copyright 2026 SZL Holdings. Doctrine v11 LOCKED · 749/14/163.

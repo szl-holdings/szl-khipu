@@ -48,7 +48,7 @@ Governed-AI khipu: an advisory Λ-gate, original YARQA canal attention, a TinyKh
 
 Canonical GitHub source: [szl-holdings/szl-khipu](https://github.com/szl-holdings/szl-khipu)  
 Hub card: [SZLHOLDINGS/szl-khipu](https://huggingface.co/SZLHOLDINGS/szl-khipu)  
-Kernels: [SZLHOLDINGS/szl-khipu-kernels](https://huggingface.co/kernels/SZLHOLDINGS/szl-khipu-kernels)
+Kernels: [SZLHOLDINGS/szl-khipu-kernels](https://huggingface.co/SZLHOLDINGS/szl-khipu-kernels)
 
 The canonical `publish-hf` workflow mirrors `szl_khipu/`, `README.md`, `LICENSE`,
 and `pyproject.toml` from immutable Git blobs in one Hub model commit. Its
@@ -102,7 +102,7 @@ szl-khipu serve --host 0.0.0.0 --port 7860
 
 Gold = OPEN. Proof teal = LIVE. Never green-as-proven. Energy UNAVAILABLE. Conjecture 1 stays OPEN.
 
-Static JS silhouette (not the NumPy kernel): [docs/index.html](docs/index.html) · [szl-holdings/khipu-pages](https://github.com/szl-holdings/khipu-pages) · [htmlpreview](https://htmlpreview.github.io/?https://github.com/szl-holdings/khipu-pages/blob/main/index.html).
+Static JS silhouette (not the NumPy kernel): [docs/index.html](docs/index.html) · live at [holdings.a-11-oy.com/khipu/](https://holdings.a-11-oy.com/khipu/) (served by [szl-holdings/szl-holdings.github.io](https://github.com/szl-holdings/szl-holdings.github.io/blob/main/khipu/index.html)). The former `khipu-pages` repository is archived.
 
 ## Quickstart
 
