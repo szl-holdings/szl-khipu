@@ -29,6 +29,12 @@ python spaces/app.py
 
 The dedicated CI smoke test imports the real SDK, starts a loopback server, checks its configuration, and calls the live NumPy callbacks through the Gradio client. It never downloads models or enables a public sharing tunnel. This local demo test is not evidence of a deployed Hub runtime.
 
+CI installs the same set from the hash-locked `requirements/ci/gradio-demo.txt` (`pip install --require-hashes`, then `pip install --no-deps -e .`). When the Gradio pin in `requirements.txt` changes, also update `sdk_version` above and the version assertion in `tests/gradio_runtime.py`, and regenerate the lock; `tests/test_ci_requirements.py` fails until the lock carries the pinned Gradio:
+
+```sh
+uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/gradio-demo.txt
+```
+
 **Conjecture 1 OPEN. energy UNAVAILABLE. proven_trust=false.** CPU numpy LIVE. CUDA UNAVAILABLE. Not Qwen. Not 1.5B. Not a FlashAttention rehost.
 
 | Tab | What you get | What you do not get |

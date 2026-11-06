@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - "hardware/khipu-x1/**"
+      - "requirements/ci/khipu-x1.txt"
       - ".github/workflows/khipu-x1-reference.yml"
   push:
     branches: [main]
     paths:
       - "hardware/khipu-x1/**"
+      - "requirements/ci/khipu-x1.txt"
       - ".github/workflows/khipu-x1-reference.yml"
 
 permissions:
@@ -22,12 +24,17 @@ jobs:
         working-directory: hardware/khipu-x1
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.11"
           cache: pip
-          cache-dependency-path: hardware/khipu-x1/pyproject.toml
-      - name: Install reference package
-        run: python -m pip install -e ".[dev]"
+          cache-dependency-path: requirements/ci/khipu-x1.txt
+      # requirements/ci/khipu-x1.in mirrors this package's deps + `dev` extra.
+      - name: Install hash-locked dependencies, then the reference package
+        run: |
+          python -m pip install --require-hashes -r ../../requirements/ci/khipu-x1.txt
+          python -m pip install --no-deps -e .
       - name: Run KIDS v0.1 conformance
         run: pytest -q
