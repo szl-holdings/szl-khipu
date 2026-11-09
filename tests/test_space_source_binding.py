@@ -564,6 +564,155 @@ class SpaceSourceBindingTests(unittest.TestCase):
                         )
                     self.assertFalse(output.exists())
 
+    def test_deploy_manifest_requires_exact_github_sha_and_ignores_git(self):
+        provenance = {
+            "schema": "szl.hf-deployment-tree/v3",
+            "source_repository": "szl-holdings/szl-khipu",
+            "source_commit": SOURCE_SHA,
+            "hf_repository": "SZLHOLDINGS/szl-khipu",
+            "workflow_name": "publish-hf",
+            "workflow_run_id": 123,
+            "workflow_run_attempt": 2,
+            "artifact_name_prefix": PUBLISH.ARTIFACT_PREFIX,
+            "tree_sha256": "ab" * 32,
+        }
+        with (
+            mock.patch.dict(os.environ, IDENTITY_ENV, clear=True),
+            mock.patch.object(
+                PUBLISH.subprocess,
+                "run",
+                side_effect=AssertionError("git consulted"),
+            ),
+        ):
+            manifest = PUBLISH._hub_deploy_manifest(provenance, "cd" * 32)
+        self.assertEqual(manifest["schema"], "szl.hf-deploy-manifest/v1")
+        self.assertEqual(manifest["source_revision"], SOURCE_SHA)
+        self.assertEqual(manifest["source_commit"], SOURCE_SHA)
+        self.assertNotIn("hf_revision", manifest)
+        self.assertNotIn("ref", manifest)
+
+        refused = [
+            {},
+            {**IDENTITY_ENV, "GITHUB_SHA": "main"},
+            {**IDENTITY_ENV, "GITHUB_SHA": ""},
+        ]
+        for environment in refused:
+            with self.subTest(environment=environment):
+                with (
+                    mock.patch.dict(os.environ, environment, clear=True),
+                    self.assertRaises(RuntimeError),
+                ):
+                    PUBLISH._hub_deploy_manifest(provenance, "cd" * 32)
+
+        drifted = {**provenance, "source_commit": "b" * 40}
+        with (
+            mock.patch.dict(os.environ, IDENTITY_ENV, clear=True),
+            self.assertRaisesRegex(RuntimeError, "GITHUB_SHA"),
+        ):
+            PUBLISH._hub_deploy_manifest(drifted, "cd" * 32)
+
+    def test_space_publish_emits_root_manifest_without_fabricating_revision(self):
+        hf_revision = "d" * 40
+        captured = {}
+
+        def upload_folder(**kwargs):
+            folder = Path(kwargs["folder_path"])
+            raw = (folder / "hf-deploy-manifest.json").read_bytes()
+            deployed = json.loads(raw.decode("utf-8"))
+            build_info = json.loads(
+                (folder / "szl_khipu" / "build-info.json").read_text(encoding="utf-8")
+            )
+            provenance = (folder / "szl_khipu" / "hf-deployment-provenance.json").read_bytes()
+            captured["deployed"] = deployed
+            captured["raw"] = raw
+            captured["build_info"] = build_info
+            captured["provenance_sha256"] = hashlib.sha256(provenance).hexdigest()
+            captured["kwargs"] = kwargs
+            captured["attested"] = {
+                item["path"] for item in PUBLISH._deployment_manifest(folder)["files"]
+            }
+            return mock.Mock(oid=hf_revision.upper())
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            provenance_path = root / "hf-deployment-provenance.json"
+            receipt_path = root / "hf-deployment-receipt.json"
+            output = root / "github-output"
+            api = mock.Mock()
+            api.upload_folder.side_effect = upload_folder
+            with mock.patch.dict(os.environ, IDENTITY_ENV, clear=True):
+                PUBLISH.prepare_provenance(provenance_path)
+                receipt = PUBLISH._publish_space(
+                    api,
+                    provenance_path,
+                    receipt_path,
+                    str(output),
+                    "SZLHOLDINGS/szl-khipu",
+                )
+            stored = json.loads(receipt_path.read_text(encoding="utf-8"))
+            github_output = output.read_text(encoding="utf-8")
+
+        self.assertEqual(captured["kwargs"]["repo_id"], "SZLHOLDINGS/szl-khipu")
+        self.assertEqual(captured["kwargs"]["repo_type"], "space")
+        deployed = captured["deployed"]
+        self.assertEqual(deployed["source_revision"], SOURCE_SHA)
+        self.assertEqual(deployed["provenance_sha256"], captured["provenance_sha256"])
+        self.assertNotIn("hf_revision", deployed)
+        self.assertNotIn(hf_revision, captured["raw"].decode("utf-8"))
+        self.assertNotIn("hf-deploy-manifest.json", captured["attested"])
+        self.assertNotIn("szl_khipu/hf-deploy-manifest.json", captured["attested"])
+        self.assertEqual(
+            captured["build_info"]["deploy_manifest_sha256"],
+            hashlib.sha256(captured["raw"]).hexdigest(),
+        )
+        self.assertEqual(captured["build_info"]["manifest_sha256"], captured["provenance_sha256"])
+        self.assertEqual(receipt["hf_revision"], hf_revision)
+        self.assertEqual(stored["deploy_manifest_sha256"], captured["build_info"]["deploy_manifest_sha256"])
+        self.assertEqual(stored["hf_revision"], hf_revision)
+        self.assertIn(f"-hf-{hf_revision}", github_output)
+        dockerfile = (ROOT / "space" / "Dockerfile").read_text(encoding="utf-8")
+        self.assertNotIn("hf-deploy-manifest.json", dockerfile)
+        api.add_space_variable.assert_called_once_with(
+            repo_id="SZLHOLDINGS/szl-khipu",
+            key="SZL_DEPLOYED_HF_REVISION",
+            value=hf_revision,
+        )
+
+    def test_runtime_keeps_fail_closed_when_build_info_names_deploy_manifest(self):
+        def bind(_root, _provenance, build, metadata):
+            build.write_text(
+                json.dumps(
+                    {
+                        **metadata,
+                        "deploy_manifest_path": "hf-deploy-manifest.json",
+                        "deploy_manifest_sha256": "e" * 64,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+        payload, error = self.resolve(mutate=bind)
+        self.assertIsNone(error)
+        self.assertEqual(payload["state"], "SOURCE_BOUND_DEPLOYMENT")
+        self.assertEqual(payload["source"]["commit"], SOURCE_SHA)
+
+        def corrupt(_root, _provenance, build, metadata):
+            build.write_text(
+                json.dumps(
+                    {
+                        **metadata,
+                        "deploy_manifest_path": "hf-deploy-manifest.json",
+                        "deploy_manifest_sha256": "e" * 64,
+                        "source_commit": "main",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+        payload, error = self.resolve(mutate=corrupt)
+        self.assertEqual(payload["state"], "UNKNOWN")
+        self.assertIsNotNone(error)
+
 
 if __name__ == "__main__":
     unittest.main()

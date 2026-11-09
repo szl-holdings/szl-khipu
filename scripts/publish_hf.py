@@ -26,6 +26,7 @@ PUBLISH_EVENT_TYPE = "publish-hf"
 ARTIFACT_PREFIX = "szl-khipu-hf-provenance-v3"
 DEPLOYMENT_REVISION_VARIABLE = "SZL_DEPLOYED_HF_REVISION"
 PROVENANCE_NAME = "hf-deployment-provenance.json"
+DEPLOY_MANIFEST_NAME = "hf-deploy-manifest.json"
 RECEIPT_NAME = "hf-deployment-receipt.json"
 MODEL_BINDING_NAME = "MODEL_SOURCE_BINDING.json"
 MODEL_RECEIPT_NAME = "hf-model-source-receipt.json"
@@ -283,6 +284,159 @@ def prepare_provenance(output: Path) -> dict:
         shutil.rmtree(staging, ignore_errors=True)
 
 
+def _hub_deploy_manifest(provenance: dict, provenance_sha256: str) -> dict:
+    """Bind the census file to GITHUB_SHA. The Hub revision does not exist yet.
+
+    This file is part of the commit ``upload_folder`` returns. Writing that
+    revision here would invent it. Git HEAD and branch refs are not consulted.
+    """
+    if not isinstance(provenance, dict):
+        raise RuntimeError("deployment provenance must be an object")
+    if provenance.get("schema") != "szl.hf-deployment-tree/v3":
+        raise RuntimeError("deployment provenance schema is not the attested tree")
+    identity = _identity()
+    source_revision = str(provenance.get("source_commit") or "").lower()
+    if not SHA40.fullmatch(source_revision):
+        raise RuntimeError("deploy manifest requires an immutable source commit")
+    if source_revision != identity["source_commit"]:
+        raise RuntimeError("refusing deploy manifest that is not the exact GITHUB_SHA")
+    for field in (
+        "source_repository",
+        "hf_repository",
+        "workflow_name",
+        "workflow_run_id",
+        "workflow_run_attempt",
+    ):
+        if provenance.get(field) != identity[field]:
+            raise RuntimeError(f"deploy manifest {field} mismatch")
+    provenance_sha256 = str(provenance_sha256).lower()
+    tree_sha256 = str(provenance.get("tree_sha256") or "").lower()
+    if not SHA256.fullmatch(provenance_sha256) or not SHA256.fullmatch(tree_sha256):
+        raise RuntimeError("deploy manifest digests must be 64 lowercase hex characters")
+    return {
+        "schema": "szl.hf-deploy-manifest/v1",
+        "source_repository": identity["source_repository"],
+        "source_commit": source_revision,
+        "source_revision": source_revision,
+        "source_paths": ["artifacts", "space", "szl_khipu"],
+        "workflow_name": identity["workflow_name"],
+        "workflow_path": WORKFLOW_PATH,
+        "workflow_run_id": identity["workflow_run_id"],
+        "workflow_run_attempt": identity["workflow_run_attempt"],
+        "destination": {
+            "repo_id": identity["hf_repository"],
+            "repo_type": "space",
+        },
+        "provenance_path": f"szl_khipu/{PROVENANCE_NAME}",
+        "provenance_schema": provenance["schema"],
+        "provenance_sha256": provenance_sha256,
+        "tree_sha256": tree_sha256,
+    }
+
+
+def _attach_space_evidence(
+    staging: Path,
+    provenance: dict,
+    provenance_bytes: bytes,
+) -> dict:
+    """Write runtime evidence and the root census manifest before upload."""
+    evidence_root = staging / "szl_khipu"
+    evidence_root.mkdir(parents=True, exist_ok=True)
+    provenance_sha256 = hashlib.sha256(provenance_bytes).hexdigest()
+    deploy = _hub_deploy_manifest(provenance, provenance_sha256)
+    if "hf_revision" in deploy:
+        raise RuntimeError("refusing to fabricate a Hub revision in the deploy manifest")
+    deploy_path = staging / DEPLOY_MANIFEST_NAME
+    if deploy_path.exists() or (evidence_root / DEPLOY_MANIFEST_NAME).exists():
+        raise RuntimeError("refusing to replace an existing deploy manifest")
+    deploy_bytes = _write_json(deploy_path, deploy)
+    if b'"hf_revision"' in deploy_bytes:
+        raise RuntimeError("deploy manifest embedded a Hub revision")
+    (evidence_root / PROVENANCE_NAME).write_bytes(provenance_bytes)
+    deploy_manifest_sha256 = hashlib.sha256(deploy_bytes).hexdigest()
+    build_info = {
+        "schema": "szl.hf-build-info/v3",
+        **_identity(),
+        "manifest_sha256": provenance_sha256,
+        "tree_sha256": provenance["tree_sha256"],
+        "deploy_manifest_path": DEPLOY_MANIFEST_NAME,
+        "deploy_manifest_sha256": deploy_manifest_sha256,
+    }
+    _write_json(evidence_root / "build-info.json", build_info)
+    return {
+        "manifest_sha256": provenance_sha256,
+        "deploy_manifest_sha256": deploy_manifest_sha256,
+        "build_info": build_info,
+    }
+
+
+def _publish_space(
+    api,
+    provenance_path: Path,
+    receipt_path: Path,
+    github_output: str | None,
+    repo_id: str,
+) -> dict:
+    """Upload one Space commit that already contains the census manifest."""
+    if repo_id != HF_REPOSITORY:
+        raise RuntimeError("Space publication target is not the governed repository")
+    staging = _stage_space()
+    try:
+        manifest, manifest_bytes = _validated_provenance(staging, provenance_path)
+        evidence = _attach_space_evidence(staging, manifest, manifest_bytes)
+        deploy_path = staging / DEPLOY_MANIFEST_NAME
+        deployed = json.loads(deploy_path.read_text(encoding="utf-8"))
+        if deployed.get("source_revision") != manifest["source_commit"]:
+            raise RuntimeError("deploy manifest is not bound to the immutable source commit")
+        if "hf_revision" in deployed:
+            raise RuntimeError("refusing to upload a deploy manifest that names a Hub revision")
+        attested = {item["path"] for item in manifest["files"]}
+        if DEPLOY_MANIFEST_NAME in attested or f"szl_khipu/{DEPLOY_MANIFEST_NAME}" in attested:
+            raise RuntimeError("deploy manifest must stay outside the attested runtime tree")
+        print("uploading hologram space", repo_id, flush=True)
+        commit_info = api.upload_folder(
+            folder_path=str(staging),
+            repo_id=repo_id,
+            repo_type="space",
+            commit_message="source-bound hologram + package",
+            delete_patterns=["*", "**/*"],
+        )
+        hf_revision = str(getattr(commit_info, "oid", "")).lower()
+        if not SHA40.fullmatch(hf_revision):
+            raise RuntimeError("Hugging Face upload did not return an immutable commit")
+        if json.loads(deploy_path.read_text(encoding="utf-8")).get("hf_revision"):
+            raise RuntimeError("upload revision leaked into the committed deploy manifest")
+        artifact_name = _deployment_artifact_name(
+            manifest["workflow_run_attempt"],
+            evidence["manifest_sha256"],
+            hf_revision,
+        )
+        _publish_runtime_revision(api, repo_id, hf_revision)
+        receipt = {
+            "schema": "szl.hf-deployment-receipt/v3",
+            **_identity(),
+            "artifact_name": artifact_name,
+            "manifest_sha256": evidence["manifest_sha256"],
+            "tree_sha256": manifest["tree_sha256"],
+            "hf_revision": hf_revision,
+            "deploy_manifest_path": DEPLOY_MANIFEST_NAME,
+            "deploy_manifest_sha256": evidence["deploy_manifest_sha256"],
+        }
+        _write_json(receipt_path, receipt)
+        if github_output:
+            _append_github_output(Path(github_output), artifact_name)
+        print(
+            "uploaded source-bound hologram",
+            repo_id,
+            hf_revision,
+            artifact_name,
+            flush=True,
+        )
+        return receipt
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+
+
 def _validated_provenance(staging: Path, path: Path) -> tuple[dict, bytes]:
     try:
         encoded = path.read_bytes()
@@ -533,59 +687,13 @@ def main(argv: list[str] | None = None) -> int:
 
     provenance_path = Path(args.provenance_file).resolve()
     receipt_path = Path(args.receipt_file).resolve()
-    staging = _stage_space()
-    try:
-        manifest, manifest_bytes = _validated_provenance(staging, provenance_path)
-        evidence_root = staging / "szl_khipu"
-        evidence_root.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(provenance_path, evidence_root / PROVENANCE_NAME)
-        manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
-        build_info = {
-            "schema": "szl.hf-build-info/v3",
-            **_identity(),
-            "manifest_sha256": manifest_sha256,
-            "tree_sha256": manifest["tree_sha256"],
-        }
-        _write_json(evidence_root / "build-info.json", build_info)
-
-        sid = f"{org}/szl-khipu"
-        print("uploading hologram space", sid, flush=True)
-        commit_info = api.upload_folder(
-            folder_path=str(staging),
-            repo_id=sid,
-            repo_type="space",
-            commit_message="source-bound hologram + package",
-            delete_patterns=["*", "**/*"],
-        )
-        hf_revision = str(getattr(commit_info, "oid", "")).lower()
-        if not SHA40.fullmatch(hf_revision):
-            raise RuntimeError("Hugging Face upload did not return an immutable commit")
-        artifact_name = _deployment_artifact_name(
-            manifest["workflow_run_attempt"],
-            manifest_sha256,
-            hf_revision,
-        )
-        _publish_runtime_revision(api, sid, hf_revision)
-        receipt = {
-            "schema": "szl.hf-deployment-receipt/v3",
-            **_identity(),
-            "artifact_name": artifact_name,
-            "manifest_sha256": manifest_sha256,
-            "tree_sha256": manifest["tree_sha256"],
-            "hf_revision": hf_revision,
-        }
-        _write_json(receipt_path, receipt)
-        if args.github_output:
-            _append_github_output(Path(args.github_output), artifact_name)
-        print(
-            "uploaded source-bound hologram",
-            sid,
-            hf_revision,
-            artifact_name,
-            flush=True,
-        )
-    finally:
-        shutil.rmtree(staging, ignore_errors=True)
+    _publish_space(
+        api,
+        provenance_path,
+        receipt_path,
+        args.github_output,
+        f"{org}/szl-khipu",
+    )
 
     print("uploaded models + source-bound hologram space to", org)
     return 0
