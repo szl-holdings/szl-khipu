@@ -29,3 +29,22 @@ updates:
       pip:
         patterns:
           - "*"
+
+  # Hash-locked CI install sets (requirements/ci/*.txt, compiled by uv from the
+  # matching .in files). tests/test_ci_requirements.py fails when a lock drifts
+  # from pyproject.toml or spaces/requirements.txt and prints the regeneration
+  # command.
+  - package-ecosystem: "pip"
+    directory: "/requirements/ci"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 5
+    groups:
+      ci-locks:
+        patterns:
+          - "*"

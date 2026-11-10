@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any, Sequence
@@ -32,8 +33,11 @@ WHAT_NOT = [
 ]
 
 
-def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+# Working-directory relative and outside artifacts/: that directory holds the
+# committed, Hub-published historical silhouettes, which a retrain must never
+# overwrite (current source does not reproduce their bytes).
+DEFAULT_RUN_DIR = Path("runs") / "tinykhipu"
+SHA256_HEX = re.compile(r"^[0-9a-f]{64}$")
 
 
 def cmd_train(args: argparse.Namespace) -> int:
@@ -53,7 +57,9 @@ def cmd_train(args: argparse.Namespace) -> int:
         "plan_valid": ev.get("plan_valid"),
         "abstain": ev.get("abstain"),
         "hallucinated": ev.get("hallucinated"),
-        "weights": str(npz_path),
+        # Relative to this receipt's directory, so `verify` finds the weights
+        # wherever the run directory is moved or whatever the caller's cwd is.
+        "weights": npz_path.name,
         "sha256": digest,
         "honesty": "REPORTED",
         "proven_trust": False,
@@ -157,45 +163,84 @@ def cmd_demo_tiledigest(args: argparse.Namespace) -> int:
     return 0 if y["gridBreaks"] == 0 or args.tamper != 0 else 1
 
 
+def _refuse(reason: str, **extra: Any) -> int:
+    print(json.dumps({"ok": False, "reason": reason, **extra}), file=sys.stderr)
+    return 1
+
+
+def _weights_candidates(receipt: Path, declared: str) -> list[Path]:
+    """Where a declared weights file may live, without consulting the caller's cwd.
+
+    Relative paths resolve against the receipt's directory. Receipts written by
+    earlier versions of ``train`` recorded a cwd-relative path (for example
+    ``artifacts/tiny_khipu.npz``) for a file that ``train`` always writes next
+    to the receipt, so the file name in the receipt's directory is the second
+    candidate. Any candidate is accepted only when its bytes match the digest.
+    """
+    blob = Path(declared)
+    if blob.is_absolute():
+        return [blob]
+    candidates = [receipt.parent / blob]
+    if blob.name and receipt.parent / blob.name not in candidates:
+        candidates.append(receipt.parent / blob.name)
+    return candidates
+
+
 def cmd_verify(args: argparse.Namespace) -> int:
+    """Fail closed: every declared digest must be recomputed over bytes that exist."""
     path = Path(args.receipt)
-    if not path.exists():
-        print(json.dumps({"ok": False, "reason": f"missing {path}"}), file=sys.stderr)
-        return 1
-    data: dict[str, Any] = json.loads(path.read_text())
+    if not path.is_file():
+        return _refuse(f"missing {path}")
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return _refuse(f"unreadable receipt {path}: {exc}")
+    if not isinstance(data, dict):
+        return _refuse("receipt is not a JSON object")
     if data.get("proven_trust") is True:
-        print(json.dumps({"ok": False, "reason": "proven_trust true is forbidden"}), file=sys.stderr)
-        return 1
-    if data.get("energy_j") not in (None,):
-        print(json.dumps({"ok": False, "reason": "fabricated joule"}), file=sys.stderr)
-        return 1
+        return _refuse("proven_trust true is forbidden")
+    if data.get("energy_j") is not None:
+        return _refuse("fabricated joule")
+
+    checks: list[tuple[str, list[Path], Any]] = []
     weights = data.get("weights")
     digest = data.get("sha256")
-    if weights and digest:
-        blob = Path(str(weights))
-        if not blob.is_absolute():
-            blob = path.parent / blob
-        if blob.exists():
-            actual = hashlib.sha256(blob.read_bytes()).hexdigest()
-            if actual != digest:
-                print(json.dumps({"ok": False, "reason": "sha256 mismatch", "actual": actual}), file=sys.stderr)
-                return 1
-    artifacts = data.get("artifacts") or {}
-    for name, meta in artifacts.items():
-        sha = (meta or {}).get("sha256") if isinstance(meta, dict) else None
-        if not sha:
-            continue
-        blob = path.parent / name
-        if blob.exists():
-            actual = hashlib.sha256(blob.read_bytes()).hexdigest()
-            if actual != sha:
-                print(json.dumps({"ok": False, "reason": f"sha256 mismatch {name}", "actual": actual}), file=sys.stderr)
-                return 1
+    if weights is not None or digest is not None:
+        if not isinstance(weights, str) or not weights:
+            return _refuse("receipt declares a sha256 without a weights path")
+        checks.append((weights, _weights_candidates(path, weights), digest))
+    artifacts = data.get("artifacts")
+    if artifacts is not None:
+        if not isinstance(artifacts, dict):
+            return _refuse("receipt artifacts must be an object")
+        for name, meta in artifacts.items():
+            sha = meta.get("sha256") if isinstance(meta, dict) else None
+            if sha is None:
+                continue  # descriptive entries without a digest are not claims to verify
+            if Path(name).is_absolute() or ".." in Path(name).parts:
+                return _refuse(f"artifact name escapes the receipt directory: {name}")
+            checks.append((name, [path.parent / name], sha))
+    if not checks:
+        # A receipt with nothing to hash is not evidence; never report it as verified.
+        return _refuse("receipt declares no artifact digest to verify")
+
+    verified = []
+    for name, candidates, sha in checks:
+        if not isinstance(sha, str) or not SHA256_HEX.fullmatch(sha):
+            return _refuse(f"malformed sha256 for {name}")
+        blob = next((c for c in candidates if c.is_file()), None)
+        if blob is None:
+            return _refuse(f"declared file is missing: {name}", looked_in=[str(c) for c in candidates])
+        actual = hashlib.sha256(blob.read_bytes()).hexdigest()
+        if actual != sha:
+            return _refuse(f"sha256 mismatch {name}", path=str(blob), actual=actual, expected=sha)
+        verified.append({"file": str(blob), "sha256": actual})
     print(
         json.dumps(
             {
                 "ok": True,
                 "path": str(path),
+                "verified": verified,
                 "honesty": data.get("honesty", "REPORTED"),
                 "proven_trust": False,
                 "energy_status": data.get("energy_status", "UNAVAILABLE"),
@@ -223,7 +268,12 @@ def build_parser() -> argparse.ArgumentParser:
     t = sub.add_parser("train", help="Train TinyKhipu silhouette; write npz + training_receipt.json")
     t.add_argument("--seed", type=int, default=20260721)
     t.add_argument("--steps", type=int, default=280)
-    t.add_argument("--out", type=str, default=str(_repo_root() / "artifacts"))
+    t.add_argument(
+        "--out",
+        type=str,
+        default=str(DEFAULT_RUN_DIR),
+        help=f"run directory, relative to the working directory (default: {DEFAULT_RUN_DIR})",
+    )
     t.set_defaults(func=cmd_train)
 
     d = sub.add_parser("demo-lambda", help="Score 13 Yuyay axes through the advisory Λ gate")
@@ -253,8 +303,11 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--tamper", type=int, default=0, help="0 clean · 1 coarser Br · 2 drop last K-tile")
     g.set_defaults(func=cmd_demo_tiledigest)
 
-    v = sub.add_parser("verify", help="Replay a training receipt (hash + honesty)")
-    v.add_argument("receipt", nargs="?", default=str(_repo_root() / "artifacts" / "training_receipt.json"))
+    v = sub.add_parser(
+        "verify",
+        help="Replay a training receipt: recompute every declared sha256 (fail closed) and check honesty fields",
+    )
+    v.add_argument("receipt", nargs="?", default=str(DEFAULT_RUN_DIR / "training_receipt.json"))
     v.set_defaults(func=cmd_verify)
 
     s = sub.add_parser("serve", help="Python frontend + JSON kernel backend (stdlib HTTP)")

@@ -4,12 +4,16 @@
 #     (?<!-)a11oy\.com
 # is a violation UNLESS the same line is a prohibition/guard context, i.e. it
 # also matches /(never|forbidden|not in|assertNotIn|does not appear|is not a
-# surface|blocklist)/i — guard assertions, blocklists, and doctrine notes are
+# surface|blocklist|do not treat|do not add|not affiliated)/i — guard
+# assertions, blocklists, doctrine notes and documented disavowals are
 # legitimate. Canonical surfaces are a-11-oy.com (product) and a11oy.net
 # (proof).
 #
-# Installed by the szl-alignment engine; keep in sync with
-# alignment/templates/workflows/forbidden-domain.yml.
+# Installed by the szl-alignment engine from
+# alignment/templates/workflows/forbidden-domain.yml (szl-holdings/szl-platform);
+# the pattern and guard list mirror szl_alignment.const FORBIDDEN_PATTERN /
+# ALLOWLIST_PATTERN, and alignment/tests/test_forbidden_domain_template.py
+# fails if they drift apart.
 name: forbidden-domain
 
 on:
@@ -23,13 +27,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
+      # GNU grep ships on every GitHub-hosted Ubuntu runner; ripgrep does not.
+      # The previous rg-based scan logged "rg: command not found" and its
+      # `|| true` turned that into a clean result on every run. grep exits
+      # 0 (matches), 1 (no matches) or >1 (error): only 0 and 1 are results,
+      # anything else stops the gate. LC_ALL=C makes the scan byte-oriented,
+      # so files that are not valid UTF-8 are still searched, not skipped.
       - name: Scan for forbidden domain references
         shell: bash
         run: |
           set -euo pipefail
-          hits="$(rg -n --no-heading --hidden -P '(?<!-)a11oy\.com' --glob '!.git' . || true)"
-          violations="$(printf '%s' "$hits" | rg -v -i 'never|forbidden|not in|assertNotIn|does not appear|is not a surface|blocklist' || true)"
+          export LC_ALL=C
+          status=0
+          hits="$(grep -rnIP --exclude-dir=.git '(?<!-)a11oy\.com' .)" || status=$?
+          if [ "$status" -gt 1 ]; then
+            echo "::error::Forbidden-domain scan could not run (grep exit $status); refusing to report clean."
+            exit "$status"
+          fi
+          violations=""
+          if [ -n "$hits" ]; then
+            status=0
+            violations="$(printf '%s\n' "$hits" | grep -viE 'never|forbidden|not in|assertNotIn|does not appear|is not a surface|blocklist|do not treat|do not add|not affiliated')" || status=$?
+            if [ "$status" -gt 1 ]; then
+              echo "::error::Forbidden-domain guard filter could not run (grep exit $status); refusing to report clean."
+              exit "$status"
+            fi
+          fi
           if [ -n "$violations" ]; then
             echo "::error::Forbidden domain references found (release-blocking CRITICAL)."
             echo "::error::Replace with a-11-oy.com or remove; guard contexts must say so on the same line."

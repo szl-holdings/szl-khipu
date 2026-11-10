@@ -12,6 +12,7 @@ Never paints proven_trust true. Never fabricates a joule. Λ stays Conjecture 1 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -289,50 +290,66 @@ def api_bench(body: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-_INFER_CACHE: dict[str, Any] = {}
+_INFER_CACHE: dict[str, tuple[Any, dict[str, Any]]] = {}
+# Present in a repository checkout and in the Space container; absent from a
+# wheel install, where each kind falls back to a small on-request training run.
 _ART = Path(__file__).resolve().parents[1] / "artifacts"
+INFER_KINDS = ("tiny_khipu", "receipt_agent", "moons", "embed", "mini_embed")
 
 
-def _tiny_weights() -> dict[str, Any]:
-    if "tiny" in _INFER_CACHE:
-        return _INFER_CACHE["tiny"]
-    path = _ART / "tiny_khipu.npz"
+def _weights(key: str, filename: str, load: Any, fallback: dict[str, Any], make: Any) -> tuple[Any, dict[str, Any]]:
+    """Load the committed archive, or build the declared fallback; say which one answered."""
+    if key in _INFER_CACHE:
+        return _INFER_CACHE[key]
+    path = _ART / filename
     if path.is_file():
-        w = tiny_khipu.load_npz(str(path))
+        weights = load(str(path))
+        source = {
+            "source": f"artifacts/{filename}",
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
     else:
-        w, _ev = tiny_khipu.train(seed=20260721, steps=40)
-    _INFER_CACHE["tiny"] = w
-    return w
+        weights = make()
+        source = {"source": "built-on-request (committed archive absent)", **fallback}
+    _INFER_CACHE[key] = (weights, source)
+    return weights, source
 
 
-def _ra_weights() -> dict[str, Any]:
-    if "ra" in _INFER_CACHE:
-        return _INFER_CACHE["ra"]
-    path = _ART / "receipt_agent.npz"
-    if path.is_file():
-        w = receipt_agent.load_npz(str(path))
-    else:
-        w, _ev = receipt_agent.train(seed=20260721, max_steps=80)
-    _INFER_CACHE["ra"] = w
-    return w
+def _tiny_weights() -> tuple[dict[str, Any], dict[str, Any]]:
+    return _weights(
+        "tiny", "tiny_khipu.npz", tiny_khipu.load_npz, {"seed": 20260721, "steps": 40},
+        lambda: tiny_khipu.train(seed=20260721, steps=40)[0],
+    )
 
 
-def _moons_weights() -> dict[str, Any]:
-    if "moons" in _INFER_CACHE:
-        return _INFER_CACHE["moons"]
-    path = _ART / "moons.npz"
-    if path.is_file():
-        w = moons.load_npz(str(path))
-    else:
-        w, _ev = moons.train(seed=20260721, steps=80)
-    _INFER_CACHE["moons"] = w
-    return w
+def _ra_weights() -> tuple[dict[str, Any], dict[str, Any]]:
+    return _weights(
+        "ra", "receipt_agent.npz", receipt_agent.load_npz, {"seed": 20260721, "max_steps": 80},
+        lambda: receipt_agent.train(seed=20260721, max_steps=80)[0],
+    )
+
+
+def _moons_weights() -> tuple[dict[str, Any], dict[str, Any]]:
+    return _weights(
+        "moons", "moons.npz", moons.load_npz, {"seed": 20260721, "steps": 80},
+        lambda: moons.train(seed=20260721, steps=80)[0],
+    )
+
+
+def _embed_table() -> tuple[Any, dict[str, Any]]:
+    return _weights(
+        "embed", "mini_embed.npz", mini_embed.load_npz, {"seed": 20260721},
+        lambda: mini_embed.build(seed=20260721),
+    )
 
 
 def api_infer(body: dict[str, Any]) -> dict[str, Any]:
     kind = str(body.get("kind") or "tiny_khipu")
+    if kind not in INFER_KINDS:
+        # Same contract as every other malformed request: an explicit 400, never a 200.
+        raise RequestRejected(400, f"unknown kind {kind!r}; expected one of {', '.join(INFER_KINDS)}")
     if kind == "tiny_khipu":
-        w = _tiny_weights()
+        w, source = _tiny_weights()
         query = str(body.get("query") or "resolve F18 handle")
         handles = body.get("handles") or [
             {"id": "h.locked", "note": "F18 node"},
@@ -348,11 +365,12 @@ def api_infer(body: dict[str, Any]) -> dict[str, Any]:
                 "p": [float(x) for x in out["p"]],
                 "cited": list(out["cited"]),
                 "hallucinated": int(out["hallucinated"]),
+                "weights": source,
                 "what_not": "Not Qwen. Not 1.5B. Hard ID filter.",
             }
         )
     if kind == "receipt_agent":
-        w = _ra_weights()
+        w, source = _ra_weights()
         z = np.zeros(receipt_agent.FEATURE_DIM, dtype=np.float64)
         z[0] = 0.91
         z[2] = 0.0 if _flag(body, "break_chain", "breakChain") else 1.0
@@ -372,6 +390,7 @@ def api_infer(body: dict[str, Any]) -> dict[str, Any]:
                 "surrogate": d["surrogate"],
                 "agree": bool(d["agree"]),
                 "decision": d["decision"],
+                "weights": source,
                 "what_not": "Kernel rule_check wins. Not 1.5B.",
             }
         )
@@ -379,7 +398,7 @@ def api_infer(body: dict[str, Any]) -> dict[str, Any]:
         # Validate before any weights load: a malformed point is a 400, not a forward pass.
         x = real_field(body, "x", 0.2)
         y = real_field(body, "y", 0.3)
-        w = _moons_weights()
+        w, source = _moons_weights()
         pred = moons.predict(w, np.array([[x, y]], dtype=np.float64))
         CHAIN.emit("infer", "moons", {"class": int(pred[0])})
         return _stamp(
@@ -388,27 +407,27 @@ def api_infer(body: dict[str, Any]) -> dict[str, Any]:
                 "x": x,
                 "y": y,
                 "class": int(pred[0]),
+                "weights": source,
                 "what_not": "2→8→2. Not 1.5B. Not a published benchmark.",
             }
         )
-    if kind in ("embed", "mini_embed"):
-        path = _ART / "mini_embed.npz"
-        table = mini_embed.load_npz(str(path)) if path.is_file() else mini_embed.build(seed=20260721)
-        tok = str(body.get("query") or body.get("token") or "F18")
-        vec = table.embed(tok)
-        dists = np.linalg.norm(table.table - vec, axis=1)
-        order = np.argsort(dists)[:3]
-        hits = [{"idx": int(i), "dist": float(dists[i])} for i in order]
-        CHAIN.emit("infer", "mini_embed", {"token": tok})
-        return _stamp(
-            {
-                "kind": "mini_embed",
-                "token": tok,
-                "hits": hits,
-                "what_not": "V=64 d=12 hash+table L2. Not neural. Not 3290×128.",
-            }
-        )
-    return _stamp({"error": "unknown kind", "blocked": True, "kind": kind})
+    # kind is "embed" or "mini_embed" (INFER_KINDS was checked above).
+    table, source = _embed_table()
+    tok = str(body.get("query") or body.get("token") or "F18")
+    vec = table.embed(tok)
+    dists = np.linalg.norm(table.table - vec, axis=1)
+    order = np.argsort(dists)[:3]
+    hits = [{"idx": int(i), "dist": float(dists[i])} for i in order]
+    CHAIN.emit("infer", "mini_embed", {"token": tok})
+    return _stamp(
+        {
+            "kind": "mini_embed",
+            "token": tok,
+            "hits": hits,
+            "weights": source,
+            "what_not": "V=64 d=12 hash+table L2. Not neural. Not 3290×128.",
+        }
+    )
 
 
 def api_version() -> dict[str, Any]:
