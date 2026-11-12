@@ -25,7 +25,16 @@ Callers pass rows that a named grader has already scored. A caller must pass
 ``ABSTAIN`` only for an abstention its grader accepts as valid (for example,
 an ABSTAIN that still cites handles should be passed as malformed). Numbers
 from different graders are not comparable. Ratios are reported as integer
-``{"num", "den"}`` pairs, never floats, and no confidence interval is claimed.
+``{"num", "den"}`` pairs, never floats. No confidence interval is reported.
+
+Sample-size guard (tightening only): ``verdict`` also applies a Wilson score
+bound at z = 1.96, computed in exact rational arithmetic. It adds
+``SELECTIVE_RISK_UPPER_BOUND_ABOVE_BUDGET`` when the Wilson upper bound of the
+selective risk exceeds ``max_selective_risk`` and
+``COVERAGE_LOWER_BOUND_BELOW_BUDGET`` when the Wilson lower bound of coverage
+is below ``min_coverage``. The guard can only add FAIL reasons; it never turns
+a FAIL into a PASS. With the trivial budget (risk 1/1, coverage 0/1) it adds
+nothing.
 
 Standard library only.
 """
@@ -52,6 +61,8 @@ RISK_DEFINITION = (
     "UNKNOWN when accepted == 0"
 )
 MALFORMED_SEMANTICS = "M1: a non-ABSTAIN malformed output is accepted and wrong; never dropped"
+# z = 1.96, so z**2 = 3.8416 exactly. Used only by the tightening guard below.
+WILSON_Z2 = Fraction(38416, 10000)
 _RATIO = re.compile(r"(0|[1-9][0-9]*)/([1-9][0-9]*)")
 # The seven kinds of normalized row, as (expected, decision, answer_correct).
 # Every account() field is a function of how many rows of each kind there are.
@@ -255,6 +266,30 @@ def _counts(acct: Mapping) -> dict:
     return expected
 
 
+def _wilson_s(k: int, n: int) -> tuple[Fraction, Fraction, Fraction]:
+    """Return (p, a, S) with a = z**2/n and S = a*p*(1-p) + a**2/4.
+
+    The Wilson bounds are (p + a/2 +/- sqrt(S)) / (1 + a). Exact rationals only.
+    """
+    p = Fraction(k, n)
+    a = WILSON_Z2 / n
+    return p, a, a * p * (1 - p) + a * a / 4
+
+
+def wilson_upper_exceeds(k: int, n: int, t: Fraction) -> bool:
+    """True when the Wilson 95% upper bound of k/n is strictly above t."""
+    p, a, s = _wilson_s(k, n)
+    d = t * (1 + a) - p - a / 2
+    return d < 0 or s > d * d
+
+
+def wilson_lower_below(k: int, n: int, t: Fraction) -> bool:
+    """True when the Wilson 95% lower bound of k/n is strictly below t."""
+    p, a, s = _wilson_s(k, n)
+    e = p + a / 2 - t * (1 + a)
+    return e < 0 or s > e * e
+
+
 def verdict(acct: Mapping, *, max_selective_risk, min_coverage) -> dict:
     """PASS, FAIL or INVALID_SUITE for an ``account`` result against a budget.
 
@@ -272,6 +307,9 @@ def verdict(acct: Mapping, *, max_selective_risk, min_coverage) -> dict:
     * FAIL when selective risk exceeds ``max_selective_risk``.
     * FAIL unless selective risk is strictly below the all-answer baseline risk.
     * FAIL when coverage is below ``min_coverage``.
+    * FAIL (sample-size guard) when the Wilson 95% upper bound of selective
+      risk exceeds ``max_selective_risk`` or the Wilson 95% lower bound of
+      coverage is below ``min_coverage``. This only adds reasons.
     """
     max_risk = _budget_value("max_selective_risk", max_selective_risk)
     min_cov = _budget_value("min_coverage", min_coverage)
@@ -301,6 +339,10 @@ def verdict(acct: Mapping, *, max_selective_risk, min_coverage) -> dict:
                 reasons.append("RISK_NOT_BELOW_ALL_ANSWER_BASELINE")
         if Fraction(accepted, total) < min_cov:
             reasons.append("COVERAGE_BELOW_BUDGET")
+        if accepted and wilson_upper_exceeds(counts["accepted_errors"], accepted, max_risk):
+            reasons.append("SELECTIVE_RISK_UPPER_BOUND_ABOVE_BUDGET")
+        if wilson_lower_below(accepted, total, min_cov):
+            reasons.append("COVERAGE_LOWER_BOUND_BELOW_BUDGET")
         status = FAIL if reasons else PASS
     return {
         "status": status,
