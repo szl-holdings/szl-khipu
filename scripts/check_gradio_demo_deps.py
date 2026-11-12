@@ -20,13 +20,15 @@ import sys
 ALLOWED = (
     "gradio 6.31.0 has requirement pillow<13.0,>=8.0, but you have pillow 13.0.0."
 )
+# pip 26 prints this and exits 0 when nothing is broken. Older pip is silent.
+CLEAN = "No broken requirements found."
 
 
 def unexpected(report: str, returncode: int) -> list[str]:
     """Lines from ``pip check`` that are not the known Gradio metadata bound."""
     lines = [line.strip() for line in report.splitlines() if line.strip()]
     if returncode == 0:
-        return lines
+        return [line for line in lines if line != CLEAN]
     extra = [line for line in lines if line != ALLOWED]
     if extra:
         return extra

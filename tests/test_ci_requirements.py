@@ -196,9 +196,11 @@ class CiRequirementLocks(unittest.TestCase):
         allowed = checker.ALLOWED
         self.assertEqual(checker.unexpected(allowed + "\n", 1), [])
         self.assertEqual(checker.unexpected("", 0), [])
+        self.assertEqual(checker.unexpected(checker.CLEAN + "\n", 0), [])
         self.assertTrue(checker.unexpected(allowed + "\nnumpy 1.0 has requirement x, but you have y.\n", 1))
         self.assertTrue(checker.unexpected("", 1))
         self.assertTrue(checker.unexpected("something else\n", 0))
+        self.assertTrue(checker.unexpected(checker.CLEAN + "\nnumpy 1.0 has requirement x, but you have y.\n", 0))
 
 
 if __name__ == "__main__":
