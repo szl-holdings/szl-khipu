@@ -1,0 +1,8 @@
+# Gradio 6.31.0 declares pillow<13.0,>=8.0, so a normal resolve stops at 12.3.0.
+# That release is still inside the vulnerable range. The earliest release that
+# fixes the open Pillow advisories, including GHSA-8g5g-8vmr-9782
+# (CVE-2026-112403, heap buffer overflow in ImagingJpegDecode, affected
+# <= 12.3.0), is 13.0.0. gradio-app/gradio#14034 widens the bound to
+# pillow<14.0 but is not in a PyPI release yet. This override is the only
+# requirement that may disagree with Gradio's published metadata.
+pillow==13.0.0
