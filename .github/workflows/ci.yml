@@ -52,12 +52,16 @@ jobs:
       # requirements/ci/gradio-demo.txt is compiled from the `test` + `gradio`
       # extras and spaces/requirements.txt; tests/test_ci_requirements.py fails
       # if spaces/requirements.txt pins a Gradio this lock does not carry.
+      # Pillow is overridden to 13.0.0 (GHSA-8g5g-8vmr-9782). Gradio 6.31.0 still
+      # declares pillow<13, so the resolver rejects the hashed set. --no-deps
+      # installs that set as written; the next step allows only this one
+      # pip-check finding.
       - name: Install hash-locked demo and test dependencies, then the package
         run: |
-          python -m pip install --require-hashes -r requirements/ci/gradio-demo.txt
+          python -m pip install --require-hashes -r requirements/ci/gradio-demo.txt --no-deps
           python -m pip install --no-deps -e .
       - name: Check dependency consistency
-        run: python -m pip check
+        run: python scripts/check_gradio_demo_deps.py
       - name: Real Gradio startup and callback smoke
         run: python -m unittest discover -s tests -p gradio_runtime.py -v
 

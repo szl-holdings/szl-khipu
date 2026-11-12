@@ -2,8 +2,10 @@
 # Mirrors pyproject.toml [project].dependencies + the `test` and `gradio` extras, plus the
 # demo's own pins; tests/test_ci_requirements.py fails if these drift apart, including when
 # spaces/requirements.txt pins a different gradio than this lock.
-# Regenerate the hash lock after editing (or after bumping spaces/requirements.txt):
-#   uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/gradio-demo.txt
+# Regenerate the hash lock after editing (or after bumping spaces/requirements.txt).
+# The overrides file pins Pillow to the earliest release that fixes GHSA-8g5g-8vmr-9782;
+# without it, Gradio 6.31.0's pillow<13.0 bound resolves 12.3.0 again.
+#   uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 --generate-hashes --overrides requirements/ci/pillow-security-override.txt -o requirements/ci/gradio-demo.txt
 numpy>=1.26
 pytest
 PyYAML>=6.0,<7

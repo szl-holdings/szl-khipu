@@ -9,6 +9,7 @@ command that regenerates it.
 
 from __future__ import annotations
 
+import importlib.util
 import re
 import tomllib
 import unittest
@@ -163,6 +164,43 @@ class CiRequirementLocks(unittest.TestCase):
             "/requirements/ci",
             [u.get("directory") for u in updates if u.get("package-ecosystem") == "pip"],
         )
+
+    def test_gradio_lock_pins_patched_pillow(self) -> None:
+        # GHSA-8g5g-8vmr-9782 (and every other Pillow advisory still covering
+        # 12.3.0) is fixed in 13.0.0. Gradio 6.31.0's pillow<13 bound hides that
+        # release from a normal resolve, so the lock carries an override.
+        pins = _lock("gradio-demo")
+        versions = {_pinned_version(req) for req, _hashes in pins["pillow"]}
+        self.assertEqual(versions, {"13.0.0"})
+        header = (CI / "gradio-demo.txt").read_text(encoding="utf-8").splitlines()[1]
+        self.assertIn("--overrides requirements/ci/pillow-security-override.txt", header)
+        override = (CI / "pillow-security-override.txt").read_text(encoding="utf-8")
+        self.assertIn("pillow==13.0.0", override)
+        self.assertIn("GHSA-8g5g-8vmr-9782", override)
+
+    def test_gradio_job_installs_the_pillow_override_without_resolving(self) -> None:
+        data = yaml.safe_load((WORKFLOWS / "ci.yml").read_text(encoding="utf-8"))
+        runs = "\n".join(
+            step.get("run", "") for step in data["jobs"]["gradio-demo"]["steps"] if isinstance(step, dict)
+        )
+        self.assertIn(
+            "python -m pip install --require-hashes -r requirements/ci/gradio-demo.txt --no-deps",
+            runs,
+        )
+        self.assertIn("python scripts/check_gradio_demo_deps.py", runs)
+        spec = importlib.util.spec_from_file_location(
+            "check_gradio_demo_deps", ROOT / "scripts" / "check_gradio_demo_deps.py"
+        )
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        allowed = checker.ALLOWED
+        self.assertEqual(checker.unexpected(allowed + "\n", 1), [])
+        self.assertEqual(checker.unexpected("", 0), [])
+        self.assertEqual(checker.unexpected(checker.CLEAN + "\n", 0), [])
+        self.assertTrue(checker.unexpected(allowed + "\nnumpy 1.0 has requirement x, but you have y.\n", 1))
+        self.assertTrue(checker.unexpected("", 1))
+        self.assertTrue(checker.unexpected("something else\n", 0))
+        self.assertTrue(checker.unexpected(checker.CLEAN + "\nnumpy 1.0 has requirement x, but you have y.\n", 0))
 
 
 if __name__ == "__main__":
