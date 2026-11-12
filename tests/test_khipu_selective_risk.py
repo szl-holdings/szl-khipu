@@ -25,6 +25,11 @@ import selective_risk as sr  # noqa: E402
 N, A, M = sr.NAVIGATE, sr.ABSTAIN, sr.MALFORMED
 
 
+def point_reasons(v):
+    """Verdict reasons without the Wilson sample-size guard's additions."""
+    return [r for r in v["reasons"] if not r.endswith("_BOUND_ABOVE_BUDGET") and not r.endswith("_BOUND_BELOW_BUDGET")]
+
+
 def rows(*triples):
     """(expected, decision, answer_correct) triples -> normalized rows."""
     return [sr.normalize_row(e, d, c) for e, d, c in triples]
@@ -196,8 +201,10 @@ class SelectiveRiskTests(unittest.TestCase):
         self.assertEqual(a["coverage"], {"num": 7, "den": 11})
         va = sr.verdict(a, max_selective_risk="2/7", min_coverage="7/11")
         vz = sr.verdict(z, max_selective_risk="2/7", min_coverage="7/11")
-        self.assertEqual(va["status"], sr.PASS)
-        self.assertEqual(va["reasons"], [])
+        # The point estimates meet the budget; only the sample-size guard fails
+        # this 11-row suite, so no point-estimate reason appears.
+        self.assertEqual(va["status"], sr.FAIL)
+        self.assertEqual(va["reasons"], ["SELECTIVE_RISK_UPPER_BOUND_ABOVE_BUDGET", "COVERAGE_LOWER_BOUND_BELOW_BUDGET"])
         self.assertEqual(va["selective_risk"], {"num": 2, "den": 7})
         self.assertEqual(va["coverage"], {"num": 7, "den": 11})
         self.assertEqual(vz["status"], sr.FAIL)
@@ -205,11 +212,11 @@ class SelectiveRiskTests(unittest.TestCase):
         self.assertEqual(vz["coverage"], {"num": 0, "den": 11})
         # A one-step tighter budget makes policy A fail too: budgets are exact.
         self.assertEqual(
-            sr.verdict(a, max_selective_risk="1/4", min_coverage="7/11")["reasons"],
+            point_reasons(sr.verdict(a, max_selective_risk="1/4", min_coverage="7/11")),
             ["SELECTIVE_RISK_ABOVE_BUDGET"],
         )
         self.assertEqual(
-            sr.verdict(a, max_selective_risk="2/7", min_coverage="8/11")["reasons"],
+            point_reasons(sr.verdict(a, max_selective_risk="2/7", min_coverage="8/11")),
             ["COVERAGE_BELOW_BUDGET"],
         )
 
@@ -306,9 +313,10 @@ class SelectiveRiskTests(unittest.TestCase):
         self.assertEqual(acct["legacy"], {"abstain": "5/6", "grounding": "3/5"})
         # 3/6 is below the 6/11 all-answer baseline, so only the budget decides.
         v = sr.verdict(acct, max_selective_risk="1/2", min_coverage="6/11")
-        self.assertEqual((v["status"], v["reasons"]), (sr.PASS, []))
+        # Point estimates meet the budget; the 11-row sample does not.
+        self.assertEqual((v["status"], v["reasons"]), (sr.FAIL, ["SELECTIVE_RISK_UPPER_BOUND_ABOVE_BUDGET", "COVERAGE_LOWER_BOUND_BELOW_BUDGET"]))
         v = sr.verdict(acct, max_selective_risk="2/5", min_coverage="6/11")
-        self.assertEqual(v["reasons"], ["SELECTIVE_RISK_ABOVE_BUDGET"])
+        self.assertEqual(point_reasons(v), ["SELECTIVE_RISK_ABOVE_BUDGET"])
 
     def test_verdict_rejects_inconsistent_accounts(self) -> None:
         def rejected(acct) -> None:
@@ -453,6 +461,60 @@ class SelectiveRiskTests(unittest.TestCase):
             for max_risk, min_cov in BUDGET_GRID:
                 v = sr.verdict(acct, max_selective_risk=max_risk, min_coverage=min_cov)
                 self.assertEqual(v["status"], sr.FAIL)
+
+
+class WilsonSampleGuardTests(unittest.TestCase):
+    """The guard is exact-rational and only ever adds FAIL reasons."""
+
+    def test_bounds_match_float_wilson(self) -> None:
+        import math
+
+        def wilson(k, n, z=1.96):
+            p = k / n
+            d = 1 + z * z / n
+            c = (p + z * z / (2 * n)) / d
+            h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+            return c - h, c + h
+
+        for k, n in [(2, 6), (3, 6), (6, 6), (0, 11), (8, 11), (180, 200)]:
+            lo, hi = wilson(k, n)
+            for t in [Fraction(i, 20) for i in range(21)]:
+                if abs(float(t) - lo) > 1e-9:
+                    self.assertEqual(sr.wilson_lower_below(k, n, t), lo < float(t), (k, n, t))
+                if abs(float(t) - hi) > 1e-9:
+                    self.assertEqual(sr.wilson_upper_exceeds(k, n, t), hi > float(t), (k, n, t))
+
+    def test_khipu_2_of_6_cannot_clear_half(self) -> None:
+        # Wilson 95% for 2/6 is about [0.097, 0.700]; for 3/6 about [0.188, 0.812].
+        self.assertTrue(sr.wilson_lower_below(2, 6, Fraction(1, 2)))
+        self.assertTrue(sr.wilson_lower_below(3, 6, Fraction(1, 2)))
+        self.assertTrue(sr.wilson_lower_below(6, 6, Fraction(4, 5)))
+        self.assertFalse(sr.wilson_lower_below(180, 200, Fraction(4, 5)))
+
+    def test_trivial_budget_adds_nothing(self) -> None:
+        for vector in (POLICY_A, KHIPU_R2, WRONG_ROUTE):
+            v = sr.verdict(sr.account(vector), max_selective_risk="1/1", min_coverage="0/1")
+            self.assertNotIn("SELECTIVE_RISK_UPPER_BOUND_ABOVE_BUDGET", v["reasons"])
+            self.assertNotIn("COVERAGE_LOWER_BOUND_BELOW_BUDGET", v["reasons"])
+
+    def test_guard_never_turns_fail_into_pass(self) -> None:
+        for vector in (POLICY_A, KHIPU_R2, KHIPU_R3_BASELINE, KHIPU_R3_DPO_CHALLENGER, WRONG_ROUTE):
+            acct = sr.account(vector)
+            for max_risk, min_cov in BUDGET_GRID:
+                v = sr.verdict(acct, max_selective_risk=max_risk, min_coverage=min_cov)
+                point = point_reasons(v)
+                if point:
+                    self.assertEqual(v["status"], sr.FAIL)
+
+    def test_large_sample_meeting_budget_still_passes(self) -> None:
+        big = rows(*[(N, N, True)] * 380, *[(N, N, False)] * 20, *[(A, A, False)] * 100)
+        v = sr.verdict(sr.account(big), max_selective_risk="1/10", min_coverage="3/4")
+        self.assertEqual((v["status"], v["reasons"]), (sr.PASS, []))
+
+    def test_evaluate_still_holds(self) -> None:
+        result = sr.evaluate(POLICY_A, max_selective_risk="2/7", min_coverage="7/11")
+        self.assertIs(result["publication_eligible"], False)
+        self.assertEqual(result["promotion"], "HOLD")
 
 
 if __name__ == "__main__":
