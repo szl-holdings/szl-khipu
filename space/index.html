@@ -52,24 +52,24 @@
     <section class="card">
       <h2>Λ playground</h2>
       <p class="muted">Weighted geometric mean. A pass is advisory. Gold means OPEN.</p>
-      <p class="mono" id="lam">—</p>
+      <p class="mono" id="lam" role="status" aria-live="polite">—</p>
       <div id="sliders"></div>
     </section>
     <section class="card" style="margin-top:12px">
       <h2>GreenLight · Ari</h2>
       <p class="muted">A sorry cannot be painted green. Claiming uniqueness or stamping a joule fail-closes.</p>
-      <p class="mono" id="green">—</p>
+      <p class="mono" id="green" role="status" aria-live="polite">—</p>
       <div class="row">
-        <button class="btn btn-ghost" type="button" id="paint">Paint a sorry green</button>
-        <button class="btn btn-ghost" type="button" id="claim">Claim Λ proven</button>
-        <button class="btn btn-ghost" type="button" id="joule">Stamp MEASURED joules</button>
+        <button class="btn btn-ghost" type="button" id="paint" aria-pressed="false">Paint a sorry green</button>
+        <button class="btn btn-ghost" type="button" id="claim" aria-pressed="false">Claim Λ proven</button>
+        <button class="btn btn-ghost" type="button" id="joule" aria-pressed="false">Stamp MEASURED joules</button>
         <button class="btn btn-secondary" type="button" id="push-green">Green-light this bound</button>
       </div>
     </section>
     <section class="card" style="margin-top:12px">
       <h2>Anatomy · five organs</h2>
       <p class="muted">Any DOWN organ blocks the body. Not a 3D rehost. Energy UNAVAILABLE.</p>
-      <p class="mono" id="anatomy">—</p>
+      <p class="mono" id="anatomy" role="status" aria-live="polite">—</p>
       <div class="orgs" id="orgs"></div>
       <div class="row">
         <button class="btn btn-ghost" type="button" id="kill-heart">Zero HEART</button>
@@ -80,13 +80,13 @@
     <section class="card" style="margin-top:12px">
       <h2>YARQA</h2>
       <p class="muted">Canal attention. CUDA UNAVAILABLE. Not SageAttention.</p>
-      <p class="mono" id="yarqa">—</p>
+      <p class="mono" id="yarqa" role="status" aria-live="polite">—</p>
       <button class="btn btn-secondary" id="run-yarqa" type="button">Run YARQA</button>
     </section>
     <section class="card" style="margin-top:12px">
       <h2>PrefixWitness · radix</h2>
       <p class="muted">Original cut of SGLang RadixAttention. Poison after digest — BLOCKED. Not SGLang.</p>
-      <p class="mono" id="prefix">—</p>
+      <p class="mono" id="prefix" role="status" aria-live="polite">—</p>
       <div class="row">
         <button class="btn btn-ghost" type="button" id="hijack-prefix">Poison cache</button>
         <button class="btn btn-secondary" type="button" id="run-prefix">Honest prefix</button>
@@ -95,7 +95,7 @@
     <section class="card" style="margin-top:12px">
       <h2>RouteWitness · MoE</h2>
       <p class="muted">Original cut of Mixtral routing. Swap an expert after assignment — BLOCKED. Not Mixtral.</p>
-      <p class="mono" id="route">—</p>
+      <p class="mono" id="route" role="status" aria-live="polite">—</p>
       <div class="row">
         <button class="btn btn-ghost" type="button" id="swap-route">Swap expert</button>
         <button class="btn btn-secondary" type="button" id="run-route">Honest route</button>
@@ -104,7 +104,7 @@
     <section class="card" style="margin-top:12px">
       <h2>Inference Bay</h2>
       <p class="muted">Kernel is truth. TinyKhipu infers here. 1.5B QLoRA stays RESEARCH.</p>
-      <p class="mono" id="infer">—</p>
+      <p class="mono" id="infer" role="status" aria-live="polite">—</p>
       <div class="row">
         <button class="btn btn-ghost" type="button" id="run-bench">Bench kernels</button>
         <button class="btn btn-secondary" type="button" id="run-infer">Infer TinyKhipu</button>
@@ -121,90 +121,108 @@
     const axes = Array(13).fill(0.92); axes[0]=0.97; axes[1]=0.96;
     const box = document.getElementById("sliders");
     const flags = { paint_sorry:0, claim_proven:0, stamp_joule:0 };
+    const $id = (id) => document.getElementById(id);
     function render() {
-      box.innerHTML = axes.map((v,i)=>`<label class="muted mono">A${i+1} ${v.toFixed(2)}<input type="range" min="0.5" max="1" step="0.01" value="${v}" data-i="${i}"></label>`).join("");
-      box.querySelectorAll("input").forEach(el => el.oninput = (e) => { axes[+e.target.dataset.i] = +e.target.value; ping(); render(); });
+      // Built once; input only updates the readout so keyboard focus survives (WCAG 2.1.1, 2.4.3).
+      box.innerHTML = axes.map((v,i)=>`<label class="muted mono"><span data-out="${i}">A${i+1} ${v.toFixed(2)}</span><input type="range" min="0.5" max="1" step="0.01" value="${v}" data-i="${i}"></label>`).join("");
+      box.querySelectorAll("input").forEach(el => el.oninput = (e) => {
+        const i = +e.target.dataset.i; axes[i] = +e.target.value;
+        box.querySelector(`[data-out="${i}"]`).textContent = `A${i+1} ${axes[i].toFixed(2)}`;
+        ping();
+      });
     }
-    async function post(path, body) {
-      const r = await fetch(path, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body||{}) });
+    // Fail closed: transport error, non-2xx, non-JSON or a missing field renders UNAVAILABLE, never a verdict.
+    async function getJSON(path, init) {
+      const r = await fetch(path, init);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      if (!/application\/json/i.test(r.headers.get("content-type")||"")) throw new Error("non-JSON response");
       return r.json();
     }
-    async function ping() {
-      const j = await post("/api/lambda", {axes});
-      const el = document.getElementById("lam");
-      el.textContent = (j.lambda ?? 0).toFixed(4) + "  " + (j.decision||"");
+    const post = (path, body) => getJSON(path, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body||{}) });
+    function unavailable(el, why) { el.textContent = "UNAVAILABLE · " + why; el.className = "mono"; }
+    const seq = Object.create(null);
+    // Newest request per card wins; older responses are dropped (no stale overwrite).
+    async function run(key, elId, call, paint) {
+      const n = (seq[key] = (seq[key]||0) + 1);
+      const el = $id(elId);
+      el.setAttribute("aria-busy", "true");
+      try {
+        const j = await call();
+        if (n !== seq[key]) return;
+        if (paint(j, el) === false) unavailable(el, "malformed response");
+      } catch (err) {
+        if (n !== seq[key]) return;
+        unavailable(el, "backend unreachable (" + (err && err.message || "error") + ")");
+      } finally {
+        if (n === seq[key]) el.removeAttribute("aria-busy");
+      }
+    }
+    const isBool = (v) => typeof v === "boolean";
+    const isFlag = (v) => v === 0 || v === 1 || v === true || v === false;
+    const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+    const ping = () => run("lam", "lam", () => post("/api/lambda", {axes}), (j, el) => {
+      if (!isNum(j.lambda) || !isBool(j.blocked)) return false;
+      el.textContent = j.lambda.toFixed(4) + "  " + (j.decision||"");
       el.className = "mono" + (j.blocked ? " down" : "");
-    }
-    async function health() {
-      const r = await fetch("/healthz");
-      const j = await r.json();
-      document.getElementById("kstatus").textContent = j.kernel || "UNAVAILABLE";
-    }
-    async function green() {
-      const j = await post("/api/greenlight", flags);
-      const el = document.getElementById("green");
+    });
+    const health = () => run("kstatus", "kstatus", () => getJSON("/healthz"), (j, el) => {
+      el.textContent = typeof j.kernel === "string" && j.kernel ? j.kernel : "UNAVAILABLE";
+    });
+    const green = () => run("green", "green", () => post("/api/greenlight", flags), (j, el) => {
+      if (!isBool(j.blocked)) return false;
       el.textContent = (j.blocked ? "BLOCKED" : "GREEN-LIGHT") + " · " + (j.reason||"");
       el.className = "mono" + (j.blocked ? " down" : "");
-    }
-    async function anatomy(extra) {
-      const j = await post("/api/anatomy", extra||{});
-      const el = document.getElementById("anatomy");
-      el.textContent = (j.live_count ?? "—") + "/5 " + (j.blocked ? "BLOCKED" : "LIVE") + " · " + (j.reason||"");
+    });
+    const anatomy = (extra) => run("anatomy", "anatomy", () => post("/api/anatomy", extra||{}), (j, el) => {
+      const orgs = $id("orgs");
+      if (!isNum(j.live_count) || !isBool(j.blocked) || !Array.isArray(j.organs)) { orgs.replaceChildren(); return false; }
+      el.textContent = j.live_count + "/5 " + (j.blocked ? "BLOCKED" : "LIVE") + " · " + (j.reason||"");
       el.className = "mono" + (j.blocked ? " down" : "");
-      document.getElementById("orgs").innerHTML = (j.organs||[]).map(o =>
-        `<div class="org ${o.status==="DOWN"?"down":""}"><b>${o.id||o.name}</b><br>${o.status||""}</div>`
-      ).join("");
-    }
+      orgs.replaceChildren(...j.organs.map(o => {
+        const d = document.createElement("div");
+        d.className = "org" + (o.status === "DOWN" ? " down" : "");
+        const b = document.createElement("b"); b.textContent = String(o.id || o.name || "");
+        d.append(b, document.createElement("br"), String(o.status || ""));
+        return d;
+      }));
+    });
+    const holdCard = (key, path, body) => run(key, key, () => post(path, body), (j, el) => {
+      if (!isFlag(j.hold)) return false;
+      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
+      el.className = "mono" + (j.hold ? "" : " down");
+    });
     function toggle(id, key) {
-      const btn = document.getElementById(id);
-      btn.onclick = () => { flags[key] = flags[key] ? 0 : 1; btn.classList.toggle("on", !!flags[key]); green(); };
+      const btn = $id(id);
+      btn.onclick = () => {
+        flags[key] = flags[key] ? 0 : 1;
+        btn.classList.toggle("on", !!flags[key]);
+        btn.setAttribute("aria-pressed", flags[key] ? "true" : "false");
+        green();
+      };
     }
     toggle("paint","paint_sorry"); toggle("claim","claim_proven"); toggle("joule","stamp_joule");
-    document.getElementById("push-green").onclick = green;
-    document.getElementById("walk").onclick = () => anatomy({});
-    document.getElementById("kill-heart").onclick = () => anatomy({zero_heart:true});
-    document.getElementById("fake-joule").onclick = () => anatomy({fabricate_joule:true});
-    document.getElementById("run-yarqa").onclick = async () => {
-      const j = await post("/api/yarqa", {n_canals:3});
-      const el = document.getElementById("yarqa");
-      if (j.kernel === "UNAVAILABLE") el.textContent = "UNAVAILABLE — " + (j.reason||"no package");
-      else el.textContent = "leaked " + Number(j.leaked).toExponential(2) + "  " + (j.ok ? "HOLD" : "BREAK");
-    };
-    document.getElementById("run-prefix").onclick = async () => {
-      const j = await post("/api/prefix", {});
-      const el = document.getElementById("prefix");
-      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
-      el.className = "mono" + (j.hold ? "" : " down");
-    };
-    document.getElementById("hijack-prefix").onclick = async () => {
-      const j = await post("/api/prefix", {hijack:1});
-      const el = document.getElementById("prefix");
-      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
-      el.className = "mono" + (j.hold ? "" : " down");
-    };
-    document.getElementById("run-route").onclick = async () => {
-      const j = await post("/api/route", {});
-      const el = document.getElementById("route");
-      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
-      el.className = "mono" + (j.hold ? "" : " down");
-    };
-    document.getElementById("swap-route").onclick = async () => {
-      const j = await post("/api/route", {tamper:1});
-      const el = document.getElementById("route");
-      el.textContent = (j.hold ? "HOLD" : "BROKEN") + " · " + (j.reason||"");
-      el.className = "mono" + (j.hold ? "" : " down");
-    };
-    document.getElementById("run-bench").onclick = async () => {
-      const j = await post("/api/bench", {seed:11});
-      const el = document.getElementById("infer");
-      el.textContent = "bench " + (j.passed||0) + "/" + (j.total||0) + " HOLD · CUDA UNAVAILABLE";
+    $id("push-green").onclick = green;
+    $id("walk").onclick = () => anatomy({});
+    $id("kill-heart").onclick = () => anatomy({zero_heart:true});
+    $id("fake-joule").onclick = () => anatomy({fabricate_joule:true});
+    $id("run-yarqa").onclick = () => run("yarqa", "yarqa", () => post("/api/yarqa", {n_canals:3}), (j, el) => {
+      if (j.kernel === "UNAVAILABLE") { el.textContent = "UNAVAILABLE — " + (j.reason||"no package"); return; }
+      if (!isNum(Number(j.leaked)) || !isBool(j.ok)) return false;
+      el.textContent = "leaked " + Number(j.leaked).toExponential(2) + "  " + (j.ok ? "HOLD" : "BREAK");
+    });
+    $id("run-prefix").onclick = () => holdCard("prefix", "/api/prefix", {});
+    $id("hijack-prefix").onclick = () => holdCard("prefix", "/api/prefix", {hijack:1});
+    $id("run-route").onclick = () => holdCard("route", "/api/route", {});
+    $id("swap-route").onclick = () => holdCard("route", "/api/route", {tamper:1});
+    $id("run-bench").onclick = () => run("infer", "infer", () => post("/api/bench", {seed:11}), (j, el) => {
+      if (!isNum(j.passed) || !isNum(j.total) || j.total < 1) return false;
+      el.textContent = "bench " + j.passed + "/" + j.total + (j.passed === j.total ? " HOLD" : " BREAK") + " · CUDA UNAVAILABLE";
       el.className = "mono" + (j.passed === j.total ? "" : " down");
-    };
-    document.getElementById("run-infer").onclick = async () => {
-      const j = await post("/api/infer", {kind:"tiny_khipu", query:"resolve F18 handle"});
-      const el = document.getElementById("infer");
-      el.textContent = (j.decision||"?") + " · hallucinated " + (j.hallucinated??"?") + " · " + (j.what_not||"");
-    };
+    });
+    $id("run-infer").onclick = () => run("infer", "infer", () => post("/api/infer", {kind:"tiny_khipu", query:"resolve F18 handle"}), (j, el) => {
+      if (typeof j.decision !== "string") return false;
+      el.textContent = j.decision + " · hallucinated " + (j.hallucinated ?? "?") + " · " + (j.what_not||"");
+    });
     render(); ping(); health(); green(); anatomy({});
   </script>
   <script src="./szl-holo-v2.js" defer data-szl-holo-space-asset="script-v2"></script>
