@@ -4,6 +4,8 @@
 # Mint step: enable the GitHub-Zenodo integration on this repo to mint a
 # concept DOI on the next release, then add `doi:` below.
 cff-version: 1.2.0
+# Zenodo (InvenioRDM) DOI - always resolves to the latest version of this archive
+doi: 10.5281/zenodo.24240086
 message: "If you use this software, please cite it as below."
 type: software
 title: "SZL-Khipu — grounded-only brain-navigator models and kernels"

@@ -6,7 +6,7 @@
   "license": {"id": "Apache-2.0"},
   "keywords": ["governed-ai", "khipu", "lambda-gate", "receipts", "doctrine-v11", "szl-holdings"],
   "related_identifiers": [
-    {"identifier": "10.5281/zenodo.19944926", "relation": "isSupplementTo", "scheme": "doi"},
+    {"identifier": "10.5281/zenodo.24239896", "relation": "isSupplementTo", "scheme": "doi"},
     {"identifier": "https://huggingface.co/SZLHOLDINGS/SZL-Khipu-1.5B", "relation": "isDocumentedBy", "scheme": "url"}
   ],
   "notes": "NEW work (not a version of any existing SZL record) per the szl-papers deposit policy. Minted via GitHub release after enabling this repository in the owner's Zenodo account."
