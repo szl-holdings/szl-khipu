@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SZL PyPI release gate â€” build, verify, and bind a distribution to its git tag.
+"""SZL PyPI release gate — build, verify, and bind a distribution to its git tag.
 
 Canonical file: identical bytes in every szl-holdings repository that publishes
 to PyPI. Runs in the `build` job of `.github/workflows/publish-pypi.yml`:
@@ -101,7 +101,7 @@ def gate_package(pkg: dict, repo: str, event: str, ref_type: str, ref_name: str,
     if norm(project.get("name", "")) != norm(pkg["name"]):
         fail(f"{pkg['name']}: pyproject [project].name is {project.get('name')!r}, expected {pkg['name']!r}")
     if PRIVATE_CLASSIFIER in (project.get("classifiers") or []):
-        fail(f"{pkg['name']}: carries '{PRIVATE_CLASSIFIER}' â€” not a publishable package")
+        fail(f"{pkg['name']}: carries '{PRIVATE_CLASSIFIER}' — not a publishable package")
     if not (pp.get("build-system") or {}).get("build-backend"):
         fail(f"{pkg['name']}: pyproject has no [build-system].build-backend (PEP 517 backend must be explicit)")
     for key in ("description", "readme", "requires-python"):
@@ -133,7 +133,7 @@ def gate_package(pkg: dict, repo: str, event: str, ref_type: str, ref_name: str,
     if norm(msg["Name"]) != norm(pkg["name"]):
         fail(f"{pkg['name']}: built metadata Name={msg['Name']!r} does not match")
     if meta["py_count"] == 0:
-        fail(f"{pkg['name']}: wheel contains no Python files â€” packaging is misconfigured")
+        fail(f"{pkg['name']}: wheel contains no Python files — packaging is misconfigured")
     bad_top = sorted(set(meta["top_level"]) & FORBIDDEN_TOP_LEVEL)
     if bad_top:
         fail(f"{pkg['name']}: wheel leaks non-package top-level entries {bad_top}; fix package discovery")
