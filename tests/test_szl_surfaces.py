@@ -127,7 +127,9 @@ class SzlSurfaceContract(unittest.TestCase):
     def test_gradio_demo_serves_the_package_export(self) -> None:
         text = _text("spaces/app.py")
         self.assertIn('SZL_DIR = ROOT / "szl_khipu" / "szl"', text)
-        self.assertIn("allowed_paths=[str(SZL_DIR)]", text)
+        self.assertIn("allowed_paths=[str(SZL_DIR), PROOF_LOOM_DIR]", text)
+        self.assertIn("PROOF_LOOM_DIR = str(Path(PROOF_LOOM_PREVIEW).parent)", text)
+        self.assertIn("PROOF_LOOM_PREVIEW, PROOF_LOOM_INITIAL = proof_loom_panel", text)
         self.assertIn('SZL_DIR / "szl-design-system.css"', text)
 
 
