@@ -129,6 +129,7 @@ class Handler(BaseHTTPRequestHandler):
                                        "sources": matching[:20]}))
         else:
             self._err(404, "ROUTE_NOT_FOUND")
+        return None
 
     def do_POST(self):
         if self.path != "/api/analyze":
@@ -148,6 +149,7 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError, UnicodeError, TypeError):
             return self._err(422, "INVALID_INPUT")
         self._send(200, canonical(result))
+        return None
 
     def log_message(self, format, *args):
         # Avoid collecting user questions, origins and private network identifiers.
