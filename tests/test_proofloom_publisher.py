@@ -20,9 +20,11 @@ class ProofLoomPublisherTests(unittest.TestCase):
             manifest = pub._stage(out, "f"*40)
             self.assertEqual(set(p.name for p in out.iterdir()),
                              {"app.py", "README.md", "proof_loom.py",
-                              "hypothesis.py", "falsifier.py", "cylindric.py",
-                              "sequence_scout_v1.json", "SOURCE.json"})
-            self.assertEqual(len(manifest["files"]), 7)
+                              "hypothesis.py", "falsifier.py", "cylindric.py", "sequence_scout_v1.json", "SOURCE.json",
+                              "hjo_loom.py", "holo_glb.py", "okr_khipu.py", "chain.py",
+                              "hjo_certificate_v1.json", "okr_corpus_v1.json.gz",
+                              "okr_relations_v1.json", "LICENSE-OKR.txt"})
+            self.assertEqual(len(manifest["files"]), 15)
             self.assertEqual(manifest["source_commit"], "f"*40)
             self.assertEqual(manifest["historical_claim"], "NOT_ESTABLISHED")
             for row in manifest["files"]:
@@ -65,7 +67,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             def read(self, _): return json.dumps({
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
@@ -77,7 +79,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 "dependencies": [
                     {"api_name": endpoint, "queue": True, "concurrency_limit": 1,
                      "concurrency_id": "proof-loom-cpu"}
-                    for endpoint in ("discover", "recompute", "falsify", "hjo_profile")
+                    for endpoint in pub.EXPENSIVE_APIS
                 ],
             }).encode()
         with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
@@ -112,7 +114,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             def read(self, _): return json.dumps({
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
@@ -135,7 +137,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             def read(self, _): return json.dumps({
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
@@ -163,7 +165,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             def read(self, _): return json.dumps({
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
@@ -190,7 +192,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             return {
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}"></div>'}},
@@ -202,7 +204,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 "dependencies": [
                     {"api_name": endpoint, "queue": queued,
                      "concurrency_limit": 1, "concurrency_id": "proof-loom-cpu"}
-                    for endpoint in ("discover", "recompute", "falsify", "hjo_profile")
+                    for endpoint in pub.EXPENSIVE_APIS
                 ],
             }
         class Response:
@@ -225,6 +227,58 @@ class ProofLoomPublisherTests(unittest.TestCase):
             ):
                 pub._runtime_readback(api, source, manifest)
 
+    def test_runtime_requires_all_three_viewers_and_all_cpu_apis(self):
+        source, manifest = "a" * 40, "b" * 64
+        def body(viewers: int, apis):
+            return {
+                "title": "Khipu Proof Loom",
+                "components": [{"type": "model3d"}] * viewers + [
+                    {"type": "html", "props": {"value":
+                        f'<div data-szl-source-sha="{source}" '
+                        f'data-szl-manifest-sha256="{manifest}"></div>'}},
+                    {"type": "checkbox", "props": {
+                        "label": "Enable optional CPU symbolic training (explicit opt-in)",
+                        "value": False}},
+                ],
+                "dependencies": [{"api_name": e, "queue": True} for e in apis],
+            }
+        class Response:
+            status = 200
+            def __init__(self, payload): self.payload = payload
+            def __enter__(self): return self
+            def __exit__(self, *_): return False
+            def read(self, _): return json.dumps(self.payload).encode()
+        api = SimpleNamespace(get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING"))
+        with patch.object(pub.urllib.request, "urlopen",
+                          return_value=Response(body(2, pub.EXPENSIVE_APIS))):
+            with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_RENDERED_SOURCE_MISMATCH"):
+                pub._runtime_readback(api, source, manifest)
+        with patch.object(pub.urllib.request, "urlopen",
+                          return_value=Response(body(3, ("discover", "recompute", "falsify", "hjo_profile")))):
+            with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_CALLBACK_QUEUE_DISABLED"):
+                pub._runtime_readback(api, source, manifest)
+        with patch.object(pub.urllib.request, "urlopen",
+                          return_value=Response(body(3, pub.EXPENSIVE_APIS))):
+            self.assertEqual(pub._runtime_readback(api, source, manifest)["status"],
+                             "RUNTIME_SOURCE_VERIFIED")
+
+    def test_only_named_data_files_get_a_larger_byte_budget(self):
+        self.assertEqual(set(pub.SIZE_LIMITS), {"okr_corpus_v1.json.gz", "okr_relations_v1.json"})
+        self.assertEqual(pub.DEFAULT_SIZE_LIMIT, 150_000)
+        for source, dest in pub.FILES.items():
+            limit = pub.SIZE_LIMITS.get(dest, pub.DEFAULT_SIZE_LIMIT)
+            self.assertLessEqual((pub.ROOT / source).stat().st_size, limit, dest)
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "big.py").write_bytes(b"#" * 150_001)
+            (root / "okr_corpus_v1.json.gz").write_bytes(b"\0" * 150_001)
+            with patch.object(pub, "ROOT", root), \
+                    patch.object(pub, "FILES", {"okr_corpus_v1.json.gz": "okr_corpus_v1.json.gz"}):
+                pub._stage(root / "ok", "f" * 40)
+            with patch.object(pub, "ROOT", root), patch.object(pub, "FILES", {"big.py": "big.py"}):
+                with self.assertRaisesRegex(pub.AdmissionHold, "SOURCE_FILE_INVALID"):
+                    pub._stage(root / "out", "f" * 40)
+
     def test_running_stale_source_is_not_qualified(self):
         class Response:
             status = 200
@@ -233,7 +287,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
             def read(self, _): return json.dumps({
                 "title": "Khipu Proof Loom",
                 "components": [
-                    {"type": "model3d"},
+                    {"type": "model3d"}, {"type": "model3d"}, {"type": "model3d"},
                     {"type": "html", "props": {"value":
                         '<div data-szl-source-sha="' + "c" * 40 +
                         '" data-szl-manifest-sha256="' + "b" * 64 + '"></div>'}},
@@ -249,7 +303,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
         original = (pub.ROOT / "spaces/proof-loom/README.md").read_bytes()
         pub._validate_space_card(original)
         long_card = original.replace(
-            b"short_description: Exact finite mathematics in Python 3D",
+            b"short_description: Real khipu arithmetic and X^a=Y^b theorems, exact in 3D",
             b"short_description: " + b"X" * 61,
         )
         with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_CARD_SHORT_DESCRIPTION_INVALID"):

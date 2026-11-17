@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Protected-main publisher for the independent Gradio Proof Loom Space.
 
-Only the exact allowlisted public Python/Markdown/JSON files and SOURCE.json are sent.
+Only the allowlisted public source/data files and SOURCE.json are sent.
 Existing unrelated files are preserved; parent-commit CAS protects other writers.
 No retries across auth, quota, revision, visibility, source or runtime refusals.
 """
@@ -29,7 +29,22 @@ FILES = {
     "research/rr_discovery/falsifier.py": "falsifier.py",
     "research/hjo_profile/cylindric.py": "cylindric.py",
     "research/rr_discovery/receipts/sequence_scout_v1.json": "sequence_scout_v1.json",
+    "szl_khipu/hjo_loom.py": "hjo_loom.py",
+    "szl_khipu/holo_glb.py": "holo_glb.py",
+    "szl_khipu/okr_khipu.py": "okr_khipu.py",
+    "szl_khipu/chain.py": "chain.py",
+    "research/hjo_loom/hjo_certificate_v1.json": "hjo_certificate_v1.json",
+    "research/okr_corpus/okr_corpus_v1.json.gz": "okr_corpus_v1.json.gz",
+    "research/okr_corpus/okr_relations_v1.json": "okr_relations_v1.json",
+    "research/okr_corpus/LICENSE-OKR.txt": "LICENSE-OKR.txt",
 }
+# Default per-file ceiling is 150 kB; only these named data files may be larger.
+SIZE_LIMITS = {
+    "okr_corpus_v1.json.gz": 4_000_000,
+    "okr_relations_v1.json": 2_000_000,
+}
+DEFAULT_SIZE_LIMIT = 150_000
+EXPENSIVE_APIS = ("discover", "recompute", "falsify", "hjo_profile", "khipu", "hjo")
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 # One-shot recovery of the exact owner-created empty Space after the 2026-11-17
 # Hub card-metadata 400, with immutable provider readback and no file deletion.
@@ -106,7 +121,8 @@ def _stage(destination: Path, sha: str) -> dict:
     records = []
     for source, name in FILES.items():
         path = ROOT / source
-        if path.is_symlink() or not path.is_file() or path.stat().st_size > 150_000:
+        limit = SIZE_LIMITS.get(name, DEFAULT_SIZE_LIMIT)
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > limit:
             raise AdmissionHold("SOURCE_FILE_INVALID")
         raw = path.read_bytes()
         if name == "README.md":
@@ -177,10 +193,10 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                 if (
                     config.get("title") != "Khipu Proof Loom"
                     or not isinstance(components, list)
-                    or not any(
-                        isinstance(x, dict) and x.get("type") == "model3d"
-                        for x in components
-                    )
+                    or sum(
+                        1 for x in components
+                        if isinstance(x, dict) and x.get("type") == "model3d"
+                    ) < 3
                 ):
                     raise AdmissionHold("SPACE_RENDERED_SOURCE_MISMATCH")
                 expected_marker = (
@@ -215,14 +231,12 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                 expensive = [
                     item for item in dependencies
                     if isinstance(item, dict)
-                    and item.get("api_name") in (
-                        "discover", "recompute", "falsify", "hjo_profile"
-                    )
+                    and item.get("api_name") in EXPENSIVE_APIS
                 ]
                 # Gradio's public /config confirms that events use the queue,
                 # but does not expose concurrency_limit/concurrency_id. The
                 # exact-source local real-SDK smoke tests those backend values.
-                if len(expensive) != 4 or any(
+                if len(expensive) != len(EXPENSIVE_APIS) or any(
                     item.get("queue") is not True for item in expensive
                 ):
                     raise AdmissionHold("SPACE_CALLBACK_QUEUE_DISABLED")
@@ -364,7 +378,7 @@ def publish() -> dict:
         commit = api.upload_folder(
             folder_path=str(root), repo_id=TARGET, repo_type="space",
             parent_commit=parent,
-            commit_message="feat(proof-loom): source-bound Python 3D research lab",
+            commit_message="feat(proof-loom): source-bound HJO Loom + OKR khipu arithmetic lab",
         )
         revision = str(commit.oid)
         if not SHA40.fullmatch(revision):
