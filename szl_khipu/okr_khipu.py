@@ -944,7 +944,6 @@ def scene(khipu, max_cords=1500, max_knots=8000) -> dict:
     if not _is_int(max_cords) or not _is_int(max_knots) or max_cords < 1 or max_knots < 0:
         raise OkrHold("max_cords/max_knots must be positive ints")
     cords = khipu["cords"]
-    by_id = {c["id"]: c for c in cords}
     roles = {c["id"]: cord_role(c) for c in cords}
     prims = khipu.get("primaries") or []
     prim_ids = [p.get("id") for p in prims]
@@ -978,7 +977,6 @@ def scene(khipu, max_cords=1500, max_knots=8000) -> dict:
         qi += 1
     truncated_cords = len(queue) > max_cords
     drawn = queue[:max_cords]
-    drawn_ids = {c["id"] for c in drawn}
 
     lengths = [min(float(c.get("length") or 0), 120.0) for c in cords]
     cap = max([x for x in lengths if x > 0] or [40.0])
