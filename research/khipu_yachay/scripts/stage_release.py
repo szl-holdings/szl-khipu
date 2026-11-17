@@ -35,8 +35,13 @@ def stage(project: Path, output: Path, source_revision: str) -> dict:
     shutil.copyfile(project/'model/yachay_nb_v0.json',dirs['model']/'yachay_nb_v0.json')
     shutil.copyfile(project/'model/training_receipt.json',dirs['model']/'training_receipt.json')
     shutil.copyfile(project/'docs/MODEL_CARD.md',dirs['model']/'README.md')
-    for name in ('README.md','Dockerfile','app.py','app.js','style.css','index.html'):
-        shutil.copyfile(project/'space'/name,dirs['space']/name)
+    # HF Space repository root is /app. The runtime's ROOT calculation and
+    # Docker CMD require app.py/assets under /app/space/, not /app/.
+    for name in ('README.md', 'Dockerfile'):
+        shutil.copyfile(project/'space'/name, dirs['space']/name)
+    (dirs['space'] / 'space').mkdir()
+    for name in ('app.py', 'app.js', 'style.css', 'index.html'):
+        shutil.copyfile(project/'space'/name, dirs['space']/'space'/name)
     for subdir in ('src','model','data'):
         shutil.copytree(project/subdir,dirs['space']/subdir,
                         ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
