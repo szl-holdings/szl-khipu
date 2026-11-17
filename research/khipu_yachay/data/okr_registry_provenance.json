@@ -1,0 +1,14 @@
+{
+  "schema": "szl.khipu-yachay.archival-id-manifest/v0",
+  "observed_kh_ids": 702,
+  "source": "Open Khipu Repository v2.1.0",
+  "source_license": "MIT; copyright OKR Team 2022",
+  "source_repo": "https://github.com/khipulab/open-khipu-repository/tree/v2.1.0",
+  "source_csv_blob_git_sha1": "57a44cf0befc8baacc5d6bbcf11e09decf41cd14",
+  "source_license_blob_git_sha1": "34fb023896ee8db5042b6235bf3b1bd08f507f22",
+  "id_sequence_confirmed": "KH0001 through KH0702 (702 unique IDs); rederive from original bytes before claiming full archive metadata",
+  "full_object_data_copied": false,
+  "cord_data_derived": false,
+  "license_not_equal_to_cultural_consent": true,
+  "research_admission": "IDENTIFIER_INDEX_ONLY"
+}
