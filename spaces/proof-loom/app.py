@@ -7,7 +7,9 @@ archaeological data, external assets or custom JavaScript are loaded.
 from __future__ import annotations
 
 import hashlib
+import html
 import json
+import math
 import os
 import re
 from pathlib import Path
@@ -16,6 +18,11 @@ import gradio as gr
 
 # The protected publisher copies canonical szl_khipu/proof_loom.py beside this app.
 from proof_loom import panel
+from falsifier import (
+    Hold as CrucibleHold,
+    falsify as check_finite_conjecture,
+    parse_residues as parse_conjecture_residues,
+)
 from hypothesis import (
     DOMAIN as SCOUT_DOMAIN,
     canonical as scout_canonical,
@@ -51,7 +58,7 @@ def _source_identity() -> tuple[str, str]:
     records = manifest.get("files")
     expected_files = {
         "app.py", "README.md", "proof_loom.py",
-        "hypothesis.py", "sequence_scout_v1.json",
+        "hypothesis.py", "falsifier.py", "sequence_scout_v1.json",
     }
     if not isinstance(records, list) or len(records) != len(expected_files):
         raise RuntimeError("SOURCE_FILE_SET_INVALID")
@@ -243,6 +250,66 @@ def scout_panel(case: str, introduce_error: bool, opt_in: bool = False) -> str:
     )
 
 
+def conjecture_panel(
+    case: str, modulus: float, residues_raw: str, degree: float,
+) -> tuple[str, dict]:
+    """Execute an explicitly requested, finite, three-oracle falsification."""
+    try:
+        if type(modulus) is float and math.isfinite(modulus) and modulus.is_integer():
+            modulus = int(modulus)
+        if type(degree) is float and math.isfinite(degree) and degree.is_integer():
+            degree = int(degree)
+        result = check_finite_conjecture(
+            case, modulus, parse_conjecture_residues(residues_raw), degree
+        )
+    except CrucibleHold as error:
+        reason = html.escape(str(error))
+        return (
+            '<section class="scout scout-hold"><h3>HOLD · Invalid finite proposal</h3>'
+            f'<p>Input rejected: {reason}. Nothing was evaluated.</p></section>',
+            {"status": "HOLD", "reason": str(error), "evaluation_performed": False},
+        )
+    checked = result["coefficients_checked"]
+    digest = html.escape(result["sha256"][:20])
+    if result["first_counterexample"] is not None:
+        item = result["first_counterexample"]
+        examples = html.escape(json.dumps(
+            {
+                "gap": item.get("gap_partition_examples_ascending"),
+                "proposed": item.get("proposed_modular_partition_examples_ascending"),
+                "examples_are_exhaustive": item.get("examples_are_exhaustive"),
+            }, sort_keys=True,
+        ))
+        panel_html = (
+            '<section class="scout scout-hold"><h3>REFUTED by finite counterexample</h3>'
+            '<div class="scout-grid">'
+            f'<div class="scout-stat"><b>n={item["degree"]}</b>'
+            '<span>first mismatching degree</span></div>'
+            f'<div class="scout-stat"><b>{item["expected_gap_and_qseries_count"]}</b>'
+            '<span>independent reference count</span></div>'
+            f'<div class="scout-stat"><b>{item["proposed_product_count"]}</b>'
+            '<span>proposed modular-product count</span></div></div>'
+            f'<p>Exact finite counterexample. Checked {checked} coefficients. '
+            f'Displayed partition samples: <code>{examples}</code>.</p>'
+            f'<small>Unsigned SHA-256 digest {digest}… . This refutes only the '
+            'specified all-n partition equality, not a result about archaeology or '
+            'the HJO torus-knot theorem.</small></section>'
+        )
+    else:
+        panel_html = (
+            '<section class="scout"><h3>NOT REFUTED · finite limit only</h3>'
+            '<div class="scout-grid">'
+            f'<div class="scout-stat"><b>{checked}/{checked}</b>'
+            '<span>matching finite coefficients</span></div>'
+            f'<div class="scout-stat"><b>n≤{degree}</b>'
+            '<span>maximum degree tested</span></div></div>'
+            f'<p>Two independent reference methods agree, and the proposed '
+            f'product agrees at all tested degrees. This is <b>NOT an infinite '
+            f'proof</b>. Digest {digest}…</p></section>'
+        )
+    return panel_html, result
+
+
 # Delete old Gradio-generated request files after two hours, checking hourly.
 # Geometry source files are owned by a process-lifetime TemporaryDirectory.
 with gr.Blocks(
@@ -297,6 +364,40 @@ with gr.Blocks(
             scout_toggle, inputs=[scout_opt_in],
             outputs=[scout_result, scout_button], api_name=False,
             cancels=[scout_event], trigger_mode='always_last',
+        )
+    with gr.Accordion('Conjecture Crucible — exact finite falsification', open=False):
+        gr.HTML(
+            '<p class="proof-intro">Propose a modular-product identity and look '
+            'for the first exact counterexample. Separate q-series and gap-partition '
+            'calculations must agree before comparison. All inputs are bounded; '
+            'finite agreement is never a proof of an infinite identity. '
+            'This tests only the two classical Rogers–Ramanujan cases, '
+            '<b>not</b> the new HJO torus-knot family.</p>'
+        )
+        with gr.Row():
+            falsify_case = gr.Radio(["RR1", "RR2"], value="RR1", label="Classical reference")
+            falsify_modulus = gr.Slider(2, 12, step=1, value=5, label="Proposed modulus")
+            falsify_degree = gr.Slider(1, 256, step=1, value=128, label="Finite degree ceiling")
+        falsify_residues = gr.Textbox(
+            value="1,4", lines=1, label="Positive residue classes (sorted, e.g., 1,4)",
+            max_lines=1, max_length=16,
+        )
+        falsify_result = gr.HTML(
+            '<section class="scout"><h3>NOT EVALUATED</h3>'
+            '<p>Specify your proposed residues, then click the finite checker. '
+            'No test is run on page load.</p></section>'
+        )
+        falsify_receipt = gr.JSON(
+            value={"status": "NOT_EVALUATED", "infinite_identity_proved_here": False},
+            label="Unsigned reproducible finite-evidence receipt",
+        )
+        falsify_button = gr.Button("Find the first finite counterexample", variant="secondary")
+        falsify_button.click(
+            conjecture_panel,
+            inputs=[falsify_case, falsify_modulus, falsify_residues, falsify_degree],
+            outputs=[falsify_result, falsify_receipt],
+            api_name="falsify", concurrency_limit=1, concurrency_id="proof-loom-cpu",
+            trigger_mode="once",
         )
     gr.HTML('<p class="proof-foot">This demo has no neural or language-model training. The external '
             '<a href="https://github.com/AxiomMath/HJO">HJO formalization</a> has not '

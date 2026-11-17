@@ -121,9 +121,9 @@ class GradioRuntime(unittest.TestCase):
                 )
                 expensive = [
                     event for event in config["dependencies"]
-                    if event.get("api_name") in ("recompute", "discover")
+                    if event.get("api_name") in ("recompute", "discover", "falsify")
                 ]
-                self.assertEqual(len(expensive), 2)
+                self.assertEqual(len(expensive), 3)
                 self.assertTrue(all(
                     event.get("queue") is True
                     and event.get("trigger_mode") == "once"
@@ -133,9 +133,9 @@ class GradioRuntime(unittest.TestCase):
                 # /config. Verify the actual backend BlockFunction instead.
                 backend = [
                     fn for fn in standalone.demo.fns.values()
-                    if fn.api_name in ("recompute", "discover")
+                    if fn.api_name in ("recompute", "discover", "falsify")
                 ]
-                self.assertEqual(len(backend), 2)
+                self.assertEqual(len(backend), 3)
                 self.assertTrue(all(
                     fn.concurrency_limit == 1
                     and fn.concurrency_id == "proof-loom-cpu"
@@ -198,6 +198,24 @@ class GradioRuntime(unittest.TestCase):
                         standalone.scout_option_state(False),
                         standalone.SCOUT_DISABLED,
                     )
+                    accepted = client.predict(
+                        "RR1", 5, "1,4", 256, api_name="/falsify",
+                    )
+                    self.assertIn("NOT REFUTED", accepted[0])
+                    self.assertIn("NOT an infinite", accepted[0])
+                    self.assertEqual(accepted[1]["coefficients_checked"], 257)
+                    self.assertEqual(accepted[1]["status"], "FINITE_MATCH_NOT_A_PROOF")
+                    refuted = client.predict(
+                        "RR1", 5, "1,3", 256, api_name="/falsify",
+                    )
+                    self.assertIn("REFUTED", refuted[0])
+                    self.assertEqual(refuted[1]["first_counterexample"]["degree"], 3)
+                    self.assertEqual(refuted[1]["status"], "FINITE_COUNTEREXAMPLE")
+                    invalid = client.predict(
+                        "RR1", 5, "1,1", 256, api_name="/falsify",
+                    )
+                    self.assertEqual(invalid[1]["status"], "HOLD")
+                    self.assertIs(invalid[1]["evaluation_performed"], False)
                 finally:
                     client.close()
             finally:

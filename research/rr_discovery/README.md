@@ -48,3 +48,17 @@ QUALIFIED: NOT ASSESSED (no archaeological, theorem, or neural generalization).
 ## Research beyond this control
 
 Future tests of archaeological arithmetic and cord features require lawful access, stewardship, Indigenous/Andean participation, held-out whole artifacts and sites, provenance-aware negative controls, and explicit missing-data semantics. The mathematically separate HJO (a,b) q-series needs faithful definitions, source-pinned formal hypotheses and independent theorem checking; this finite classical experiment makes no claim about those extended cases.
+
+## Conjecture Crucible — bounded finite falsification (new independent route)
+
+The independent Python module `research/rr_discovery/falsifier.py` is separate from the trainer. It is a **user-proposed hypothesis checker, not a model**, and tests only the two classical Rogers–Ramanujan partition identities. It provides three exact finite arithmetic routes: a q-series sum using Pochhammer coefficients, a gap-partition recurrence, and the proposed modular-product coefficients. The two reference methods must agree before a report is issued.
+
+Public user inputs are bounded to modulus 2..12, 1..4 strictly increasing positive residue classes (never residue zero) and finite degree 1..256. Unparseable, ambiguous, duplicated or out-of-bounds parameters return HOLD. The first detected mismatch returns an exact integer counterexample and, for small degrees, explicit examples of both partition collections. A match to degree 256 is only `FINITE_MATCH_NOT_A_PROOF` and does not imply any identity for all integers.
+
+For the RR1 false proposal modulo 5 with residues 1,3, the first mismatch is **n=3**, where the actual gap count is 1 (partition [3]) while the proposed product count is 2 ([3] and [1,1,1]). For true classical RR1 residues 1,4 and RR2 residues 2,3, all 257 coefficients through n=256 agree across the three exact programs. These are mathematical controls, not novelty, trained neural weights, archaeological interpretation, Lean replay or an HJO general-family reproduction.
+
+Run offline:
+    python research/rr_discovery/falsifier.py --case RR1 --modulus 5 --residues 1,3 --limit 256
+    python -m unittest discover -s tests -p test_rr_conjecture_crucible.py -v
+
+The existing protected-main publisher only admits the canonical, byte-hashed `falsifier.py` with all other allowlisted Space files and SOURCE.json. The public Space exposes an explicitly clicked `/falsify` endpoint sharing its capped one-process CPU lane; it emits a domain-separated SHA-256 receipt, **not a signature**. Rights, source claims and conservative HJO/archaeological boundaries remain unchanged.
