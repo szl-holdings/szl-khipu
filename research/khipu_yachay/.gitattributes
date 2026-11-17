@@ -1,0 +1,7 @@
+# Exact bytes are part of the research model's SHA-256 identity.
+# Git's core.autocrlf must never rewrite serialized weights, provenance
+# receipts, or fixed synthetic/archival identifiers on Windows.
+# This does not change the data license or grant model publication.
+model/*.json -text
+data/*.json -text
+data/*.jsonl -text
