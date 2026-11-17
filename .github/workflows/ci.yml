@@ -65,6 +65,8 @@ jobs:
             d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e "$RUNNER_TEMP/okr/okr-kh-numbers.csv" \
             | sha256sum -c -
           python -I research/okr_corpus/build_corpus.py --db "$RUNNER_TEMP/okr/khipu.db" --relations --check
+      - name: Replay post-hoc spatial-shift sensitivity from pinned OKR corpus
+        run: python -I research/okr_corpus/spatial_null.py --check research/okr_corpus/spatial_null_v1.json
       - name: Corpus rebuild unit test against the pinned database
         env:
           SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
