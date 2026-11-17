@@ -1,5 +1,4 @@
 """Fail-closed reproducibility, scope/rights and real HTTP smoke tests."""
-import hashlib
 import json
 from pathlib import Path
 import threading
@@ -10,7 +9,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src.core import evaluate_cords, load_model, route_question, answer, sha256
+from src.core import evaluate_cords, route_question, answer, sha256
 from src.train import build_rows, evaluate
 from space.app import make_server, load_state, analyze
 
