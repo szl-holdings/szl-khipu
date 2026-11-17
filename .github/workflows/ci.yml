@@ -33,6 +33,43 @@ jobs:
       - name: Unit tests
         run: python -m unittest discover -s tests -v
 
+  research-replay:
+    # From-scratch replays of the sealed research artifacts the Proof Loom
+    # Space serves; publish-proof-loom repeats them on protected main.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Install hash-locked dependencies, then the package
+        run: |
+          python -m pip install --require-hashes -r requirements/ci/test.txt
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Replay the sealed HJO finite certificate
+        run: python research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
+      - name: Rebuild the OKR corpus and relations report from the pinned upstream database
+        shell: bash
+        run: |
+          set -euo pipefail
+          okr="https://raw.githubusercontent.com/khipulab/open-khipu-repository/4039ca51f4de661d80d0160596309c983a62a9c7/data"
+          mkdir -p "$RUNNER_TEMP/okr"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/okr/khipu.db" "$okr/khipu.db"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/okr/okr-kh-numbers.csv" "$okr/okr-kh-numbers.csv"
+          printf '%s  %s\n' \
+            607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db "$RUNNER_TEMP/okr/khipu.db" \
+            d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e "$RUNNER_TEMP/okr/okr-kh-numbers.csv" \
+            | sha256sum -c -
+          python -I research/okr_corpus/build_corpus.py --db "$RUNNER_TEMP/okr/khipu.db" --relations --check
+      - name: Corpus rebuild unit test against the pinned database
+        env:
+          SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
+        run: python -m unittest discover -s tests -p test_okr_khipu.py -v
+
   gradio-demo:
     runs-on: ubuntu-latest
     timeout-minutes: 15
