@@ -27,6 +27,11 @@ FILES = {
     "szl_khipu/proof_loom.py": "proof_loom.py",
 }
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
+# One-shot recovery of the exact owner-created empty Space after the 2026-11-17
+# Hub card-metadata 400, with immutable provider readback and no file deletion.
+# GitHub Action 44033724202 journal pins the CREATE_INTENT / created SHA.
+OWNER_STUB_REVISION = "d67dccc2e8167d43cca9b05847ef1f5fca894f43"
+OWNER_STUB_README_SHA256 = "bdcf9cffdc3328160cd25d1bb646c6b13173abd217fb2c0457f58bd9f6129c7a"
 
 
 class AdmissionHold(RuntimeError):
@@ -47,6 +52,27 @@ def _journal(status: str, **facts: object) -> None:
         stream.write(json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n")
         stream.flush()
         os.fsync(stream.fileno())
+
+
+def _validate_space_card(raw: bytes) -> None:
+    """Fail offline on the exact 60-character Hub metadata cap."""
+    try:
+        lines = raw.decode("utf-8").splitlines()
+    except UnicodeDecodeError as exc:
+        raise AdmissionHold("SPACE_CARD_NOT_UTF8") from exc
+    if len(lines) < 3 or lines[0] != "---":
+        raise AdmissionHold("SPACE_CARD_FRONTMATTER_MISSING")
+    try:
+        closing = lines.index("---", 1)
+    except ValueError as exc:
+        raise AdmissionHold("SPACE_CARD_FRONTMATTER_UNTERMINATED") from exc
+    descriptions = [
+        line.split(":", 1)[1].strip().strip("'\\\"")
+        for line in lines[1:closing]
+        if line.startswith("short_description:")
+    ]
+    if len(descriptions) != 1 or not 0 < len(descriptions[0]) <= 60:
+        raise AdmissionHold("SPACE_CARD_SHORT_DESCRIPTION_INVALID")
 
 
 def _identity(*, publish: bool):
@@ -79,6 +105,8 @@ def _stage(destination: Path, sha: str) -> dict:
         if path.is_symlink() or not path.is_file() or path.stat().st_size > 150_000:
             raise AdmissionHold("SOURCE_FILE_INVALID")
         raw = path.read_bytes()
+        if name == "README.md":
+            _validate_space_card(raw)
         (destination / name).write_bytes(raw)
         records.append({
             "source": source, "dest": name, "size": len(raw),
@@ -180,6 +208,30 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
     raise AdmissionHold("SPACE_RUNTIME_UNOBSERVED_AFTER_BOUNDED_POLL")
 
 
+def _verify_owner_stub(api, parent: str, token: str) -> None:
+    """Recover only the exact empty Space created by prior accepted owner lane."""
+    if parent != OWNER_STUB_REVISION:
+        raise AdmissionHold("OWNER_STUB_PARENT_CHANGED")
+    pinned = api.space_info(TARGET, revision=parent, files_metadata=True)
+    paths = {row.rfilename for row in (getattr(pinned, "siblings", None) or [])}
+    if (
+        pinned.sha != parent
+        or pinned.private is not False
+        or pinned.sdk != "gradio"
+        or paths != {".gitattributes", "README.md"}
+    ):
+        raise AdmissionHold("OWNER_STUB_FILE_SET_OR_IDENTITY_CHANGED")
+    from huggingface_hub import hf_hub_download
+    path = Path(hf_hub_download(
+        repo_id=TARGET, filename="README.md", revision=parent,
+        repo_type="space", token=token,
+    ))
+    if hashlib.sha256(path.read_bytes()).hexdigest() != OWNER_STUB_README_SHA256:
+        raise AdmissionHold("OWNER_STUB_README_BYTES_CHANGED")
+    _journal("PINNED_OWNER_STUB_RECONCILED", prior_run_id=44033724202,
+             exact_stub_parent=parent, prior_readme_sha256=OWNER_STUB_README_SHA256)
+
+
 def publish() -> dict:
     sha = _identity(publish=True)
     token = os.getenv("HF_ORG_TOKEN") or os.getenv("HF_TOKEN")
@@ -239,23 +291,29 @@ def publish() -> dict:
         if not SHA40.fullmatch(parent):
             raise AdmissionHold("TARGET_PARENT_UNOBSERVED")
         if not created_new:
+            from huggingface_hub import hf_hub_download
+            from huggingface_hub.errors import EntryNotFoundError
             try:
-                from huggingface_hub import hf_hub_download
                 prior = Path(hf_hub_download(
                     repo_id=TARGET, filename="SOURCE.json", revision=parent,
                     repo_type="space", token=token,
                 ))
+            except EntryNotFoundError as exc:
+                status_code = getattr(getattr(exc, "response", None), "status_code", None)
+                if status_code != 404:
+                    raise AdmissionHold("TARGET_OWNER_MARKER_AUTH_AMBIGUOUS") from None
+                _verify_owner_stub(api, parent, token)
             except Exception as exc:
-                # Existing Space without the owner's source marker is not ours.
                 raise AdmissionHold(
                     "TARGET_OWNER_MARKER_UNOBSERVED_" + type(exc).__name__
                 ) from None
-            payload = json.loads(prior.read_text(encoding="utf-8"))
-            if (
-                payload.get("source_repository") != SOURCE_REPO
-                or payload.get("target_space") != TARGET
-            ):
-                raise AdmissionHold("TARGET_OWNED_BY_OTHER_WRITER")
+            else:
+                payload = json.loads(prior.read_text(encoding="utf-8"))
+                if (
+                    payload.get("source_repository") != SOURCE_REPO
+                    or payload.get("target_space") != TARGET
+                ):
+                    raise AdmissionHold("TARGET_OWNED_BY_OTHER_WRITER")
         _journal("UPLOAD_INTENT", source_commit=sha, manifest_sha256=manifest_sha,
                  expected_parent=parent)
         commit = api.upload_folder(

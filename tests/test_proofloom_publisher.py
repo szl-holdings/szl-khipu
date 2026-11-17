@@ -2,7 +2,9 @@
 import hashlib
 import json
 import os
+import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -109,6 +111,44 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 pub._runtime_readback(SimpleNamespace(
                     get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
                 ), "a" * 40, "b" * 64)
+
+    def test_space_card_short_description_fails_before_provider(self):
+        original = (pub.ROOT / "spaces/proof-loom/README.md").read_bytes()
+        pub._validate_space_card(original)
+        long_card = original.replace(
+            b"short_description: Exact finite mathematics in Python 3D",
+            b"short_description: " + b"X" * 61,
+        )
+        with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_CARD_SHORT_DESCRIPTION_INVALID"):
+            pub._validate_space_card(long_card)
+
+    def test_recovery_stub_requires_immutable_parent_and_exact_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            readme = Path(temp) / "README.md"
+            readme.write_bytes(b"owner-created-only-test-fixture")
+            expected = hashlib.sha256(readme.read_bytes()).hexdigest()
+            mock_hub = types.ModuleType("huggingface_hub")
+            mock_hub.hf_hub_download = lambda **_: str(readme)
+            pinned = SimpleNamespace(
+                sha="a" * 40, private=False, sdk="gradio",
+                siblings=[SimpleNamespace(rfilename=".gitattributes"),
+                          SimpleNamespace(rfilename="README.md")],
+            )
+            api = SimpleNamespace(space_info=lambda *a, **kw: pinned)
+            with patch.dict(sys.modules, {"huggingface_hub": mock_hub}), (
+                patch.object(pub, "OWNER_STUB_REVISION", "a" * 40)
+            ), patch.object(pub, "OWNER_STUB_README_SHA256", expected), patch.object(pub, "_journal") as journal:
+                pub._verify_owner_stub(api, "a" * 40, "configured-token")
+                journal.assert_called_once()
+                with self.assertRaisesRegex(pub.AdmissionHold, "OWNER_STUB_PARENT_CHANGED"):
+                    pub._verify_owner_stub(api, "b" * 40, "configured-token")
+                pinned.siblings.append(SimpleNamespace(rfilename="foreign.txt"))
+                with self.assertRaisesRegex(pub.AdmissionHold, "OWNER_STUB_FILE_SET_OR_IDENTITY_CHANGED"):
+                    pub._verify_owner_stub(api, "a" * 40, "configured-token")
+                pinned.siblings.pop()
+                readme.write_bytes(b"changed")
+                with self.assertRaisesRegex(pub.AdmissionHold, "OWNER_STUB_README_BYTES_CHANGED"):
+                    pub._verify_owner_stub(api, "a" * 40, "configured-token")
 
 
 if __name__ == "__main__":
