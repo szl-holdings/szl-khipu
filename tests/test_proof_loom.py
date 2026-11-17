@@ -2,6 +2,8 @@
 import hashlib
 import json
 import struct
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -91,6 +93,22 @@ class ProofLoomTests(unittest.TestCase):
         self.assertIn("FINITE MATCH", html)
         self.assertIn("NOT ASSESSED", html)
         self.assertIn("does not reconstruct", html)
+
+    def test_output_directory_is_cleaned_on_normal_interpreter_exit(self):
+        script = (
+            "from szl_khipu.proof_loom import render; "
+            "print(render(7, 'RR1', (2, 3))[0], flush=True)"
+        )
+        result = subprocess.run(
+            [sys.executable, "-c", script],
+            capture_output=True, text=True, check=False,
+            cwd=Path(__file__).resolve().parents[1],
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        rendered_path = Path(result.stdout.strip())
+        self.assertTrue(rendered_path.name.startswith("proof-loom-"))
+        self.assertFalse(rendered_path.exists(), "source GLB must be removed on normal exit")
+        self.assertFalse(rendered_path.parent.exists(), "output directory must not leak on exit")
 
 
 if __name__ == "__main__":

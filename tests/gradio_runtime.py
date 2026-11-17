@@ -114,9 +114,49 @@ class GradioRuntime(unittest.TestCase):
                 self.assertIsNone(share)
                 config = httpx.get(f"{url}config", timeout=15.0).json()
                 self.assertEqual(config["title"], "Khipu Proof Loom")
+                self.assertEqual(standalone.demo.delete_cache, (3600, 7200))
+                self.assertEqual(standalone.demo._queue.max_size, 32)
                 self.assertEqual(
                     len([c for c in config["components"] if c["type"] == "model3d"]), 1
                 )
+                expensive = [
+                    event for event in config["dependencies"]
+                    if event.get("api_name") in ("recompute", "discover")
+                ]
+                self.assertEqual(len(expensive), 2)
+                self.assertTrue(all(
+                    event.get("queue") is True
+                    and event.get("trigger_mode") == "once"
+                    for event in expensive
+                ))
+                # Gradio 6.x does NOT serialize concurrency_id/limit in public
+                # /config. Verify the actual backend BlockFunction instead.
+                backend = [
+                    fn for fn in standalone.demo.fns.values()
+                    if fn.api_name in ("recompute", "discover")
+                ]
+                self.assertEqual(len(backend), 2)
+                self.assertTrue(all(
+                    fn.concurrency_limit == 1
+                    and fn.concurrency_id == "proof-loom-cpu"
+                    for fn in backend
+                ))
+                opt_ins = [
+                    part["props"] for part in config["components"]
+                    if part["type"] == "checkbox"
+                    and "Enable optional CPU symbolic training" in part["props"].get("label", "")
+                ]
+                self.assertEqual(len(opt_ins), 1)
+                self.assertIs(opt_ins[0]["value"], False)
+                scout_train = [
+                    part["props"] for part in config["components"]
+                    if part["type"] == "button"
+                    and part["props"].get("value") == "Train CPU symbolic model and verify held-out"
+                ]
+                self.assertEqual(len(scout_train), 1)
+                self.assertIs(scout_train[0]["interactive"], False)
+                self.assertIs(standalone.scout_toggle(False)[1]["interactive"], False)
+                self.assertIs(standalone.scout_toggle(True)[1]["interactive"], True)
                 marker = (
                     'data-szl-source-sha="' + "a" * 40 +
                     '" data-szl-manifest-sha256="' +
