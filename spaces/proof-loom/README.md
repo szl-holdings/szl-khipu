@@ -61,3 +61,11 @@ ancient Inka mathematical decipherment or broader production/scientific qualific
 
 Research sources: [Axiom Math HJO](https://github.com/AxiomMath/HJO) and
 [Open Khipu Repository](https://github.com/khipulab/open-khipu-repository).
+
+## Conjecture Crucible — finite mathematical counterexamples
+
+The second optional research tool tests user-proposed Rogers–Ramanujan *partition-product* identities. Enter a modulus (2–12), sorted nonzero residues (1–4 classes) and a finite limit (1–256), then explicitly click the checker. It compares two independent exact reference methods (classical q-series and gap partitions) with the proposed product. There is no automatic evaluation at page load or GPU use.
+
+The live `/falsify` API returns a human-readable result and an unsigned, domain-separated SHA-256 JSON receipt. An incorrect hypothesis yields the first finite counterexample with actual and proposed integer counts; where small enough, exact partition examples are included. **A hypothesis matching all 257 coefficients through n=256 is not proved for all n.** This interface does not test the HJO general torus-knot identities, Lean proof replay, or historical Inca khipus.
+
+The publisher verifies the six-file exact SOURCE.json and the presence of a queued `/falsify` endpoint on the RUNNING Space. The finite checker shares the same `concurrency_limit=1`, `concurrency_id=proof-loom-cpu` CPU lane as the existing 3D and training controls.

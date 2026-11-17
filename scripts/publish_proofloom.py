@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Protected-main publisher for the independent Gradio Proof Loom Space.
 
-Only the three allowlisted public Python/Markdown files and SOURCE.json are sent.
+Only the exact allowlisted public Python/Markdown/JSON files and SOURCE.json are sent.
 Existing unrelated files are preserved; parent-commit CAS protects other writers.
 No retries across auth, quota, revision, visibility, source or runtime refusals.
 """
@@ -26,6 +26,7 @@ FILES = {
     "spaces/proof-loom/README.md": "README.md",
     "szl_khipu/proof_loom.py": "proof_loom.py",
     "research/rr_discovery/learner.py": "hypothesis.py",
+    "research/rr_discovery/falsifier.py": "falsifier.py",
     "research/rr_discovery/receipts/sequence_scout_v1.json": "sequence_scout_v1.json",
 }
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
@@ -200,15 +201,20 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                     for item in dependencies
                 ):
                     raise AdmissionHold("SPACE_DISCOVERY_API_UNOBSERVED")
+                if not any(
+                    isinstance(item, dict) and item.get("api_name") == "falsify"
+                    for item in dependencies
+                ):
+                    raise AdmissionHold("SPACE_FALSIFICATION_API_UNOBSERVED")
                 expensive = [
                     item for item in dependencies
                     if isinstance(item, dict)
-                    and item.get("api_name") in ("discover", "recompute")
+                    and item.get("api_name") in ("discover", "recompute", "falsify")
                 ]
                 # Gradio's public /config confirms that events use the queue,
                 # but does not expose concurrency_limit/concurrency_id. The
                 # exact-source local real-SDK smoke tests those backend values.
-                if len(expensive) != 2 or any(
+                if len(expensive) != 3 or any(
                     item.get("queue") is not True for item in expensive
                 ):
                     raise AdmissionHold("SPACE_CALLBACK_QUEUE_DISABLED")
