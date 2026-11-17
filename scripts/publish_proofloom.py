@@ -25,6 +25,8 @@ FILES = {
     "spaces/proof-loom/app.py": "app.py",
     "spaces/proof-loom/README.md": "README.md",
     "szl_khipu/proof_loom.py": "proof_loom.py",
+    "research/rr_discovery/learner.py": "hypothesis.py",
+    "research/rr_discovery/receipts/sequence_scout_v1.json": "sequence_scout_v1.json",
 }
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 # One-shot recovery of the exact owner-created empty Space after the 2026-11-17
@@ -191,6 +193,13 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                     for x in components
                 ):
                     raise AdmissionHold("SPACE_RUNTIME_SOURCE_MISMATCH")
+                dependencies = config.get("dependencies")
+                if not isinstance(dependencies, list) or not any(
+                    isinstance(item, dict)
+                    and item.get("api_name") == "discover"
+                    for item in dependencies
+                ):
+                    raise AdmissionHold("SPACE_DISCOVERY_API_UNOBSERVED")
                 return {
                     "status": "RUNTIME_SOURCE_VERIFIED", "stage": stage,
                     "source_commit": source_sha,

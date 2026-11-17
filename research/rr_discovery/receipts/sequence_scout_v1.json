@@ -1,0 +1,110 @@
+{
+  "cases": [
+    {
+      "assessed_scope": "fixed classical identities only, finite coefficients, synthetic mathematics",
+      "case": "RR1",
+      "evaluation": {
+        "exact_matches": 96,
+        "first_mismatch_degree": null,
+        "infinite_theorem_qualification": "NOT_ASSESSED",
+        "model_dataset": "modular-partition product recurrence",
+        "no_heldout_data_used_by_fitter": true,
+        "out_of_distribution_archaeology": "NOT_TESTED",
+        "predictions_sha256": "66d17583274b265c5163e2d2b1ebfc2eb6ae9a9eda9ed76daa41831b484faae4",
+        "status": "FINITE_HOLDOUT_MATCH",
+        "target_dataset": "independent gap-partition recurrence",
+        "test_coefficients_sha256": "66d17583274b265c5163e2d2b1ebfc2eb6ae9a9eda9ed76daa41831b484faae4",
+        "test_range": [
+          33,
+          128
+        ],
+        "test_rows": 96,
+        "training_last_value_baseline_exact_matches": 0
+      },
+      "training": {
+        "candidate_hypotheses_tested": 1573,
+        "candidate_matches": 2,
+        "interpretation": "MODERN_SYNTHETIC_MATHEMATICS",
+        "model": {
+          "modulus": 5,
+          "residues": [
+            1,
+            4
+          ]
+        },
+        "model_sha256": "5a7879d0fa806b05f267832fb7e1f55bb839e17d581cf9a154664d2345c9dbc7",
+        "objective": "exact training coefficient agreement; minimum modulus, then shortest residue list",
+        "proof_of_infinite_identity": false,
+        "schema": "szl.khipu.modular-partition-hypothesis/v1",
+        "status": "TRAINING_FIT_EXACT",
+        "train_coefficients_sha256": "77b4398a7ff6a75c7f9899fe55c4bfa62f0bb08b17400fcf8e2341b681b84eda",
+        "train_end": 32,
+        "train_rows": 33
+      }
+    },
+    {
+      "assessed_scope": "fixed classical identities only, finite coefficients, synthetic mathematics",
+      "case": "RR2",
+      "evaluation": {
+        "exact_matches": 96,
+        "first_mismatch_degree": null,
+        "infinite_theorem_qualification": "NOT_ASSESSED",
+        "model_dataset": "modular-partition product recurrence",
+        "no_heldout_data_used_by_fitter": true,
+        "out_of_distribution_archaeology": "NOT_TESTED",
+        "predictions_sha256": "c5e3fde8602e155b581f69be55e7a854549dbe6eb058386b48c93058fe0e700b",
+        "status": "FINITE_HOLDOUT_MATCH",
+        "target_dataset": "independent gap-partition recurrence",
+        "test_coefficients_sha256": "c5e3fde8602e155b581f69be55e7a854549dbe6eb058386b48c93058fe0e700b",
+        "test_range": [
+          33,
+          128
+        ],
+        "test_rows": 96,
+        "training_last_value_baseline_exact_matches": 0
+      },
+      "training": {
+        "candidate_hypotheses_tested": 1573,
+        "candidate_matches": 2,
+        "interpretation": "MODERN_SYNTHETIC_MATHEMATICS",
+        "model": {
+          "modulus": 5,
+          "residues": [
+            2,
+            3
+          ]
+        },
+        "model_sha256": "6de664cbd04d4fd12f423e10d0c15857cf881be19b36fea053e75f077349247e",
+        "objective": "exact training coefficient agreement; minimum modulus, then shortest residue list",
+        "proof_of_infinite_identity": false,
+        "schema": "szl.khipu.modular-partition-hypothesis/v1",
+        "status": "TRAINING_FIT_EXACT",
+        "train_coefficients_sha256": "820d2e69e405eb729e66752b46b24d0121bb1467640a4812368e5169a19a600a",
+        "train_end": 32,
+        "train_rows": 33
+      }
+    }
+  ],
+  "data_origin": "synthetic exact integer partitions; no archaeological records",
+  "dataset_rights": "software-generated mathematical facts",
+  "evaluation_type": "separate deterministic finite held-out exact recurrence",
+  "external_Lean_replay_completed": false,
+  "historical_khipu_decipherment": false,
+  "independent_scientific_replication": false,
+  "negative_control": {
+    "description": "RR1 training n=6 coefficient intentionally increased by one",
+    "model": null,
+    "result": "HOLD_NO_CANDIDATE"
+  },
+  "new_infinite_identity_proved": false,
+  "production_qualification": "NOT_ASSESSED",
+  "schema": "szl.khipu.sequence-scout/v1",
+  "sha256": "f96b63b64e25ebae0910b2c143d570b2c044c0f432cb42e2893a8f433c9b3057",
+  "signature_verified": false,
+  "source_papers": [
+    "https://arxiv.org/abs/2609.20567v2",
+    "https://arxiv.org/abs/2607.01544"
+  ],
+  "status": "FINITE_RESEARCH_CONTROL_MATCH",
+  "training_type": "CPU exhaustive symbolic parameter fit (not neural weights)"
+}

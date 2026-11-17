@@ -134,6 +134,14 @@ class GradioRuntime(unittest.TestCase):
                     response = client.predict(6, "RR1", "2,3", api_name="/recompute")
                     self.assertIn("FINITE MATCH", response[1])
                     self.assertIn("NOT ASSESSED", response[1])
+                    research = client.predict("RR1", False, api_name="/discover")
+                    self.assertIn("mod 5", research)
+                    self.assertIn("96/96", research)
+                    self.assertIn("not neural training", research)
+                    self.assertIn("1,573", research)
+                    corrupted = client.predict("RR1", True, api_name="/discover")
+                    self.assertIn("HOLD", corrupted)
+                    self.assertIn("No supported model", corrupted)
                 finally:
                     client.close()
             finally:

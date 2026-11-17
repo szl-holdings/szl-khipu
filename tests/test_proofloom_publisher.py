@@ -19,8 +19,9 @@ class ProofLoomPublisherTests(unittest.TestCase):
             out = Path(td)
             manifest = pub._stage(out, "f"*40)
             self.assertEqual(set(p.name for p in out.iterdir()),
-                             {"app.py", "README.md", "proof_loom.py", "SOURCE.json"})
-            self.assertEqual(len(manifest["files"]), 3)
+                             {"app.py", "README.md", "proof_loom.py",
+                              "hypothesis.py", "sequence_scout_v1.json", "SOURCE.json"})
+            self.assertEqual(len(manifest["files"]), 5)
             self.assertEqual(manifest["source_commit"], "f"*40)
             self.assertEqual(manifest["historical_claim"], "NOT_ESTABLISHED")
             for row in manifest["files"]:
@@ -68,6 +69,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
                         f'<div data-szl-source-sha="{source}" '
                         f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
                 ],
+                "dependencies": [{"api_name": "discover"}],
             }).encode()
         with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
             got = pub._runtime_readback(SimpleNamespace(
@@ -91,6 +93,29 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 pub._runtime_readback(SimpleNamespace(
                     get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
                 ), "a" * 40, "b" * 64)
+
+    def test_runtime_without_scout_api_is_not_qualified(self):
+        source, manifest = "a" * 40, "b" * 64
+        class Response:
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *_): return False
+            def read(self, _): return json.dumps({
+                "title": "Khipu Proof Loom",
+                "components": [
+                    {"type": "model3d"},
+                    {"type": "html", "props": {"value":
+                        f'<div data-szl-source-sha="{source}" '
+                        f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
+                ],
+                "dependencies": [{"api_name": "recompute"}],
+            }).encode()
+        with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
+            with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_DISCOVERY_API_UNOBSERVED"):
+                pub._runtime_readback(
+                    SimpleNamespace(get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")),
+                    source, manifest,
+                )
 
     def test_running_stale_source_is_not_qualified(self):
         class Response:
