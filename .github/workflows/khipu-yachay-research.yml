@@ -1,0 +1,29 @@
+name: Khipu Yachay research (source-only)
+on:
+  pull_request:
+    paths:
+      - 'research/khipu_yachay/**'
+      - '.github/workflows/khipu-yachay-research.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/khipu_yachay/**'
+      - '.github/workflows/khipu-yachay-research.yml'
+permissions:
+  contents: read
+jobs:
+  offline-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 reviewed pin
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0 reviewed pin
+        with:
+          python-version: '3.12'
+      - name: Syntax and provenance/data contracts (no network, no GPU)
+        run: |
+          python -m compileall -q research/khipu_yachay/src research/khipu_yachay/space research/khipu_yachay/tests
+          cd research/khipu_yachay
+          python -m unittest discover -s tests -v
