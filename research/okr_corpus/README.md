@@ -255,6 +255,51 @@ source- and site-separated prospective validation with Andean and archaeological
 stewardship; the OKR's MIT licence and exact arithmetic do not by themselves
 settle questions of cultural interpretation.
 
+## Additional post-hoc spatial-shift null — explicit sensitivity only
+
+After reviewing the R2 results and the provenance-coverage audit, we ran a
+**different, more spatially conservative null**. This was chosen *after*
+seeing the initial results, is NOT preregistered, and must not be counted as a
+second independent test or evidence about what a cord originally meant.
+
+For each khipu with an eligible top-cord rule, the experimental Python
+`spatial_null.py` cyclically rotates the ordered values of its *known direct
+pendants* separately for each primary cord. A missing-value pendant is a hard
+barrier: values never cross that gap. Top-cord values, cord roles, original
+ordinal positions, group membership, geometry and within-run value order are
+preserved. Zero rotations are included; otherwise the null is artificially
+biased. For each of 1,000 seeded repetitions, the **original R2 search** is
+executed on the rotated values. The pooled Monte Carlo tail statistic is
+`(1 + #null >= observed) / (1000 + 1)`, so the minimum is **0.000999**.
+
+| Scope, R2 only | Eligible khipus | Observed | Cyclic-shift null mean (sd) | Observed / null | 1,000-trial p |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| All pinned OKR records | **35** | **54** | **11.035 (3.5234)** | **4.8935×** | **0.000999** |
+| Only khipus with specified provenance | **21** | **29** | **6.127 (2.8144)** | **4.7331×** | **0.000999** |
+
+These values are lower ratios than the original **10.89×** under the
+role/depth shuffle and demonstrate that the magnitude of the effect depends on
+the chosen counterfactual. They are still an excess relative to this particular
+cyclic-shift null, not independent source/site replication, an archaeological
+interpretation, causation or proof of encoding intent. Because the primary
+null was selected after viewing examples and this one was added subsequently,
+**both sets must be described with their precise null assumptions**.
+
+This research-only source is **not a live Space API** and does not change the
+original R1–R4 results. A pinned input digest, `--check` byte replay, six
+negative/control tests and protected CI/publication gates preserve the exact
+post-hoc receipt. Reproduce offline after obtaining the pinned public OKR corpus:
+
+```sh
+python -I research/okr_corpus/spatial_null.py --check research/okr_corpus/spatial_null_v1.json
+python -m unittest discover -s tests -p test_okr_spatial_null.py -v
+```
+
+Receipt file: `spatial_null_v1.json` (domain-separated unsigned digest).
+It records `preregistered=false`, `prospective_heldout=false`,
+`independent_research_lab_replication=false`, and
+`historical_khipu_decipherment=false` without exceptions.
+
 ## Limitations
 
 - **Transcription, not artifact.** Values are what recorders entered. Recording

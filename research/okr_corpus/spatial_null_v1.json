@@ -1,0 +1,43 @@
+{
+  "HJO_mathematical_theorem_proved": false,
+  "all_eligible": {
+    "eligible": 35,
+    "monte_carlo_p_upper": 0.000999,
+    "null_max": 27,
+    "null_mean": 11.035,
+    "null_sd_sample": 3.5234,
+    "observed_over_null": 4.8935,
+    "observed_r2": 54,
+    "simulation_trials": 1000
+  },
+  "historical_intent_established": false,
+  "historical_khipu_decipherment": false,
+  "independent_research_lab_replication": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "khipus_all": 619,
+  "n_pendant_shiftable_records": 35,
+  "new_model_trained": false,
+  "null_design": "independent uniform cyclic shifts of ordered known primary-attached pendant values within each primary, split at unknown-value gaps; top values, cord geometry, group boundaries and null identity rotations unchanged",
+  "preregistered": false,
+  "production_qualification": "NOT_ASSESSED",
+  "prospective_heldout": false,
+  "provenance_blank_or_unknown_count": 221,
+  "schema": "szl.okr.spatial-shift-posthoc/v1",
+  "seed": 2026,
+  "sha256": "5ce8a04f3d6fcb52b84308d455132f511b0b5d6ed66442d1fbaa3b148e67b2c4",
+  "signature_verified": false,
+  "source_branch_snapshot": "d5ce329722b60f6d87058936dc0fe795193bda3c",
+  "specified_provenance_eligible": {
+    "eligible": 21,
+    "monte_carlo_p_upper": 0.000999,
+    "null_max": 19,
+    "null_mean": 6.127,
+    "null_sd_sample": 2.8144,
+    "observed_over_null": 4.7331,
+    "observed_r2": 29,
+    "simulation_trials": 1000
+  },
+  "status": "POST_HOC_EXPLORATORY_CONTROL_ONLY",
+  "trials": 1000,
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}
