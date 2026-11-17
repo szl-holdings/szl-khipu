@@ -20,9 +20,15 @@ It shows **mathematical torus knots** and a separate **modern decimal cord sketc
 Neither is a reconstruction or decipherment of historical Andean khipu objects.
 
 The exact finite Rogers–Ramanujan coefficients are computed by independent integer recurrences,
-with source-bound integrity hashes and explicit negative-control tests. This app does **not**
-prove the infinite identities, replay the external Lean formalization, run a trained Khipu model,
-or claim archaeological discoveries or production qualification.
+with source-bound integrity hashes and explicit negative-control tests. The **Sequence Scout**
+section really fits a bounded CPU symbolic model across 1,573 hypothesis candidates using
+modern synthetic coefficients 0–32, freezes the model, then compares independent degrees
+33–128. The committed reproducible receipt and source are hashed and checked before startup;
+a negative-control option deliberately corrupts a count and must return HOLD.
+
+This app does **not** train neural/LLM weights, prove infinite identities, replay the
+external Lean formalization, use actual archaeological measurements, or claim
+ancient Inka mathematical decipherment or broader production/scientific qualification.
 
 Research sources: [Axiom Math HJO](https://github.com/AxiomMath/HJO) and
 [Open Khipu Repository](https://github.com/khipulab/open-khipu-repository).
