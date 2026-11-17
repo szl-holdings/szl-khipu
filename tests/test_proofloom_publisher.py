@@ -53,19 +53,28 @@ class ProofLoomPublisherTests(unittest.TestCase):
             self.assertEqual(pub._identity(publish=True), "a"*40)
 
     def test_rendered_runtime_semantics(self):
+        source, manifest = "a" * 40, "b" * 64
         class Response:
             status = 200
             def __enter__(self): return self
             def __exit__(self, *_): return False
-            def read(self, _): return json.dumps(
-                {"title": "Khipu Proof Loom", "components": [{"type": "model3d"}]}
-            ).encode()
+            def read(self, _): return json.dumps({
+                "title": "Khipu Proof Loom",
+                "components": [
+                    {"type": "model3d"},
+                    {"type": "html", "props": {"value":
+                        f'<div data-szl-source-sha="{source}" '
+                        f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
+                ],
+            }).encode()
         with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
             got = pub._runtime_readback(SimpleNamespace(
                 get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
-            ))
-        self.assertEqual(got["status"], "RUNTIME_CONFIG_OBSERVED")
+            ), source, manifest)
+        self.assertEqual(got["status"], "RUNTIME_SOURCE_VERIFIED")
         self.assertEqual(got["stage"], "RUNNING")
+        self.assertEqual(got["source_commit"], source)
+        self.assertEqual(got["manifest_sha256"], manifest)
 
     def test_runtime_no_model3d_refused(self):
         class Response:
@@ -79,7 +88,27 @@ class ProofLoomPublisherTests(unittest.TestCase):
             with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_RENDERED_SOURCE_MISMATCH"):
                 pub._runtime_readback(SimpleNamespace(
                     get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
-                ))
+                ), "a" * 40, "b" * 64)
+
+    def test_running_stale_source_is_not_qualified(self):
+        class Response:
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *_): return False
+            def read(self, _): return json.dumps({
+                "title": "Khipu Proof Loom",
+                "components": [
+                    {"type": "model3d"},
+                    {"type": "html", "props": {"value":
+                        '<div data-szl-source-sha="' + "c" * 40 +
+                        '" data-szl-manifest-sha256="' + "b" * 64 + '"></div>'}},
+                ],
+            }).encode()
+        with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
+            with self.assertRaisesRegex(pub.AdmissionHold, "SPACE_RUNTIME_SOURCE_MISMATCH"):
+                pub._runtime_readback(SimpleNamespace(
+                    get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
+                ), "a" * 40, "b" * 64)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import os
 import sys
@@ -116,6 +117,15 @@ class GradioRuntime(unittest.TestCase):
                 self.assertEqual(
                     len([c for c in config["components"] if c["type"] == "model3d"]), 1
                 )
+                marker = (
+                    'data-szl-source-sha="' + "a" * 40 +
+                    '" data-szl-manifest-sha256="' +
+                    hashlib.sha256((stage / "SOURCE.json").read_bytes()).hexdigest() + '"'
+                )
+                self.assertTrue(any(
+                    c["type"] == "html" and marker in str(c.get("props", {}).get("value", ""))
+                    for c in config["components"]
+                ), "served UI must name exact staged source and manifest")
                 client = Client(
                     url, verbose=False, analytics_enabled=False,
                     httpx_kwargs={"timeout": 15.0},

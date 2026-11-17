@@ -8,6 +8,7 @@ No retries across auth, quota, revision, visibility, source or runtime refusals.
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -30,6 +31,22 @@ SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 
 class AdmissionHold(RuntimeError):
     """A reported hold, not permission to bypass or retry by another identity."""
+
+
+def _journal(status: str, **facts: object) -> None:
+    """Append one secret-free local provider-attempt event, including uncertainty."""
+    path = Path("proof-loom-publication.journal.jsonl")
+    if path.is_symlink():
+        raise AdmissionHold("PUBLICATION_JOURNAL_SYMLINK")
+    payload = {
+        "schema": "szl.khipu.proof-loom-publication-journal/v1",
+        "observed_utc": datetime.now(timezone.utc).isoformat(),
+        "status": status, "target": TARGET, **facts,
+    }
+    with path.open("a", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n")
+        stream.flush()
+        os.fsync(stream.fileno())
 
 
 def _identity(*, publish: bool):
@@ -101,8 +118,10 @@ def _readback(api, revision: str, manifest: dict, token: str):
         raise AdmissionHold("PROVIDER_SOURCE_BINDING_MISMATCH")
 
 
-def _runtime_readback(api) -> dict:
+def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
     # One bounded post-publication observation: no extra GPU, schedulers or secrets.
+    if not SHA40.fullmatch(source_sha) or re.fullmatch(r"[0-9a-f]{64}", manifest_sha) is None:
+        raise AdmissionHold("RUNTIME_EXPECTED_SOURCE_INVALID")
     for _ in range(18):
         state = api.get_space_runtime(TARGET)
         stage = str(getattr(state, "stage", "UNOBSERVED")).upper()
@@ -122,13 +141,32 @@ def _runtime_readback(api) -> dict:
                 if len(raw) > 512_000:
                     raise AdmissionHold("SPACE_CONFIG_SIZE_EXCEEDED")
                 config = json.loads(raw)
+                components = config.get("components", [])
                 if (
                     config.get("title") != "Khipu Proof Loom"
-                    or not any(x.get("type") == "model3d" for x in config.get("components", []))
+                    or not isinstance(components, list)
+                    or not any(
+                        isinstance(x, dict) and x.get("type") == "model3d"
+                        for x in components
+                    )
                 ):
                     raise AdmissionHold("SPACE_RENDERED_SOURCE_MISMATCH")
+                expected_marker = (
+                    f'data-szl-source-sha="{source_sha}"'
+                    f' data-szl-manifest-sha256="{manifest_sha}"'
+                )
+                if not any(
+                    isinstance(x, dict)
+                    and x.get("type") == "html"
+                    and isinstance(x.get("props"), dict)
+                    and expected_marker in str(x["props"].get("value", ""))
+                    for x in components
+                ):
+                    raise AdmissionHold("SPACE_RUNTIME_SOURCE_MISMATCH")
                 return {
-                    "status": "RUNTIME_CONFIG_OBSERVED", "stage": stage,
+                    "status": "RUNTIME_SOURCE_VERIFIED", "stage": stage,
+                    "source_commit": source_sha,
+                    "manifest_sha256": manifest_sha,
                     "config_url": url,
                     "config_sha256": hashlib.sha256(raw).hexdigest(),
                 }
@@ -155,18 +193,41 @@ def publish() -> dict:
     identity = api.whoami()
     if not isinstance(identity, dict) or not identity.get("name"):
         raise AdmissionHold("HF_IDENTITY_UNOBSERVED")
+    orgs = identity.get("orgs")
+    if not isinstance(orgs, list) or not any(
+        isinstance(item, dict)
+        and item.get("name") == "SZLHOLDINGS"
+        and item.get("roleInOrg") == "admin"
+        for item in orgs
+    ):
+        raise AdmissionHold("HF_ORG_ADMIN_AUTHORITY_UNVERIFIED")
+    # Enumerate this explicitly authorized org once. A not-found response alone
+    # could mask a private repo or an access denial; never infer free namespace.
+    org_spaces = list(api.list_spaces(author="SZLHOLDINGS", limit=200))
+    if len(org_spaces) >= 200:
+        raise AdmissionHold("HF_SPACE_DISCOVERY_CAPPED")
+    target_in_catalog = any(getattr(item, "id", None) == TARGET for item in org_spaces)
     with tempfile.TemporaryDirectory(prefix="szl-proof-loom-publish-") as td:
         root = Path(td)
         manifest = _stage(root, sha)
+        manifest_sha = hashlib.sha256((root / "SOURCE.json").read_bytes()).hexdigest()
         created_new = False
         try:
             info = api.repo_info(repo_id=TARGET, repo_type="space")
-        except RepositoryNotFoundError:
-            # Explicitly requested new public Space; never take over a private one.
+        except RepositoryNotFoundError as exc:
+            status_code = getattr(getattr(exc, "response", None), "status_code", None)
+            if status_code != 404 or target_in_catalog:
+                raise AdmissionHold("TARGET_VISIBILITY_OR_AUTH_AMBIGUOUS") from None
+            # Namespace absent from the complete authorized org catalog; fail
+            # rather than treating a 401/403/429 as evidence of absence.
+            _journal("CREATE_INTENT", source_commit=sha, manifest_sha256=manifest_sha,
+                     catalog_count=len(org_spaces))
             api.create_repo(
                 repo_id=TARGET, repo_type="space", space_sdk="gradio",
                 private=False, exist_ok=False,
             )
+            _journal("CREATED_NO_SOURCE_UPLOAD", source_commit=sha,
+                     manifest_sha256=manifest_sha)
             created_new = True
             info = api.repo_info(repo_id=TARGET, repo_type="space")
         if (
@@ -195,14 +256,25 @@ def publish() -> dict:
                 or payload.get("target_space") != TARGET
             ):
                 raise AdmissionHold("TARGET_OWNED_BY_OTHER_WRITER")
+        _journal("UPLOAD_INTENT", source_commit=sha, manifest_sha256=manifest_sha,
+                 expected_parent=parent)
         commit = api.upload_folder(
             folder_path=str(root), repo_id=TARGET, repo_type="space",
             parent_commit=parent,
             commit_message="feat(proof-loom): source-bound Python 3D research lab",
         )
         revision = str(commit.oid)
+        if not SHA40.fullmatch(revision):
+            raise AdmissionHold("PROVIDER_COMMIT_NOT_IMMUTABLE")
+        _journal("HUB_COMMIT_ACCEPTED_UNVERIFIED", source_commit=sha,
+                 manifest_sha256=manifest_sha, hf_revision=revision)
         _readback(api, revision, manifest, token)
-        runtime = _runtime_readback(api)
+        _journal("HUB_BYTES_VERIFIED_RUNTIME_UNOBSERVED", source_commit=sha,
+                 manifest_sha256=manifest_sha, hf_revision=revision)
+        runtime = _runtime_readback(api, sha, manifest_sha)
+        _journal("RUNTIME_SOURCE_VERIFIED", source_commit=sha,
+                 manifest_sha256=manifest_sha, hf_revision=revision,
+                 config_sha256=runtime["config_sha256"])
         return {
             "schema": "szl.khipu.proof-loom-deployment/v1",
             "source_commit": sha, "hf_revision": revision, "repository": TARGET,
