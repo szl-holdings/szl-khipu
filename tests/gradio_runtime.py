@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import os
+import sys
 from pathlib import Path
 import socket
 import tempfile
@@ -60,7 +62,7 @@ class GradioRuntime(unittest.TestCase):
         self.assertIs(self.app.demo.theme, self.app.THEME)
         self.assertFalse(self.app.demo.ssr_mode)
         labels = [item["props"].get("label") for item in config["components"] if item["type"] == "tabitem"]
-        self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Receipts"])
+        self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Proof Loom 3D", "Receipts"])
 
     def test_szl_design_system_is_served_locally(self) -> None:
         self.assertIn(self.app.SZL_CSS_URL, self.app.HOLO_HEAD)
@@ -69,6 +71,73 @@ class GradioRuntime(unittest.TestCase):
         css.raise_for_status()
         self.assertEqual(css.headers["content-type"].split(";")[0], "text/css")
         self.assertEqual(css.content, (self.app.SZL_DIR / "szl-design-system.css").read_bytes())
+
+    def test_proof_loom_python_glb_contract(self) -> None:
+        from szl_khipu.proof_loom import render
+        path, receipt = render(18, "RR1", (2, 3))
+        self.assertTrue(Path(path).exists())
+        self.assertEqual(Path(path).read_bytes()[:4], b"glTF")
+        self.assertEqual(receipt["model_qualification"], "NOT_ASSESSED")
+        self.assertEqual(receipt["historical_claim"], "NOT_ESTABLISHED")
+        self.assertIn(str(Path(path).parent), self.app.launch_demo.__globals__["PROOF_LOOM_DIR"])
+        config = httpx.get(f"{self.url}config", timeout=15.0).json()
+        self.assertEqual(
+            len([c for c in config["components"] if c["type"] == "model3d"]), 1
+        )
+
+    def test_standalone_proof_loom_real_gradio_runtime(self) -> None:
+        from scripts import publish_proofloom as publisher
+
+        with tempfile.TemporaryDirectory(prefix="szl-proofloom-runtime-") as tmp:
+            stage = Path(tmp)
+            publisher._stage(stage, "a" * 40)
+            spec = importlib.util.spec_from_file_location(
+                "szl_proofloom_space_smoke", stage / "app.py"
+            )
+            standalone = importlib.util.module_from_spec(spec)
+            with patch.object(sys, "path", [tmp] + sys.path):
+                spec.loader.exec_module(standalone)
+            with socket.socket() as listener:
+                listener.bind(("127.0.0.1", 0))
+                port = listener.getsockname()[1]
+            try:
+                _app, url, share = standalone.demo.launch(
+                    server_name="127.0.0.1",
+                    server_port=port,
+                    prevent_thread_lock=True,
+                    share=False,
+                    ssr_mode=False,
+                    show_error=False,
+                    css=standalone.STYLE,
+                    allowed_paths=[standalone.ARTIFACT_DIR],
+                )
+                self.assertIsNone(share)
+                config = httpx.get(f"{url}config", timeout=15.0).json()
+                self.assertEqual(config["title"], "Khipu Proof Loom")
+                self.assertEqual(
+                    len([c for c in config["components"] if c["type"] == "model3d"]), 1
+                )
+                marker = (
+                    'data-szl-source-sha="' + "a" * 40 +
+                    '" data-szl-manifest-sha256="' +
+                    hashlib.sha256((stage / "SOURCE.json").read_bytes()).hexdigest() + '"'
+                )
+                self.assertTrue(any(
+                    c["type"] == "html" and marker in str(c.get("props", {}).get("value", ""))
+                    for c in config["components"]
+                ), "served UI must name exact staged source and manifest")
+                client = Client(
+                    url, verbose=False, analytics_enabled=False,
+                    httpx_kwargs={"timeout": 15.0},
+                )
+                try:
+                    response = client.predict(6, "RR1", "2,3", api_name="/recompute")
+                    self.assertIn("FINITE MATCH", response[1])
+                    self.assertIn("NOT ASSESSED", response[1])
+                finally:
+                    client.close()
+            finally:
+                standalone.demo.close()
 
     def test_live_lambda_pass_and_fail_closed(self) -> None:
         passing = self.client.predict(*([1.0] * len(self.app.AXES)), api_name="/score_lambda")

@@ -1,0 +1,64 @@
+# Dedicated public research Space. Protected-main source is the only writer.
+# Never runs on pull requests and never changes the existing Docker Khipu Space.
+name: publish-proof-loom
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "szl_khipu/proof_loom.py"
+      - "spaces/proof-loom/**"
+      - "scripts/publish_proofloom.py"
+      - "tests/test_proof_loom.py"
+      - "tests/test_proofloom_publisher.py"
+      - ".github/workflows/publish-proof-loom.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-proof-loom-main
+  cancel-in-progress: false
+
+jobs:
+  source-and-publication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Checkout exact protected source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Install existing hash-locked Hub toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --require-hashes -r requirements/ci/hub.txt
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Run hermetic finite/3D and publisher admission contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -p test_proof_loom.py -v
+          python -m unittest discover -s tests -p test_proofloom_publisher.py -v
+          python scripts/publish_proofloom.py --check
+      - name: Publish and independently read back Hugging Face bytes and live config
+        env:
+          HF_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/publish_proofloom.py --publish
+      - name: Preserve provider attempt and verified outcome separately
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: proof-loom-hub-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            proof-loom-publication.journal.jsonl
+            proof-loom-hub-publication.json
+          if-no-files-found: warn
+          retention-days: 90
