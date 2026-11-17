@@ -238,6 +238,20 @@ class TriadPacketTests(unittest.TestCase):
                 "id":"x","category":"ANSWERABLE","outcome":"CORRECT","prompt":"not allowed"
             }])
 
+    def test_mirrored_hf_readme_links_to_canonical_github_only(self):
+        # The Hub software publisher mirrors README, not research/ or docs/.
+        card = (ROOT / "README.md").read_text(encoding="utf-8")
+        for path in (
+            "docs/FLAGSHIP55_KHIPU_FABRIC.md",
+            "research/flagship55/manifest.v0.json",
+            "research/flagship55/validate_manifest.py",
+            "research/flagship55/triad_packet.py",
+            "research/flagship55/public_dataset_index.v1.json",
+        ):
+            self.assertIn(
+                "https://github.com/szl-holdings/szl-khipu/blob/main/" + path, card
+            )
+
     def test_cli_outputs_no_secrets_and_no_side_effects(self):
         cp = subprocess.run(
             [sys.executable, "-m", "research.flagship55.triad_packet",

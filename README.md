@@ -59,11 +59,11 @@ attested by this binding. Software parity makes no trained-checkpoint claim.
 
 ## Flagship55 Khipu research design — NOT A TRAINED MODEL
 
-[Three-specialist learning fabric](docs/FLAGSHIP55_KHIPU_FABRIC.md) ·
-[metadata-only manifest](research/flagship55/manifest.v0.json) ·
-[fail-closed validator](research/flagship55/validate_manifest.py) ·
-[offline triad packet](research/flagship55/triad_packet.py) ·
-[91 public dataset references](research/flagship55/public_dataset_index.v1.json).
+[Three-specialist learning fabric](https://github.com/szl-holdings/szl-khipu/blob/main/docs/FLAGSHIP55_KHIPU_FABRIC.md) ·
+[metadata-only manifest](https://github.com/szl-holdings/szl-khipu/blob/main/research/flagship55/manifest.v0.json) ·
+[fail-closed validator](https://github.com/szl-holdings/szl-khipu/blob/main/research/flagship55/validate_manifest.py) ·
+[offline triad packet](https://github.com/szl-holdings/szl-khipu/blob/main/research/flagship55/triad_packet.py) ·
+[91 public dataset references](https://github.com/szl-holdings/szl-khipu/blob/main/research/flagship55/public_dataset_index.v1.json).
 The proposed student has YACHAY teacher, WILLAY guide and KHIPU skeptic adapter
 roles; none is trained, loaded, or deployed here. The manifest contains 13
 review-only dataset examples; the separate index contains 91 source-pinned,
