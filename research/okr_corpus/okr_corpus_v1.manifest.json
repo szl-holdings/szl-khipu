@@ -1,0 +1,66 @@
+{
+  "builder": "okr-corpus-builder/v1",
+  "corpus_bytes": 892079,
+  "corpus_file": "okr_corpus_v1.json.gz",
+  "corpus_json_sha256": "7d7a8dd3e89d9f829a9e9f110ef810b2710c5672e5a1416e5e8799d56fcf5dd0",
+  "corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "counts": {
+    "color_labels": 955,
+    "cords": 54403,
+    "cords_by_parent_kind": {
+      "cord": 15379,
+      "missing": 307,
+      "primary": 38717
+    },
+    "cords_by_role": {
+      "marker": 636,
+      "orphan": 16,
+      "pendant": 38120,
+      "subsidiary": 15379,
+      "top": 252
+    },
+    "cords_by_value_status": {
+      "knotless": 12144,
+      "known": 36944,
+      "unknown": 5315
+    },
+    "cords_unknown_by_reason": {
+      "broken_knotless": 5177,
+      "unknown_knot_value": 138
+    },
+    "khipus": 619,
+    "khipus_without_cords": 7,
+    "knots": 110151,
+    "knots_excluded_no_cord_row": 526,
+    "knots_nonstandard_value": 85,
+    "knots_unknown_value": 211,
+    "primary_cords": 633
+  },
+  "decoding_rules": [
+    "cord value = sum of OKR knot.knot_value_type (each knot's recorded decimal contribution) over the cord's knots",
+    "knot_value_type NULL or <= 0 -> that knot's value is unknown (stored null) -> the cord value is UNKNOWN (null), never 0",
+    "a cord with no knot rows has value 0 and value_status 'knotless'",
+    "a knotless cord whose termination is B (broken) or C (cut) is UNKNOWN (reason broken_knotless): knots may be lost",
+    "a broken cord that has knots keeps its recorded sum (value_status 'known'); relations flag involves_broken_cord",
+    "knot type '' or \"''\" is stored as '?'; its recorded value is kept when > 0",
+    "knot turns are NUM_TURNS for long-type knots (L, LL, BL, SP) when > 0, else null",
+    "knot pos = knot_cluster.START_POS in cm from the cord's attachment; knot_cluster.TOTAL_VALUE and END_POS are not used (0 or NULL throughout)",
+    "parent: PENDANT_FROM equal to a primary_cord.PCORD_ID of the same khipu -> 'primary'; equal to a CORD_ID of the same khipu -> 'cord'; otherwise 'missing'",
+    "role: parent cord -> subsidiary; CORD_LEVEL -1 or cluster GROUPING_CLASS T/TPA -> top; GROUPING_CLASS M/K/X -> marker; |level|>=2 with missing parent -> orphan; else pendant",
+    "colour: dominant (longest) ascher_cord_color range; rgb from ascher_color_dc for its first colour code; absent -> no rgb (renderers use neutral grey)",
+    "knots with no matching cord row are excluded and counted",
+    "text fields: control characters removed, whitespace collapsed, surrounding quotes stripped, capped at 200 chars"
+  ],
+  "doi": "https://doi.org/10.5281/zenodo.18025748",
+  "integrity_note": "sha256 digests are integrity checks, not signatures",
+  "license": "Data: MIT, Copyright (c) 2022 Open Khipu Repository Team (see LICENSE-OKR.txt). Builder code: Apache-2.0, SZL Holdings.",
+  "schema": "szl.okr_corpus_manifest/v1",
+  "source": {
+    "commit": "4039ca51f4de661d80d0160596309c983a62a9c7",
+    "csv_sha256": "d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e",
+    "csv_url": "https://raw.githubusercontent.com/khipulab/open-khipu-repository/4039ca51f4de661d80d0160596309c983a62a9c7/data/okr-kh-numbers.csv",
+    "db_sha256": "607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db",
+    "db_url": "https://raw.githubusercontent.com/khipulab/open-khipu-repository/4039ca51f4de661d80d0160596309c983a62a9c7/data/khipu.db",
+    "repository": "https://github.com/khipulab/open-khipu-repository"
+  }
+}

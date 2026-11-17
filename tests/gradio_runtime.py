@@ -105,25 +105,24 @@ class GradioRuntime(unittest.TestCase):
                     server_name="127.0.0.1",
                     server_port=port,
                     prevent_thread_lock=True,
-                    share=False,
                     ssr_mode=False,
-                    show_error=False,
-                    css=standalone.STYLE,
-                    allowed_paths=[standalone.ARTIFACT_DIR],
+                    **standalone.LAUNCH_KWARGS,
                 )
+                self.assertIs(standalone.LAUNCH_KWARGS["share"], False)
+                self.assertIn(str(standalone.SCENE_DIR), standalone.LAUNCH_KWARGS["allowed_paths"])
                 self.assertIsNone(share)
                 config = httpx.get(f"{url}config", timeout=15.0).json()
                 self.assertEqual(config["title"], "Khipu Proof Loom")
                 self.assertEqual(standalone.demo.delete_cache, (3600, 7200))
                 self.assertEqual(standalone.demo._queue.max_size, 32)
                 self.assertEqual(
-                    len([c for c in config["components"] if c["type"] == "model3d"]), 1
+                    len([c for c in config["components"] if c["type"] == "model3d"]), 3
                 )
                 expensive = [
                     event for event in config["dependencies"]
-                    if event.get("api_name") in ("recompute", "discover")
+                    if event.get("api_name") in publisher.EXPENSIVE_APIS
                 ]
-                self.assertEqual(len(expensive), 2)
+                self.assertEqual(len(expensive), len(publisher.EXPENSIVE_APIS))
                 self.assertTrue(all(
                     event.get("queue") is True
                     and event.get("trigger_mode") == "once"
@@ -133,9 +132,9 @@ class GradioRuntime(unittest.TestCase):
                 # /config. Verify the actual backend BlockFunction instead.
                 backend = [
                     fn for fn in standalone.demo.fns.values()
-                    if fn.api_name in ("recompute", "discover")
+                    if fn.api_name in publisher.EXPENSIVE_APIS
                 ]
-                self.assertEqual(len(backend), 2)
+                self.assertEqual(len(backend), len(publisher.EXPENSIVE_APIS))
                 self.assertTrue(all(
                     fn.concurrency_limit == 1
                     and fn.concurrency_id == "proof-loom-cpu"
@@ -171,6 +170,19 @@ class GradioRuntime(unittest.TestCase):
                     httpx_kwargs={"timeout": 15.0},
                 )
                 try:
+                    twin = client.predict(standalone.DEFAULT_KHIPU, False, api_name="/khipu")
+                    self.assertTrue(str(twin[0]).endswith(".glb"))
+                    self.assertIn("not decipherment", twin[1])
+                    self.assertIn("CHAIN INTACT", twin[2])
+                    with self.assertRaises(Exception):
+                        client.predict("KH9999", False, api_name="/khipu")
+                    loom = client.predict("2,3", 2, 2, api_name="/hjo")
+                    self.assertTrue(str(loom[0]).endswith(".glb"))
+                    self.assertIn("MATCH", loom[1])
+                    self.assertNotIn("MISMATCH", loom[1])
+                    self.assertIn("nothing new is proved", loom[1])
+                    with self.assertRaises(Exception):
+                        client.predict("2,4", 2, 2, api_name="/hjo")
                     response = client.predict(6, "RR1", "2,3", api_name="/recompute")
                     self.assertIn("FINITE MATCH", response[1])
                     self.assertIn("NOT ASSESSED", response[1])

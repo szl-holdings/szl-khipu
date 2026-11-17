@@ -7,12 +7,20 @@ on:
     branches: [main]
     paths:
       - "szl_khipu/proof_loom.py"
+      - "szl_khipu/hjo_loom.py"
+      - "szl_khipu/holo_glb.py"
+      - "szl_khipu/okr_khipu.py"
+      - "szl_khipu/chain.py"
       - "research/rr_discovery/**"
+      - "research/hjo_loom/**"
+      - "research/okr_corpus/**"
       - "spaces/proof-loom/**"
       - "scripts/publish_proofloom.py"
       - "tests/test_proof_loom.py"
       - "tests/test_proofloom_publisher.py"
       - "tests/test_rr_sequence_scout.py"
+      - "tests/test_hjo_loom.py"
+      - "tests/test_okr_khipu.py"
       - ".github/workflows/publish-proof-loom.yml"
 
 permissions:
@@ -25,7 +33,7 @@ concurrency:
 jobs:
   source-and-publication:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 30
     steps:
       - name: Checkout exact protected source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -49,8 +57,25 @@ jobs:
           python -m unittest discover -s tests -p test_proof_loom.py -v
           python -m unittest discover -s tests -p test_proofloom_publisher.py -v
           python -m unittest discover -s tests -p test_rr_sequence_scout.py -v
+          python -m unittest discover -s tests -p test_hjo_loom.py -v
+          python -m unittest discover -s tests -p test_okr_khipu.py -v
           python research/rr_discovery/learner.py --check research/rr_discovery/receipts/sequence_scout_v1.json
           python scripts/publish_proofloom.py --check
+      - name: Replay the sealed HJO finite certificate from scratch
+        run: python research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
+      - name: Rebuild the OKR corpus and relations report from the pinned upstream database
+        shell: bash
+        run: |
+          set -euo pipefail
+          okr="https://raw.githubusercontent.com/khipulab/open-khipu-repository/4039ca51f4de661d80d0160596309c983a62a9c7/data"
+          mkdir -p "$RUNNER_TEMP/okr"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/okr/khipu.db" "$okr/khipu.db"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/okr/okr-kh-numbers.csv" "$okr/okr-kh-numbers.csv"
+          printf '%s  %s\n' \
+            607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db "$RUNNER_TEMP/okr/khipu.db" \
+            d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e "$RUNNER_TEMP/okr/okr-kh-numbers.csv" \
+            | sha256sum -c -
+          python -I research/okr_corpus/build_corpus.py --db "$RUNNER_TEMP/okr/khipu.db" --relations --check
       - name: Publish and independently read back Hugging Face bytes and live config
         env:
           HF_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}

@@ -3,3 +3,8 @@
 # Vendored SZL KANCHAY (founder direction) export: byte-for-byte copies pinned by
 # szl/SOURCE.json. Never let Git rewrite their line endings.
 **/szl/** -text
+# Digest-pinned research artifacts (SHA-256 in code and manifests): keep bytes exact.
+*.gz binary
+research/hjo_loom/*.json -text
+research/okr_corpus/*.json -text
+research/okr_corpus/LICENSE-OKR.txt -text
