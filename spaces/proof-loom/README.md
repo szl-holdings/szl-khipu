@@ -68,4 +68,12 @@ The second optional research tool tests user-proposed Rogers–Ramanujan *partit
 
 The live `/falsify` API returns a human-readable result and an unsigned, domain-separated SHA-256 JSON receipt. An incorrect hypothesis yields the first finite counterexample with actual and proposed integer counts; where small enough, exact partition examples are included. **A hypothesis matching all 257 coefficients through n=256 is not proved for all n.** This interface does not test the HJO general torus-knot identities, Lean proof replay, or historical Inca khipus.
 
-The publisher verifies the six-file exact SOURCE.json and the presence of a queued `/falsify` endpoint on the RUNNING Space. The finite checker shares the same `concurrency_limit=1`, `concurrency_id=proof-loom-cpu` CPU lane as the existing 3D and training controls.
+The publisher verifies the seven-file exact SOURCE.json and the presence of queued `/falsify` and `/hjo_profile` endpoints on the RUNNING Space. The finite checker shares the same `concurrency_limit=1`, `concurrency_id=proof-loom-cpu` CPU lane as the existing 3D and training controls.
+
+## HJO Cylindric Lab — bounded finite definition study
+
+The third optional research instrument uses **exact definitions** from Axiom Math's HJO Lean challenge at commit `6a58dfa6ab98bd35d841cb2cf8fd9081f62fad03`, with byte-verified `Challenge/Basic.lean` (SHA-256 `dc96a4b2f1bdeda0027968924ba480f8fc0e29e34eb56fb6cfbdbce2e235b48e`). The challenge contains five intentional `sorry` placeholders in theorem statements. They are not proofs, and this Space does not execute Lean.
+
+After a researcher clicks `Run exact finite cylindric enumeration`, pure Python calculates the balanced outgoing profile and coefficients of the *bounded cylindric partition generating-function definition only*. Two independent enumerators must agree or the action reports HOLD. The implemented checks require `2<=a<=4`, `a<b<=9`, and `gcd(a,b)=1`, with entry cap `N=0..3` and volume degree `D=0..8`. Incompatible parameters HOLD without evaluation.
+
+The exact HJO rank-N polynomial is NOT computed, the corresponding HJO finite identity has NOT been checked, and no new infinite theorem is proved. This UI does not interpret actual Andean khipus. Source details, checks, examples and limits: [research/hjo_profile](https://github.com/szl-holdings/szl-khipu/tree/main/research/hjo_profile).

@@ -8,12 +8,14 @@ on:
     paths:
       - "szl_khipu/proof_loom.py"
       - "research/rr_discovery/**"
+      - "research/hjo_profile/**"
       - "spaces/proof-loom/**"
       - "scripts/publish_proofloom.py"
       - "tests/test_proof_loom.py"
       - "tests/test_proofloom_publisher.py"
       - "tests/test_rr_sequence_scout.py"
       - "tests/test_rr_conjecture_crucible.py"
+      - "tests/test_hjo_cylindric_profile.py"
       - ".github/workflows/publish-proof-loom.yml"
 
 permissions:
@@ -51,6 +53,7 @@ jobs:
           python -m unittest discover -s tests -p test_proofloom_publisher.py -v
           python -m unittest discover -s tests -p test_rr_sequence_scout.py -v
           python -m unittest discover -s tests -p test_rr_conjecture_crucible.py -v
+          python -m unittest discover -s tests -p test_hjo_cylindric_profile.py -v
           python research/rr_discovery/learner.py --check research/rr_discovery/receipts/sequence_scout_v1.json
           python scripts/publish_proofloom.py --check
       - name: Publish and independently read back Hugging Face bytes and live config
