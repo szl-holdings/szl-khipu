@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import random
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
+from research.khipu_math import audit_cli
 from research.khipu_math.audit_cli import main as audit_main
 from research.khipu_math.cord_witness import (
-    SCHEMA, PRIME, TEST_PRIME, CordError, validate, load_record, commitment,
+    SCHEMA, PRIME, TEST_PRIME, CordError, validate, load_record, load_record_bytes, commitment,
     encode_decimal, decode_decimal, fingerprint, root_collision_bound,
     compare_committed,
 )
@@ -216,6 +219,51 @@ class KhipuResearchTests(unittest.TestCase):
                 fingerprint(values, 1)
         with self.assertRaises(CordError):
             fingerprint([1], 0, 100)  # composite/unreviewed modulus
+
+    def test_bounded_loader_preserves_exact_validated_file_bytes(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'source.json'
+            raw = ('  ' + json.dumps(sample(), indent=3) + '\n').encode('utf-8')
+            p.write_bytes(raw)
+            parsed, observed = load_record_bytes(p)
+            self.assertEqual(observed, raw)
+            self.assertEqual(parsed, sample())
+            self.assertEqual(load_record(p), parsed)
+
+    def test_cli_receipt_hashes_validated_snapshot_not_reopened_path(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder = Path(d)
+            reference = folder / 'reference.json'
+            candidate = folder / 'candidate.json'
+            original = json.dumps(sample()).encode('utf-8')
+            reference.write_bytes(original)
+            candidate.write_bytes(original)
+            output = folder / 'receipt.json'
+            real_loader = audit_cli.load_record_bytes
+
+            def swap_after_first_validated_read(path):
+                value = real_loader(path)
+                if Path(path) == reference:
+                    reference.write_text('{"untrusted":true}', encoding='utf-8')
+                return value
+
+            with mock.patch.object(audit_cli, 'load_record_bytes',
+                                   side_effect=swap_after_first_validated_read):
+                code = audit_main([
+                    '--reference', str(reference), '--candidate', str(candidate),
+                    '--expected-reference-sha256', commitment(sample()),
+                    '--challenge', '7', '--out', str(output),
+                ])
+            self.assertEqual(code, 0)
+            receipt = json.loads(output.read_text(encoding='utf-8'))
+            self.assertEqual(receipt['reference_input_sha256'],
+                             hashlib.sha256(original).hexdigest())
+            self.assertEqual(receipt['candidate_input_sha256'],
+                             hashlib.sha256(original).hexdigest())
+            self.assertNotEqual(receipt['reference_input_sha256'],
+                                hashlib.sha256(reference.read_bytes()).hexdigest())
+            self.assertEqual(receipt['comparison']['state'], 'RECONCILED_FIXED_REFERENCE')
+            self.assertFalse(receipt['source_rights_independently_checked'])
 
 
 if __name__ == '__main__':

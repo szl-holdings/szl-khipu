@@ -108,18 +108,30 @@ def _reject_nonfinite(_: str) -> None:
     raise CordError('nonfinite JSON constant')
 
 
-def load_record(path: str | Path) -> dict:
+def load_record_bytes(path: str | Path) -> tuple[dict, bytes]:
+    """Read once: the returned digest input is exactly what was validated.
+
+    The caller must not reopen the path to calculate a receipt hash: a
+    concurrent writer could replace its bytes after validation.
+    """
     try:
         with Path(path).open('rb') as file:
-            b = file.read(MAX_BYTES + 1)
-        if len(b) > MAX_BYTES:
+            raw = file.read(MAX_BYTES + 1)
+        if len(raw) > MAX_BYTES:
             raise CordError('record exceeds byte limit')
-        return validate(json.loads(b.decode('utf-8'), object_pairs_hook=_no_duplicate_fields,
-                                   parse_constant=_reject_nonfinite))
+        record = validate(json.loads(raw.decode('utf-8'),
+                                     object_pairs_hook=_no_duplicate_fields,
+                                     parse_constant=_reject_nonfinite))
+        return record, raw
     except CordError:
         raise
     except (UnicodeError, OSError, ValueError, RecursionError, OverflowError):
         raise CordError('record unavailable or invalid JSON') from None
+
+
+def load_record(path: str | Path) -> dict:
+    """Keep the original validation API for existing consumers."""
+    return load_record_bytes(path)[0]
 
 
 def commitment(record: dict) -> str:
