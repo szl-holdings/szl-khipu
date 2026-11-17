@@ -48,6 +48,17 @@ pairs with a + b ≤ 13. These are finite checks of published theorems: nothing 
 the [AxiomMath/HJO](https://github.com/AxiomMath/HJO) Lean certificate is **not** replayed here,
 and no historical link between torus knots and khipu knots is asserted.
 
+### HJO Cylindric Lab (inside the HJO Loom tab)
+
+A second, separately written instrument uses **exact definitions** from Axiom Math's HJO Lean
+challenge at commit `6a58dfa6ab98bd35d841cb2cf8fd9081f62fad03`, with byte-verified
+`Challenge/Basic.lean` (SHA-256 `dc96a4b2f1bdeda0027968924ba480f8fc0e29e34eb56fb6cfbdbce2e235b48e`).
+The challenge contains five intentional `sorry` placeholders in theorem statements; they are not
+proofs, and this Space does not execute Lean. On request, `/hjo_profile` computes the balanced
+profile and bounded cylindric-partition coefficients with two independent enumerators that must
+agree (2 ≤ a ≤ 4, a < b ≤ 9, gcd = 1, N ≤ 3, degree ≤ 8). It does not compute the HJO rank-N
+polynomial; the main HJO Loom checks above do that separately.
+
 ## 3. Classic Proof Loom and Conjecture Crucible
 
 The original Rogers–Ramanujan finite witness and the optional, default-OFF Sequence Scout
@@ -64,10 +75,10 @@ Loom tab), Lean replay, or historical khipus.
 
 ## Resource and admission envelope
 
-- One shared CPU execution lane (`concurrency_limit=1`) for all five expensive callbacks
-  (`khipu`, `hjo`, `recompute`, `discover`, `falsify`); the public queue admits at most 32
-  pending items. The publisher requires all five, queued, plus three 3D viewers, on the
-  RUNNING Space before it reports a deployment.
+- One shared CPU execution lane (`concurrency_limit=1`) for all six expensive callbacks
+  (`khipu`, `hjo`, `hjo_profile`, `recompute`, `discover`, `falsify`); the public queue admits
+  at most 32 pending items. The publisher requires all six, queued, plus three 3D viewers, on
+  the RUNNING Space before it reports a deployment.
   Brute-force counts stop at a fixed work budget and report `NOT_RUN_BUDGET` — never a match.
 - Every source and data file is SHA-256 pinned in `SOURCE.json` and re-checked at boot; the
   corpus, relations report and certificate are verified again on load.

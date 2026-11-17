@@ -102,6 +102,29 @@ class Identities(unittest.TestCase):
         self.assertLess(float(sum(terms)), h.groupoid_prediction(2, 3, 2))
 
 
+class IndependentImplementationAgreement(unittest.TestCase):
+    """research/hjo_profile/cylindric.py was written separately from the Lean
+    challenge's definitions with two enumerators of its own; the level-vector
+    count here must agree with it wherever both are defined."""
+
+    def test_cylindric_counts_match_hjo_profile_lab(self):
+        import importlib.util
+        path = ROOT / "research" / "hjo_profile" / "cylindric.py"
+        spec = importlib.util.spec_from_file_location("hjo_profile_cylindric", path)
+        lab = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(lab)
+        checked = 0
+        for a, b in [(2, 3), (2, 5), (3, 4), (3, 5), (4, 5), (3, 7), (4, 7), (2, 9)]:
+            for rank in (1, 2, 3):
+                with self.subTest(pair=(a, b), rank=rank):
+                    theirs = lab.witness(a, b, rank, 8)
+                    self.assertEqual(list(theirs["profile"]), list(h.balanced_profile(a, b)))
+                    self.assertEqual(theirs["cylindric_coefficients_by_volume"],
+                                     h.cylindric_series(h.balanced_profile(a, b), rank, 8))
+                    checked += 1
+        self.assertEqual(checked, 24)
+
+
 class NegativeControls(unittest.TestCase):
     def test_wrong_product_exponent_is_detected(self):
         z = h.z_series(3, 4, 20)

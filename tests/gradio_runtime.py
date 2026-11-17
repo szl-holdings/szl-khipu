@@ -228,6 +228,23 @@ class GradioRuntime(unittest.TestCase):
                     )
                     self.assertEqual(invalid[1]["status"], "HOLD")
                     self.assertIs(invalid[1]["evaluation_performed"], False)
+                    hjo = client.predict(3, 5, 2, 6, api_name="/hjo_profile")
+                    self.assertIn("HJO profile", hjo[0])
+                    self.assertIn("two distinct", hjo[0])
+                    self.assertEqual(hjo[1]["status"], "FINITE_CYLINDRIC_DEFINITION_CONTROL")
+                    self.assertEqual(hjo[1]["profile"], [1, 2, 2])
+                    self.assertEqual(
+                        hjo[1]["cylindric_coefficients_by_volume"],
+                        [1, 3, 8, 14, 25, 36, 52],
+                    )
+                    self.assertIs(hjo[1]["HJO_rank_N_polynomial_computed"], False)
+                    self.assertIs(hjo[1]["Lean_kernel_replayed"], False)
+                    hjo_rejected = client.predict(3, 6, 2, 6, api_name="/hjo_profile")
+                    self.assertEqual(hjo_rejected[1]["status"], "HOLD")
+                    self.assertEqual(
+                        hjo_rejected[1]["reason"], "HJO_REQUIRES_COPRIME_PAIR"
+                    )
+                    self.assertIs(hjo_rejected[1]["enumeration_performed"], False)
                 finally:
                     client.close()
             finally:

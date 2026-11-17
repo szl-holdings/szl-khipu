@@ -27,6 +27,7 @@ FILES = {
     "szl_khipu/proof_loom.py": "proof_loom.py",
     "research/rr_discovery/learner.py": "hypothesis.py",
     "research/rr_discovery/falsifier.py": "falsifier.py",
+    "research/hjo_profile/cylindric.py": "cylindric.py",
     "research/rr_discovery/receipts/sequence_scout_v1.json": "sequence_scout_v1.json",
     "szl_khipu/hjo_loom.py": "hjo_loom.py",
     "szl_khipu/holo_glb.py": "holo_glb.py",
@@ -43,7 +44,7 @@ SIZE_LIMITS = {
     "okr_relations_v1.json": 2_000_000,
 }
 DEFAULT_SIZE_LIMIT = 150_000
-EXPENSIVE_APIS = ("discover", "recompute", "falsify", "khipu", "hjo")
+EXPENSIVE_APIS = ("discover", "recompute", "falsify", "hjo_profile", "khipu", "hjo")
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 # One-shot recovery of the exact owner-created empty Space after the 2026-11-17
 # Hub card-metadata 400, with immutable provider readback and no file deletion.
@@ -222,6 +223,11 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                     for item in dependencies
                 ):
                     raise AdmissionHold("SPACE_FALSIFICATION_API_UNOBSERVED")
+                if not any(
+                    isinstance(item, dict) and item.get("api_name") == "hjo_profile"
+                    for item in dependencies
+                ):
+                    raise AdmissionHold("SPACE_HJO_PROFILE_API_UNOBSERVED")
                 expensive = [
                     item for item in dependencies
                     if isinstance(item, dict)
