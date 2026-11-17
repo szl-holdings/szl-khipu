@@ -244,6 +244,7 @@ def _corpus_banner() -> str:
             f'<i>{verdict}</i></div>'
         )
     r2 = prim["R2"]
+    cov = okr.provenance_coverage(CORPUS, RELATIONS)
     return (
         '<section class="banner"><div class="kicker">MEASURED ON 619 PINNED OKR RECORDS · '
         f'{stats["trials"]:,} WITHIN-KHIPU PERMUTATIONS · SEED {stats["seed"]}</div>'
@@ -257,7 +258,16 @@ def _corpus_banner() -> str:
         'survive: R1 is carried by one khipu, R4 mostly by Incahuasi, R3 is at chance level. '
         'This is arithmetic structure in the record, consistent with Ascher &amp; Ascher (1981) '
         '— not a decipherment of khipu narrative.</p>'
-        f'<div class="grid">{"".join(cells)}</div></section>'
+        f'<div class="grid">{"".join(cells)}</div>'
+        f'<p class="note"><b>Provenance coverage.</b> {cov["provenance_blank"]} of the '
+        f'{cov["records"]} records have no recorded provenance and {cov["provenance_unknown"]} '
+        f'say "Unknown"; {cov["r2_from_unsourced"]} of the {cov["r2_total"]} top-cord sums come '
+        f'from {cov["r2_unsourced_khipus"]} of those unsourced khipus. A post-hoc check '
+        f'restricted to the {cov["identified_records"]} records with identified provenance still '
+        'finds top-cord sums far above the permutation null (numbers and command in '
+        '<code>research/okr_corpus/README.md</code>). Site labels are free text and recorders '
+        'overlap, so this is a stress test, not an independent or prospective replication.</p>'
+        '</section>'
     )
 
 

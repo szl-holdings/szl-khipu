@@ -484,5 +484,29 @@ class KnotFamilyTests(unittest.TestCase):
         self.assertEqual(families.get("SP"), "long")
 
 
+class ProvenanceCoverageTests(unittest.TestCase):
+    """Public docs must state the provenance denominator the code computes."""
+
+    def test_coverage_numbers_match_docs(self):
+        corpus = ok.load_corpus()
+        report = ok.load_relations_report(corpus_sha256=corpus["sha256"])
+        cov = ok.provenance_coverage(corpus, report)
+        self.assertEqual(cov["records"], cov["provenance_blank"] + cov["provenance_unknown"]
+                         + cov["identified_records"])
+        root = Path(__file__).resolve().parents[1]
+        readme = (root / "research" / "okr_corpus" / "README.md").read_text(encoding="utf-8")
+        card = (root / "spaces" / "proof-loom" / "README.md").read_text(encoding="utf-8")
+        for text in (readme, card):
+            self.assertIn(f"{cov['provenance_blank']} ", text)
+            self.assertIn(f"{cov['r2_from_unsourced']} of the {cov['r2_total']} top-cord sums", text)
+            self.assertIn(f"{cov['identified_records']} ", text)
+        self.assertIn(f"{cov['provenance_unknown']} say", card)
+
+    def test_coverage_refuses_mismatched_report(self):
+        corpus = ok.load_corpus()
+        with self.assertRaises(ok.OkrHold):
+            ok.provenance_coverage(corpus, {"corpus_sha256": "0" * 64, "khipus": []})
+
+
 if __name__ == "__main__":
     unittest.main()

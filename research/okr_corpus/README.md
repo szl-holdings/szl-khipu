@@ -225,6 +225,36 @@ often as under a within-khipu permutation null in the pinned OKR records
 (p ≤ 0.001, 1000 permutations).* That is evidence that the recorded numbers are
 arranged additively. It is not a reading of what the numbers counted.
 
+## Provenance coverage (POST-HOC diagnostic, added after an independent audit)
+
+Added after the main results were fixed, in response to an independent audit of
+the PR head; it can only qualify the claims above, never strengthen the design.
+`okr_khipu.provenance_coverage()` computes the first four numbers from the
+shipped corpus and report, and a unit test keeps this section in sync.
+
+- Of 619 records, **173 have blank provenance and 48 say "Unknown"**: 221 records
+  cannot be tied to an identified source.
+- **25 of the 54 top-cord sums (R2) come from 5 khipus with blank provenance**
+  (none from "Unknown").
+- Restricted post hoc to the **398 records with identified provenance**, R2 gives
+  **29 observed** against a null mean of **2.934** (role/depth, seed 1981; 9.9×) and
+  **3.909** (role/depth/magnitude; 7.4×), p ≤ 0.001 for both — the smallest
+  attainable with 1,000 permutations, not an exact tail probability. The auditor
+  reports the same with a second seed (2026) and in all twelve
+  leave-one-labelled-provenance-out cuts.
+
+```
+python3 -c "from szl_khipu import okr_khipu as ok; c=ok.load_corpus(); r=ok.load_relations_report(corpus_sha256=c['sha256']); print(ok.provenance_coverage(c, r)); keep=[k for k in c['khipus'] if (k.get('provenance') or '').strip() not in ('', 'Unknown')]; s=ok.corpus_statistics({'khipus': keep}, trials=1000, seed=1981, strata=('role_depth','role_depth_magnitude')); print({st: (v['R2']['observed'], v['R2']['null_mean'], v['R2']['pooled_p']) for st, v in s['by_strata'].items()})"
+```
+
+What this does and does not show: the top-cord arithmetic pattern does not depend
+on the unsourced records. It does **not** show recording independence: site names
+are unnormalised free text, cohorts can share archival recorders, and the cuts
+were chosen after seeing results. Geographic or cultural generalisation needs
+source- and site-separated prospective validation with Andean and archaeological
+stewardship; the OKR's MIT licence and exact arithmetic do not by themselves
+settle questions of cultural interpretation.
+
 ## Limitations
 
 - **Transcription, not artifact.** Values are what recorders entered. Recording

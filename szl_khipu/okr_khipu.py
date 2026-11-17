@@ -34,6 +34,7 @@ __all__ = [
     "OKR_CSV_SHA256",
     "LONG_TYPES",
     "knot_family",
+    "provenance_coverage",
     "CORPUS_FILENAME",
     "RELATIONS_FILENAME",
     "RELATION_TYPES",
@@ -1148,6 +1149,30 @@ def scene(khipu, max_cords=1500, max_knots=8000) -> dict:
 
 
 # --------------------------------------------------------------------------- card
+
+
+def provenance_coverage(corpus, report) -> dict:
+    """How much of the corpus, and of the R2 top-cord evidence, comes from
+    records whose provenance is blank or literally 'Unknown' in OKR."""
+    if not isinstance(corpus, dict) or not isinstance(report, dict):
+        raise OkrHold("corpus and relations report are required")
+    if report.get("corpus_sha256") != corpus.get("sha256"):
+        raise OkrHold("relations report belongs to a different corpus")
+    prov = {k["id"]: str(k.get("provenance") or "").strip() for k in corpus["khipus"]}
+    blank = {i for i, p in prov.items() if not p}
+    unknown = {i for i, p in prov.items() if p.lower() == "unknown"}
+    unsourced = blank | unknown
+    r2 = {row["id"]: row["observed"]["R2"] for row in report["khipus"] if row["observed"]["R2"]}
+    return {
+        "records": len(prov),
+        "provenance_blank": len(blank),
+        "provenance_unknown": len(unknown),
+        "identified_records": len(prov) - len(unsourced),
+        "r2_total": sum(r2.values()),
+        "r2_khipus": len(r2),
+        "r2_from_unsourced": sum(v for i, v in r2.items() if i in unsourced),
+        "r2_unsourced_khipus": sum(1 for i in r2 if i in unsourced),
+    }
 
 
 def khipu_card(khipu, trials=200, seed=DEFAULT_SEED, report=None) -> dict:

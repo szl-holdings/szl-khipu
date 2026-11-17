@@ -31,7 +31,11 @@ MEASURED on the pinned records: **top cords equal the exact sum of the pendant g
 them 54 times, against 4.96 expected by chance (10.9×, p ≤ 0.001)** — robust to a stricter
 null, to dropping the strongest khipu and to excluding Incahuasi. Subsidiary sums are carried by
 one khipu, in-group sum cords mostly by Incahuasi, and sums of other groups are at chance level;
-the app shows all four honestly. This is arithmetic structure consistent with Ascher & Ascher
+the app shows all four honestly. **Provenance coverage:** 173 of the 619 records have no recorded
+provenance and 48 say "Unknown"; 25 of the 54 top-cord sums come from 5 of those unsourced
+khipus. A post-hoc check restricted to the 398 identified-provenance records still finds 29 against
+2.9 expected (p ≤ 0.001) — a stress test, not an independent or prospective replication. This is
+arithmetic structure consistent with Ascher & Ascher
 (1981). It is **not** a decipherment of khipu narrative and makes no claim about non-numeric
 khipu content.
 
