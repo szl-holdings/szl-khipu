@@ -60,7 +60,7 @@ class GradioRuntime(unittest.TestCase):
         self.assertIs(self.app.demo.theme, self.app.THEME)
         self.assertFalse(self.app.demo.ssr_mode)
         labels = [item["props"].get("label") for item in config["components"] if item["type"] == "tabitem"]
-        self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Receipts"])
+        self.assertEqual(labels, ["Λ gate", "YARQA", "TileDigest", "TinyKhipu", "Moons", "MiniEmbed", "Anatomy", "Proof Loom 3D", "Receipts"])
 
     def test_szl_design_system_is_served_locally(self) -> None:
         self.assertIn(self.app.SZL_CSS_URL, self.app.HOLO_HEAD)
@@ -69,6 +69,19 @@ class GradioRuntime(unittest.TestCase):
         css.raise_for_status()
         self.assertEqual(css.headers["content-type"].split(";")[0], "text/css")
         self.assertEqual(css.content, (self.app.SZL_DIR / "szl-design-system.css").read_bytes())
+
+    def test_proof_loom_python_glb_contract(self) -> None:
+        from szl_khipu.proof_loom import render
+        path, receipt = render(18, "RR1", (2, 3))
+        self.assertTrue(Path(path).exists())
+        self.assertEqual(Path(path).read_bytes()[:4], b"glTF")
+        self.assertEqual(receipt["model_qualification"], "NOT_ASSESSED")
+        self.assertEqual(receipt["historical_claim"], "NOT_ESTABLISHED")
+        self.assertIn(str(Path(path).parent), self.app.launch_demo.__globals__["PROOF_LOOM_DIR"])
+        config = httpx.get(f"{self.url}config", timeout=15.0).json()
+        self.assertEqual(
+            len([c for c in config["components"] if c["type"] == "model3d"]), 1
+        )
 
     def test_live_lambda_pass_and_fail_closed(self) -> None:
         passing = self.client.predict(*([1.0] * len(self.app.AXES)), api_name="/score_lambda")
