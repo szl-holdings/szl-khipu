@@ -134,14 +134,30 @@ class GradioRuntime(unittest.TestCase):
                     response = client.predict(6, "RR1", "2,3", api_name="/recompute")
                     self.assertIn("FINITE MATCH", response[1])
                     self.assertIn("NOT ASSESSED", response[1])
-                    research = client.predict("RR1", False, api_name="/discover")
+                    # Default OFF must never invoke the fitter, even via API.
+                    with patch.object(standalone, "scout_fit", side_effect=AssertionError("unexpected training")), (
+                        patch.object(standalone, "scout_run_experiment", side_effect=AssertionError("unexpected replay"))
+                    ):
+                        disabled = client.predict("RR1", False, False, api_name="/discover")
+                        self.assertIn("DISABLED", disabled)
+                        self.assertNotIn("96/96", disabled)
+                        self.assertEqual(
+                            standalone.scout_option_state(False),
+                            standalone.SCOUT_DISABLED,
+                        )
+                        self.assertIn("ARMED", standalone.scout_option_state(True))
+                    research = client.predict("RR1", False, True, api_name="/discover")
                     self.assertIn("mod 5", research)
                     self.assertIn("96/96", research)
                     self.assertIn("not neural training", research)
                     self.assertIn("1,573", research)
-                    corrupted = client.predict("RR1", True, api_name="/discover")
+                    corrupted = client.predict("RR1", True, True, api_name="/discover")
                     self.assertIn("HOLD", corrupted)
                     self.assertIn("No supported model", corrupted)
+                    self.assertEqual(
+                        standalone.scout_option_state(False),
+                        standalone.SCOUT_DISABLED,
+                    )
                 finally:
                     client.close()
             finally:
