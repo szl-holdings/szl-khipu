@@ -10,6 +10,19 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import shutil
+import sys
+
+
+# Only these previously reviewed source files belong in a published dataset
+# or the hosted Space. The post-hoc evaluation set is intentionally absent
+# from production images and remains a research-only source fixture.
+RELEASE_DATA_FILES = (
+    "synthetic_train.jsonl",
+    "synthetic_eval.jsonl",
+    "sources.jsonl",
+    "okr_kh_index.jsonl",
+    "okr_registry_provenance.json",
+)
 
 
 def stage(project: Path, output: Path, source_revision: str) -> dict:
@@ -17,6 +30,12 @@ def stage(project: Path, output: Path, source_revision: str) -> dict:
         raise ValueError('REVIEWED_SOURCE_SHA_REQUIRED')
     if output.exists():
         raise ValueError('OUTPUT_EXISTS')
+    # Reuse the same exact-byte admission contract as the hosted reader.
+    # Changing a source file without reviewing its Git-bound pin is a HOLD.
+    if str(project.resolve()) not in sys.path:
+        sys.path.insert(0, str(project.resolve()))
+    from src.asset_contract import verify_assets
+    verify_assets(project)
     receipt = json.loads((project/'model/training_receipt.json').read_bytes())
     model = project/'model/yachay_nb_v0.json'
     if sha256(model.read_bytes()).hexdigest() != receipt['data']['model/yachay_nb_v0.json']['sha256']:
@@ -28,8 +47,7 @@ def stage(project: Path, output: Path, source_revision: str) -> dict:
     dirs = {x: output/x for x in ('dataset','model','space')}
     for d in dirs.values():d.mkdir()
     # Dataset: original authored synthetic data and MIT-attributed public metadata pointers.
-    for name in ('synthetic_train.jsonl','synthetic_eval.jsonl',
-                 'sources.jsonl','okr_kh_index.jsonl','okr_registry_provenance.json'):
+    for name in RELEASE_DATA_FILES:
         shutil.copyfile(project/'data'/name, dirs['dataset']/name)
     shutil.copyfile(project/'docs/DATASET_CARD.md',dirs['dataset']/'README.md')
     shutil.copyfile(project/'model/yachay_nb_v0.json',dirs['model']/'yachay_nb_v0.json')
@@ -42,9 +60,12 @@ def stage(project: Path, output: Path, source_revision: str) -> dict:
     (dirs['space'] / 'space').mkdir()
     for name in ('app.py', 'app.js', 'style.css', 'index.html'):
         shutil.copyfile(project/'space'/name, dirs['space']/'space'/name)
-    for subdir in ('src','model','data'):
+    for subdir in ('src','model'):
         shutil.copytree(project/subdir,dirs['space']/subdir,
                         ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    (dirs['space'] / 'data').mkdir()
+    for name in RELEASE_DATA_FILES:
+        shutil.copyfile(project/'data'/name,dirs['space']/'data'/name)
     # Include the license in all three repo packages; the source rights status
     # remains mixed and described explicitly in the cards.
     for dest in dirs.values():
