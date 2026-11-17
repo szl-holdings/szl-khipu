@@ -9,7 +9,7 @@ python_version: '3.11'
 app_file: app.py
 pinned: false
 license: apache-2.0
-short_description: Exact finite partitions and Python-built 3D knot and cord geometry
+short_description: Exact finite mathematics in Python 3D
 ---
 
 # Khipu Proof Loom — research preview
