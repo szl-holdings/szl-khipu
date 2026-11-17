@@ -1,0 +1,239 @@
+{
+  "schema": "szl.khipu.flagship55-provenance-design/v0",
+  "status": "DESIGN_ONLY",
+  "recorded_at_utc": "2026-11-17T07:09:41Z",
+  "proposal_name": "Flagship55 Khipu three-role learning fabric",
+  "source_owner": "szl-holdings/szl-khipu",
+  "baseline": {
+    "model_repo": "SZLHOLDINGS/salad-flagship54-v1",
+    "revision": "92da3f1e3fcc2f190c0198bdb33ff1d734294e17",
+    "checkpoint_step": 37000,
+    "archived_files": 11,
+    "archived_bytes": 287883513,
+    "final_equivalent_files": 5,
+    "final_equivalent_bytes": 118733024,
+    "artifact_state": "ARTIFACT_VERIFIED_OWNER_LAPTOP",
+    "actual_shutdown": "UNOBSERVED",
+    "evaluation": "NOT_ESTABLISHED",
+    "production_qualification": "NOT_ESTABLISHED"
+  },
+  "topology": {
+    "student": "ONE_CANDIDATE_BACKBONE_UNPINNED_FOR_FLAGSHIP55",
+    "method": "THREE_PROPOSED_COMPATIBLE_SPECIALIST_ADAPTERS",
+    "teacher_external_at_training": true,
+    "three_standalone_models_embedded": false,
+    "experts": [
+      {
+        "role": "YACHAY_TEACHER",
+        "purpose": "Mentor for source-grounded mathematical explanations and proof plans",
+        "implementation": "PROPOSED_LORA_ADAPTER",
+        "weights_revision": null,
+        "trained": false,
+        "deployed": false
+      },
+      {
+        "role": "WILLAY_GUIDE",
+        "purpose": "Advisory doctrine and permissions reasoning; deterministic policy retains authority",
+        "implementation": "PROPOSED_LORA_ADAPTER",
+        "weights_revision": null,
+        "trained": false,
+        "deployed": false
+      },
+      {
+        "role": "KHIPU_SKEPTIC",
+        "purpose": "Counterexample seeking, uncertainty, abstention and independent proof requests",
+        "implementation": "PROPOSED_LORA_ADAPTER",
+        "weights_revision": null,
+        "trained": false,
+        "deployed": false
+      }
+    ],
+    "router": "UNIMPLEMENTED",
+    "proof_authority": "EXTERNAL_LEAN_KERNEL_AND_EXISTING_DETERMINISTIC_POLICY",
+    "new_controller_created": false
+  },
+  "math": {
+    "source_repo": "szl-holdings/lutar-lean",
+    "source_revision": "bcfc25badcd73d6b6f013853c1fb8bf384b2e460",
+    "claims_path": "claims/locked-formulas.v1.json",
+    "locked_ids": [
+      "F1",
+      "F4",
+      "F7",
+      "F11",
+      "F12",
+      "F18",
+      "F19",
+      "F22"
+    ],
+    "locked_claims_scope": "ONLY_EXACT_LEAN_THEOREM_STATEMENTS",
+    "axioms": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ],
+    "lambda_uniqueness": "UNCONDITIONAL_A1_A5_REFUTED_AS_STATED",
+    "lambda_counterexample": "maxAgg_ne_Lambda",
+    "conditional_uniqueness": "EXTRA_ASSUMPTIONS_REQUIRED",
+    "lambda_authority": false,
+    "conjectures_auto_proven": false
+  },
+  "dataset_census": {
+    "owner": "SZLHOLDINGS",
+    "provider": "HUGGING_FACE",
+    "observed_at_utc": "2026-11-17T07:09:41Z",
+    "metadata_only": true,
+    "requested_cap": 501,
+    "returned": 136,
+    "public": 91,
+    "private": 45,
+    "with_license_tag": 116,
+    "without_license_tag": 20,
+    "complete_within_accessible_hf_scope": true,
+    "all_global_data_covered": false,
+    "rights_review": "NOT_PERFORMED",
+    "privacy_review": "NOT_PERFORMED",
+    "evaluation_decontamination": "NOT_PERFORMED",
+    "training_admitted": 0,
+    "private_identities_in_public_document": false
+  },
+  "owner_roots": [
+    {
+      "repository": "szl-holdings/lutar-lean",
+      "revision": "bcfc25badcd73d6b6f013853c1fb8bf384b2e460",
+      "role": "FORMAL_MATH_OWNER",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-khipu",
+      "revision": "0471c3c5c23bc75445234d65aaee722912efbc92",
+      "role": "KHIPU_ORIGIN_BEFORE_THIS_PROPOSAL",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/lean-rlvr-proving-ground",
+      "revision": "b23ea5fe7e63d6b7402ce3a6f0a6aa5e1fa56b2c",
+      "role": "PROOF_REFEREE_SOURCE",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-forge",
+      "revision": "6a62d9c212b79696c9a1b70556d575b423091966",
+      "role": "TRAINING_AND_EVAL_OWNER",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-gpu-bridge",
+      "revision": "3658bfecdb7f8339b46d325b0c87aaa21bd45a8f",
+      "role": "FLAGSHIP54_GUARD_OWNER",
+      "status": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "szl-holdings/szl-second-brain",
+      "revision": "e4c6031a4e6e111a9c79601eaf8e4d9f24a1b40a",
+      "role": "PRIVATE_BRAIN_AUTHORITY",
+      "status": "REFERENCE_ONLY"
+    }
+  ],
+  "public_dataset_examples": [
+    {
+      "repo": "SZLHOLDINGS/lean-theorem-tree",
+      "revision": "fec481f180eb2221de3525a363e5e378f7880042",
+      "role": "RETRIEVAL_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/lean-proofs-v1",
+      "revision": "857afdd9331e4ee24fc12f0fcfb533f29ee9edef",
+      "role": "PROOF_REFERENCE_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/canonical-formulas-v1",
+      "revision": "bf1de245e101d06da95dda9f6ab22994b9b71a9f",
+      "role": "RETRIEVAL_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/szl-quant-sft-v1",
+      "revision": "840044aedc235774d5a653ee34fc0c2dd3430079",
+      "role": "EXCLUDED_EXISTING_BOM",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/reasoning-puzzles-sft-v1",
+      "revision": "d640da96d3c467fc5abc9d26f462b89ac9634f36",
+      "role": "SFT_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/free-energy-reasoning-sft-v1",
+      "revision": "efd4c65cb6da9e85d95d37ad02cc061c1f32d917",
+      "role": "SFT_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/ancient-math-reasoning-sft-v1",
+      "revision": "1c820d962815353456b15c7efd6a2bf3b1379717",
+      "role": "SFT_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/lean-invariants-sft-v1",
+      "revision": "d8c3e3c73848af16bf9483eabf0599a01999344d",
+      "role": "SFT_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/formula-proving-ground",
+      "revision": "4e660c4836faad70bcf9bd1d26fdf95fc5bf97d3",
+      "role": "EVAL_PROOF_REFERENCE_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/quant-curriculum-v1",
+      "revision": "e13d1995d03b1195ae8ca28da5b4559cc5b06e61",
+      "role": "SFT_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/lean-proof-corpus-v1",
+      "revision": "e80aebb2572664fd8d87a30b1667d72097edfd00",
+      "role": "PROOF_REFERENCE_REVIEW",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/axiom-invariant-corpus-v1",
+      "revision": "235d9c41384a627fae290aa89792ae079103b3ab",
+      "role": "STATEMENT_CONTEXT_ONLY",
+      "training_admitted": false
+    },
+    {
+      "repo": "SZLHOLDINGS/khipu-v2-abstention-curriculum",
+      "revision": "4a15e24071126e6eb44e7f3e4cc8b273db63b5f2",
+      "role": "RIGHTS_UNKNOWN_REVIEW",
+      "training_admitted": false
+    }
+  ],
+  "gates": {
+    "private_graph_training": false,
+    "auto_ingest": false,
+    "auto_train": false,
+    "auto_publish": false,
+    "auto_merge": false,
+    "auto_deploy": false,
+    "model_weights_modified": false,
+    "flagship54_guard_authority_unchanged": true,
+    "independent_eval_accepted": false,
+    "rights_cleared": false,
+    "teacher_benchmarked": false,
+    "adapter_compatibility_verified": false,
+    "compute_budget_approved_for_this_proposal": false,
+    "final_model_qualified": false
+  },
+  "reference_only": true,
+  "receipt_signature": "UNSIGNED",
+  "scope": "Source-indexed design, not an inventory of all files or any actual training"
+}
