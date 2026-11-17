@@ -1,0 +1,21 @@
+{
+  "at_utc": "2026-11-17T07:27:39.462704+00:00",
+  "deployed": false,
+  "gpu_jobs": 0,
+  "hf_model_created": false,
+  "historical_dataset_used": false,
+  "original_source_main_sha": "0471c3c5c23bc75445234d65aaee722912efbc92",
+  "postfreeze_aggregate_sha256": "78021a3bf0798c7b7aeaa86cfc1a702216690bd57c63be2fc1091c6f9b80db4d",
+  "production_qualified": false,
+  "research_only": true,
+  "same_environment_replay_model_sha256": "1f5dfaf9da2ff2a6228eed02df0cdf12aa9407bf1d5df51f654d53c92c60f47e",
+  "schema": "szl.yachay.open-set.artifact-binding/v1",
+  "signature": null,
+  "source_authority": "GITHUB_IS_SOURCE_AFTER_SOURCE_ADMISSION",
+  "synthetic_dataset_source_sha256": "12a602ffad35d32d7ad70225bb35e340f3ed2e67fddfa3b4ab1c22b544c28b2a",
+  "train_intent_sha256": "2d46fb1d298adc97b61b0cf38b341990c41f509ed078e12dd4c6f55afb262bd2",
+  "trained_weights_sha256": "1f5dfaf9da2ff2a6228eed02df0cdf12aa9407bf1d5df51f654d53c92c60f47e",
+  "training_finished": true,
+  "training_receipt_sha256": "fb238936f4e32833777c11444c24e0af2f93e606e70869c80c7c65f277b663ac",
+  "training_source_sha256": "287967d3cce654f74a8abf0fa1ad07900244baa0b2495b643aa88d4aa7ebe82a"
+}
