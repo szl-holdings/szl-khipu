@@ -4,7 +4,7 @@ emoji: 🪢
 colorFrom: gray
 colorTo: green
 sdk: gradio
-sdk_version: 6.31.0
+sdk_version: 6.32.0
 python_version: "3.11"
 app_file: app.py
 pinned: true
@@ -31,7 +31,7 @@ The dedicated CI smoke test imports the real SDK, starts a loopback server, chec
 
 **Proof Loom 3D (source preview):** a real orbit/pan/zoom GLB viewer (`gr.Model3D`) is driven by exact, bounded pure-Python finite coefficient checks and a standard-library GLB generator in `szl_khipu/proof_loom.py`. No new app-authored JavaScript, npm dependency, remote asset fetch, inference, GPU, or model load is introduced. Browsers still use Gradio's packaged WebGL renderer: a browser 3D view cannot literally execute without client graphics code. Distinct compartments show a modern torus-knot geometry example and an intentionally non-historical digital cord representation; mathematical proof, khipu decipherment and model quality are not asserted. The canonical `publish-hf` workflow currently stages `space/` as a separate **Docker** runtime, not `spaces/app.py`; thus local Gradio green CI is not a Hugging Face deployment claim.
 
-CI installs the same set from the hash-locked `requirements/ci/gradio-demo.txt` (`pip install --require-hashes -r requirements/ci/gradio-demo.txt --no-deps`, then `pip install --no-deps -e .`). That lock pins Pillow 13.0.0, the earliest release that fixes GHSA-8g5g-8vmr-9782. Gradio 6.31.0 still declares `pillow<13`, so a resolving install stops at 12.3.0; `--no-deps` installs the hashed pins, and `scripts/check_gradio_demo_deps.py` allows only that one `pip check` finding. The plain extra install above still resolves Pillow 12.3.0 until a Gradio release widens the bound. When the Gradio pin in `requirements.txt` changes, also update `sdk_version` above and the version assertion in `tests/gradio_runtime.py`, and regenerate the lock; `tests/test_ci_requirements.py` fails until the lock carries the pinned Gradio:
+CI installs the same set from hash-locked `requirements/ci/gradio-demo.txt` (`pip install --require-hashes -r requirements/ci/gradio-demo.txt --no-deps`, then `pip install --no-deps -e .`). Gradio 6.32.0 widens Pillow compatibility to include the security-fixed Pillow 13.0.0. The lock retains an exact Pillow 13.0.0 override for reproducibility, and `scripts/check_gradio_demo_deps.py` now requires a completely clean `pip check`; even the old Gradio 6.31.0 mismatch is no longer accepted. When the Gradio pin in `requirements.txt` changes, also update `sdk_version` above and the version assertion in `tests/gradio_runtime.py`, and regenerate the lock; `tests/test_ci_requirements.py` fails until the lock carries the pinned Gradio:
 
 ```sh
 uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 --generate-hashes --overrides requirements/ci/pillow-security-override.txt -o requirements/ci/gradio-demo.txt

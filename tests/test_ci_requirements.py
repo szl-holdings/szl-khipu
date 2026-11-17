@@ -167,7 +167,7 @@ class CiRequirementLocks(unittest.TestCase):
 
     def test_gradio_lock_pins_patched_pillow(self) -> None:
         # GHSA-8g5g-8vmr-9782 (and every other Pillow advisory still covering
-        # 12.3.0) is fixed in 13.0.0. Gradio 6.31.0's pillow<13 bound hides that
+        # 12.3.0) is fixed in 13.0.0. Gradio 6.32.0's compatible bound no longer hides that
         # release from a normal resolve, so the lock carries an override.
         pins = _lock("gradio-demo")
         versions = {_pinned_version(req) for req, _hashes in pins["pillow"]}
@@ -193,11 +193,15 @@ class CiRequirementLocks(unittest.TestCase):
         )
         checker = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(checker)
-        allowed = checker.ALLOWED
-        self.assertEqual(checker.unexpected(allowed + "\n", 1), [])
+        old_mismatch = (
+            "gradio 6.31.0 has requirement pillow<13.0,>=8.0, "
+            "but you have pillow 13.0.0."
+        )
         self.assertEqual(checker.unexpected("", 0), [])
         self.assertEqual(checker.unexpected(checker.CLEAN + "\n", 0), [])
-        self.assertTrue(checker.unexpected(allowed + "\nnumpy 1.0 has requirement x, but you have y.\n", 1))
+        # Gradio 6.32 removes the old workaround. Never conceal a conflict.
+        self.assertTrue(checker.unexpected(old_mismatch + "\n", 1))
+        self.assertTrue(checker.unexpected(old_mismatch + "\nnumpy 1.0 has requirement x, but you have y.\n", 1))
         self.assertTrue(checker.unexpected("", 1))
         self.assertTrue(checker.unexpected("something else\n", 0))
         self.assertTrue(checker.unexpected(checker.CLEAN + "\nnumpy 1.0 has requirement x, but you have y.\n", 0))
