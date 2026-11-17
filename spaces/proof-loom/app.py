@@ -17,6 +17,8 @@ import gradio as gr
 # The protected publisher copies canonical szl_khipu/proof_loom.py beside this app.
 from proof_loom import panel
 from hypothesis import (
+    DOMAIN as SCOUT_DOMAIN,
+    canonical as scout_canonical,
     TRAIN_MAX as SCOUT_TRAIN_MAX,
     EVAL_START as SCOUT_EVAL_START,
     EVAL_END as SCOUT_EVAL_END,
@@ -79,21 +81,35 @@ def _source_identity() -> tuple[str, str]:
 SOURCE_SHA, SOURCE_MANIFEST_SHA = _source_identity()
 
 
-def _verify_scout_receipt() -> dict:
-    """Reject divergence between the published symbolic model and its trainer."""
+def _read_scout_receipt() -> dict:
+    """Read and validate the source-pinned receipt WITHOUT training at startup."""
     path = Path(__file__).resolve().parent / "sequence_scout_v1.json"
     if path.is_symlink() or not path.is_file() or path.stat().st_size > 32768:
         raise RuntimeError("SCOUT_RECEIPT_UNAVAILABLE")
-    expected = scout_run_experiment()
-    canonical = (
-        json.dumps(expected, sort_keys=True, indent=2, ensure_ascii=True) + "\n"
-    ).encode("ascii")
-    if path.read_bytes() != canonical:
-        raise RuntimeError("SCOUT_RECEIPT_REPLAY_MISMATCH")
-    return expected
+    body = path.read_bytes()
+    try:
+        report = json.loads(body)
+    except (ValueError, UnicodeDecodeError) as exc:
+        raise RuntimeError("SCOUT_RECEIPT_INVALID_JSON") from exc
+    if not isinstance(report, dict):
+        raise RuntimeError("SCOUT_RECEIPT_NOT_OBJECT")
+    receipt_hash = report.get("sha256")
+    core = {k: v for k, v in report.items() if k != "sha256"}
+    if (
+        report.get("schema") != "szl.khipu.sequence-scout/v1"
+        or report.get("status") != "FINITE_RESEARCH_CONTROL_MATCH"
+        or report.get("historical_khipu_decipherment") is not False
+        or report.get("new_infinite_identity_proved") is not False
+        or report.get("production_qualification") != "NOT_ASSESSED"
+        or receipt_hash != hashlib.sha256(SCOUT_DOMAIN + scout_canonical(core)).hexdigest()
+        or body != (json.dumps(report, sort_keys=True, indent=2, ensure_ascii=True) + "\n").encode("ascii")
+    ):
+        raise RuntimeError("SCOUT_RECEIPT_INTEGRITY_HOLD")
+    # SOURCE.json has already authenticated the SHA-256 of this file's bytes.
+    return report
 
 
-SCOUT_REPORT = _verify_scout_receipt()
+SCOUT_REPORT = _read_scout_receipt()
 PREVIEW, INTRO = panel(18, 'RR1', '2,3')
 ARTIFACT_DIR = str(Path(PREVIEW).parent)
 
@@ -150,10 +166,40 @@ HEADER = HEADER.replace(
     + '</span></section>',
 )
 
-def scout_panel(case: str, introduce_error: bool) -> str:
-    """CPU fit after sample selection, with explicit synthetic tamper control."""
-    if case not in ("RR1", "RR2") or type(introduce_error) is not bool:
+SCOUT_DISABLED = (
+    '<section class="scout"><h3>Sequence Scout · DISABLED</h3>'
+    '<p>Optional CPU symbolic training is OFF. No fitting or held-out '
+    'evaluation runs while disabled. Previously displayed results are cleared '
+    'when you opt out. Enable opt-in and press Train to run.</p></section>'
+)
+SCOUT_ARMED = (
+    '<section class="scout"><h3>Sequence Scout · ARMED</h3>'
+    '<p>Opt-in enabled. Enabling alone does not execute training. '
+    'Press Train for a bounded CPU experiment, or uncheck to disable it.</p></section>'
+)
+
+
+def scout_option_state(enabled: bool) -> str:
+    """Reset stale results when opting out, without performing training."""
+    if type(enabled) is not bool:
+        raise ValueError("SCOUT_OPT_IN_INVALID")
+    return SCOUT_ARMED if enabled else SCOUT_DISABLED
+
+
+def scout_panel(case: str, introduce_error: bool, opt_in: bool = False) -> str:
+    """Explicitly opt in to bounded CPU fitting; never train on boot or toggles."""
+    if (
+        case not in ("RR1", "RR2")
+        or type(introduce_error) is not bool
+        or type(opt_in) is not bool
+    ):
         raise ValueError("SCOUT_INPUT_NOT_ALLOWLISTED")
+    if not opt_in:
+        return SCOUT_DISABLED
+    # Only explicit user opt-in replays training against the immutable receipt.
+    expected = scout_run_experiment()
+    if expected != SCOUT_REPORT:
+        raise RuntimeError("SCOUT_RECEIPT_REPLAY_MISMATCH")
     samples = list(scout_reference_coefficients(case, SCOUT_TRAIN_MAX))
     if introduce_error:
         samples[6] += 1
@@ -206,21 +252,28 @@ with gr.Blocks(title='Khipu Proof Loom', analytics_enabled=False) as demo:
     receipt = gr.HTML(INTRO)
     go = gr.Button('Recompute exact witness and 3D diagram', variant='primary')
     go.click(panel, inputs=[degree, identity, curve], outputs=[model, receipt], api_name='recompute')
-    with gr.Accordion('Sequence Scout — fit and falsify a symbolic hypothesis', open=True):
+    with gr.Accordion('Sequence Scout — optional CPU hypothesis fitting', open=False):
         gr.HTML(
-            '<p class="proof-intro">A bounded Python CPU learner searches 1,573 '
-            'possible modular products against synthetic coefficients 0–32. '
-            'It freezes its selected mathematical model BEFORE testing degrees '
-            '33–128. Select tamper to see the exact refusal path. '
-            'This does not train an LLM or decode archaeological objects.</p>'
+            '<p class="proof-intro">OFF by default. The mathematics and 3D model '
+            'are available without starting a training run. Explicitly enable '
+            'the CPU learner, then click Train to search 1,573 possible modular '
+            'products against synthetic coefficients 0–32. It freezes a model '
+            'before testing degrees 33–128. No LLM, external data or GPU.</p>'
+        )
+        scout_opt_in = gr.Checkbox(
+            value=False, label='Enable optional CPU symbolic training (explicit opt-in)'
         )
         with gr.Row():
             scout_case = gr.Radio(['RR1', 'RR2'], value='RR1', label='Reference identity')
             scout_tamper = gr.Checkbox(value=False, label='Tamper synthetic training coefficient n=6')
-        scout_result = gr.HTML(scout_panel('RR1', False))
+        scout_result = gr.HTML(SCOUT_DISABLED)
+        scout_opt_in.change(
+            scout_option_state, inputs=[scout_opt_in],
+            outputs=scout_result, api_name=False,
+        )
         scout_button = gr.Button('Train CPU symbolic model and verify held-out', variant='primary')
         scout_button.click(
-            scout_panel, inputs=[scout_case, scout_tamper],
+            scout_panel, inputs=[scout_case, scout_tamper, scout_opt_in],
             outputs=scout_result, api_name='discover',
         )
     gr.HTML('<p class="proof-foot">This demo has no neural or language-model training. The external '

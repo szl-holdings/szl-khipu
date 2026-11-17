@@ -21,10 +21,14 @@ Neither is a reconstruction or decipherment of historical Andean khipu objects.
 
 The exact finite Rogers–Ramanujan coefficients are computed by independent integer recurrences,
 with source-bound integrity hashes and explicit negative-control tests. The **Sequence Scout**
-section really fits a bounded CPU symbolic model across 1,573 hypothesis candidates using
-modern synthetic coefficients 0–32, freezes the model, then compares independent degrees
-33–128. The committed reproducible receipt and source are hashed and checked before startup;
-a negative-control option deliberately corrupts a count and must return HOLD.
+section **optionally** fits a bounded CPU symbolic model across 1,573 hypothesis candidates
+using modern synthetic coefficients 0–32, freezes the model, then compares independent
+degrees 33–128. It is **OFF by default**: open the accordion, check the explicit
+opt-in box and click Train. The published receipt and source bytes are SHA-256
+checked at startup, without fitting any model. The complete experiment is
+replayed only after opt-in. Unchecking clears displayed results; direct API
+requests without opt-in return DISABLED without training. A negative-control
+option deliberately corrupts a count and must return HOLD.
 
 This app does **not** train neural/LLM weights, prove infinite identities, replay the
 external Lean formalization, use actual archaeological measurements, or claim
