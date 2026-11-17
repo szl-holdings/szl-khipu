@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from src.core import answer, evaluate_cords, load_model, canonical, sha256
+from src.asset_contract import verify_assets
 
 MODEL_FILE = ROOT / "model" / "yachay_nb_v0.json"
 RECEIPT_FILE = ROOT / "model" / "training_receipt.json"
@@ -25,6 +26,10 @@ IDS_FILE = ROOT / "data" / "okr_kh_index.jsonl"
 
 
 def load_state(root: Path = ROOT) -> dict:
+    # Verify ALL canonical release inputs, not just the trained-model JSON.
+    # This rejects CRLF checkout drift, tampered historical pointers, and
+    # modified training/evaluation artifacts before returning any citations.
+    verify_assets(root)
     model_path = root / "model" / "yachay_nb_v0.json"
     receipt_path = root / "model" / "training_receipt.json"
     model = load_model(model_path)
