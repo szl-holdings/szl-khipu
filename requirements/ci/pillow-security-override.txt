@@ -1,4 +1,4 @@
-# Gradio 6.31.0 declares pillow<13.0,>=8.0, so a normal resolve stops at 12.3.0.
+# Gradio 6.32.0 accepts patched Pillow 13; preserve this explicit security floor.
 # That release is still inside the vulnerable range. The earliest release that
 # fixes the open Pillow advisories, including GHSA-8g5g-8vmr-9782
 # (CVE-2026-112403, heap buffer overflow in ImagingJpegDecode, affected
