@@ -22,6 +22,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import math
 import sqlite3
 import sys
 import unicodedata
@@ -86,7 +87,7 @@ def _num(x, nd=2):
         v = round(float(x), nd)
     except (TypeError, ValueError):
         return 0.0
-    if v != v or v in (float("inf"), float("-inf")):
+    if not math.isfinite(v):
         return 0.0
     return v + 0.0
 

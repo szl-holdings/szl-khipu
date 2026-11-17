@@ -301,14 +301,16 @@ def khipu_scene(prims: dict, *, show_relations: bool = True) -> bytes:
         r = {"primary": 0.07, "top": 0.03, "pendant": 0.026, "subsidiary": 0.02}.get(t.get("role"), 0.022)
         s.tube(t["points"], float(t.get("radius") or r), mat_for(t.get("rgb") or HOLO_STEEL, t.get("role", "cord")), 6)
     knot_mats = {
-        "S": s.material("knot-single", (0.95, 0.95, 1.0), glow=0.9),
-        "L": s.material("knot-long", HOLO_GOLD, glow=0.85),
-        "E": s.material("knot-figure-eight", HOLO_CORAL, glow=0.85),
-        "?": s.material("knot-other", HOLO_VIOLET, glow=0.7),
+        "single": s.material("knot-single", (0.95, 0.95, 1.0), glow=0.9),
+        "long": s.material("knot-long", HOLO_GOLD, glow=0.85),
+        "figure-eight": s.material("knot-figure-eight", HOLO_CORAL, glow=0.85),
+        "other": s.material("knot-other", HOLO_VIOLET, glow=0.7),
     }
+    legacy = {"S": "single", "L": "long", "E": "figure-eight"}
     for k in prims.get("knots", []):
-        kind = str(k.get("type") or "?")[:1]
-        m = knot_mats.get(kind, knot_mats["?"])
+        family = k.get("family") or legacy.get(str(k.get("type") or "?")[:1], "other")
+        m = knot_mats.get(family, knot_mats["other"])
+        kind = {"long": "L", "figure-eight": "E"}.get(family, "S")
         x, y, z = k["pos"]
         if kind == "L":
             turns = int(k.get("turns") or 2)

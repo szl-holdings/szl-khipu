@@ -30,6 +30,10 @@ from pathlib import Path
 __all__ = [
     "OkrHold",
     "CORPUS_SHA256",
+    "OKR_COMMIT",
+    "OKR_CSV_SHA256",
+    "LONG_TYPES",
+    "knot_family",
     "CORPUS_FILENAME",
     "RELATIONS_FILENAME",
     "RELATION_TYPES",
@@ -95,6 +99,21 @@ TOP_CLASSES = ("T", "TPA")
 MARKER_CLASSES = ("M", "K", "X")
 BROKEN_TERMS = ("B", "C")
 GREY = [0.62, 0.62, 0.62]
+
+
+def knot_family(code) -> str:
+    """Drawing family for an OKR knot TYPE_CODE (knot_type_dc): long-knot forms
+    (L, LL double long, BL belted long, SP spiral 'value like a long knot'),
+    figure-eight forms (E, EE), single (S), else other. Display only; values
+    always come from knot_value_type."""
+    code = str(code or "").strip().upper()
+    if code in LONG_TYPES:
+        return "long"
+    if code in ("E", "EE"):
+        return "figure-eight"
+    if code == "S":
+        return "single"
+    return "other"
 
 
 class OkrHold(ValueError):
@@ -1084,6 +1103,7 @@ def scene(khipu, max_cords=1500, max_knots=8000) -> dict:
             knots_out.append({
                 "pos": [round(start[j] + (end[j] - start[j]) * f, 4) for j in range(3)],
                 "type": kn.get("type") or "?",
+                "family": knot_family(kn.get("type")),
                 "value": v if _is_int(v) and v > 0 else None,
                 "turns": kn.get("turns"),
                 "cord_id": c["id"],

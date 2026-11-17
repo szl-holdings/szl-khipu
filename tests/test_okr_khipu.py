@@ -464,5 +464,25 @@ class Builder(unittest.TestCase):
         self.assertEqual(b.manifest_bytes(gz, raw, counts, ok), MANIFEST.read_bytes())
 
 
+class KnotFamilyTests(unittest.TestCase):
+    def test_long_forms_including_spiral_and_belted_draw_as_long(self):
+        for code in ("L", "LL", "BL", "SP", " sp "):
+            self.assertEqual(ok.knot_family(code), "long", code)
+        self.assertEqual(ok.knot_family("E"), "figure-eight")
+        self.assertEqual(ok.knot_family("EE"), "figure-eight")
+        self.assertEqual(ok.knot_family("S"), "single")
+        for code in ("TF", "?", None, ""):
+            self.assertEqual(ok.knot_family(code), "other")
+
+    def test_scene_knots_carry_family(self):
+        corpus = ok.load_corpus()
+        for kh in corpus["khipus"]:
+            if any(kn.get("type") == "SP" for c in kh["cords"] for kn in c.get("knots") or []):
+                break
+        prims = ok.scene(kh)
+        families = {k["type"]: k["family"] for k in prims["knots"]}
+        self.assertEqual(families.get("SP"), "long")
+
+
 if __name__ == "__main__":
     unittest.main()
