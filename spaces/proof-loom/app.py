@@ -186,6 +186,11 @@ def scout_option_state(enabled: bool) -> str:
     return SCOUT_ARMED if enabled else SCOUT_DISABLED
 
 
+def scout_toggle(enabled: bool) -> tuple[str, dict]:
+    """Reset stale output and synchronize the actual Train button availability."""
+    return scout_option_state(enabled), gr.update(interactive=enabled)
+
+
 def scout_panel(case: str, introduce_error: bool, opt_in: bool = False) -> str:
     """Explicitly opt in to bounded CPU fitting; never train on boot or toggles."""
     if (
@@ -238,7 +243,12 @@ def scout_panel(case: str, introduce_error: bool, opt_in: bool = False) -> str:
     )
 
 
-with gr.Blocks(title='Khipu Proof Loom', analytics_enabled=False) as demo:
+# Delete old Gradio-generated request files after two hours, checking hourly.
+# Geometry source files are owned by a process-lifetime TemporaryDirectory.
+with gr.Blocks(
+    title='Khipu Proof Loom', analytics_enabled=False,
+    delete_cache=(3600, 7200),
+) as demo:
     gr.HTML(HEADER)
     with gr.Row():
         degree = gr.Slider(0, 128, step=1, value=18, label='Coefficient degree n')
@@ -251,7 +261,11 @@ with gr.Blocks(title='Khipu Proof Loom', analytics_enabled=False) as demo:
     )
     receipt = gr.HTML(INTRO)
     go = gr.Button('Recompute exact witness and 3D diagram', variant='primary')
-    go.click(panel, inputs=[degree, identity, curve], outputs=[model, receipt], api_name='recompute')
+    go.click(
+        panel, inputs=[degree, identity, curve], outputs=[model, receipt],
+        api_name='recompute', concurrency_limit=1, concurrency_id='proof-loom-cpu',
+        trigger_mode='once',
+    )
     with gr.Accordion('Sequence Scout — optional CPU hypothesis fitting', open=False):
         gr.HTML(
             '<p class="proof-intro">OFF by default. The mathematics and 3D model '
@@ -267,20 +281,33 @@ with gr.Blocks(title='Khipu Proof Loom', analytics_enabled=False) as demo:
             scout_case = gr.Radio(['RR1', 'RR2'], value='RR1', label='Reference identity')
             scout_tamper = gr.Checkbox(value=False, label='Tamper synthetic training coefficient n=6')
         scout_result = gr.HTML(SCOUT_DISABLED)
-        scout_opt_in.change(
-            scout_option_state, inputs=[scout_opt_in],
-            outputs=scout_result, api_name=False,
+        scout_button = gr.Button(
+            'Train CPU symbolic model and verify held-out',
+            variant='primary', interactive=False,
         )
-        scout_button = gr.Button('Train CPU symbolic model and verify held-out', variant='primary')
-        scout_button.click(
+        scout_event = scout_button.click(
             scout_panel, inputs=[scout_case, scout_tamper, scout_opt_in],
             outputs=scout_result, api_name='discover',
+            concurrency_limit=1, concurrency_id='proof-loom-cpu',
+            trigger_mode='once',
+        )
+        # Reject queued training when the user opts out. Gradio cannot cancel
+        # an already-running synchronous function, so the CPU work is bounded.
+        scout_opt_in.change(
+            scout_toggle, inputs=[scout_opt_in],
+            outputs=[scout_result, scout_button], api_name=False,
+            cancels=[scout_event], trigger_mode='always_last',
         )
     gr.HTML('<p class="proof-foot">This demo has no neural or language-model training. The external '
             '<a href="https://github.com/AxiomMath/HJO">HJO formalization</a> has not '
             'been re-executed here. The <a href="https://github.com/khipulab/open-khipu-repository">'
             'Open Khipu Repository</a> supports a separate archaeological research program. '
             'Digest integrity is not a signature, and green finite checks are not infinite proof.</p>')
+
+# One shared CPU lane for the expensive geometry and symbolic callbacks;
+# keep public pending submissions bounded instead of unlimited queue growth.
+demo.queue(max_size=32, default_concurrency_limit=1)
+
 
 def launch():
     return demo.launch(server_name='0.0.0.0', server_port=int(os.getenv('PORT','7860')),

@@ -200,6 +200,28 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                     for item in dependencies
                 ):
                     raise AdmissionHold("SPACE_DISCOVERY_API_UNOBSERVED")
+                expensive = [
+                    item for item in dependencies
+                    if isinstance(item, dict)
+                    and item.get("api_name") in ("discover", "recompute")
+                ]
+                # Gradio's public /config confirms that events use the queue,
+                # but does not expose concurrency_limit/concurrency_id. The
+                # exact-source local real-SDK smoke tests those backend values.
+                if len(expensive) != 2 or any(
+                    item.get("queue") is not True for item in expensive
+                ):
+                    raise AdmissionHold("SPACE_CALLBACK_QUEUE_DISABLED")
+                opt_ins = [
+                    item.get("props", {}) for item in components
+                    if isinstance(item, dict)
+                    and item.get("type") == "checkbox"
+                    and isinstance(item.get("props"), dict)
+                    and "Enable optional CPU symbolic training"
+                        in item["props"].get("label", "")
+                ]
+                if len(opt_ins) != 1 or opt_ins[0].get("value") is not False:
+                    raise AdmissionHold("SPACE_OPTIONAL_TRAINING_NOT_DEFAULT_OFF")
                 return {
                     "status": "RUNTIME_SOURCE_VERIFIED", "stage": stage,
                     "source_commit": source_sha,

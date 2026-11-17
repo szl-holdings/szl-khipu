@@ -21,6 +21,9 @@ MAX_N = 128
 CURVES = ((2, 3), (3, 4), (3, 5), (3, 7))
 _LOCK = threading.Lock()
 _OUTPUT_DIR: Path | None = None
+# Retain the handle for process-lifetime use; TemporaryDirectory removes files
+# on normal interpreter shutdown. Gradio handles request-cache expiry separately.
+_OUTPUT_TEMP: tempfile.TemporaryDirectory[str] | None = None
 
 
 class EvidenceHold(ValueError):
@@ -221,9 +224,10 @@ def _make_glb(mesh: _Mesh) -> bytes:
 
 
 def _directory() -> Path:
-    global _OUTPUT_DIR
+    global _OUTPUT_DIR, _OUTPUT_TEMP
     if _OUTPUT_DIR is None:
-        _OUTPUT_DIR = Path(tempfile.mkdtemp(prefix="szl-proof-loom-"))
+        _OUTPUT_TEMP = tempfile.TemporaryDirectory(prefix="szl-proof-loom-")
+        _OUTPUT_DIR = Path(_OUTPUT_TEMP.name)
     return _OUTPUT_DIR
 
 
