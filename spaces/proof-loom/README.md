@@ -48,15 +48,26 @@ pairs with a + b ≤ 13. These are finite checks of published theorems: nothing 
 the [AxiomMath/HJO](https://github.com/AxiomMath/HJO) Lean certificate is **not** replayed here,
 and no historical link between torus knots and khipu knots is asserted.
 
-## 3. Classic Proof Loom
+## 3. Classic Proof Loom and Conjecture Crucible
 
 The original Rogers–Ramanujan finite witness and the optional, default-OFF Sequence Scout
 (1,573-hypothesis symbolic CPU fit; synthetic coefficients; not neural training).
 
+**Conjecture Crucible** tests user-proposed Rogers–Ramanujan *partition-product* identities:
+enter a modulus (2–12), sorted nonzero residues (1–4 classes) and a finite limit (1–256), then
+click the checker. Two independent exact reference methods (classical q-series and gap
+partitions) must agree before the proposed product is compared. The live `/falsify` API returns
+a human-readable result and an unsigned, domain-separated SHA-256 JSON receipt; an incorrect
+hypothesis yields the first finite counterexample. **A hypothesis matching all 257 coefficients
+through n=256 is not proved for all n.** It does not test the HJO torus-knot family (see the HJO
+Loom tab), Lean replay, or historical khipus.
+
 ## Resource and admission envelope
 
-- One shared CPU execution lane (`concurrency_limit=1`) for all four expensive callbacks
-  (`khipu`, `hjo`, `recompute`, `discover`); the public queue admits at most 32 pending items.
+- One shared CPU execution lane (`concurrency_limit=1`) for all five expensive callbacks
+  (`khipu`, `hjo`, `recompute`, `discover`, `falsify`); the public queue admits at most 32
+  pending items. The publisher requires all five, queued, plus three 3D viewers, on the
+  RUNNING Space before it reports a deployment.
   Brute-force counts stop at a fixed work budget and report `NOT_RUN_BUDGET` — never a match.
 - Every source and data file is SHA-256 pinned in `SOURCE.json` and re-checked at boot; the
   corpus, relations report and certificate are verified again on load.

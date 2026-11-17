@@ -19,6 +19,7 @@ on:
       - "tests/test_proof_loom.py"
       - "tests/test_proofloom_publisher.py"
       - "tests/test_rr_sequence_scout.py"
+      - "tests/test_rr_conjecture_crucible.py"
       - "tests/test_hjo_loom.py"
       - "tests/test_okr_khipu.py"
       - ".github/workflows/publish-proof-loom.yml"
@@ -57,6 +58,7 @@ jobs:
           python -m unittest discover -s tests -p test_proof_loom.py -v
           python -m unittest discover -s tests -p test_proofloom_publisher.py -v
           python -m unittest discover -s tests -p test_rr_sequence_scout.py -v
+          python -m unittest discover -s tests -p test_rr_conjecture_crucible.py -v
           python -m unittest discover -s tests -p test_hjo_loom.py -v
           python -m unittest discover -s tests -p test_okr_khipu.py -v
           python research/rr_discovery/learner.py --check research/rr_discovery/receipts/sequence_scout_v1.json

@@ -210,6 +210,24 @@ class GradioRuntime(unittest.TestCase):
                         standalone.scout_option_state(False),
                         standalone.SCOUT_DISABLED,
                     )
+                    accepted = client.predict(
+                        "RR1", 5, "1,4", 256, api_name="/falsify",
+                    )
+                    self.assertIn("NOT REFUTED", accepted[0])
+                    self.assertIn("NOT an infinite", accepted[0])
+                    self.assertEqual(accepted[1]["coefficients_checked"], 257)
+                    self.assertEqual(accepted[1]["status"], "FINITE_MATCH_NOT_A_PROOF")
+                    refuted = client.predict(
+                        "RR1", 5, "1,3", 256, api_name="/falsify",
+                    )
+                    self.assertIn("REFUTED", refuted[0])
+                    self.assertEqual(refuted[1]["first_counterexample"]["degree"], 3)
+                    self.assertEqual(refuted[1]["status"], "FINITE_COUNTEREXAMPLE")
+                    invalid = client.predict(
+                        "RR1", 5, "1,1", 256, api_name="/falsify",
+                    )
+                    self.assertEqual(invalid[1]["status"], "HOLD")
+                    self.assertIs(invalid[1]["evaluation_performed"], False)
                 finally:
                     client.close()
             finally:
