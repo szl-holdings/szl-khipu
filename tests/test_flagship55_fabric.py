@@ -1,7 +1,6 @@
 """Offline Flagship55 Khipu design boundary tests, no model/network execution."""
 import copy
 import importlib.util
-import json
 from pathlib import Path
 import unittest
 
