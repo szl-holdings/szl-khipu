@@ -8,8 +8,7 @@ import json
 import random
 from pathlib import Path
 import tempfile
-import unittest
-from unittest import mock
+from unittest import TestCase, main, mock
 
 from research.khipu_math import audit_cli
 from research.khipu_math.audit_cli import main as audit_main
@@ -28,7 +27,7 @@ def sample():
                          {'cord': 'p3', 'value': 30}]}
 
 
-class KhipuResearchTests(unittest.TestCase):
+class KhipuResearchTests(TestCase):
     def test_exact_reference_reconciles_but_grants_no_authority(self):
         s = sample()
         r = compare_committed(s, copy.deepcopy(s), expected_reference_sha256=commitment(s), challenge=7)
@@ -267,4 +266,4 @@ class KhipuResearchTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()
