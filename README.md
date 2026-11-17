@@ -61,13 +61,16 @@ attested by this binding. Software parity makes no trained-checkpoint claim.
 
 [Three-specialist learning fabric](docs/FLAGSHIP55_KHIPU_FABRIC.md) ·
 [metadata-only manifest](research/flagship55/manifest.v0.json) ·
-[fail-closed validator](research/flagship55/validate_manifest.py).
+[fail-closed validator](research/flagship55/validate_manifest.py) ·
+[offline triad packet](research/flagship55/triad_packet.py) ·
+[91 public dataset references](research/flagship55/public_dataset_index.v1.json).
 The proposed student has YACHAY teacher, WILLAY guide and KHIPU skeptic adapter
-roles; none is trained, loaded, or deployed here. The public manifest includes
-only selected public dataset references and aggregated census counts; private
-identities remain outside this repository. No Flagship55 training, data admission,
-independent evaluation, publication or production permission follows from a
-passing manifest validator.
+roles; none is trained, loaded, or deployed here. The manifest contains 13
+review-only dataset examples; the separate index contains 91 source-pinned,
+public-visibility dataset handles from a dated Hub census. The 45 private
+identities remain outside this repository. Neither the index nor the packet
+grants dataset rights, model-training authority, independent evaluation,
+publication or production qualification.
 
 ## What it is
 

@@ -104,9 +104,13 @@ external, archived, private-on-disk or otherwise undiscoverable research corpus.
 The detailed census stays under owner-only `SZL-private-evidence`; no private
 asset identities or rows are copied into this public repository.
 
-The proposed Khipu index should eventually retain **references and receipts**
-for all discoverable sources; this version contains only an aggregated census
-and selected public examples, not a complete Khipu ingestion.
+The [public reference index](../research/flagship55/public_dataset_index.v1.json)
+now carries all **91 public** identities returned by that bounded census, each
+with its observed immutable Hub revision and explicit `REFERENCE_ONLY` state.
+The separate design manifest still has **13 selected public examples** for
+strict initial packet admission. No private identities or dataset contents enter
+the public index. This is not a complete Khipu corpus ingestion; external,
+archived, inaccessible and unapproved research remain outside coverage.
 Only independently reviewed slices can enter gradients. In particular:
 
 | Kind | Default use | Promotion gate |
@@ -203,3 +207,48 @@ heldout evaluation; complete per-source rights/identity and privacy
 reconciliation; verify teacher/guide/skeptic training data and baselines;
 obtain owner-pinned recipe, compute decision and required reviews before any
 Flagship55 training launch.
+
+## Executable CPU research boundary — November 17, 2026
+
+The stdlib-only [`triad_packet.py`](../research/flagship55/triad_packet.py)
+creates a **deterministic review packet**, not model outputs. It binds the
+previously reviewed Flagship55 manifest's *canonical JSON* SHA-256,
+an allowlisted F1/F4/F7/F11/F12/F18/F19/F22 reference (or the refuted-as-stated
+F23), and exact SHA-pinned public dataset handles. It assigns YACHAY, WILLAY and
+KHIPU *tasks* while marking every specialist **NOT EXECUTED / NO COMPATIBLE
+WEIGHTS**. The independent Lean and policy referees are explicitly **NOT RUN**.
+Unknown claims, moving revisions, raw prompts, blocked datasets, or unlisted
+fields fail before any output or mutation. Its SHA-256 packet digest is not
+a signature, proof, source permission or completed evaluation.
+
+The public metadata catalog has 91 items: all returned public Hub dataset
+identities at the recorded snapshot, but no actual dataset rows or private
+identity. The 13 selected public examples in `manifest.v0.json` remain the
+**only** initially permitted reference handles for this packet. A license tag
+does not establish content rights or allow a data path into gradients.
+`public_catalog.py` verifies the no-authority, revision and count contracts.
+
+For a bounded example from the repository root:
+
+```sh
+python -m research.flagship55.triad_packet \
+  --manifest research/flagship55/manifest.v0.json \
+  --request research/flagship55/example-triad-request.json
+python -m unittest discover -s tests -p "test_flagship55_*" -v
+```
+
+The separate `synthetic_risk_coverage()` function counts answered, incorrect
+and abstained synthetic developer-labeled examples by answerable, insufficient
+evidence, contradictory, refuted-as-stated and open-problem slices. It makes
+the zero-answered risk **null/UNAVAILABLE** rather than an invented zero.
+It does not choose a threshold, measure Flagship54, assess actual model
+generations or qualify Flagship55.
+
+**Related active research HOLD:** `research/khipu_yachay/experiments/open_set_r1`
+is a genuinely trained CPU classifier, but its published diagnostics show
+intent/generalization regressions. This proposal does not promote that router,
+reuse its viewed evaluation results as a heldout benchmark, or imply it is a
+Flagship55 teacher. Any subsequent teacher or three-adapter experiments require
+their own pinned weights, data-rights admission, independent evaluation and
+budget/owner approval. Flagship54 training shutdown remains solely with the
+existing guard.

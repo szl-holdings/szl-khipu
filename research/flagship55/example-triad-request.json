@@ -1,0 +1,15 @@
+{
+  "schema": "szl.khipu.flagship55.triad-request/v1",
+  "request_id": "khipu-f4-review-20261117",
+  "claim_id": "F4",
+  "source_refs": [
+    {
+      "repo": "SZLHOLDINGS/axiom-invariant-corpus-v1",
+      "revision": "235d9c41384a627fae290aa89792ae079103b3ab"
+    },
+    {
+      "repo": "SZLHOLDINGS/lean-proof-corpus-v1",
+      "revision": "e80aebb2572664fd8d87a30b1667d72097edfd00"
+    }
+  ]
+}
