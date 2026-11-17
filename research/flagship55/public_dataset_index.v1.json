@@ -1,0 +1,1184 @@
+{
+  "all_references": [
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/SZLHOLDINGS",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "2549dfa5348d868ff5d4ae13d0a846401e39ba1a",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/a11oy-code-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4ccfceaf3a17000d137f0051eb0f8b66efdc79a9",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/a11oy-verifiable-corpus",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "1fa1197249bbcbe435497df4a128cae7663b754c",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/absrl-reward-squad2-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-sa-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "f68b54141fe4c43d137977d6676586ebd9cfa1e0",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/abstention-curriculum-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b59ddcd7a23bd4c8c6b123870791fd9775d55b55",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/abstention-doctrine-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "f160c6ba2834bf270204d5ea1d793e7bf2dee0fd",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/acoustic-governance-sft-api-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b43980a558c363825b1969ffe9157723fbcd34fc",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/acoustic-governance-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "74f53ffb8378de040086cbc62f00d90fb09fe31f",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/alloy-sovereign-eval-runs",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "2a23619515d85d76b80fcc0ce6b0785ed1035f39",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/ancient-math-reasoning-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "1c820d962815353456b15c7efd6a2bf3b1379717",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/axiom-invariant-corpus-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "235d9c41384a627fae290aa89792ae079103b3ab",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/brain-synthesized-corpus",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "63e9404e90eb669c62c730cf2ab6ef0b0947cf81",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/canonical-formulas-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "bf1de245e101d06da95dda9f6ab22994b9b71a9f",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/clinical-abstention-corpus-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "48dea34087aab2e958fdb97af5b8957e511c97d1",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/clinical-abstention-sft-api-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "f4ddf2b2954aab9ab378a692dea4cd94fef74c33",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/clinical-abstention-sft-api-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "213b3517190e0e63c4925f5b9e4738039ad74c2d",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/creativity-sft-api-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "c02516a7394cbde04c9742facd1b06d158f0d340",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/creativity-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "7345aa3512b08c79994c091d63d5303dc2369fbc",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/doctrine-v10-v11",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "fccef49dd3d7ad6dbb427d155f6b2d071da58e92",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/energy-attested-runs",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "9a4c8e4185714cd45ed7390184f434545f013930",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/estate-graph",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "1ca92cbd82e06aeefb7649a6bb803aee72300a14",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/estate-release-cards",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b417ab4296196906bba616ea0520b9d7b64bfced",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/formula-proving-ground",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4e660c4836faad70bcf9bd1d26fdf95fc5bf97d3",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/free-energy-reasoning-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "efd4c65cb6da9e85d95d37ad02cc061c1f32d917",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/frontier-54-runs",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "5f6f94693a44b030cad46ec956c4aec900295840",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/governed-agent-bench",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "5dff5e1dee54627ca3404cf61322fd6053213337",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/governed-distill-4b-sft-v3",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "6dc5c27c8d4aae97504a3f25a63b942b8ecc36bf",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/governed-distill-4b-sft-v3-topup",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4e91e233596f5d1567f932185adb7a679f458d1d",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/governed-receipts-bench",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "9e8a4921740f310d144012e27e3bb0cb34e733af",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/k-verify-benchmark-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "a5a46493b90f6dc2c9499cdf32e593ab71a8a387",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/kamachikuna",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "30a37d58bf2a5db5296a4f293941f2de3d1e4308",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/kernel-receipt-regression-attn-maskmod-blockkv-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "01bf641aeaceb575c168fae978927bf0976d8ba3",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/khipu-v2-abstention-curriculum",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4a15e24071126e6eb44e7f3e4cc8b273db63b5f2",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/killinchu-osint-corpus",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:other"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b6a8157fb5364fc7fcc8c49a74ab6f87e60e030f",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/killinchu-osint-sft-api-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "93904250f58fda47d8e8a1ec0cfb13d61ffbe54c",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/lean-invariants-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "d8c3e3c73848af16bf9483eabf0599a01999344d",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/lean-proof-corpus-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "e80aebb2572664fd8d87a30b1667d72097edfd00",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/lean-proofs-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "857afdd9331e4ee24fc12f0fcfb533f29ee9edef",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/lean-theorem-tree",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "fec481f180eb2221de3525a363e5e378f7880042",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/measurement-honesty-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "6fc7f0686615acd4326552e4f7861e8448117b58",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/mesh-liveness",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "59c9adf69f2f2427edc1b9d19d2756bd60ed597e",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/model-bom",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "038f792855ae12225084c8d87181e4476b00fa55",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/muhu-methodology-sft-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "d53a2e5fd3e4027d13bb4785e151b0e7cd075389",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/oac-clinical-transport-observability-synthetic",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "1ed34ff6df9ceb08fe2c88cee5717ad2a12f9866",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/ouroboros-arxiv-preprint",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "34a2d938106695c921dc3b651e1ec43ca7606793",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/papers-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "aab5f4f07da2042176960069d0ac557e2a715145",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/physics-bench-micro",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "02c52b4178f6d48894fe08f7aaf15ab7fd550f70",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/physics-curriculum-train",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "01fa474864a8a4e0e4e7d808e1cffa5055baed98",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/physics-tutor-sft-api-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "db9e4c107fc3615e4035658b9d52a9055be30058",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/prime-principle",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "2341ad360b7c5a4a4d979bbd87c218d93aeff1f5",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/quant-curriculum-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "e13d1995d03b1195ae8ca28da5b4559cc5b06e61",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/rag-corpus-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "49e49fb450446b622dda1781ded8a389d3b03499",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/readiness-runs",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "09a8d08647b7cd9f384ffd6020a6f53d536a877f",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/reasoning-puzzles-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "d640da96d3c467fc5abc9d26f462b89ac9634f36",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/receipted-unsloth",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "0d7fdab8f3ec51e159745823580ad4503fdafae2",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/release-assets",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "633de58d8d747f490b7e527d96b7c36ff7db90b8",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-1-doctrine-sft",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "dbc21fe794a720c09f3608608972299ed2de63d9",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-artifacts",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "ac4f0c970dd086169aed90d0078595e5572f4635",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-distill-abstention-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "7fcea0a42fe089450f9cf7cfd1e7c99d1e0f0b6a",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-distill-abstention-v1-sft",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4f0f42a44cd6af1f21ac269a3bf5b396e0c12c14",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-estate-graph",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "71933bcd9346d97a36a9f4745e0e79703e224516",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-frontier-covenant",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "8e56e511ea009ae246a090749af6659d0f8c88e7",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-frontier-evaluation-receipts",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "7c2facb3841c9ab3d2e2867c9c86726826e59422",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-frontier-sft-mix-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "248087ab9ef374fc318fb7352386b5fc98ee5956",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-frontier-sft-mix-v3",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b67a175abb4a2a766a6b57cfec8f57cddd22e30d",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-lake",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "cdc1d5acafc5fdb0696972fa571545f90b9c3ce8",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-marketing-factbase",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "61e7b20eef6900fc1f842a17b270fe87ad15e6ab",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-quant-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "840044aedc235774d5a653ee34fc0c2dd3430079",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-science-forum-corpus",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "071bd5fff2ce55fe87ea42608544791bf480bf36",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-second-brain-frontier-candidates",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:other"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "8041484b127c73ea523f7792f86d46a1f565d5ad",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-second-brain-inrepo",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:other"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "c9823ec107fc1fd4df6166c4ad0a37c776ee7e64",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-skills-ci-evidence",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "cbb991bb03e42d1001197442a44f322ff8b86ca2",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-training-receipts",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:other"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "3dda73ec770befc2018261c6fed2071aadbc90a6",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/szl-x402-seller-card",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:mit"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "28ba53463f88e65cf23ab9516b4df2950c6a7f32",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/test-results",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "4d5de7b588460f56fc67437b11617c339a69d8c8",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/thesis-corpus-v18",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "327a3697c7df84f26d9116903d6d4c6cc9f6ab5e",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/thesis-v18-formal-verification",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "9a08e0c1fccf410b447769091ebeb26885942f3c",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/uds-bundles-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "762d66a5c4dbb460f52e747b9b46df040ae7bf0d",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/uds-governance-receipts",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "c48451dfd7de6e763feef3b346f8e8402b9306a5",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/uds-spans-receipts",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "bdf0008a1b07575e08fea2f9b30eb68539f436f7",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/unified-corpus-v2",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "414cb886532ac983e915c444d9073ed39c465722",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/verticals-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b338b3a5dc627e2f03bff69a0d2a891fc0343b34",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/vgl-repro-cd-20261116",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "3549876333048bfb8f599b5af53eb5e18d1b4414",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/vgl-repro-ga-20261116",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "14949f07dde6ceedb02520f2162013c6791e4d93",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/vgl-sweep-cd-20261116",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "e69cf05097fdaeccbaf0a4227cc3d0a61add5a77",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/vgl-sweep-ga-20261116",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "0ab9a0ed63547cb8c5336f407e5e85a0c8bfdc2f",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/vgl-triang-20261116",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "6cb2a19e0a64d0ac9aa1871ab2d92cdb5e7fdb84",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/why-we-lead",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "c03fbdd349ce49b9872f9aa0015d21244b7abed8",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/wink-observatory-data",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:cc-by-4.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "b891ff021227d85cb7f3cd51fdde6df4aa03d918",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/world-science-sft-api-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "df112272b479ae90d8af6febbed7a2ae65d54e78",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    },
+    {
+      "data_bytes_inspected": false,
+      "eval_holdout_safe": "UNVERIFIED",
+      "id": "SZLHOLDINGS/world-science-sft-v1",
+      "index_role": "REFERENCE_ONLY",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "rights_state": "NOT_REVIEWED",
+      "source_revision": "53b1e761ba30668714c2f5979bcc0facc6c27afc",
+      "source_visibility": "PUBLIC_AT_CENSUS_TIME",
+      "training_admitted": false
+    }
+  ],
+  "approval_authority": "NONE",
+  "census_observed_at_utc": "2026-11-17T07:09:41.034580+00:00",
+  "inaccessible_sources_inferred": false,
+  "owner": "SZLHOLDINGS",
+  "private_names_emitted": 0,
+  "provider": "HUGGING_FACE",
+  "public_count": 91,
+  "schema": "szl.khipu.flagship55.public-reference-index/v1",
+  "scope": "PUBLIC_DATASET_IDENTITIES_ONLY_NOT_TRAINING_OR_PRIVACY_CLEARANCE",
+  "source_metadata_only": true,
+  "source_private_census_sha256": "21c6c7b1d04e80dba4237ec836c58db6247f04e2b08654930db2637d43d741e8"
+}
