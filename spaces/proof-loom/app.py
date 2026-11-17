@@ -18,6 +18,10 @@ import gradio as gr
 
 # The protected publisher copies canonical szl_khipu/proof_loom.py beside this app.
 from proof_loom import panel
+from cylindric import (
+    Hold as CylindricHold,
+    witness as cylindric_witness,
+)
 from falsifier import (
     Hold as CrucibleHold,
     falsify as check_finite_conjecture,
@@ -58,7 +62,8 @@ def _source_identity() -> tuple[str, str]:
     records = manifest.get("files")
     expected_files = {
         "app.py", "README.md", "proof_loom.py",
-        "hypothesis.py", "falsifier.py", "sequence_scout_v1.json",
+        "hypothesis.py", "falsifier.py", "cylindric.py",
+        "sequence_scout_v1.json",
     }
     if not isinstance(records, list) or len(records) != len(expected_files):
         raise RuntimeError("SOURCE_FILE_SET_INVALID")
@@ -145,6 +150,18 @@ body, .gradio-container { background: #090e1b !important; color: #e9efff !import
 .scout-stat span { color:#bfd2e5; font:12px/1.5 system-ui; }
 .scout small {color:#c0cedd;line-height:1.65;}
 .scout-hold {border-color:#b36f43;background:#251b20;}
+.hjo-profile { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+.hjo-cell { display:flex; flex-direction:column; gap:8px; min-width:110px;
+  background:linear-gradient(148deg,#154354,#13213a); border:1px solid #387f91;
+  border-radius:14px; padding:16px; }
+.hjo-cell span { color:#bedce9; font:600 11px ui-monospace,monospace; }
+.hjo-cell strong { color:#8ef6e6; font:700 22px ui-monospace,monospace; }
+.hjo-bars {display:grid;gap:7px;margin:14px 0; }
+.hjo-bar-row {display:grid;grid-template-columns:46px minmax(90px,1fr) 52px;
+  gap:8px;align-items:center;font:600 12px ui-monospace,monospace; }
+.hjo-bar-track {height:13px;border-radius:6px;background:#12263b;overflow:hidden; }
+.hjo-bar-fill {height:100%;background:linear-gradient(90deg,#418eb1,#79e6cb);
+  border-radius:6px;min-width:2px; }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after {scroll-behavior:auto!important;transition:none!important;} }
 """
 
@@ -310,6 +327,67 @@ def conjecture_panel(
     return panel_html, result
 
 
+def hjo_profile_panel(
+    a: float, b: float, rank: float, degree: float,
+) -> tuple[str, dict]:
+    """On-demand finite cylindric definitions, not HJO polynomial or Lean proof."""
+    numbers = []
+    for item in (a, b, rank, degree):
+        if type(item) is float and math.isfinite(item) and item.is_integer():
+            item = int(item)
+        numbers.append(item)
+    try:
+        report = cylindric_witness(*numbers)
+    except CylindricHold as error:
+        reason = html.escape(str(error))
+        return (
+            '<section class="scout scout-hold"><h3>HOLD · HJO profile not admitted</h3>'
+            f'<p>{reason}. No finite enumeration was qualified.</p></section>',
+            {"status": "HOLD", "reason": str(error), "enumeration_performed": False},
+        )
+    profile = "".join(
+        '<div class="hjo-cell">'
+        f'<span>row {i}</span><strong>c<sub>{i}</sub>={offset}</strong>'
+        '</div>'
+        for i, offset in enumerate(report["profile"])
+    )
+    values = report["cylindric_coefficients_by_volume"]
+    ceiling = max(1, max(values))
+    rows = "".join(
+        '<div class="hjo-bar-row">'
+        f'<span>q<sup>{volume}</sup></span>'
+        '<div class="hjo-bar-track">'
+        f'<div class="hjo-bar-fill" style="width:{max(1, 100 * value // ceiling)}%"></div>'
+        '</div>'
+        f'<b>{value}</b></div>'
+        for volume, value in enumerate(values)
+    )
+    sample = html.escape(json.dumps(
+        report["example_cylindric_rows"], sort_keys=True, ensure_ascii=True,
+    ))
+    return (
+        '<section class="scout"><h3>HJO profile · exact finite definition check</h3>'
+        f'<p>Source-pinned HJO balanced profile for (a,b)=({report["a"]},{report["b"]}), '
+        f'maximum entry N={report["bounded_entry_max_N"]}, '
+        f'volume ≤{report["finite_volume_limit"]}.</p>'
+        '<div class="hjo-profile">' + profile + '</div>'
+        '<p>Outgoing cylinder constraints were checked with two distinct '
+        'finite enumerators. Their truncated coefficients agree:</p>'
+        '<div class="hjo-bars">' + rows + '</div>'
+        f'<p>One illustrative finite cylindric array: <code>{sample}</code>.</p>'
+        '<small>Definition-level combinatorics only. The HJO rank-N polynomial '
+        'was <b>not</b> computed; no equality to it is certified; no Lean '
+        'kernel or comparator was run. The actual external challenge statement '
+        '<a href="https://github.com/AxiomMath/HJO/blob/'
+        '6a58dfa6ab98bd35d841cb2cf8fd9081f62fad03/Challenge/Basic.lean" '
+        'target="_blank" rel="noopener">is pinned here</a>. It includes '
+        'challenge-template <code>sorry</code> declarations, which are NOT '
+        'proofs. Geometry is separate from archaeological khipu decoding.</small>'
+        '</section>',
+        report,
+    )
+
+
 # Delete old Gradio-generated request files after two hours, checking hourly.
 # Geometry source files are owned by a process-lifetime TemporaryDirectory.
 with gr.Blocks(
@@ -398,6 +476,39 @@ with gr.Blocks(
             outputs=[falsify_result, falsify_receipt],
             api_name="falsify", concurrency_limit=1, concurrency_id="proof-loom-cpu",
             trigger_mode="once",
+        )
+    with gr.Accordion('HJO Cylindric Lab — source-pinned finite profile', open=False):
+        gr.HTML(
+            '<p class="proof-intro">Explore one real combinatorial definition '
+            'used by the HJO torus-knot theorem: the balanced profile and '
+            'bounded cylindric partitions. All counts are exact integers '
+            'from TWO different finite algorithms. This <b>does not compute</b> '
+            'the HJO rank-N polynomial or verify the main equality in Lean. '
+            'The original human-authored challenge is source-pinned. '
+            'No training, GPU or external data are accessed.</p>'
+        )
+        with gr.Row():
+            hjo_a = gr.Slider(2, 4, value=3, step=1, label='Coprime torus parameter a')
+            hjo_b = gr.Slider(3, 9, value=5, step=1, label='Coprime torus parameter b')
+        with gr.Row():
+            hjo_rank = gr.Slider(0, 3, value=2, step=1, label='Maximum entry N')
+            hjo_degree = gr.Slider(0, 8, value=6, step=1, label='Truncated volume degree')
+        hjo_result = gr.HTML(
+            '<section class="scout"><h3>NOT EVALUATED</h3>'
+            '<p>Select a coprime pair with 1&lt;a&lt;b and click Run. '
+            'No enumeration starts on page load.</p></section>'
+        )
+        hjo_receipt = gr.JSON(
+            value={"status": "NOT_EVALUATED", "HJO_equality_verified_here": False},
+            label="Pinned definition-level finite evidence (unsigned)",
+        )
+        hjo_button = gr.Button('Run exact finite cylindric enumeration', variant='secondary')
+        hjo_button.click(
+            hjo_profile_panel,
+            inputs=[hjo_a, hjo_b, hjo_rank, hjo_degree],
+            outputs=[hjo_result, hjo_receipt],
+            api_name='hjo_profile', concurrency_limit=1,
+            concurrency_id='proof-loom-cpu', trigger_mode='once',
         )
     gr.HTML('<p class="proof-foot">This demo has no neural or language-model training. The external '
             '<a href="https://github.com/AxiomMath/HJO">HJO formalization</a> has not '

@@ -27,6 +27,7 @@ FILES = {
     "szl_khipu/proof_loom.py": "proof_loom.py",
     "research/rr_discovery/learner.py": "hypothesis.py",
     "research/rr_discovery/falsifier.py": "falsifier.py",
+    "research/hjo_profile/cylindric.py": "cylindric.py",
     "research/rr_discovery/receipts/sequence_scout_v1.json": "sequence_scout_v1.json",
 }
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
@@ -206,15 +207,22 @@ def _runtime_readback(api, source_sha: str, manifest_sha: str) -> dict:
                     for item in dependencies
                 ):
                     raise AdmissionHold("SPACE_FALSIFICATION_API_UNOBSERVED")
+                if not any(
+                    isinstance(item, dict) and item.get("api_name") == "hjo_profile"
+                    for item in dependencies
+                ):
+                    raise AdmissionHold("SPACE_HJO_PROFILE_API_UNOBSERVED")
                 expensive = [
                     item for item in dependencies
                     if isinstance(item, dict)
-                    and item.get("api_name") in ("discover", "recompute", "falsify")
+                    and item.get("api_name") in (
+                        "discover", "recompute", "falsify", "hjo_profile"
+                    )
                 ]
                 # Gradio's public /config confirms that events use the queue,
                 # but does not expose concurrency_limit/concurrency_id. The
                 # exact-source local real-SDK smoke tests those backend values.
-                if len(expensive) != 3 or any(
+                if len(expensive) != 4 or any(
                     item.get("queue") is not True for item in expensive
                 ):
                     raise AdmissionHold("SPACE_CALLBACK_QUEUE_DISABLED")

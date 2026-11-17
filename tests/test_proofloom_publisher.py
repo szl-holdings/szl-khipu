@@ -20,9 +20,9 @@ class ProofLoomPublisherTests(unittest.TestCase):
             manifest = pub._stage(out, "f"*40)
             self.assertEqual(set(p.name for p in out.iterdir()),
                              {"app.py", "README.md", "proof_loom.py",
-                              "hypothesis.py", "falsifier.py",
+                              "hypothesis.py", "falsifier.py", "cylindric.py",
                               "sequence_scout_v1.json", "SOURCE.json"})
-            self.assertEqual(len(manifest["files"]), 6)
+            self.assertEqual(len(manifest["files"]), 7)
             self.assertEqual(manifest["source_commit"], "f"*40)
             self.assertEqual(manifest["historical_claim"], "NOT_ESTABLISHED")
             for row in manifest["files"]:
@@ -77,7 +77,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 "dependencies": [
                     {"api_name": endpoint, "queue": True, "concurrency_limit": 1,
                      "concurrency_id": "proof-loom-cpu"}
-                    for endpoint in ("discover", "recompute", "falsify")
+                    for endpoint in ("discover", "recompute", "falsify", "hjo_profile")
                 ],
             }).encode()
         with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
@@ -154,6 +154,36 @@ class ProofLoomPublisherTests(unittest.TestCase):
                     ), source, manifest,
                 )
 
+    def test_missing_hjo_profile_is_not_runtime_qualified(self):
+        source, manifest = "a" * 40, "b" * 64
+        class Response:
+            status = 200
+            def __enter__(self): return self
+            def __exit__(self, *_): return False
+            def read(self, _): return json.dumps({
+                "title": "Khipu Proof Loom",
+                "components": [
+                    {"type": "model3d"},
+                    {"type": "html", "props": {"value":
+                        f'<div data-szl-source-sha="{source}" '
+                        f'data-szl-manifest-sha256="{manifest}">PINNED</div>'}},
+                ],
+                "dependencies": [
+                    {"api_name": "discover"},
+                    {"api_name": "recompute"},
+                    {"api_name": "falsify"},
+                ],
+            }).encode()
+        with patch.object(pub.urllib.request, "urlopen", return_value=Response()):
+            with self.assertRaisesRegex(
+                pub.AdmissionHold, "SPACE_HJO_PROFILE_API_UNOBSERVED"
+            ):
+                pub._runtime_readback(
+                    SimpleNamespace(
+                        get_space_runtime=lambda _: SimpleNamespace(stage="RUNNING")
+                    ), source, manifest,
+                )
+
     def test_runtime_backpressure_and_optin_are_release_gates(self):
         source, manifest = "a" * 40, "b" * 64
         def response_body(*, queued: bool, opt_in: bool):
@@ -172,7 +202,7 @@ class ProofLoomPublisherTests(unittest.TestCase):
                 "dependencies": [
                     {"api_name": endpoint, "queue": queued,
                      "concurrency_limit": 1, "concurrency_id": "proof-loom-cpu"}
-                    for endpoint in ("discover", "recompute", "falsify")
+                    for endpoint in ("discover", "recompute", "falsify", "hjo_profile")
                 ],
             }
         class Response:
