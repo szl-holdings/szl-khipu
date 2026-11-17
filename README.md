@@ -57,6 +57,18 @@ publication succeeds only after immutable provider readback matches every byte.
 Historical Hub files outside this software scope are preserved and are not
 attested by this binding. Software parity makes no trained-checkpoint claim.
 
+## Flagship55 Khipu research design — NOT A TRAINED MODEL
+
+[Three-specialist learning fabric](docs/FLAGSHIP55_KHIPU_FABRIC.md) ·
+[metadata-only manifest](research/flagship55/manifest.v0.json) ·
+[fail-closed validator](research/flagship55/validate_manifest.py).
+The proposed student has YACHAY teacher, WILLAY guide and KHIPU skeptic adapter
+roles; none is trained, loaded, or deployed here. The public manifest includes
+only selected public dataset references and aggregated census counts; private
+identities remain outside this repository. No Flagship55 training, data admission,
+independent evaluation, publication or production permission follows from a
+passing manifest validator.
+
 ## What it is
 
 - A Python package (`szl_khipu`) that knots a run, hashes a receipt, and fail-closes on a zero axis or a broken chain.
