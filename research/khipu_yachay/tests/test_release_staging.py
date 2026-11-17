@@ -1,7 +1,6 @@
 """Actual staged Hugging Face Space package acceptance; no Hub writes."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
 import subprocess
 import sys
