@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from experiments.open_set_r1.train_open_set import (
-    LABELS, OOD, candidate_data, metrics, predict, sha
+    LABELS, OOD, candidate_data, metrics, predict
 )
 
 ART=ROOT/"experiments/open_set_r1"
