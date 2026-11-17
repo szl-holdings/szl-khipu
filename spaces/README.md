@@ -29,6 +29,8 @@ python spaces/app.py
 
 The dedicated CI smoke test imports the real SDK, starts a loopback server, checks its configuration, and calls the live NumPy callbacks through the Gradio client. It never downloads models or enables a public sharing tunnel. This local demo test is not evidence of a deployed Hub runtime.
 
+**Proof Loom 3D (source preview):** a real orbit/pan/zoom GLB viewer (`gr.Model3D`) is driven by exact, bounded pure-Python finite coefficient checks and a standard-library GLB generator in `szl_khipu/proof_loom.py`. No new app-authored JavaScript, npm dependency, remote asset fetch, inference, GPU, or model load is introduced. Browsers still use Gradio's packaged WebGL renderer: a browser 3D view cannot literally execute without client graphics code. Distinct compartments show a modern torus-knot geometry example and an intentionally non-historical digital cord representation; mathematical proof, khipu decipherment and model quality are not asserted. The canonical `publish-hf` workflow currently stages `space/` as a separate **Docker** runtime, not `spaces/app.py`; thus local Gradio green CI is not a Hugging Face deployment claim.
+
 CI installs the same set from the hash-locked `requirements/ci/gradio-demo.txt` (`pip install --require-hashes -r requirements/ci/gradio-demo.txt --no-deps`, then `pip install --no-deps -e .`). That lock pins Pillow 13.0.0, the earliest release that fixes GHSA-8g5g-8vmr-9782. Gradio 6.31.0 still declares `pillow<13`, so a resolving install stops at 12.3.0; `--no-deps` installs the hashed pins, and `scripts/check_gradio_demo_deps.py` allows only that one `pip check` finding. The plain extra install above still resolves Pillow 12.3.0 until a Gradio release widens the bound. When the Gradio pin in `requirements.txt` changes, also update `sdk_version` above and the version assertion in `tests/gradio_runtime.py`, and regenerate the lock; `tests/test_ci_requirements.py` fails until the lock carries the pinned Gradio:
 
 ```sh
@@ -45,6 +47,7 @@ uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 
 | Moons | acc / loss on 2→8→2 | 1.5B, published benchmark |
 | MiniEmbed | V=64 d=12 L2 table | neural embed, 3290×128 table |
 | Anatomy | 5 organs LIVE or fail-closed | 3D Three.js rehost, joules, proven trust |
+| Proof Loom 3D | actual GLB geometry + two finite partition recurrences (0..128) | historical khipu decoding, new infinite theorem, HJO Lean replay, model quality |
 | Receipts | last chain depth | joules, authorship |
 
 Gold means OPEN. Proof teal means LIVE. Never green-as-proven. Never a fabricated joule.
