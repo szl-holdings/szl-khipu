@@ -38,10 +38,14 @@ from szl_khipu import (  # noqa: E402
     yarqa_attn,
 )
 from szl_khipu.doctrine import DOCTRINE  # noqa: E402
+from szl_khipu.proof_loom import panel as proof_loom_panel  # noqa: E402
 from szl_khipu.train import moons, tiny_khipu  # noqa: E402
 from szl_khipu.train import mini_embed as mini_embed_mod  # noqa: E402
 
 CHAIN = UnifiedReceiptChain()
+# This immutable synthetic asset directory contains only generated public GLBs.
+PROOF_LOOM_PREVIEW, PROOF_LOOM_INITIAL = proof_loom_panel(18, "RR1", "2,3")
+PROOF_LOOM_DIR = str(Path(PROOF_LOOM_PREVIEW).parent)
 AXES = list(YUYAY_AXES)
 FLOORS = list(YUYAY_FLOORS)
 
@@ -797,6 +801,38 @@ with gr.Blocks(
                 outputs=anatomy_out,
             )
 
+        with gr.Tab("Proof Loom 3D"):
+            gr.HTML(
+                '<p class="lab-lede"><b>Python-generated, genuinely interactive 3D.</b> '
+                "Left: a geometric torus knot associated with coprime (a,b). "
+                "Right: a modern decimal-place digital-cord metaphor for finite "
+                "Rogers–Ramanujan partition counts. These are distinct mathematical "
+                "representations, <b>not</b> a reconstruction of ancient khipu grammar. "
+                "Neither infinite proof, archaeology decoding nor model quality is claimed.</p>",
+                elem_classes=["holo-html"],
+            )
+            with gr.Row():
+                loom_degree = gr.Slider(0, 128, value=18, step=1, label="Finite coefficient n")
+                loom_identity = gr.Radio(["RR1", "RR2"], value="RR1", label="Classical identity")
+                loom_curve = gr.Dropdown(["2,3", "3,4", "3,5", "3,7"], value="2,3", label="Mathematical torus knot (a,b)")
+            loom_model = gr.Model3D(
+                value=PROOF_LOOM_PREVIEW,
+                display_mode="solid",
+                clear_color=(0.03, 0.045, 0.075, 1.0),
+                camera_position=(0.0, 0.3, 11.5),
+                interactive=False,
+                height=540,
+                label="Holographic research diagram — orbit, pan and zoom",
+            )
+            loom_receipt = gr.HTML(PROOF_LOOM_INITIAL, elem_classes=["holo-html"])
+            loom_run = gr.Button("Recompute exact witness and 3D scene", variant="primary")
+            loom_run.click(
+                proof_loom_panel,
+                inputs=[loom_degree, loom_identity, loom_curve],
+                outputs=[loom_model, loom_receipt],
+                api_name="proof_loom",
+            )
+
         with gr.Tab("Receipts"):
             gr.HTML(
                 '<p class="lab-lede">Hash-chained receipts. Depth is integrity, not authorship. '
@@ -823,7 +859,7 @@ def launch_demo(
         css=HOLO_CSS,
         js=HOLO_JS,
         head=HOLO_HEAD,
-        allowed_paths=[str(SZL_DIR)],
+        allowed_paths=[str(SZL_DIR), PROOF_LOOM_DIR],
         server_name=server_name,
         server_port=int(os.environ.get("PORT", 7860)) if server_port is None else server_port,
         prevent_thread_lock=prevent_thread_lock,
