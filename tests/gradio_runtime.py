@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
 from pathlib import Path
 import socket
 import tempfile
@@ -82,6 +83,51 @@ class GradioRuntime(unittest.TestCase):
         self.assertEqual(
             len([c for c in config["components"] if c["type"] == "model3d"]), 1
         )
+
+    def test_standalone_proof_loom_real_gradio_runtime(self) -> None:
+        from scripts import publish_proofloom as publisher
+
+        with tempfile.TemporaryDirectory(prefix="szl-proofloom-runtime-") as tmp:
+            stage = Path(tmp)
+            publisher._stage(stage, "a" * 40)
+            spec = importlib.util.spec_from_file_location(
+                "szl_proofloom_space_smoke", stage / "app.py"
+            )
+            standalone = importlib.util.module_from_spec(spec)
+            with patch.object(sys, "path", [tmp] + sys.path):
+                spec.loader.exec_module(standalone)
+            with socket.socket() as listener:
+                listener.bind(("127.0.0.1", 0))
+                port = listener.getsockname()[1]
+            try:
+                _app, url, share = standalone.demo.launch(
+                    server_name="127.0.0.1",
+                    server_port=port,
+                    prevent_thread_lock=True,
+                    share=False,
+                    ssr_mode=False,
+                    show_error=False,
+                    css=standalone.STYLE,
+                    allowed_paths=[standalone.ARTIFACT_DIR],
+                )
+                self.assertIsNone(share)
+                config = httpx.get(f"{url}config", timeout=15.0).json()
+                self.assertEqual(config["title"], "Khipu Proof Loom")
+                self.assertEqual(
+                    len([c for c in config["components"] if c["type"] == "model3d"]), 1
+                )
+                client = Client(
+                    url, verbose=False, analytics_enabled=False,
+                    httpx_kwargs={"timeout": 15.0},
+                )
+                try:
+                    response = client.predict(6, "RR1", "2,3", api_name="/recompute")
+                    self.assertIn("FINITE MATCH", response[1])
+                    self.assertIn("NOT ASSESSED", response[1])
+                finally:
+                    client.close()
+            finally:
+                standalone.demo.close()
 
     def test_live_lambda_pass_and_fail_closed(self) -> None:
         passing = self.client.predict(*([1.0] * len(self.app.AXES)), api_name="/score_lambda")
