@@ -1,0 +1,3 @@
+# Preserve Git-committed model and receipt JSON as exact bytes on Windows/Linux.
+# Git CRLF filters would otherwise invalidate their recorded SHA-256 digests.
+*.json -text
