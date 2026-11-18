@@ -29,6 +29,7 @@ import gradio as gr  # noqa: E402
 import numpy as np  # noqa: E402
 
 from szl_khipu import (  # noqa: E402
+    __version__ as SZL_KHIPU_VERSION,
     YUYAY_AXES,
     YUYAY_FLOORS,
     UnifiedReceiptChain,
@@ -77,7 +78,7 @@ def _lrow(kind: str, title: str, detail: str, tag: str) -> str:
     )
 
 
-HEADER = """
+HEADER = f"""
 <div class="holo-wrap">
   <header>
     <div class="eyebrow">SZL Holdings · KHIPU · public kernel surface</div>
@@ -133,7 +134,7 @@ HEADER = """
     <div class="lrow"><div class="mark ok">✓</div><div>
       <p class="t">CPU kernels — LIVE</p>
       <p class="d">Λ WGM, YARQA, TinyKhipu, moons 2→8→2, MiniEmbed-Nano V=64 d=12, five-organ anatomy, SHA-256 chain. CUDA UNAVAILABLE.</p>
-      <span class="tag">numpy 0.1.0 · this process</span>
+      <span class="tag">szl-khipu {SZL_KHIPU_VERSION} · numpy · this process</span>
     </div></div>
   </div>
 </div>
