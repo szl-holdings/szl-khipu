@@ -40,6 +40,19 @@ class StageReleaseTests(unittest.TestCase):
                         expected_sha, f'{group}/{name}'
                     )
 
+    def test_space_dockerfile_pins_base_digest_and_binds_container_interface(self):
+        # app.py defaults HOST to loopback; inside the Space container that
+        # leaves app_port 7860 unreachable from the Hub router.
+        import re
+        text = (ROOT / 'space/Dockerfile').read_text(encoding='utf-8')
+        base = [l for l in text.splitlines() if l.startswith('FROM ')]
+        self.assertEqual(len(base), 1)
+        self.assertRegex(base[0], r'^FROM python:3\.12\.\d+-slim@sha256:[0-9a-f]{64}$')
+        env = ' '.join(l for l in text.splitlines() if l.startswith('ENV '))
+        self.assertIn('HOST=0.0.0.0', env.split())
+        self.assertIn('PORT=7860', env.split())
+        self.assertIsNone(re.search(r'(?i)(token|secret|password)', text))
+
     def test_staged_package_runs_actual_loopback_http(self):
         """Executes the *staged* Space files, not the source checkout imports."""
         with tempfile.TemporaryDirectory() as directory:
