@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "szl-khipu"
-version = "0.1.0"
+version = "0.2.0"
 description = "Governed-AI khipu: Λ-gate, YARQA canals, TinyKhipu silhouette, hash-chained receipts. Knot the run. Hash the proof. Fail closed."
 readme = "README.md"
 requires-python = ">=3.11"
