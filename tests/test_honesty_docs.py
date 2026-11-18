@@ -94,7 +94,13 @@ class HonestyDocs(unittest.TestCase):
     def test_pyproject(self) -> None:
         text = _read(ROOT / "pyproject.toml")
         self.assertIn('name = "szl-khipu"', text)
-        self.assertIn('version = "0.1.0"', text)
+        # The release gate binds the tag to [project].version only; a bump that
+        # misses szl_khipu.__version__ would ship a wheel that misreports itself.
+        import szl_khipu
+
+        declared = tomllib.loads(text)["project"]["version"]
+        self.assertRegex(declared, r"^\d+\.\d+\.\d+$")
+        self.assertEqual(szl_khipu.__version__, declared)
         self.assertIn('requires-python = ">=3.11"', text)
         self.assertIn("numpy>=1.26", text)
         self.assertIn("gradio", text)
