@@ -33,9 +33,21 @@ This covers four named pairs only. It neither proves complete decontamination no
 
 ## Reproduce
 
-```
+From a checkout containing this replay, run the commands below from the
+repository root. Use a fresh `source` directory; the tests and replay read the
+clean, detached source checkout at the exact historical pin, not current main.
+Python 3.11+ and Git are required.
+
+```sh
+cd research/kfg_catalog_audit/grouped
+git init source
+git -C source fetch --depth=1 https://github.com/szl-holdings/szl-khipu.git 9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187
+git -C source checkout --detach FETCH_HEAD
 python -B -m unittest -v test_grouped_split_sensitivity.py
-python -B grouped_split_sensitivity.py source
+replay=$(mktemp)
+python -B grouped_split_sensitivity.py source > "$replay"
+cmp evidence.json "$replay"
+rm -f "$replay"
 ```
 
 Seven tests cover singleton preservation, component ordering/transitivity, missing/duplicate identities, content identity and the real pinned-corpus replay. `evidence.json` includes exact source/corpus/archive/output digests, per-pair split checks, moved identifiers and tier counts.
