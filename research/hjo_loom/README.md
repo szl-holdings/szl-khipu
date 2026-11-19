@@ -6,6 +6,8 @@
 Status: **MEASURED finite checks of published theorems.** Nothing here proves a new theorem,
 replays the Lean certificate, or says anything about historical Andean knowledge.
 
+A one-page account of the method, including how to rerun it, is in [METHOD.md](METHOD.md).
+
 ## What is checked, and by which independent route
 
 Definitions are transcribed from Huang–Lau–Ono, *Rogers–Ramanujan identities from the geometry
@@ -37,9 +39,15 @@ Huang–Jiang–Oblomkov, *Quot scheme of points on torus knot singularities*,
    Q(n + 1<sub>G</sub>) − Q(n) = C(G,G) + Σ<sub>v</sub> [C(F<sub>v</sub>,G) + C(G,F<sub>v</sub>)].
    These inequalities are **established mathematics, not a new conjecture or discovery here**:
    Huang, *A quadratic form generalization of rational dinv*,
-   [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), Theorem 1.1 gives
-   C(G,G) ≥ 1 for nonempty filters; Theorem 1.2 gives nonnegative cross terms for
-   **all** filter pairs, not just nested ones. Our earlier framing of this precondition as
+   [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), Theorem 1.2 identifies the
+   symmetric form on any two filters with a cross-dinv count, so the cross terms are
+   nonnegative for **all** filter pairs, not just nested ones. Its D = E case is the
+   Theorem 1.1 identity C(G,G) = Q(1<sub>G</sub>) = dinv(G), which is at least 1 for a
+   nonempty filter. These statements are as formalized in
+   [AxiomMath/quadratic-dinv](https://github.com/AxiomMath/quadratic-dinv)
+   (`RationalDinv.bilinForm_eq_crossDinv`, statement marked author-verified) and
+   [AxiomMath/HJO](https://github.com/AxiomMath/HJO) (`one_le_q_indicator`); both were read
+   here, not replayed, and the theorem numbering is the author's. Our earlier framing of this precondition as
    possibly open was wrong, corrected by the author (personal communication, 2026-11-18).
    The paper's symmetric form is
    B(F,G) = [C(F,G) + C(G,F)] / 2, so the implementation's cross term is 2B(F,G).
@@ -68,6 +76,8 @@ deg F<sub>N</sub> + 4; V3; and the V5 census below. Build time on this container
 ```
 python research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
 ```
+
+Standard library only: the builder loads `szl_khipu/hjo_loom.py` by file path.
 
 ### V5 census — brute-force submodule counts, all equal to HJO Thm 1.2 at L = q
 

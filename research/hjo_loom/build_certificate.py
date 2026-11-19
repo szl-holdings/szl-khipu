@@ -12,14 +12,19 @@ The certificate replays PUBLISHED theorems on finite ranges; it proves nothing n
 import argparse
 import json
 import math
+import importlib.util
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
 
-from szl_khipu import hjo_loom as h  # noqa: E402
+# Load the module by path, not through the szl_khipu package: the package's
+# __init__ imports numpy, and this check needs only the standard library.
+_SPEC = importlib.util.spec_from_file_location("hjo_loom", ROOT / "szl_khipu" / "hjo_loom.py")
+h = importlib.util.module_from_spec(_SPEC)
+sys.modules[_SPEC.name] = h  # dataclasses resolve string annotations through sys.modules
+_SPEC.loader.exec_module(h)
 
 SCHEMA = "szl.khipu.hjo-certificate/v1"
 PAIRS = [(a, s - a) for s in range(5, 14) for a in range(2, s)
