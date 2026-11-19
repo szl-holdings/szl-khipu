@@ -4,18 +4,18 @@ Use Python 3.9+ with the standard library. From the directory containing `compar
 
 ```sh
 KFG=https://raw.githubusercontent.com/khipufieldguide/data-science-khipu-article/a89c5dc1b8e412e3d0203719f76d5902563ab736/data
-OKR=https://huggingface.co/spaces/SZLHOLDINGS/khipu-proof-loom/resolve/c947def2fe0eae460c304d5ce0b7eb8e2881d9a5
+SZL_SOURCE=https://raw.githubusercontent.com/szl-holdings/szl-khipu/9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187
 curl --fail --location "$KFG/KFG_DB.SQL" --output KFG_DB.SQL
 curl --fail --location "$KFG/khipu_summary.csv" --output khipu_summary.csv
 curl --fail --location "$KFG/ascher_sum_relations/sum_top_cords_relation.csv" --output sum_top_cords_relation.csv
-curl --fail --location "$OKR/okr_corpus_v1.json.gz" --output corpus.json.gz
-curl --fail --location "$OKR/okr_relations_v1.json" --output okr.json
+curl --fail --location "$SZL_SOURCE/research/okr_corpus/okr_corpus_v1.json.gz" --output corpus.json.gz
+curl --fail --location "$SZL_SOURCE/research/okr_corpus/okr_relations_v1.json" --output okr.json
 python compare.py > reproduction.json
 cmp result.json reproduction.json
 ```
 
 All five input hashes are embedded in the script and result. Input existence and SHA256 checks are explicit exceptions, and schema checks remain active under Python's `-O` mode. Both modules are safe to import without local inputs; computation runs only through their functions or command-line entry points. Use `--input-dir PATH` to read pinned inputs from another directory.
-KFG release: [Data Science Khipu Article v2.1.0](https://github.com/khipufieldguide/data-science-khipu-article/tree/a89c5dc1b8e412e3d0203719f76d5902563ab736). OKR inputs: [Proof Loom publication manifest](https://huggingface.co/spaces/SZLHOLDINGS/khipu-proof-loom/blob/c947def2fe0eae460c304d5ce0b7eb8e2881d9a5/SOURCE.json).
+KFG release: [Data Science Khipu Article v2.1.0](https://github.com/khipufieldguide/data-science-khipu-article/tree/a89c5dc1b8e412e3d0203719f76d5902563ab736). OKR-derived inputs and optional enumerator are served anonymously by [the immutable SZL GitHub source commit](https://github.com/szl-holdings/szl-khipu/tree/9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187); their bytes match the hashes pinned for the original replay. Historical publication provenance: [Proof Loom publication manifest (may require Hugging Face access)](https://huggingface.co/spaces/SZLHOLDINGS/khipu-proof-loom/blob/c947def2fe0eae460c304d5ce0b7eb8e2881d9a5/SOURCE.json).
 
 We restrict artifacts to records sharing both the numerical database ID and the OKR name. On the KFG side, we filter the published relation rows for documented exactness and integer equality, positive target, at least two summands, and adjacent cluster positions; then recover the target and the complete summand cord IDs from the SQL tables. The artifact's target cluster must agree with the CSV's zero-based position on the relevant primary in the SQL sort. On the SZL side, we filter published exact R2 positives for one summand cluster. The join key is artifact ID, target cord ID, sorted complete summand cord ID list, and value.
 
@@ -26,7 +26,7 @@ This compares published detections and their cord identities. Shared source reco
 Optional native SZL recomputation (review the pinned source before executing it):
 
 ```sh
-curl --fail --location "$OKR/okr_khipu.py" --output okr_khipu.py
+curl --fail --location "$SZL_SOURCE/szl_khipu/okr_khipu.py" --output okr_khipu.py
 python verify_okr.py
 ```
 

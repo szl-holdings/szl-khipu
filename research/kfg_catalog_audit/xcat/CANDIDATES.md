@@ -1,18 +1,18 @@
 # Denominator-first conditional Khipu concordance
 
-Private research replay, 2026-11-19. No training, remote changes, or archive mutation.
+Bounded research replay, 2026-11-19. No training, remote changes, or archive mutation.
 
 ## Reproduce
 
-Use Python 3.9+ standard library and the pinned inputs already documented in
-`research/kfg_catalog_audit/xcat/README.md` at SZL Khipu commit
-`f5cec84477f620de4e717e5006fab3520fb0393c`. `compare.py` here is a byte-identical
-copy from that commit for standalone execution; when integrating beside the
-existing file, do not duplicate it.
+Use Python 3.9+ and the standard library. Follow the public pinned download
+instructions in [the adjacent README](README.md), including the optional
+`okr_khipu.py` download. Use the adjacent `compare.py` for the shared input
+hashes and SQL parser. For the frozen positive comparison, use the adjacent
+`result.json` (or an exact copy).
 
 ```
 python -B candidate_concordance.py /path/to/pinned/inputs > evidence.json
-python -B summarize.py evidence.json /path/to/pinned/inputs/result.json > summary.json
+python -B summarize.py evidence.json result.json > summary.json
 KHIPU_XCAT_INPUTS=/path/to/pinned/inputs python -B -m unittest -v test_candidates.py
 ```
 
@@ -23,7 +23,8 @@ performs no data I/O. Normal and optimized Python produce identical ledgers.
 
 Sources:
 - KFG SQL and catalog: https://github.com/khipufieldguide/data-science-khipu-article/tree/a89c5dc1b8e412e3d0203719f76d5902563ab736/data
-- SZL corpus and enumerator: https://huggingface.co/spaces/SZLHOLDINGS/khipu-proof-loom/tree/c947def2fe0eae460c304d5ce0b7eb8e2881d9a5
+- SZL corpus and enumerator: [immutable public GitHub source](https://github.com/szl-holdings/szl-khipu/tree/9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187); byte-identical to the original replay pins.
+- Historical provenance: [Proof Loom publication](https://huggingface.co/spaces/SZLHOLDINGS/khipu-proof-loom/tree/c947def2fe0eae460c304d5ce0b7eb8e2881d9a5) (may require Hugging Face access; not used for public downloads).
 - Underlying OKR commit: 4039ca51f4de661d80d0160596309c983a62a9c7.
 - All exact input SHA256 values are included in evidence/summary JSON.
 
