@@ -1,0 +1,1353 @@
+{
+ "counts": {
+  "answerable": 4,
+  "consistent_pair": 12,
+  "contradiction": 24
+ },
+ "grading": "exact match; see grade_conflict_v3.py",
+ "n": 40,
+ "probes": [
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "queue_depth": "41",
+      "seq": 100
+     },
+     "path": "receipts/heldout-v3-queue-depth-north.json",
+     "sha256": "08a59786dbcf47d5b7b86eb51799de1fb3fcd5233b3d25f7556643915120ff2e"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "queue_depth": "7",
+      "seq": 200
+     },
+     "path": "receipts/heldout-v3-queue-depth-south.json",
+     "sha256": "45f283bbfba0a8c75d4be691dcf2636b1591936f3853684912db2c8bdcc5fd87"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "41",
+     "7"
+    ]
+   },
+   "id": "con2-00",
+   "kind": "contradiction",
+   "question": "How many jobs are waiting in the queue?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "queue_depth": "41",
+      "seq": 300
+     },
+     "path": "receipts/heldout-v3-queue-depth-east.json",
+     "sha256": "68958eb383f03c311aa3f665d3dfc6add91344af9c822ad5fd2a314484648eb4"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "queue_depth": "41",
+      "seq": 400
+     },
+     "path": "receipts/heldout-v3-queue-depth-west.json",
+     "sha256": "876740091de0e32520b70af6f60103a994568616f2bc4f864d91e56776cc8927"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "queue_depth": "7",
+      "seq": 500
+     },
+     "path": "receipts/heldout-v3-queue-depth-centre.json",
+     "sha256": "7aec8c2af73200e2406cfd96e346c346ca21215eee0e308c487fa914b8dbc5b8"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "41",
+     "7"
+    ]
+   },
+   "id": "con3-00",
+   "kind": "contradiction",
+   "question": "How many jobs are waiting in the queue?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "queue_depth": "7",
+      "seq": 600
+     },
+     "path": "receipts/heldout-v3-queue-depth-upper.json",
+     "sha256": "bb2eaffe9f4c88de68e20e3b8dc164b051e700011ca942458e6c03c6d4fd05cf"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "queue_depth": "7",
+      "seq": 700
+     },
+     "path": "receipts/heldout-v3-queue-depth-lower.json",
+     "sha256": "477ad9915216dfbab86faefc892bb067757c3b696079543c40cd234187bf845d"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "bb2eaffe9f4c88de68e20e3b8dc164b051e700011ca942458e6c03c6d4fd05cf",
+     "477ad9915216dfbab86faefc892bb067757c3b696079543c40cd234187bf845d"
+    ],
+    "value": "7"
+   },
+   "id": "agree-00",
+   "kind": "consistent_pair",
+   "question": "How many jobs are waiting in the queue?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "seq": 101,
+      "serving_region": "us-east-1"
+     },
+     "path": "receipts/heldout-v3-serving-region-north.json",
+     "sha256": "210db71e5f31ac6ef0c73db1b16748aab4a5febeb336689dc97599be042e26d1"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "seq": 201,
+      "serving_region": "eu-west-2"
+     },
+     "path": "receipts/heldout-v3-serving-region-south.json",
+     "sha256": "5f1dbdd3d2b4912bb23975df815c8bf6986b16c716dba3316fc9f2c125ae4f90"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "us-east-1",
+     "eu-west-2"
+    ]
+   },
+   "id": "con2-01",
+   "kind": "contradiction",
+   "question": "Which region is serving traffic?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "seq": 301,
+      "serving_region": "us-east-1"
+     },
+     "path": "receipts/heldout-v3-serving-region-east.json",
+     "sha256": "8909107a419bbce2c6e75076dde7a65055f658e2e29d916eac9d57deee0eeb4a"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "seq": 401,
+      "serving_region": "us-east-1"
+     },
+     "path": "receipts/heldout-v3-serving-region-west.json",
+     "sha256": "b32b179ba68a0e41d2e5c69330c07181281b3d4ebf5457fafc63b45c1ff68717"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "seq": 501,
+      "serving_region": "eu-west-2"
+     },
+     "path": "receipts/heldout-v3-serving-region-centre.json",
+     "sha256": "2a88b10389d4d52898b6e6918467d7b5a938e31bda72d45e097c8b7e0090f801"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "us-east-1",
+     "eu-west-2"
+    ]
+   },
+   "id": "con3-01",
+   "kind": "contradiction",
+   "question": "Which region is serving traffic?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "seq": 601,
+      "serving_region": "eu-west-2"
+     },
+     "path": "receipts/heldout-v3-serving-region-upper.json",
+     "sha256": "08c84465f776b87e299ef3fbda7dae2325fc5788a90c7c3aebebf98974bce0f8"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "seq": 701,
+      "serving_region": "eu-west-2"
+     },
+     "path": "receipts/heldout-v3-serving-region-lower.json",
+     "sha256": "45452cf012e61432fb24a39252ac671d8ce7baab5a01b5f473411b92a060cac9"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "08c84465f776b87e299ef3fbda7dae2325fc5788a90c7c3aebebf98974bce0f8",
+     "45452cf012e61432fb24a39252ac671d8ce7baab5a01b5f473411b92a060cac9"
+    ],
+    "value": "eu-west-2"
+   },
+   "id": "agree-01",
+   "kind": "consistent_pair",
+   "question": "Which region is serving traffic?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "p50_latency_ms": "84",
+      "seq": 102
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-north.json",
+     "sha256": "d339f76bce9c7de187e7630e9afd24fcadbf45053ccaedeea002363f949200bb"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "p50_latency_ms": "312",
+      "seq": 202
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-south.json",
+     "sha256": "482ab6da3615a0b475b706b6afef21620d205c734d376eecb4d65cafc71e07fe"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "84",
+     "312"
+    ]
+   },
+   "id": "con2-02",
+   "kind": "contradiction",
+   "question": "What is the median request latency in milliseconds?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "p50_latency_ms": "84",
+      "seq": 302
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-east.json",
+     "sha256": "00d70559647f58f834bd75c843e8d9e44264f93eff591d0f1062fe1fb5d80e81"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "p50_latency_ms": "84",
+      "seq": 402
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-west.json",
+     "sha256": "efd98017a9418ab4dc7e0331a5ec1dbea231880c25bd56bee820885875898809"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "p50_latency_ms": "312",
+      "seq": 502
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-centre.json",
+     "sha256": "234f62e35013814506827b40693ccb66d1835ecc97bab772af2fcf1f67a3e9f7"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "84",
+     "312"
+    ]
+   },
+   "id": "con3-02",
+   "kind": "contradiction",
+   "question": "What is the median request latency in milliseconds?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "p50_latency_ms": "312",
+      "seq": 602
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-upper.json",
+     "sha256": "53239c91406df8223e84b7b9d669e7cdc55c434878babfffd38df2c49e676fcc"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "p50_latency_ms": "312",
+      "seq": 702
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-lower.json",
+     "sha256": "a45ac81284b616f974898e84b4b79f6f72bb1ef6cb58df407c831463891a9bbc"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "53239c91406df8223e84b7b9d669e7cdc55c434878babfffd38df2c49e676fcc",
+     "a45ac81284b616f974898e84b4b79f6f72bb1ef6cb58df407c831463891a9bbc"
+    ],
+    "value": "312"
+   },
+   "id": "agree-02",
+   "kind": "consistent_pair",
+   "question": "What is the median request latency in milliseconds?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "active_sessions": "1290",
+      "observer": "north",
+      "seq": 103
+     },
+     "path": "receipts/heldout-v3-active-sessions-north.json",
+     "sha256": "756f3e22b445d1c989df9ab103a9ea85495f271cf011d4cbd246a71fbf1330e1"
+    },
+    {
+     "body": {
+      "active_sessions": "1185",
+      "observer": "south",
+      "seq": 203
+     },
+     "path": "receipts/heldout-v3-active-sessions-south.json",
+     "sha256": "96dda87ff34d478c2489e9256774f2d0563d234d5bc9259d7cdf96e3ebcd56eb"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "1290",
+     "1185"
+    ]
+   },
+   "id": "con2-03",
+   "kind": "contradiction",
+   "question": "How many sessions are active?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "active_sessions": "1290",
+      "observer": "east",
+      "seq": 303
+     },
+     "path": "receipts/heldout-v3-active-sessions-east.json",
+     "sha256": "1a1d02470900b33aca4acc8629789e64661e6b768aea26e6b6bc4ec7f190bba1"
+    },
+    {
+     "body": {
+      "active_sessions": "1290",
+      "observer": "west",
+      "seq": 403
+     },
+     "path": "receipts/heldout-v3-active-sessions-west.json",
+     "sha256": "1eff4732da856e612dd74e575bbc835e6ee1d40eb9b4903e6e0c4972c8432242"
+    },
+    {
+     "body": {
+      "active_sessions": "1185",
+      "observer": "centre",
+      "seq": 503
+     },
+     "path": "receipts/heldout-v3-active-sessions-centre.json",
+     "sha256": "2af8d073cab5985b8a3489751646fec2db543d51b717671f192e199a80ab6b82"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "1290",
+     "1185"
+    ]
+   },
+   "id": "con3-03",
+   "kind": "contradiction",
+   "question": "How many sessions are active?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "active_sessions": "1185",
+      "observer": "upper",
+      "seq": 603
+     },
+     "path": "receipts/heldout-v3-active-sessions-upper.json",
+     "sha256": "194ae842d6d841d8a30a3e1847f652cb1c7cc0ef58708afa1f17bc50eab60399"
+    },
+    {
+     "body": {
+      "active_sessions": "1185",
+      "observer": "lower",
+      "seq": 703
+     },
+     "path": "receipts/heldout-v3-active-sessions-lower.json",
+     "sha256": "2b858168262d7d8f120a6d85e9ecc859286a5edfea7a4176ab9dca0e90d90fc9"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "194ae842d6d841d8a30a3e1847f652cb1c7cc0ef58708afa1f17bc50eab60399",
+     "2b858168262d7d8f120a6d85e9ecc859286a5edfea7a4176ab9dca0e90d90fc9"
+    ],
+    "value": "1185"
+   },
+   "id": "agree-03",
+   "kind": "consistent_pair",
+   "question": "How many sessions are active?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "disk_free_gb": "61",
+      "observer": "north",
+      "seq": 104
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-north.json",
+     "sha256": "002d0ab6af6e4e5a3700b381676064a27d0be04a9efe2503ff0d7defc29cfd1e"
+    },
+    {
+     "body": {
+      "disk_free_gb": "14",
+      "observer": "south",
+      "seq": 204
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-south.json",
+     "sha256": "73fdc086b1758774e85fa738dbbef5abf986d190cb8d424f71ce87b8ed1b1ffa"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "61",
+     "14"
+    ]
+   },
+   "id": "con2-04",
+   "kind": "contradiction",
+   "question": "How many gigabytes of disk are free?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "disk_free_gb": "61",
+      "observer": "east",
+      "seq": 304
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-east.json",
+     "sha256": "c85cb2d3f857dfcde8f2f5a52758638436fa4fe4f5eecb8cb65a1bb5d337a442"
+    },
+    {
+     "body": {
+      "disk_free_gb": "61",
+      "observer": "west",
+      "seq": 404
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-west.json",
+     "sha256": "65718f7aae6edd8378e90ee757b864214dda0905f3ff887d9c462855660c6c02"
+    },
+    {
+     "body": {
+      "disk_free_gb": "14",
+      "observer": "centre",
+      "seq": 504
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-centre.json",
+     "sha256": "be1d35238b6253137af598c5eb17bfc4b85f98e929f5525c0ef2dea4b3a0e16c"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "61",
+     "14"
+    ]
+   },
+   "id": "con3-04",
+   "kind": "contradiction",
+   "question": "How many gigabytes of disk are free?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "disk_free_gb": "14",
+      "observer": "upper",
+      "seq": 604
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-upper.json",
+     "sha256": "b7766b64aab3d7460ff72162eac012de038aa990d46222465f72ae30c345c695"
+    },
+    {
+     "body": {
+      "disk_free_gb": "14",
+      "observer": "lower",
+      "seq": 704
+     },
+     "path": "receipts/heldout-v3-disk-free-gb-lower.json",
+     "sha256": "0041f0470c149c133dbb865e8d77f25aad96edd00ff707e8719f22d1c90456ee"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "b7766b64aab3d7460ff72162eac012de038aa990d46222465f72ae30c345c695",
+     "0041f0470c149c133dbb865e8d77f25aad96edd00ff707e8719f22d1c90456ee"
+    ],
+    "value": "14"
+   },
+   "id": "agree-04",
+   "kind": "consistent_pair",
+   "question": "How many gigabytes of disk are free?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "schema_version": "v7",
+      "seq": 105
+     },
+     "path": "receipts/heldout-v3-schema-version-north.json",
+     "sha256": "e285efbe2963851e06f03c6263bd63a8c283349b3e97c8fec8957e7530e18512"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "schema_version": "v8",
+      "seq": 205
+     },
+     "path": "receipts/heldout-v3-schema-version-south.json",
+     "sha256": "98705dac804ec328c4a024f508812a80e8c7a7fffd1a05489b1402fd5628e8c3"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "v7",
+     "v8"
+    ]
+   },
+   "id": "con2-05",
+   "kind": "contradiction",
+   "question": "Which schema version is deployed?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "schema_version": "v7",
+      "seq": 305
+     },
+     "path": "receipts/heldout-v3-schema-version-east.json",
+     "sha256": "fdf1b5e5c4b9148ac92ecb59c8fb623c0e12d24e63ac84f9c5c05d0d7780f8d3"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "schema_version": "v7",
+      "seq": 405
+     },
+     "path": "receipts/heldout-v3-schema-version-west.json",
+     "sha256": "992402e9f20f6b0e6e4c95f772e62bbc8063e2da7301f0d06e05edaef1267ccc"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "schema_version": "v8",
+      "seq": 505
+     },
+     "path": "receipts/heldout-v3-schema-version-centre.json",
+     "sha256": "9d05175e5c9a18d89d937e9d22589199f3844b2734b2c5a10e0a4b7190056162"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "v7",
+     "v8"
+    ]
+   },
+   "id": "con3-05",
+   "kind": "contradiction",
+   "question": "Which schema version is deployed?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "schema_version": "v8",
+      "seq": 605
+     },
+     "path": "receipts/heldout-v3-schema-version-upper.json",
+     "sha256": "e3cb068178418f05432e3f25b1b3a61ded48513a4b9d6c8118884a94f336e166"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "schema_version": "v8",
+      "seq": 705
+     },
+     "path": "receipts/heldout-v3-schema-version-lower.json",
+     "sha256": "32ebd49681bdda2c40356d3fd3e187a76e5e0b89ff9ce7005d190fd21e712dd9"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "e3cb068178418f05432e3f25b1b3a61ded48513a4b9d6c8118884a94f336e166",
+     "32ebd49681bdda2c40356d3fd3e187a76e5e0b89ff9ce7005d190fd21e712dd9"
+    ],
+    "value": "v8"
+   },
+   "id": "agree-05",
+   "kind": "consistent_pair",
+   "question": "Which schema version is deployed?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "error_rate_pct": "0.4",
+      "observer": "north",
+      "seq": 106
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-north.json",
+     "sha256": "88fb028975c5987eea5537aa829ec02a4fb7aa852f458d5f3799057cf0ff703a"
+    },
+    {
+     "body": {
+      "error_rate_pct": "2.1",
+      "observer": "south",
+      "seq": 206
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-south.json",
+     "sha256": "7ff0c40667b051c2ff7be281eb42ea919d13dcecf691dc00cb19689b23fba35c"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "0.4",
+     "2.1"
+    ]
+   },
+   "id": "con2-06",
+   "kind": "contradiction",
+   "question": "What error rate, in percent, is being reported?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "error_rate_pct": "0.4",
+      "observer": "east",
+      "seq": 306
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-east.json",
+     "sha256": "38350d6d26fab050a8a60e1e967a59f6663f20091dbe8981899c54b0b8fe28cf"
+    },
+    {
+     "body": {
+      "error_rate_pct": "0.4",
+      "observer": "west",
+      "seq": 406
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-west.json",
+     "sha256": "cc01744161ab08b19a99fe026d2ec8ea1c04a2300a1e1082a670274450777639"
+    },
+    {
+     "body": {
+      "error_rate_pct": "2.1",
+      "observer": "centre",
+      "seq": 506
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-centre.json",
+     "sha256": "33daf7ef99cd80d9b45d1de0e1bd171300cc4abeb7a0fe6748024c0f35f38344"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "0.4",
+     "2.1"
+    ]
+   },
+   "id": "con3-06",
+   "kind": "contradiction",
+   "question": "What error rate, in percent, is being reported?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "error_rate_pct": "2.1",
+      "observer": "upper",
+      "seq": 606
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-upper.json",
+     "sha256": "5406beab0731ea6ddd43c73376beacca0b705f3b4c16597ae76fb3a12f18a969"
+    },
+    {
+     "body": {
+      "error_rate_pct": "2.1",
+      "observer": "lower",
+      "seq": 706
+     },
+     "path": "receipts/heldout-v3-error-rate-pct-lower.json",
+     "sha256": "05767406476244fcfda9be8ba72cf0a43af4064437058a41100e114cceb4d6a1"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "5406beab0731ea6ddd43c73376beacca0b705f3b4c16597ae76fb3a12f18a969",
+     "05767406476244fcfda9be8ba72cf0a43af4064437058a41100e114cceb4d6a1"
+    ],
+    "value": "2.1"
+   },
+   "id": "agree-06",
+   "kind": "consistent_pair",
+   "question": "What error rate, in percent, is being reported?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "cert_expiry": "2027-03-01",
+      "observer": "north",
+      "seq": 107
+     },
+     "path": "receipts/heldout-v3-cert-expiry-north.json",
+     "sha256": "ed15b7b7439a9e2f0280dbca255b0ae65ebca872f2111b9ec7dfb79055837f19"
+    },
+    {
+     "body": {
+      "cert_expiry": "2026-12-15",
+      "observer": "south",
+      "seq": 207
+     },
+     "path": "receipts/heldout-v3-cert-expiry-south.json",
+     "sha256": "e350a4bde4cf37038d41525e21494057cea35c26f4becaaa166a66e5bc530d73"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "2027-03-01",
+     "2026-12-15"
+    ]
+   },
+   "id": "con2-07",
+   "kind": "contradiction",
+   "question": "When does the TLS certificate expire?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "cert_expiry": "2027-03-01",
+      "observer": "east",
+      "seq": 307
+     },
+     "path": "receipts/heldout-v3-cert-expiry-east.json",
+     "sha256": "42c5a982c729847399f1cff11b11166fefdcabcefb49782b3ea617aa7eca6f2a"
+    },
+    {
+     "body": {
+      "cert_expiry": "2027-03-01",
+      "observer": "west",
+      "seq": 407
+     },
+     "path": "receipts/heldout-v3-cert-expiry-west.json",
+     "sha256": "1a7ab75435fb714cf8a2c3eb733e732b1492b14963b134fc0e231463709b091c"
+    },
+    {
+     "body": {
+      "cert_expiry": "2026-12-15",
+      "observer": "centre",
+      "seq": 507
+     },
+     "path": "receipts/heldout-v3-cert-expiry-centre.json",
+     "sha256": "99941b2ad50f4ce6522eae2ba9ca182c46c1296b4e0faeabf6f4766a421dbebb"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "2027-03-01",
+     "2026-12-15"
+    ]
+   },
+   "id": "con3-07",
+   "kind": "contradiction",
+   "question": "When does the TLS certificate expire?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "cert_expiry": "2026-12-15",
+      "observer": "upper",
+      "seq": 607
+     },
+     "path": "receipts/heldout-v3-cert-expiry-upper.json",
+     "sha256": "09f4586a48e57ffbca0d0b75511a7998587b66d680d93c789a233155c0019c86"
+    },
+    {
+     "body": {
+      "cert_expiry": "2026-12-15",
+      "observer": "lower",
+      "seq": 707
+     },
+     "path": "receipts/heldout-v3-cert-expiry-lower.json",
+     "sha256": "dad007f769dea11d1b912d422bb83ee2a76211b82cead07e3ead699e38891d43"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "09f4586a48e57ffbca0d0b75511a7998587b66d680d93c789a233155c0019c86",
+     "dad007f769dea11d1b912d422bb83ee2a76211b82cead07e3ead699e38891d43"
+    ],
+    "value": "2026-12-15"
+   },
+   "id": "agree-07",
+   "kind": "consistent_pair",
+   "question": "When does the TLS certificate expire?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "model_tag": "khipu-q4",
+      "observer": "north",
+      "seq": 108
+     },
+     "path": "receipts/heldout-v3-model-tag-north.json",
+     "sha256": "f6a47ccf6598001fc48bf996698c349cbdd30a1d7f91dd328f9bb669636321bc"
+    },
+    {
+     "body": {
+      "model_tag": "khipu-q8",
+      "observer": "south",
+      "seq": 208
+     },
+     "path": "receipts/heldout-v3-model-tag-south.json",
+     "sha256": "202676f369f09ef5c700a0d1a3bc7a9b805c510f8de6abd9016a4999b7a8a40f"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "khipu-q4",
+     "khipu-q8"
+    ]
+   },
+   "id": "con2-08",
+   "kind": "contradiction",
+   "question": "Which model tag is loaded?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "model_tag": "khipu-q4",
+      "observer": "east",
+      "seq": 308
+     },
+     "path": "receipts/heldout-v3-model-tag-east.json",
+     "sha256": "357f1a2209a2a496d8c51589f677adf0867741e00d821bd2fdc4864da1e9970a"
+    },
+    {
+     "body": {
+      "model_tag": "khipu-q4",
+      "observer": "west",
+      "seq": 408
+     },
+     "path": "receipts/heldout-v3-model-tag-west.json",
+     "sha256": "daf8aa0aa2de993447a2c8f4ac29131c00bbe9ed50aaae8f383583e7d8b3f179"
+    },
+    {
+     "body": {
+      "model_tag": "khipu-q8",
+      "observer": "centre",
+      "seq": 508
+     },
+     "path": "receipts/heldout-v3-model-tag-centre.json",
+     "sha256": "cb585e436eae8ef4c6b0a6d9ea5dcf044f4a94f5c221e2df5d9a106ae9323981"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "khipu-q4",
+     "khipu-q8"
+    ]
+   },
+   "id": "con3-08",
+   "kind": "contradiction",
+   "question": "Which model tag is loaded?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "model_tag": "khipu-q8",
+      "observer": "upper",
+      "seq": 608
+     },
+     "path": "receipts/heldout-v3-model-tag-upper.json",
+     "sha256": "c8c2ccc72f6317a18e79bdb49aafe12ef9ed06f472a5f7601f5a1d8be83f1afc"
+    },
+    {
+     "body": {
+      "model_tag": "khipu-q8",
+      "observer": "lower",
+      "seq": 708
+     },
+     "path": "receipts/heldout-v3-model-tag-lower.json",
+     "sha256": "02768ede6464f1ea585393194a520cad3d8692141138049166b05e8d803ffb35"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "c8c2ccc72f6317a18e79bdb49aafe12ef9ed06f472a5f7601f5a1d8be83f1afc",
+     "02768ede6464f1ea585393194a520cad3d8692141138049166b05e8d803ffb35"
+    ],
+    "value": "khipu-q8"
+   },
+   "id": "agree-08",
+   "kind": "consistent_pair",
+   "question": "Which model tag is loaded?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "open_incidents": "2",
+      "seq": 109
+     },
+     "path": "receipts/heldout-v3-open-incidents-north.json",
+     "sha256": "6b81559b4852e73493184d82d19414a2bd0a13452af82f0e2c505b8901572c9f"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "open_incidents": "5",
+      "seq": 209
+     },
+     "path": "receipts/heldout-v3-open-incidents-south.json",
+     "sha256": "93a307f7019b493ff64f10e77bcdfb1cb984265b6959ea86a4faef3ae0dc7eca"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "2",
+     "5"
+    ]
+   },
+   "id": "con2-09",
+   "kind": "contradiction",
+   "question": "How many incidents are open?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "open_incidents": "2",
+      "seq": 309
+     },
+     "path": "receipts/heldout-v3-open-incidents-east.json",
+     "sha256": "55acbeb5a5e6252d024d02ee441f2f28599d30a32d956f7bace4a0be5a346fb9"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "open_incidents": "2",
+      "seq": 409
+     },
+     "path": "receipts/heldout-v3-open-incidents-west.json",
+     "sha256": "4353e9d6ef78f71d13d36c4a33b44820424dc52a822b67c9f95d5981d9719604"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "open_incidents": "5",
+      "seq": 509
+     },
+     "path": "receipts/heldout-v3-open-incidents-centre.json",
+     "sha256": "a1b3245063913ced20985cadee74cb6e4bc636cbe3d40dbcd3c430f0c6d6ace2"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "2",
+     "5"
+    ]
+   },
+   "id": "con3-09",
+   "kind": "contradiction",
+   "question": "How many incidents are open?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "open_incidents": "5",
+      "seq": 609
+     },
+     "path": "receipts/heldout-v3-open-incidents-upper.json",
+     "sha256": "a074ba60a4dff8f6c71ce54b2238f68bfe2d75afdfda01dc2c5a4077bf8f81a2"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "open_incidents": "5",
+      "seq": 709
+     },
+     "path": "receipts/heldout-v3-open-incidents-lower.json",
+     "sha256": "1403918d95a171a617ca065f4831a8c5c677e9aa1bbfa01507736d53afcaea83"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "a074ba60a4dff8f6c71ce54b2238f68bfe2d75afdfda01dc2c5a4077bf8f81a2",
+     "1403918d95a171a617ca065f4831a8c5c677e9aa1bbfa01507736d53afcaea83"
+    ],
+    "value": "5"
+   },
+   "id": "agree-09",
+   "kind": "consistent_pair",
+   "question": "How many incidents are open?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "north",
+      "seq": 110,
+      "worker_count": "16"
+     },
+     "path": "receipts/heldout-v3-worker-count-north.json",
+     "sha256": "271bf5da45bffad5b2c89773e7c152e31dd92046def7acc9d5b71bdf5d77e3d0"
+    },
+    {
+     "body": {
+      "observer": "south",
+      "seq": 210,
+      "worker_count": "12"
+     },
+     "path": "receipts/heldout-v3-worker-count-south.json",
+     "sha256": "160ee61ec00db24b1f49fca1365f2fdd0add329f6d2a95a76bd8b268be47631d"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "16",
+     "12"
+    ]
+   },
+   "id": "con2-10",
+   "kind": "contradiction",
+   "question": "How many workers are running?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "east",
+      "seq": 310,
+      "worker_count": "16"
+     },
+     "path": "receipts/heldout-v3-worker-count-east.json",
+     "sha256": "598f6a5b167567593ee0721b865160a5905c995a99e8134bf2226441b82a7f32"
+    },
+    {
+     "body": {
+      "observer": "west",
+      "seq": 410,
+      "worker_count": "16"
+     },
+     "path": "receipts/heldout-v3-worker-count-west.json",
+     "sha256": "584e46ac26852b99338666eb43578b791a47d8fde6aebd6745a60e9b1f11646a"
+    },
+    {
+     "body": {
+      "observer": "centre",
+      "seq": 510,
+      "worker_count": "12"
+     },
+     "path": "receipts/heldout-v3-worker-count-centre.json",
+     "sha256": "92925a332a3edca5cde7dcbbef975869e3b6918868b205721f7b33dcc87ba919"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "16",
+     "12"
+    ]
+   },
+   "id": "con3-10",
+   "kind": "contradiction",
+   "question": "How many workers are running?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "upper",
+      "seq": 610,
+      "worker_count": "12"
+     },
+     "path": "receipts/heldout-v3-worker-count-upper.json",
+     "sha256": "f3d17a9a974de41513a8648c730b00814ccd25db843054c0262fae3e43b1ed33"
+    },
+    {
+     "body": {
+      "observer": "lower",
+      "seq": 710,
+      "worker_count": "12"
+     },
+     "path": "receipts/heldout-v3-worker-count-lower.json",
+     "sha256": "a45f13bd8d1830937be0e80017f3e2fa4ffef475fd5f71f58e8e0712bcc8d359"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "f3d17a9a974de41513a8648c730b00814ccd25db843054c0262fae3e43b1ed33",
+     "a45f13bd8d1830937be0e80017f3e2fa4ffef475fd5f71f58e8e0712bcc8d359"
+    ],
+    "value": "12"
+   },
+   "id": "agree-10",
+   "kind": "consistent_pair",
+   "question": "How many workers are running?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "checkpoint_step": "18000",
+      "observer": "north",
+      "seq": 111
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-north.json",
+     "sha256": "dfee0170a5e101c5308227092f2f6a2a97f2a49103d0758c89aec3dbc3fe0f23"
+    },
+    {
+     "body": {
+      "checkpoint_step": "17500",
+      "observer": "south",
+      "seq": 211
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-south.json",
+     "sha256": "0a2e4ece7cc0108a19a46cdb38287651af0f459228bf4c356fb8b7e7772b0ffe"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "18000",
+     "17500"
+    ]
+   },
+   "id": "con2-11",
+   "kind": "contradiction",
+   "question": "Which checkpoint step is the latest?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "checkpoint_step": "18000",
+      "observer": "east",
+      "seq": 311
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-east.json",
+     "sha256": "bb3bc04310eef0e30803cdad6f01a2f4873e3cc94279c1751c0ec69d5aaab585"
+    },
+    {
+     "body": {
+      "checkpoint_step": "18000",
+      "observer": "west",
+      "seq": 411
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-west.json",
+     "sha256": "e49e44fb63ba744804e771fa62c84e31ddaa077e2d31aadf34a54ba5be6b835e"
+    },
+    {
+     "body": {
+      "checkpoint_step": "17500",
+      "observer": "centre",
+      "seq": 511
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-centre.json",
+     "sha256": "d9d6863c6e451a99abda3765cde05cc6a396e9db6b31602c70f6ef435d22d225"
+    }
+   ],
+   "expect": {
+    "flag_conflict": true,
+    "values": [
+     "18000",
+     "17500"
+    ]
+   },
+   "id": "con3-11",
+   "kind": "contradiction",
+   "question": "Which checkpoint step is the latest?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "checkpoint_step": "17500",
+      "observer": "upper",
+      "seq": 611
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-upper.json",
+     "sha256": "6119d28f6c5395c8fabb34a756115efea511c11da7309b8237d7f34e436e5424"
+    },
+    {
+     "body": {
+      "checkpoint_step": "17500",
+      "observer": "lower",
+      "seq": 711
+     },
+     "path": "receipts/heldout-v3-checkpoint-step-lower.json",
+     "sha256": "3640509dbbc3d4f981ec611080b711708fd0ad2c044ca476e98d4e8158eec1e0"
+    }
+   ],
+   "expect": {
+    "sha256_any": [
+     "6119d28f6c5395c8fabb34a756115efea511c11da7309b8237d7f34e436e5424",
+     "3640509dbbc3d4f981ec611080b711708fd0ad2c044ca476e98d4e8158eec1e0"
+    ],
+    "value": "17500"
+   },
+   "id": "agree-11",
+   "kind": "consistent_pair",
+   "question": "Which checkpoint step is the latest?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "solo",
+      "queue_depth": "41",
+      "seq": 800
+     },
+     "path": "receipts/heldout-v3-queue-depth-solo.json",
+     "sha256": "5bd7d7810692e220fdfe015d76f9321d567386e7d0bf16fd19ee90b69ef7aeb8"
+    }
+   ],
+   "expect": {
+    "sha256": "5bd7d7810692e220fdfe015d76f9321d567386e7d0bf16fd19ee90b69ef7aeb8",
+    "value": "41"
+   },
+   "id": "solo-00",
+   "kind": "answerable",
+   "question": "How many jobs are waiting in the queue?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "solo",
+      "seq": 801,
+      "serving_region": "us-east-1"
+     },
+     "path": "receipts/heldout-v3-serving-region-solo.json",
+     "sha256": "455a973f218219e2d0361a8740690be4877b45d61ae024c27266e581932d9be7"
+    }
+   ],
+   "expect": {
+    "sha256": "455a973f218219e2d0361a8740690be4877b45d61ae024c27266e581932d9be7",
+    "value": "us-east-1"
+   },
+   "id": "solo-01",
+   "kind": "answerable",
+   "question": "Which region is serving traffic?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "observer": "solo",
+      "p50_latency_ms": "84",
+      "seq": 802
+     },
+     "path": "receipts/heldout-v3-p50-latency-ms-solo.json",
+     "sha256": "48163d1b57c29f066220fed58fdc2340fd2ecd5f7c8bcd3d9762b7c7549ebe7c"
+    }
+   ],
+   "expect": {
+    "sha256": "48163d1b57c29f066220fed58fdc2340fd2ecd5f7c8bcd3d9762b7c7549ebe7c",
+    "value": "84"
+   },
+   "id": "solo-02",
+   "kind": "answerable",
+   "question": "What is the median request latency in milliseconds?"
+  },
+  {
+   "context": [
+    {
+     "body": {
+      "active_sessions": "1290",
+      "observer": "solo",
+      "seq": 803
+     },
+     "path": "receipts/heldout-v3-active-sessions-solo.json",
+     "sha256": "4064b8be93f23ca5fb4f39943f100ab43bae4fa48bb198e8b725c7e6a7448d6a"
+    }
+   ],
+   "expect": {
+    "sha256": "4064b8be93f23ca5fb4f39943f100ab43bae4fa48bb198e8b725c7e6a7448d6a",
+    "value": "1290"
+   },
+   "id": "solo-03",
+   "kind": "answerable",
+   "question": "How many sessions are active?"
+  }
+ ],
+ "purpose": "Held-out conflict probes. Never used for training. Consistent pairs are the negative control: a model that reports a conflict everywhere fails them.",
+ "schema": "szl.provenance-native/conflict-probes/v3"
+}
