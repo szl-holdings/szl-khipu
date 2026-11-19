@@ -96,4 +96,6 @@ def replay(source):
     return report
 
 if __name__=='__main__':
-    print(json.dumps(replay(Path(sys.argv[1]).resolve()),indent=2,sort_keys=True))
+    # Keep the published evidence byte-identical on Windows and POSIX.
+    encoded = json.dumps(replay(Path(sys.argv[1]).resolve()), indent=2, sort_keys=True)
+    sys.stdout.buffer.write((encoded + "\n").encode("utf-8"))
