@@ -178,8 +178,26 @@ class SantaValleyCorpus(unittest.TestCase):
         self.assertEqual(s["kh0326_59_leading_verso"], "REPLICATED")
         self.assertEqual(s["first_cord_total_near_367"], "PARTIAL")
         self.assertEqual(s["table_3_split_arithmetic"], "REPLICATED")
-        self.assertEqual(s["tribute_paid_by_moiety"], "NOT_TESTED")
+        self.assertEqual(s["tribute_paid_by_moiety"], "PARTIAL")
+        self.assertEqual(s["six_cords_outside_groups"], "REPLICATED")
         self.assertTrue(all(c["status"] in self.sv.STATUSES for c in self.report["claims"]))
+
+    def test_published_tribute_by_moiety_is_compared_with_both_side_assignments(self):
+        self.assertEqual(self.report["published"]["tribute_by_moiety"],
+                         {"verso_estimate": [381, 382], "recto": 86})
+        sides = self.report["rules"]["colour_band"]["first_cord"]
+        self.assertEqual(sides["by_side_sum"], {"R": 91, "U": 2, "V": 267})
+        self.assertEqual(sides["by_published_side_sum"], {"R": 87, "V": 273})
+        self.assertEqual(sides["unknotted_or_unreadable_by_side"], {"R": 0, "U": 0, "V": 13})
+
+    def test_amount_owed_is_reported_both_ways(self):
+        doc = self.report["document"]
+        self.assertEqual(doc["owed_at_stated_rate_per_source_pesos"], 363)
+        self.assertEqual(doc["tributaries_times_stated_rate"], {"pesos": 391, "reales": 7, "quartillos": 0})
+
+    def test_kh0326_sequence_transcription_was_checked_against_the_source(self):
+        claim = next(c for c in self.report["claims"] if c["id"] == "identifier_recto_63_verso_70")
+        self.assertIn("checked against the preprint", claim["note"])
 
     def test_alignment_under_corpus_counts(self):
         a = self.report["alignment_with_corpus_counts"]

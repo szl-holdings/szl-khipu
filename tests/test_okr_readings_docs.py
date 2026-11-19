@@ -23,14 +23,15 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
         cls.text = README.read_text(encoding="utf-8")
 
     def test_every_claim_status_is_stated_as_sealed(self):
-        for name in ("santa_valley_v1.json", "puruchuco_v1.json"):
+        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "syllabary_stress_v1.json"):
             for claim in sealed(name)["claims"]:
                 self.assertRegex(self.text,
                                  rf"`{re.escape(claim['id'])}`[^\n]*\*\*{claim['status']}\*\*",
                                  (name, claim["id"]))
 
     def test_report_digests_are_listed(self):
-        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "hidden_cord_v1.json"):
+        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "hidden_cord_v1.json",
+                     "syllabary_stress_v1.json"):
             self.assertIn(sealed(name)["report_sha256"], self.text, name)
 
     def test_headline_numbers_match(self):
@@ -44,6 +45,25 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
             row = hidden[target]["contexts"][context]
             self.assertIn(f"| {target} | {context} | {row['gain_bits_per_cord']:.4f} | "
                           f"{row['excess_bits_per_cord']:.4f} |", self.text, (target, context))
+
+    def test_syllabary_stress_rows_match(self):
+        stress = sealed("syllabary_stress_v1.json")
+        for name, block in stress["dictionaries"].items():
+            for rule, r in block["rules"].items():
+                row = (f"| {name} | {rule} | {100 * r['density']['two_syllables']:.1f}% | "
+                       f"{r['observed']['hits']} | {r['random_mappings']['null_mean']:.0f} | "
+                       f"{r['order_shuffle']['null_mean']:.0f} | {r['khipu_shuffle']['null_mean']:.0f} | "
+                       f"{r['refit']['best_hits_on_real_cords']} | "
+                       f"{r['refit']['null_min']}-{r['refit']['null_max']} |")
+                self.assertIn(row, self.text, (name, rule))
+        self.assertIn("It does not show that the proposal is wrong", self.text)
+        self.assertIn("Sivan", self.text)
+
+    def test_published_tribute_figures_are_reported_with_the_measured_ones(self):
+        first = sealed("santa_valley_v1.json")["rules"]["colour_band"]["first_cord"]
+        self.assertIn(f"recto {first['by_published_side_sum']['R']}", self.text)
+        self.assertIn(f"verso {first['by_published_side_sum']['V']}", self.text)
+        self.assertIn("381 or 382", self.text)
 
     def test_limits_are_stated(self):
         for phrase in ("not decipherment", "post hoc", "No neural model", "were not read"):

@@ -5,10 +5,10 @@
 
 Status: **MEASURED** on the pinned Open Khipu Repository (OKR) records. Everything
 here is post hoc and exploratory. It is **not decipherment**: no cord is given a
-meaning that someone else has not already published, and the one test that goes
-beyond published claims only counts how strongly recorded features are linked.
+meaning that someone else has not already published, and the tests that go
+beyond published claims only measure how strong the published evidence is.
 
-Three things are in this directory:
+Four things are in this directory:
 
 1. `santa_valley.py` re-derives the countable parts of the Santa Valley
    khipu-to-census match (Urton 2017; Medrano and Urton 2018; FitzPatrick 2024).
@@ -16,17 +16,21 @@ Three things are in this directory:
    hierarchy (Urton and Brezine 2005, via the Khipu Field Guide).
 3. `hidden_cord.py` hides one recorded feature of one cord at a time and measures
    how many bits the rest of the khipu gives back, against a shuffle control.
+4. `syllabary_stress.py` stress-tests the dictionary-hit evidence for a published
+   proposal that some cords spell Quechua words (Sivan 2026).
 
 ## What was and was not read
 
 | Source | Read in this run |
 | --- | --- |
-| FitzPatrick 2024, Ethnohistory 71(4): 443-469, doi 10.1215/00141801-11266328, open preprint https://osf.io/sr8kw | First half and footnotes 9-12. Section 4 and footnotes 3, 5, 7 and 8 were not read. |
+| FitzPatrick 2024, Ethnohistory 71(4): 443-469, doi 10.1215/00141801-11266328, open preprint https://osf.io/sr8kw | About three fifths: sections 1 to 3.1, the tribute passage of 3.4, the start of 3.5 and footnotes 1-21. The rest of sections 3 and 4 were not read. |
 | Medrano and Urton 2018, Ethnohistory 65(1): 1-23, doi 10.1215/00141801-4260638 | Not read. Its counts are taken as FitzPatrick reports them. |
 | Urton 2017, *Inka History in Knots* | Not read. |
 | Urton and Brezine 2005, Science 309: 1065-1067, doi 10.1126/science.1113426 | Not read. |
-| Khipu Field Guide, notebook "Replicating Puruchuco" (https://khipufieldguide.com/) | Not read. Tier list and the figures 1439 and 1447 come from a web-search summary. |
-| Contreras 2026, arXiv:2607.00185 | Abstract-level only. It reports the recto/verso structure of the Santa khipus and leaves the tribute total as future work. |
+| Khipu Field Guide, Khosla and Medrano (https://khipufieldguide.com/) | About page only. The Puruchuco tier list and the figures 1439 and 1447 come from a web-search summary of its notebook. |
+| Sivan 2026, ALBA Project (https://alba-project.org/khipu-reader/, doi 10.5281/zenodo.19184002, code https://github.com/Alba-Research/KhipuReader, MIT) | Project page, README and four source files at commit `7c2722b91fcad514653c96f40fa2dae125de92b8`. The preprint itself was not read. |
+| Da Fieno Delucchi 2026, K-CAT (https://github.com/adafieno/khipu-computational-toolkit, MIT) | Project page only. |
+| Contreras 2026, arXiv:2607.00185 | Abstract only. |
 
 Sources that were not read are cited so a reader can check them, not because
 this run verified them.
@@ -34,7 +38,7 @@ this run verified them.
 ## 1. Santa Valley khipus (UR087-UR092) and the 1670 Corongo census
 
 Sealed report: `santa_valley_v1.json`, report sha256
-`cc7bdd98929acdee13f1d0101e5a4b369a9ae6418bf943e034544acc816a116f`.
+`0c8b38acad3936b27d9622626255ddb40395eb002b01bde8ac77efbba686d687`.
 
 | Claim | Status | Measured |
 | --- | --- | --- |
@@ -45,7 +49,8 @@ Sealed report: `santa_valley_v1.json`, report sha256
 | `kh0326_59_leading_verso` | **REPLICATED** | The first 59 pendants of KH0326 are verso. |
 | `first_cord_total_near_367` | **PARTIAL** | The 120 knotted first cords sum to 360 (98.1% of 367); 10 first cords have no knots and 3 cannot be read. |
 | `table_3_split_arithmetic` | **REPLICATED** | All twenty rows of FitzPatrick's Table 3 recomputed from the published inputs. |
-| `tribute_paid_by_moiety` | **NOT_TESTED** | Section 4 of the source was not read. Measured first-cord sums by side: verso 267, recto 91, unspecified 2. |
+| `six_cords_outside_groups` | **REPLICATED** | Six cords fall outside the groups, all on KH0326. |
+| `tribute_paid_by_moiety` | **PARTIAL** | Published: verso likely 381 or 382 pesos, recto 86. Measured with the published side of each group: recto 87, verso 273. |
 
 **Grouping rule.** The published work reads the pendants as groups of six cords
 marked by colour. The colour-band rule here is: inside each OKR cord cluster, a
@@ -54,26 +59,33 @@ aside; shorter runs join into one mixed group of six; a lone cord between full
 bands is set aside; a one-cord cluster is not a group member. It uses colour and
 clustering only, never knot values or attachment direction. It was written after
 seeing these khipus and the published counts. It reproduces all six per-khipu
-group counts with no ambiguous case and sets aside six cords, all on KH0326
-(four of them are the last four of the ten brown cords the source describes).
+group counts with no ambiguous case and sets aside six cords, all on KH0326,
+which is the number the source gives.
 
 **Where the pinned records differ from the published counts.** Group 15 of
-KH0326 opens with a recto cord in OKR; the published sequence has verso there.
-Group 2 of KH0328 opens with a cord whose attachment OKR records as unspecified.
-The published KH0326 sequence is this project's transcription from the preprint
-and could not be re-checked in this run. This is a question for the OKR
+KH0326 opens with a recto cord in OKR; the published sequence has verso there
+(checked against the preprint text). Group 2 of KH0328 opens with a cord whose
+attachment OKR records as unspecified. This is a question for the OKR
 maintainers and the authors, not a finding against either.
 
 **First-cord total.** The published claim is that first-cord values "closely
 match" the 367 pesos the census gives as the total tribute. From the pinned
 records the knotted first cords sum to 360. Three cautions: the source's own
-sum was not read; thirteen first cords carry no knots or cannot be read; and the
+sum was not found; thirteen first cords carry no knots or cannot be read; and the
 sum depends on the grouping (counting off sixes by position instead gives
 749, because the groups on KH0326 fall out of step).
 
-**The census's own arithmetic.** 132 tributaries at 2 pesos 7 reales 3 quartillos
-come to 391 pesos 7 reales, not 367. That is our arithmetic (8 reales to the
-peso, 4 quartillos to the real); the source's footnote on it was not read.
+**Tribute by moiety.** The source gives recto 86 pesos and verso "likely 381 or
+382" (an estimate that allows for broken cords, after Urton 2017). Using the
+published side of every group, the pinned records give recto 87 and verso 273.
+Recto agrees. Verso does not, and all thirteen first cords without a readable
+value are verso. The two published figures sum to 467 or 468, not 367; the text
+read here does not say how those fit together.
+
+**The amount owed.** The source puts 132 tributaries at 2 pesos 7 reales 3
+quartillos at about 363 pesos. With 8 reales to the peso and 4 quartillos to the
+real the same rate comes to 391 pesos 7 reales. The source's conversion was not
+found in the text read here.
 
 **Which pachacas are verso.** With the published group counts (70 verso, 63
 recto), FitzPatrick's split (Namus, Cuyuchin, Guauyan as verso) has error
@@ -209,6 +221,79 @@ its own in the context features. No neural model was evaluated. The
 khipu-scholar adapters answer questions about the same OKR records they were
 trained on; they are not evidence about meaning and were not used here.
 
+Two independent projects report results in the same direction on other data or
+by other methods; neither was re-run here. K-CAT (Da Fieno Delucchi 2026), on
+the Khipu Field Guide database, reports that primary colour predicts a cord's
+order of magnitude. Contreras (2026), on OKR, reports twist direction as the
+main discriminator of imperial-style khipus and one cluster dominated by
+nineteenth-century museum collections, which fits spin being a khipu-level
+feature and the cataloguing caution above.
+
+## 4. Stress test of a published syllabary proposal
+
+Sealed report: `syllabary_stress_v1.json`, report sha256
+`c8728e9ca086c6dbb26edc7eb6860b8f7cf2c4cefa99b97ff46f5ddf84e9522e`.
+
+Sivan (2026, ALBA Project) proposes that cords with two or more long or
+figure-eight knots spell Quechua words, one syllable per knot. It is the most
+specific public claim that khipu cords can be read as words, it is published
+with its mapping, scoring rule, dictionaries and code under open licences, and
+it asks for independent checks. The proposal, mapping and scoring rule are
+Sivan's. `syllabary_stress.py` re-implements the scoring described in that
+project's control scripts and applies it to the pinned corpus. None of that
+project's code is run or copied, and its dictionaries are read from a
+digest-checked copy and not redistributed.
+
+| Claim | Status | Measured |
+| --- | --- | --- |
+| `string_cords_1992_of_37206` | **PARTIAL** | 2728 of 37082 knotted cords (7.4%) have two or more long or figure-eight knots; published 1,992 of 37,206 (5.4%). |
+| `mapping_beats_random_mappings` | **REPLICATED** | None of 2000 random mappings reached the proposal's 1696 hits (best 1548). |
+
+Hits out of 2256 knot sequences. "Published lookup" is the proposal's rule
+(suffixed forms and prefixes of four or more letters also count); "exact"
+counts only whole dictionary entries.
+
+| Dictionary | Rule | Two-knot readings accepted | Proposal's hits | Random mappings, mean | Knots scrambled within cord, mean | Knots dealt at random within khipu, mean | Best refit, real cords | Best refits, scrambled cords |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| kaikki_2074 | exact | 63.9% | 1168 | 632 | 1197 | 1213 | 1480 | 1414-1468 |
+| kaikki_2074 | published_lookup | 82.2% | 1696 | 873 | 1697 | 1701 | 1899 | 1875-1895 |
+| kaikki_aulex_14991 | exact | 74.0% | 1424 | 731 | 1416 | 1394 | 1605 | 1517-1577 |
+| kaikki_aulex_14991 | published_lookup | 91.7% | 1896 | 1053 | 1891 | 1876 | 1977 | 1961-1982 |
+
+What the numbers support:
+
+- **The published random-mapping result reproduces.** The proposed syllables
+  beat every one of 2000 mappings drawn at random from a 42-syllable
+  inventory.
+- **The scoring rule accepts most readings before any cord is looked at.** Of
+  all possible two-knot readings over the proposed syllables, 82% count as
+  hits under the published lookup with the smaller dictionary and 92% with
+  the larger. Two thirds of the sequences are two knots long.
+- **Scrambled cords score the same as real ones.** With the published lookup
+  and the smaller dictionary the proposal scores 1696 on the real cords,
+  1697 on average when the knots of each cord are put in random order, and
+  1701 when each khipu's knots are dealt back to its cords at random. In no
+  setting does knot order within a cord make a detectable difference. With
+  the larger dictionary, real cords score 1 to 2% above randomly dealt ones
+  (p = 0.03, not corrected for the eight comparisons).
+- **A mapping fitted to scrambled cords out-scores the proposal.** In every
+  setting all 20 refits on scrambled cords reach more hits than the proposal
+  reaches on the real cords.
+- **Refitting on real cords is only slightly better than on scrambled ones**:
+  1899 against 1875-1895 with the published lookup and the smaller
+  dictionary, and no better with the larger one.
+- **The smaller dictionary was extended from the cords.** The proposal's own
+  build script adds forms "observed in the OKR STRING cord corpus" to the
+  Wiktionary-derived list (14 net new), which favours the mapping in every row.
+
+So dictionary hits, as scored, do not separate real cords from scrambled
+ones, and they cannot by themselves show that these cords spell words.
+It does not show that the proposal is wrong. Not tested here: the thematic coherence
+of readings by document type, the astronomical dating of UR006, the proposed
+calendar in opening cords, generalisation to the Khipu Field Guide database,
+and the UR112 ranking against 154,440 alternative mappings. A hit means a
+string is in a word list; it does not mean the cord says that word.
+
 ## Other published readings, not tested here
 
 | Reading | Khipus | In the pinned corpus | Status |
@@ -222,13 +307,14 @@ The last three citations are from the literature and were not opened in this run
 
 ## What would move this forward
 
-1. Read FitzPatrick's section 4 and footnotes and compare its tribute figures
-   with the measured sums by side.
-2. Ask the OKR maintainers and the authors about KH0326 group 15 and KH0328
-   group 2.
+1. Ask the OKR maintainers and the authors about KH0326 group 15, KH0328
+   group 2 and how the published tribute figures fit the 367 total.
+2. Send the scrambled-cord result to the syllabary's author. The proposal lists
+   what would count against it; this is a fourth test, and the thematic and
+   dating evidence can be put through the same scrambling.
 3. Obtain the 1670 name list. A name-by-group test is the only one here that
    could confirm or refute a reading at the level of individual groups.
-4. Fit a masked-cord sequence model under this same harness (same hidden-cord
+4. Fit a masked-cord sequence model under the hidden-cord harness (same
    scoring, same shuffles) and see whether it beats these count tables. That
    needs a GPU and is ROADMAP.
 
@@ -240,7 +326,8 @@ The last three citations are from the literature and were not opened in this run
 | `puruchuco.py`, `puruchuco_v1.json` | Puruchuco reported-sum check and its sealed report. |
 | `build_features.py`, `okr_features_v1.json.gz` | Spin, fibre and knot direction per cord, copied from the pinned database (46,822 bytes, sha256 `1cd7c4cd822e0783969ca69a2dfae484b8c81b48ca57989fb535d53367e1d3c9`). Data are MIT (OKR); see `../okr_corpus/LICENSE-OKR.txt`. |
 | `hidden_cord.py`, `hidden_cord_v1.json` | Hidden-cord information test and its sealed report. |
-| `../../tests/test_okr_santa_valley.py`, `test_okr_puruchuco.py`, `test_okr_features.py`, `test_okr_hidden_cord.py`, `test_okr_readings_docs.py` | Unit tests; the last one fails if this page and the sealed reports disagree. |
+| `syllabary_stress.py`, `syllabary_stress_v1.json` | Syllabary stress test and its sealed report. The two dictionaries it reads are not in this repository. |
+| `../../tests/test_okr_santa_valley.py`, `test_okr_puruchuco.py`, `test_okr_features.py`, `test_okr_hidden_cord.py`, `test_okr_syllabary_stress.py`, `test_okr_readings_docs.py` | Unit tests; the last one fails if this page and the sealed reports disagree. |
 
 Digests here are integrity checks, not signatures.
 
@@ -252,5 +339,9 @@ python3 -I research/okr_readings/puruchuco.py --check
 python3 -I research/okr_readings/hidden_cord.py --check        # about a minute on one core
 # with the pinned OKR database (see ../okr_corpus/README.md for the download and its digest):
 python3 -I research/okr_readings/build_features.py --db PATH/khipu.db --check
+# with the two dictionaries from the proposal's repository at the commit above
+# (reproducibility/data/quechua_kaikki_2074.txt and
+#  src/khipu_translator/data/quechua_strict_clean.txt) in one directory:
+python3 -I research/okr_readings/syllabary_stress.py --dict-dir PATH --check   # about a minute
 python3 -m unittest discover -s tests -p "test_okr_*.py" -v
 ```
