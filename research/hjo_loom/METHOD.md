@@ -61,11 +61,13 @@ That code path shares nothing with the enumeration above except the pair `(a, b)
 All 24 `(a, b, N, q)` series in the certificate agree term by term. The table is in the
 [README](README.md#v5-census--brute-force-submodule-counts-all-equal-to-hjo-thm-12-at-l--q).
 
-## Other independent checks
+## Other checks
 
 - **Second implementation.** [`research/hjo_profile/cylindric.py`](../hjo_profile/cylindric.py)
   counts bounded cylindric partitions with two enumerators of its own, written separately
-  from the level-vector count used for V2. The committed test compares them on 24
+  from the level-vector count used for V2. Both were written in this repository with the
+  same AI coding assistant, so their agreement shows two different algorithms in one
+  codebase agree; it is not an independent replication. The committed test compares them on 24
   pair–rank cases. On 2026-11-19 all 396 inputs that the profile lab admits
   (11 pairs, `0 ≤ N ≤ 3`, `0 ≤ D ≤ 8`) also agreed: 396 of 396, no errors.
 - **Negative controls.** `tests/test_hjo_loom.py` checks that a wrong profile and a wrong
