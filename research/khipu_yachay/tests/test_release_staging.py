@@ -53,6 +53,19 @@ class StageReleaseTests(unittest.TestCase):
         self.assertIn('PORT=7860', env.split())
         self.assertIsNone(re.search(r'(?i)(token|secret|password)', text))
 
+    def test_space_card_short_description_fits_hub_limit(self):
+        # The Hub rejects a Space commit whose card short_description exceeds
+        # 60 characters, which left the first public Space upload empty.
+        text = (ROOT / 'space/README.md').read_text(encoding='utf-8')
+        lines = text.splitlines()
+        self.assertEqual(lines[0], '---')
+        front = lines[1:lines.index('---', 1)]
+        values = [l.split(':', 1)[1].strip() for l in front
+                  if l.startswith('short_description:')]
+        self.assertEqual(len(values), 1)
+        self.assertTrue(values[0])
+        self.assertLessEqual(len(values[0]), 60, values[0])
+
     def test_staged_package_runs_actual_loopback_http(self):
         """Executes the *staged* Space files, not the source checkout imports."""
         with tempfile.TemporaryDirectory() as directory:
