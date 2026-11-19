@@ -5,7 +5,7 @@ Usage: python compare.py > result.json
 Positive match exports only: not a sensitivity, precision, or replication analysis.
 """
 import csv, gzip, hashlib, json, re
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 
 HASHES={
