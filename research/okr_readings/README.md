@@ -8,7 +8,7 @@ here is post hoc and exploratory. It is **not decipherment**: no cord is given a
 meaning that someone else has not already published, and the tests that go
 beyond published claims only measure how strong the published evidence is.
 
-Four things are in this directory:
+Six things are in this directory:
 
 1. `santa_valley.py` re-derives the countable parts of the Santa Valley
    khipu-to-census match (Urton 2017; Medrano and Urton 2018; FitzPatrick 2024).
@@ -18,6 +18,9 @@ Four things are in this directory:
    how many bits the rest of the khipu gives back, against a shuffle control.
 4. `syllabary_stress.py` stress-tests the dictionary-hit evidence for a published
    proposal that some cords spell Quechua words (Sivan 2026).
+5. `knot_direction.py` tests whether a knot's direction follows its type.
+6. `matching_khipus.py` searches all pinned khipus for pairs that carry the same
+   run of numbers, and asks which other recorded features travel with them.
 
 ## What was and was not read
 
@@ -208,10 +211,12 @@ What the numbers support, and nothing more:
   number and a control on it.
 - **Colour and value magnitude are linked inside khipus**, and about half of
   that link remains when values are shuffled only inside their own cluster.
-- **Knot direction is the least explained feature.** About 0.59 bits per cord
-  remain after the khipu is known, and neighbours, position, colour and
-  attachment each recover little of it (0.07 bits at most). Either it is habit
-  and noise, or it follows something OKR does not record.
+- **Knot direction is the least explained cord feature here.** About 0.59 bits
+  per cord remain after the khipu is known, and neighbours, position, colour and
+  attachment each recover little of it (0.07 bits at most). An earlier version
+  of this page guessed that it depends on something the records leave out.
+  That was wrong: section 5 shows it largely follows knot type, which OKR
+  does record.
 - **Attachment direction follows its neighbours** and, weakly, colour. Its links
   to value and knot direction vanish inside clusters, so they follow sections.
 
@@ -294,6 +299,140 @@ calendar in opening cords, generalisation to the Khipu Field Guide database,
 and the UR112 ranking against 154,440 alternative mappings. A hit means a
 string is in a word list; it does not mean the cord says that word.
 
+## 5. Knot direction follows knot type
+
+`knot_direction.py` reads every knot with a recorded S or Z direction from
+`okr_knots_v1.json.gz`, a per-knot file copied from the pinned database by
+`build_features.py --knots`, and uses the same leave-one-out count models and
+shuffle control as section 3. It covers 407 khipus with at least
+20 directed knots, 96,856 knots in all.
+
+- Knowing the khipu cuts the uncertainty about a knot's direction from
+  0.9161 to 0.3187 bits per knot.
+- Knowing the knot's type (single, long, figure-eight) as well saves another
+  0.1899 bits per knot, 60% of what was left. Shuffling
+  directions among a khipu's knots never comes close (best shuffle -0.0047).
+- The khipu's commonest direction is right for 91.1% of knots. The
+  commonest direction of the knot's own type in its khipu is right for
+  96.5%; adding the turn count of long knots gives 96.6%.
+  270 khipus use both directions.
+
+So knot direction largely follows knot type, khipu by khipu: each type has a
+habitual direction, and about 3.5% of knots go against it. Whether those
+exceptions carry information, or are slips in tying or recording, is open.
+Report digest `4a3c3b835de5a3b865c260c31ddb9f9287dfba16dcbb6e449340d8e0b219403e`.
+
+## 6. Khipus that carry the same numbers
+
+Urton (2005) and Urton and Brezine (2005) described "matching khipus" at
+Puruchuco: pairs whose number sequences are identical or nearly so, read as
+duplicate accounts. The Khipu Field Guide (Khosla) ran its own duplicate-khipu
+search and removed the duplicates it found from its database. The pinned OKR
+records still carry both entries of such pairs.
+
+`matching_khipus.py` searches all the pinned records against each other. It reads the level-1 pendants of each of the
+619 khipus in order, weights each value by its rarity
+(-log2 of its share of all pendant values), and seeds candidate pairs by a
+shared run of three values worth at least 20 bits (read forwards
+or backwards) or by sharing rare values. It aligns each candidate with a
+Smith-Waterman local alignment (equal values earn their rarity, values one
+apart earn half, an unreadable cord earns nothing, a different value costs
+4 and a skipped cord 3) and keeps a pair only if it scores at least
+40 bits with 8 equal nonzero values and beats every one of
+100 shuffles of one khipu's cord order. Of 11,572 seeded candidates,
+7,833 were aligned after a cheap upper bound, 26 were too large to align,
+23 passed the score and 19 beat all their shuffles.
+
+| Pair from the literature | Status | Note |
+| --- | --- | --- |
+| `UR064~UR068` | **REPLICATED** | Found; strongest Puruchuco pair. |
+| `UR066~UR067` | **REPLICATED** | Found. |
+| `UR063~UR073` | **REPLICATED** | Found, but only through the shared-rare-value seed: no informative run of three equal values. |
+
+| Pair | Read | Bits | Best shuffle | Equal nonzero values | One object? | Museum and number | Mentioned before |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| UR1175 ~ UR233 | fwd | 505.7 | 33.7 | 73 | no | Berlin VA42518 / Berlin VA 63038 b | none found |
+| AS038/HP036 ~ UR122 | fwd | 345.0 | 66.6 | 28 | no | Lima MNAAHP3550 / Göteborg 1938.45.0228 | Field Guide: listed as similar |
+| UR266 ~ UR275 | fwd | 304.2 | 48.9 | 44 | no | Incahuasi project 13829 / Incahuasi project 13836-2014 | none found |
+| UR255 ~ UR267A | fwd | 279.3 | 92.4 | 46 | no | Incahuasi project 9228-13 / Incahuasi project 13092 | OKR notes: match |
+| UR064 ~ UR068 | fwd | 263.8 | 31.9 | 41 | no | Puruchuco #3 Tex 641 Rt 639 / Puruchuco 2 | Urton and Brezine 2005 |
+| UR1175 ~ UR232 | fwd | 255.3 | 28.7 | 50 | no | Berlin VA42518 / Berlin VA63038(B) | none found |
+| AS125 ~ UR247 | fwd | 191.6 | 94.7 | 14 | yes | Berlin VA42670 / Berlin VA 42610 | Field Guide: duplicate |
+| UR1107 ~ UR237 | rev | 185.1 | 39.5 | 23 | yes | Berlin VA24370(B) / Berlin VA 66834 | Field Guide: duplicate |
+| UR053B ~ UR053C | fwd | 134.8 | 44.7 | 25 | no | Lima, BCR ATE 3517 / Lima, BCR ATE 3517 | none found |
+| UR256 ~ UR267B | fwd | 134.6 | 47.4 | 19 | no | Incahuasi project 9228-13 / Incahuasi project 13092 | OKR notes: match |
+| UR066 ~ UR067 | fwd | 123.7 | 28.0 | 16 | no | Puruchuco 4a / museum not recorded, s/n | Urton and Brezine 2005; OKR notes |
+| UR063 ~ UR073 | fwd | 108.8 | 39.7 | 25 | no | Puruchuco s/n / Puruchuco Tex 0637 Rt 0635/28 | Urton and Brezine 2005 |
+| UR009 ~ UR021 | rev | 93.2 | 33.4 | 20 | no | Leymebamba CMA 850/LC1-479 / Leymebamba INC-498 | none found |
+| UR1118 ~ UR218 | fwd | 90.7 | 37.4 | 8 | no | Berlin VA42601 / Berlin VA 42559 | none found |
+| UR1114 ~ UR1123 | fwd | 86.8 | 30.2 | 10 | no | Berlin VA16148 / Berlin VA47085 | none found |
+| UR137 ~ QU02 | fwd | 53.3 | 22.1 | 8 | no | Lowe, Miami 57.172.002 / Dallas B388/T41299.24 | none found |
+| UR055 ~ UR277 | fwd | 49.6 | 41.7 | 9 | no | Museo Oro 4117-789-1014 203/INC-88 / Incahuasi project 13834-2014 | none found |
+| AS026B ~ AS066 | fwd | 45.1 | 34.9 | 10 | no | Penn Museum SA4030 / Núñez del Prado, Cuzco 2a | none found |
+| JC009 ~ JC013 | fwd | 41.7 | 23.1 | 9 | no | Incahuasi project PAI-007-2016 / Incahuasi project PAI-008-2016 | none found |
+
+"One object?" is yes when the main cords are within 5% in length and matched
+cords differ by 3 cm or less at the median. "Mentioned before" lists what the
+OKR notes, the Khipu Field Guide (seen through search-engine summaries; its
+pages could not be opened from this environment) and the matching-khipu
+literature say. "None found" is not a claim that nobody has noticed.
+
+What the pairs show:
+
+- **Two pairs are one khipu entered twice, and both were already known.** The
+  Field Guide lists UR237 as a duplicate of UR1107 (identified by
+  Winston Wright) and UR247 as a duplicate of AS125. Matched cords agree to
+  1.5 and 2.25 cm at the median. The length test flagged these two and
+  no others. They show how two recordings of one object differ:
+  2 of 29 and 1 of 15 aligned numbers differ (50 against 500, 100
+  against 10, 3130 against 31111), and the two recordings of UR1107 share no
+  colour name (0 of 21): colour codes cannot be compared across recorders
+  without a key.
+- **UR1175 carries the numbers of UR233 and then UR232, in that order.**
+  UR1175 is the Aschers' AS175 (Pachacamac, Berlin VA42518, 224 pendants).
+  Its pendants 0-103 match UR233 (505.7 bits, 73 equal values) and pendants
+  127-222 match UR232 (255.3 bits). UR232 and UR233 (Huacho, Berlin VA63038)
+  are recorded in the Field Guide as spliced together, UR232's beginning to
+  UR233. Unlike the known duplicates, matched cords differ in length by
+  24.0 and 14.0 cm at the median, the main cords are 210 cm against 66 and
+  81 cm, and long knots go the other way on 43 of 46 and
+  27 of 27 matched cords. The same two projects agreed on every long knot of
+  UR1107/UR237, so recording habit does not explain it. Colours are renamed
+  one to one (48 of 73 cords follow the commonest pairing, above the
+  shuffle that holds numbers fixed); with two recorders that may be their
+  vocabularies rather than the dyes. I found nothing linking UR1175 to
+  UR232/UR233. The records favour two objects, one carrying the other's
+  numbers, but only the museum can settle it.
+- **A khipu in Lima and one in Göteborg share a run of large numbers.**
+  AS038/HP036 (MNAAHP3550, "Costa Sur") and UR122 (1938.45.0228, "Nazca")
+  align over 51 cords with 28 equal values (345.0 bits; best shuffle 66.6).
+  The Field Guide's similarity listing already puts the two next to each other;
+  I found no statement that they share numbers. Many UR122 cords are broken:
+  where one side has no readable number, that cord is shorter than its partner
+  predicts 11 of 11 times, and all 4 numbers that look cut short (4130
+  against 4000 on a 7 cm stub, 932 against 900, 1074 against 1070, 3848
+  against 3840) are on the shorter UR122 cord. Four events give p =
+  0.0625 on a fair coin: suggestive, not significant.
+- **What travels with the numbers** (17 pairs of two objects): colour
+  agreement beats a free shuffle in 6 pairs and survives holding the number fixed
+  in 2; a one-to-one colour renaming beats the free shuffle in 7 and survives
+  within values in 4. Long-knot direction agrees above the free shuffle
+  in 6 pairs but never once the numbers are held fixed: knot type follows
+  the digit and direction follows type (section 5), so the numbers already
+  carry it, and few cords can move in that test. Attachment, spin, fibre and
+  termination never beat the shuffle; at khipu level attachment is the same
+  in 5 pairs and opposite in 5. Across these pairs the numbers come with the
+  colour pattern, often under new names, and with little else that OKR
+  records.
+- **Broken cords explain unreadable values, not most differing ones.** Across
+  these pairs an unreadable cord is shorter than its partner predicts
+  65 of 68 times, but a number that looks cut short sits on the
+  shorter cord only 7 of 16 times (p = 0.7728).
+
+The thresholds were set after looking at the data, a kept pair is a candidate
+until someone checks the objects, and the records cannot rule out one record
+typed from another. Report digest `bf97c466f2c88833944a85a9b45d92988d06ea78a086c329ba3f4b7d67715259`.
+
 ## Other published readings, not tested here
 
 | Reading | Khipus | In the pinned corpus | Status |
@@ -317,6 +456,13 @@ The last three citations are from the literature and were not opened in this run
 4. Fit a masked-cord sequence model under the hidden-cord harness (same
    scoring, same shuffles) and see whether it beats these count tables. That
    needs a GPU and is ROADMAP.
+5. Ask the Ethnologisches Museum Berlin to compare VA42518 (UR1175) with
+   VA63038 (UR232 and UR233): cord lengths, long-knot direction, colours. Ask
+   the Museum of World Culture, Göteborg, and the MNAAHP, Lima, the same about
+   1938.45.0228 and MNAAHP3550.
+6. Collect every pair the Field Guide lists as a duplicate and use the
+   differences between the two recordings as an error model for sections 3,
+   5 and 6.
 
 ## Files
 
@@ -327,7 +473,10 @@ The last three citations are from the literature and were not opened in this run
 | `build_features.py`, `okr_features_v1.json.gz` | Spin, fibre and knot direction per cord, copied from the pinned database (46,822 bytes, sha256 `1cd7c4cd822e0783969ca69a2dfae484b8c81b48ca57989fb535d53367e1d3c9`). Data are MIT (OKR); see `../okr_corpus/LICENSE-OKR.txt`. |
 | `hidden_cord.py`, `hidden_cord_v1.json` | Hidden-cord information test and its sealed report. |
 | `syllabary_stress.py`, `syllabary_stress_v1.json` | Syllabary stress test and its sealed report. The two dictionaries it reads are not in this repository. |
-| `../../tests/test_okr_santa_valley.py`, `test_okr_puruchuco.py`, `test_okr_features.py`, `test_okr_hidden_cord.py`, `test_okr_syllabary_stress.py`, `test_okr_readings_docs.py` | Unit tests; the last one fails if this page and the sealed reports disagree. |
+| `okr_knots_v1.json.gz` | Type, turns and direction of every knot on every corpus cord, copied from the pinned database by `build_features.py --knots` (65,041 bytes, sha256 `1ad88f0252fadcf489e09c1237c0a74bb92c2712d5cec97f3cffd9153cbe6c5e`). Data are MIT (OKR). |
+| `knot_direction.py`, `knot_direction_v1.json` | Knot direction against knot type, and its sealed report. |
+| `matching_khipus.py`, `matching_khipus_v1.json` | Matching-khipu search, copy comparison and broken-cord check, and its sealed report. |
+| `../../tests/test_okr_santa_valley.py`, `test_okr_puruchuco.py`, `test_okr_features.py`, `test_okr_hidden_cord.py`, `test_okr_syllabary_stress.py`, `test_okr_knot_direction.py`, `test_okr_matching_khipus.py`, `test_okr_readings_docs.py` | Unit tests; the last one fails if this page and the sealed reports disagree. |
 
 Digests here are integrity checks, not signatures.
 
@@ -337,8 +486,11 @@ Digests here are integrity checks, not signatures.
 python3 -I research/okr_readings/santa_valley.py --check
 python3 -I research/okr_readings/puruchuco.py --check
 python3 -I research/okr_readings/hidden_cord.py --check        # about a minute on one core
+python3 -I research/okr_readings/knot_direction.py --check
+python3 -I research/okr_readings/matching_khipus.py --check    # about a minute
 # with the pinned OKR database (see ../okr_corpus/README.md for the download and its digest):
 python3 -I research/okr_readings/build_features.py --db PATH/khipu.db --check
+python3 -I research/okr_readings/build_features.py --db PATH/khipu.db --knots --check
 # with the two dictionaries from the proposal's repository at the commit above
 # (reproducibility/data/quechua_kaikki_2074.txt and
 #  src/khipu_translator/data/quechua_strict_clean.txt) in one directory:

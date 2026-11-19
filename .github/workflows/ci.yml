@@ -74,9 +74,14 @@ jobs:
       - name: Replay the published-reading checks and the hidden-cord test
         run: |
           python -I research/okr_readings/build_features.py --db "$RUNNER_TEMP/okr/khipu.db" --check
+          python -I research/okr_readings/build_features.py --db "$RUNNER_TEMP/okr/khipu.db" --knots --check
           python -I research/okr_readings/santa_valley.py --check
           python -I research/okr_readings/puruchuco.py --check
           python -I research/okr_readings/hidden_cord.py --check
+      - name: Replay the knot-direction test and the matching-khipu search
+        run: |
+          python -I research/okr_readings/knot_direction.py --check
+          python -I research/okr_readings/matching_khipus.py --check
       - name: Feature rebuild unit test against the pinned database
         env:
           SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
