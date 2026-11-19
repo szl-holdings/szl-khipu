@@ -334,6 +334,54 @@ It records `preregistered=false`, `prospective_heldout=false`,
   different definition. Testing such a definition would need its own
   pre-specification and correction.
 
+## Manuscript and supplement readiness
+
+This repository is a source-and-results package, not evidence of journal
+acceptance, peer review, independent laboratory replication, or approval of
+an interpretation by the upstream data maintainers. The following are
+**submission checks to complete**, not completed milestones.
+
+- [ ] Freeze a manuscript-specific code revision, upstream input hashes,
+  environment (including Python and zlib versions), commands, and all table/
+  figure inputs in a supplement manifest. Map each manuscript claim to its
+  generating artifact and analysis scope.
+- [ ] Record a clean rebuild from both pinned upstream inputs, plus the
+  complete relation report and spatial-sensitivity replay. Run the commands
+  above and retain logs and exit codes. The unit test
+  `test_rebuild_from_pinned_db_equals_shipped_bytes` skips when the database
+  is absent: a green test run with that skip is not an input-to-result rebuild.
+  Distinguish exact compressed-byte equality from decompressed-content
+  equality when zlib differs; do not silently relabel one as the other.
+- [ ] Report all four specified relation families, including nonsignificant
+  R3 and the R1/R4 concentration sensitivities. Do not select only R2 for a
+  corpus-wide success claim. Include the tested denominators, search spaces,
+  missing/damaged-record exclusions and multiplicity procedure.
+- [ ] Preserve the analysis chronology: rules followed inspection of examples;
+  provenance cuts and spatial shifts are post-hoc sensitivity analyses.
+  Neither source hashes nor timestamps turn this design into preregistration
+  or a prospective holdout. Keep the null-specific effect sizes together:
+  the original role/depth R2 ratio is 10.89×, while the post-hoc spatial ratio
+  is 4.8935×. The latter is not an independent replication.
+- [ ] Report the finite-permutation resolution and formula, not an arbitrarily
+  precise tail probability. Explain that labelled provenance is not proof of
+  independent recorders, collection histories, or archaeological sites.
+- [ ] Make the scope of the physical description explicit: the compact
+  projection has primary-cord ID, length and color, and no fiber/material
+  fields or detailed primary-cord attachments. This describes the export,
+  not the availability of those features upstream or on the objects.
+- [ ] Separate reproduction of known arithmetic structure from any proposed
+  new methodological contribution, using the cited literature. Supply
+  data/code availability, contributor credits, rights and cultural-heritage
+  limitations. Do not list a scholar, community or repository maintainer as
+  an author, reviewer, endorser or partner without their agreement.
+- [ ] Obtain independent assessment of the methods and the archaeological
+  scope before asserting either. A manuscript can transparently report an
+  exploratory analysis without claiming decipherment, encoding intent,
+  prospective validation or a new historical discovery.
+
+These checks do not alter the pinned results or authorize new collection,
+training, outreach or submission.
+
 ## Runtime (measured on this container, one process, Python 3.13)
 
 | Call | Median-size khipu (KH0122, 42 cords) | Largest khipu (KH0082, 1,831 cords) |
