@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import threading
 from copy import deepcopy
 from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any, Mapping
@@ -102,36 +103,43 @@ class UnifiedReceiptChain:
 
     def __init__(self) -> None:
         self._receipts: list[Receipt] = []
+        # One chain is shared by ThreadingHTTPServer handlers; unserialized appends fork prev/seq.
+        self._lock = threading.Lock()
 
     @property
     def receipts(self) -> list[Receipt]:
-        return list(self._receipts)
+        with self._lock:
+            return list(self._receipts)
 
     @property
     def head(self) -> str:
-        return self._receipts[-1].digest if self._receipts else ZERO
+        with self._lock:
+            return self._receipts[-1].digest if self._receipts else ZERO
 
     def emit(self, kernel: str, op: str, attrs: Mapping[str, Any] | None = None) -> Receipt:
         payload = deepcopy(dict(attrs or {}))
-        rec = Receipt(
-            seq=len(self._receipts),
-            op=str(op),
-            kernel=str(kernel),
-            payload=payload,
-            digest="",
-            prev=self.head,
-            alg="SHA-256",
-            note=DIGEST_NOTE,
-        )
-        rec.digest = receipt_digest(rec)
-        self._receipts.append(rec)
-        return rec
+        with self._lock:
+            rec = Receipt(
+                seq=len(self._receipts),
+                op=str(op),
+                kernel=str(kernel),
+                payload=payload,
+                digest="",
+                prev=self._receipts[-1].digest if self._receipts else ZERO,
+                alg="SHA-256",
+                note=DIGEST_NOTE,
+            )
+            rec.digest = receipt_digest(rec)
+            self._receipts.append(rec)
+            return rec
 
     def verify(self) -> tuple[bool, int, int]:
         """Return (ok, depth, break_index). break_index is -1 when ok."""
+        with self._lock:
+            snap = list(self._receipts)
         prev = ZERO
-        depth = len(self._receipts)
-        for i, rec in enumerate(self._receipts):
+        depth = len(snap)
+        for i, rec in enumerate(snap):
             if rec.prev != prev:
                 return False, depth, i
             if rec.alg != "SHA-256":
@@ -142,7 +150,8 @@ class UnifiedReceiptChain:
         return True, depth, -1
 
     def reset(self) -> None:
-        self._receipts.clear()
+        with self._lock:
+            self._receipts.clear()
 
 
 _GLOBAL = UnifiedReceiptChain()
