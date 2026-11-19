@@ -1,0 +1,317 @@
+{
+  "aliases": [
+    [
+      "KH0121",
+      "KH0473"
+    ],
+    [
+      "KH0140",
+      "KH0483"
+    ]
+  ],
+  "archive_modified": false,
+  "baseline": {
+    "eval": {
+      "khipus": 61,
+      "rows": 366,
+      "tiers": {
+        "okr-cipher-qa": 282,
+        "okr-pendant-sum-qa": 23,
+        "okr-structure-qa": 61
+      }
+    },
+    "train": {
+      "khipus": 550,
+      "rows": 2857,
+      "tiers": {
+        "okr-cipher-qa": 1566,
+        "okr-cord-sequence": 550,
+        "okr-pendant-sum-qa": 191,
+        "okr-structure-qa": 550
+      }
+    }
+  },
+  "builder_sha256": "5eb069d3309132839522ec4e8b8fd082f98e27fd2d72f4800eede41982a6f23a",
+  "corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "heldout_qualification": false,
+  "limitations": [
+    "Alias classifications are documentary, not independent physical-object verification; historical accession conflicts retained. KH0121/KH0473 documented in Khipu Field Guide sketchbook footnote 8; KH0140/KH0483 documented in OKR/KFG. These provenance assertions were supplied by coordinating research, not scraped by this replay.",
+    "Only the four named pairs covered; no claim all aliases or similarity relations found.",
+    "Regrouping does not erase prior training exposure; new split not independently held-out.",
+    "Rows regenerate per original builder: train sequences disappear in eval and cipher limit changes 3 to 5."
+  ],
+  "policy": "Union declared pair edges; assign whole component using sha256(minimum numeric corpus id)%10==0; preserve singleton assignments.",
+  "relations_archive_sha256": "a9f38398359e88819514333c083bdfd9b5880fb2b428847c872630c8b317a038",
+  "scenarios": {
+    "aliases_only": {
+      "added_content_rows": 0,
+      "eval": {
+        "khipus": 61,
+        "rows": 366,
+        "tiers": {
+          "okr-cipher-qa": 282,
+          "okr-pendant-sum-qa": 23,
+          "okr-structure-qa": 61
+        }
+      },
+      "eval_sha256": "a4a41c25f3d9d9943e5245b696761d3678271b3a23c0a69839c16910a8e2e1e2",
+      "moved_khipus": [],
+      "okr_id_overlap_after": 0,
+      "okr_id_overlap_before": 0,
+      "pair_checks": [
+        {
+          "active_members": [
+            "KH0121",
+            "KH0473"
+          ],
+          "baseline_splits": [
+            "train",
+            "train"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": false,
+          "kind": "alias",
+          "pair": [
+            "KH0121",
+            "KH0473"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0140",
+            "KH0483"
+          ],
+          "baseline_splits": [
+            "train",
+            "train"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": false,
+          "kind": "alias",
+          "pair": [
+            "KH0140",
+            "KH0483"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0192",
+            "KH0470"
+          ],
+          "baseline_splits": [
+            "train",
+            "eval"
+          ],
+          "candidate_splits": [
+            "train",
+            "eval"
+          ],
+          "cross_split_after": true,
+          "cross_split_before": true,
+          "kind": "similarity_not_duplicate",
+          "pair": [
+            "KH0192",
+            "KH0470"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0303",
+            "KH0304"
+          ],
+          "baseline_splits": [
+            "eval",
+            "train"
+          ],
+          "candidate_splits": [
+            "eval",
+            "train"
+          ],
+          "cross_split_after": true,
+          "cross_split_before": true,
+          "kind": "similarity_not_duplicate",
+          "pair": [
+            "KH0303",
+            "KH0304"
+          ]
+        }
+      ],
+      "removed_content_rows": 0,
+      "rows_eval_to_train": 0,
+      "rows_train_to_eval": 0,
+      "train": {
+        "khipus": 550,
+        "rows": 2857,
+        "tiers": {
+          "okr-cipher-qa": 1566,
+          "okr-cord-sequence": 550,
+          "okr-pendant-sum-qa": 191,
+          "okr-structure-qa": 550
+        }
+      },
+      "train_sha256": "bee9baa1ec4a0c29328085bed3c521cd81a5fec4957a4d1a4fc96ec8b4259a5f"
+    },
+    "aliases_plus_similarity_sensitivity": {
+      "added_content_rows": 2,
+      "eval": {
+        "khipus": 59,
+        "rows": 354,
+        "tiers": {
+          "okr-cipher-qa": 272,
+          "okr-pendant-sum-qa": 23,
+          "okr-structure-qa": 59
+        }
+      },
+      "eval_sha256": "a484206d819e166005aedd8d6061effaaf24f9258cf4560e0f3a36f23ba33cdc",
+      "moved_khipus": [
+        {
+          "after_rows": 5,
+          "before_rows": 6,
+          "from": "eval",
+          "khipu": "KH0303",
+          "to": "train"
+        },
+        {
+          "after_rows": 5,
+          "before_rows": 6,
+          "from": "eval",
+          "khipu": "KH0470",
+          "to": "train"
+        }
+      ],
+      "okr_id_overlap_after": 0,
+      "okr_id_overlap_before": 0,
+      "pair_checks": [
+        {
+          "active_members": [
+            "KH0121",
+            "KH0473"
+          ],
+          "baseline_splits": [
+            "train",
+            "train"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": false,
+          "kind": "alias",
+          "pair": [
+            "KH0121",
+            "KH0473"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0140",
+            "KH0483"
+          ],
+          "baseline_splits": [
+            "train",
+            "train"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": false,
+          "kind": "alias",
+          "pair": [
+            "KH0140",
+            "KH0483"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0192",
+            "KH0470"
+          ],
+          "baseline_splits": [
+            "train",
+            "eval"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": true,
+          "kind": "similarity_not_duplicate",
+          "pair": [
+            "KH0192",
+            "KH0470"
+          ]
+        },
+        {
+          "active_members": [
+            "KH0303",
+            "KH0304"
+          ],
+          "baseline_splits": [
+            "eval",
+            "train"
+          ],
+          "candidate_splits": [
+            "train",
+            "train"
+          ],
+          "cross_split_after": false,
+          "cross_split_before": true,
+          "kind": "similarity_not_duplicate",
+          "pair": [
+            "KH0303",
+            "KH0304"
+          ]
+        }
+      ],
+      "removed_content_rows": 4,
+      "rows_eval_to_train": 8,
+      "rows_train_to_eval": 0,
+      "train": {
+        "khipus": 552,
+        "rows": 2867,
+        "tiers": {
+          "okr-cipher-qa": 1572,
+          "okr-cord-sequence": 552,
+          "okr-pendant-sum-qa": 191,
+          "okr-structure-qa": 552
+        }
+      },
+      "train_sha256": "01fcc881160aa43581d1902fb35e6d7d6600821a77caed669bb257a37f72e206"
+    }
+  },
+  "schema": "szl.grouped-split-sensitivity/v1",
+  "similarity_sensitivity_not_duplicate_assertions": [
+    [
+      "KH0192",
+      "KH0470"
+    ],
+    [
+      "KH0303",
+      "KH0304"
+    ]
+  ],
+  "source_commit": "9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187",
+  "training_run": false,
+  "upstream": {
+    "commit": "4039ca51f4de661d80d0160596309c983a62a9c7",
+    "csv_path": "data/okr-kh-numbers.csv",
+    "csv_sha256": "d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e",
+    "db_path": "data/khipu.db",
+    "db_sha256": "607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db",
+    "doi": "https://doi.org/10.5281/zenodo.18025748",
+    "license": "MIT, \"Copyright (c) 2022 Open Khipu Repository Team\"",
+    "repository": "https://github.com/khipulab/open-khipu-repository"
+  }
+}
