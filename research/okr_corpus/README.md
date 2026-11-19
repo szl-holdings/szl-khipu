@@ -20,6 +20,9 @@ corpus-wide, but almost all of that comes from the Incahuasi archive.
 Subsidiary sums (R1) are above chance corpus-wide only because of one khipu.
 Sums of a different whole group (R3) are **not** above chance.
 
+Re-runs of published readings on these records (Santa Valley, Puruchuco) and a
+hidden-cord information test live in [`../okr_readings/`](../okr_readings/README.md).
+
 ## Files
 
 | File | What it is |

@@ -1,0 +1,3594 @@
+{
+  "definitional_pairs_not_scored": [
+    [
+      "value_class",
+      "knot_dir"
+    ],
+    [
+      "knot_dir",
+      "value_class"
+    ]
+  ],
+  "historical_khipu_decipherment": false,
+  "independent_research_lab_replication": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "input_features_sha256": "1cd7c4cd822e0783969ca69a2dfae484b8c81b48ca57989fb535d53367e1d3c9",
+  "meaning_assigned_to_any_feature": false,
+  "neural_model_evaluated": false,
+  "parameters": {
+    "alpha": 1.0,
+    "gamma": 1.0,
+    "min_recorded_cords_per_khipu": 12,
+    "position_cap": 12,
+    "seed": 2026,
+    "trials": 100,
+    "unit": "level-1 pendant cords attached to a primary cord"
+  },
+  "preregistered": false,
+  "reading_the_numbers": [
+    "gain_bits_per_cord is the saving over predicting the cord from its khipu's own frequencies; it can be negative when a context splits the counts without helping.",
+    "null_* repeat the measurement after shuffling the hidden feature among the cords of each khipu; p_upper cannot go below 1/(trials+1).",
+    "excess_bits_per_cord is the gain minus the shuffle mean: the part of the saving that depends on which cord carries which value.",
+    "cluster_null_* and excess_within_cluster repeat that for feature-to-feature links with values shuffled only inside their own cord cluster.",
+    "A recorded link can come from how a khipu was made, how it survived, or how it was catalogued. This test cannot tell those apart."
+  ],
+  "report_sha256": "a265e1c6c61fbfc1241732d42df7aeb507f02c155ad2901514966ca85042d06d",
+  "santa_valley": {
+    "KH0323": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.0023,
+            "cluster_null_mean": 0.0023,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0023,
+            "null_max": 0.0023,
+            "null_mean": 0.0023,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0024,
+            "cluster_null_mean": 0.0024,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0024,
+            "null_max": 0.0024,
+            "null_mean": 0.0024,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0024,
+            "cluster_null_mean": 0.0024,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0024,
+            "null_max": 0.0024,
+            "null_mean": 0.0024,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0024,
+            "null_max": 0.0024,
+            "null_mean": 0.0024,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0023,
+            "null_max": 0.0023,
+            "null_mean": 0.0023,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0024,
+            "cluster_null_mean": 0.0024,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0024,
+            "null_max": 0.0024,
+            "null_mean": 0.0024,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0024,
+            "cluster_null_mean": 0.0024,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0024,
+            "null_max": 0.0024,
+            "null_mean": 0.0024,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 290
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0742,
+            "cluster_null_mean": 0.0742,
+            "excess_bits_per_cord": 0.1486,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0742,
+            "null_max": -0.0226,
+            "null_mean": -0.0744,
+            "null_sd": 0.0292,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0525,
+            "cluster_null_mean": -0.0525,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0525,
+            "null_max": -0.0525,
+            "null_mean": -0.0525,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0153,
+            "cluster_null_mean": -0.0201,
+            "excess_bits_per_cord": 0.1266,
+            "excess_within_cluster": 0.0157,
+            "gain_bits_per_cord": -0.0044,
+            "null_max": -0.0243,
+            "null_mean": -0.131,
+            "null_sd": 0.0456,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 1.7063,
+            "gain_bits_per_cord": 1.3735,
+            "null_max": -0.1123,
+            "null_mean": -0.3328,
+            "null_sd": 0.0647,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.2834,
+            "gain_bits_per_cord": -0.0045,
+            "null_max": -0.1332,
+            "null_mean": -0.2879,
+            "null_sd": 0.0605,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": -0.0507,
+            "cluster_null_mean": -0.0507,
+            "excess_bits_per_cord": 0.0118,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0507,
+            "null_max": -0.0266,
+            "null_mean": -0.0625,
+            "null_sd": 0.0142,
+            "p_upper": 0.2475,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0449,
+            "cluster_null_mean": -0.0225,
+            "excess_bits_per_cord": 0.1219,
+            "excess_within_cluster": 0.0084,
+            "gain_bits_per_cord": -0.0141,
+            "null_max": -0.0344,
+            "null_mean": -0.136,
+            "null_sd": 0.047,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+          }
+        },
+        "cords": 305
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0003,
+            "cluster_null_mean": 0.0003,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0003,
+            "cluster_null_mean": 0.0003,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0003,
+            "cluster_null_mean": 0.0003,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0003,
+            "cluster_null_mean": 0.0003,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0003,
+            "cluster_null_mean": 0.0003,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0003,
+            "null_max": 0.0003,
+            "null_mean": 0.0003,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 306
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0052,
+            "cluster_null_mean": 0.0052,
+            "excess_bits_per_cord": 0.0097,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0052,
+            "null_max": 0.0178,
+            "null_mean": -0.0045,
+            "null_sd": 0.0103,
+            "p_upper": 0.4059,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0142,
+            "cluster_null_mean": -0.0239,
+            "excess_bits_per_cord": 0.011,
+            "excess_within_cluster": -0.0052,
+            "gain_bits_per_cord": -0.0291,
+            "null_max": 0.0028,
+            "null_mean": -0.0401,
+            "null_sd": 0.0217,
+            "p_upper": 0.3069,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0002,
+            "cluster_null_mean": -0.0002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0002,
+            "null_max": -0.0002,
+            "null_mean": -0.0002,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0562,
+            "gain_bits_per_cord": 0.0027,
+            "null_max": 0.0271,
+            "null_mean": -0.0535,
+            "null_sd": 0.035,
+            "p_upper": 0.0594,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.1229,
+            "gain_bits_per_cord": 0.0408,
+            "null_max": 0.0161,
+            "null_mean": -0.0821,
+            "null_sd": 0.036,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": 0.0012,
+            "cluster_null_mean": 0.0012,
+            "excess_bits_per_cord": 0.0032,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0012,
+            "null_max": 0.0098,
+            "null_mean": -0.002,
+            "null_sd": 0.0056,
+            "p_upper": 0.7129,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 265
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.018,
+            "cluster_null_mean": -0.018,
+            "excess_bits_per_cord": -0.0157,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.018,
+            "null_max": 0.0081,
+            "null_mean": -0.0023,
+            "null_sd": 0.0075,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.0112,
+            "cluster_null_mean": -0.0112,
+            "excess_bits_per_cord": 0.0168,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0112,
+            "null_max": 0.0095,
+            "null_mean": -0.028,
+            "null_sd": 0.0208,
+            "p_upper": 0.3366,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0001,
+            "cluster_null_mean": -0.0001,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0001,
+            "null_max": -0.0001,
+            "null_mean": -0.0001,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": -0.0196,
+            "cluster_null_mean": -0.0196,
+            "excess_bits_per_cord": -0.0096,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0196,
+            "null_max": 0.0063,
+            "null_mean": -0.01,
+            "null_sd": 0.0148,
+            "p_upper": 0.8911,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": -0.0227,
+            "gain_bits_per_cord": -0.0231,
+            "null_max": 0.0001,
+            "null_mean": -0.0004,
+            "null_sd": 0.0029,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0289,
+            "gain_bits_per_cord": -0.0707,
+            "null_max": 0.0394,
+            "null_mean": -0.0418,
+            "null_sd": 0.0271,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.0177,
+            "cluster_null_mean": -0.0332,
+            "excess_bits_per_cord": -0.0287,
+            "excess_within_cluster": -0.0095,
+            "gain_bits_per_cord": -0.0427,
+            "null_max": 0.0157,
+            "null_mean": -0.014,
+            "null_sd": 0.0162,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 306
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0889,
+            "cluster_null_mean": 0.0704,
+            "excess_bits_per_cord": 0.0709,
+            "excess_within_cluster": -0.0055,
+            "gain_bits_per_cord": 0.0649,
+            "null_max": 0.0232,
+            "null_mean": -0.006,
+            "null_sd": 0.0076,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "colour": {
+            "cluster_null_max": 0.0671,
+            "cluster_null_mean": 0.0279,
+            "excess_bits_per_cord": 0.0709,
+            "excess_within_cluster": 0.0116,
+            "gain_bits_per_cord": 0.0395,
+            "null_max": 0.0099,
+            "null_mean": -0.0314,
+            "null_sd": 0.0176,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0007,
+            "cluster_null_mean": 0.0007,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0007,
+            "null_max": 0.0007,
+            "null_mean": 0.0007,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.1305,
+            "gain_bits_per_cord": 0.0832,
+            "null_max": 0.0227,
+            "null_mean": -0.0473,
+            "null_sd": 0.0226,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.3376,
+            "gain_bits_per_cord": 0.275,
+            "null_max": -0.0129,
+            "null_mean": -0.0626,
+            "null_sd": 0.022,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": -0.0065,
+            "cluster_null_mean": -0.0117,
+            "excess_bits_per_cord": -0.0146,
+            "excess_within_cluster": -0.0057,
+            "gain_bits_per_cord": -0.0174,
+            "null_max": 0.0103,
+            "null_mean": -0.0028,
+            "null_sd": 0.0079,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 303
+      }
+    },
+    "KH0324": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.0117,
+            "cluster_null_mean": 0.0117,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0117,
+            "null_max": 0.0117,
+            "null_mean": 0.0117,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0141,
+            "cluster_null_mean": 0.0141,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0141,
+            "null_max": 0.0141,
+            "null_mean": 0.0141,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0136,
+            "cluster_null_mean": 0.0136,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0136,
+            "null_max": 0.0136,
+            "null_mean": 0.0136,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.013,
+            "null_max": 0.013,
+            "null_mean": 0.013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0111,
+            "null_max": 0.0111,
+            "null_mean": 0.0111,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0141,
+            "cluster_null_mean": 0.0141,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0141,
+            "null_max": 0.0141,
+            "null_mean": 0.0141,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0133,
+            "cluster_null_mean": 0.0133,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0133,
+            "null_max": 0.0133,
+            "null_mean": 0.0133,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 53
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0063,
+            "cluster_null_mean": -0.0003,
+            "excess_bits_per_cord": 0.0064,
+            "excess_within_cluster": 0.0066,
+            "gain_bits_per_cord": 0.0063,
+            "null_max": 0.0063,
+            "null_mean": -0.0001,
+            "null_sd": 0.0187,
+            "p_upper": 0.2178,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0077,
+            "cluster_null_mean": 0.0077,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0077,
+            "null_max": 0.0077,
+            "null_mean": 0.0077,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.1308,
+            "cluster_null_mean": -0.1773,
+            "excess_bits_per_cord": 0.622,
+            "excess_within_cluster": 0.6001,
+            "gain_bits_per_cord": 0.4228,
+            "null_max": 0.0255,
+            "null_mean": -0.1992,
+            "null_sd": 0.1368,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": true,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 1.6267,
+            "gain_bits_per_cord": 1.3482,
+            "null_max": 0.1145,
+            "null_mean": -0.2785,
+            "null_sd": 0.155,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.2816,
+            "gain_bits_per_cord": 0.1983,
+            "null_max": 0.0797,
+            "null_mean": -0.0833,
+            "null_sd": 0.0597,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": 0.0063,
+            "cluster_null_mean": -0.0003,
+            "excess_bits_per_cord": 0.0064,
+            "excess_within_cluster": 0.0066,
+            "gain_bits_per_cord": 0.0063,
+            "null_max": 0.0063,
+            "null_mean": -0.0001,
+            "null_sd": 0.0187,
+            "p_upper": 0.2178,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.1363,
+            "cluster_null_mean": -0.6032,
+            "excess_bits_per_cord": 0.1975,
+            "excess_within_cluster": 0.135,
+            "gain_bits_per_cord": -0.4682,
+            "null_max": -0.0546,
+            "null_mean": -0.6657,
+            "null_sd": 0.2249,
+            "p_upper": 0.1881,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 54
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0018,
+            "cluster_null_mean": 0.0018,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0018,
+            "null_max": 0.0018,
+            "null_mean": 0.0018,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0015,
+            "cluster_null_mean": 0.0015,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0015,
+            "null_max": 0.0015,
+            "null_mean": 0.0015,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0018,
+            "cluster_null_mean": 0.0018,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0018,
+            "null_max": 0.0018,
+            "null_mean": 0.0018,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0018,
+            "null_max": 0.0018,
+            "null_mean": 0.0018,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0014,
+            "null_max": 0.0014,
+            "null_mean": 0.0014,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0018,
+            "cluster_null_mean": 0.0018,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0018,
+            "null_max": 0.0018,
+            "null_mean": 0.0018,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0017,
+            "cluster_null_mean": 0.0017,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0017,
+            "null_max": 0.0017,
+            "null_mean": 0.0017,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 54
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.106,
+            "cluster_null_mean": -0.106,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.106,
+            "null_max": -0.106,
+            "null_mean": -0.106,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.0075,
+            "cluster_null_mean": -0.0458,
+            "excess_bits_per_cord": -0.0018,
+            "excess_within_cluster": -0.0021,
+            "gain_bits_per_cord": -0.0479,
+            "null_max": -0.0075,
+            "null_mean": -0.0461,
+            "null_sd": 0.0154,
+            "p_upper": 0.6337,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.106,
+            "cluster_null_mean": -0.106,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.106,
+            "null_max": -0.106,
+            "null_mean": -0.106,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": -0.0135,
+            "gain_bits_per_cord": -0.108,
+            "null_max": 0.0397,
+            "null_mean": -0.0945,
+            "null_sd": 0.0411,
+            "p_upper": 0.9802,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0311,
+            "gain_bits_per_cord": -0.1081,
+            "null_max": 0.0331,
+            "null_mean": -0.077,
+            "null_sd": 0.0588,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": -0.106,
+            "cluster_null_mean": -0.106,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.106,
+            "null_max": -0.106,
+            "null_mean": -0.106,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 47
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0023,
+            "cluster_null_mean": 0.0023,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0023,
+            "null_max": 0.0023,
+            "null_mean": 0.0023,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0019,
+            "cluster_null_mean": 0.0019,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0019,
+            "null_max": 0.0019,
+            "null_mean": 0.0019,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0023,
+            "cluster_null_mean": 0.0023,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0023,
+            "null_max": 0.0023,
+            "null_mean": 0.0023,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0022,
+            "cluster_null_mean": 0.0022,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0022,
+            "null_max": 0.0022,
+            "null_mean": 0.0022,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0021,
+            "null_max": 0.0021,
+            "null_mean": 0.0021,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0018,
+            "null_max": 0.0018,
+            "null_mean": 0.0018,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0021,
+            "cluster_null_mean": 0.0021,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0021,
+            "null_max": 0.0021,
+            "null_mean": 0.0021,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 53
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0013,
+            "cluster_null_mean": -0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0013,
+            "null_max": -0.0013,
+            "null_mean": -0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.1333,
+            "cluster_null_mean": -0.3898,
+            "excess_bits_per_cord": 0.2483,
+            "excess_within_cluster": 0.254,
+            "gain_bits_per_cord": -0.1358,
+            "null_max": 0.1707,
+            "null_mean": -0.3841,
+            "null_sd": 0.1794,
+            "p_upper": 0.0693,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0013,
+            "cluster_null_mean": -0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0013,
+            "null_max": -0.0013,
+            "null_mean": -0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.8393,
+            "gain_bits_per_cord": 0.5327,
+            "null_max": 0.3778,
+            "null_mean": -0.3066,
+            "null_sd": 0.1861,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0017,
+            "gain_bits_per_cord": -0.013,
+            "null_max": 0.0154,
+            "null_mean": -0.0113,
+            "null_sd": 0.0074,
+            "p_upper": 0.495,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": -0.0013,
+            "cluster_null_mean": -0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0013,
+            "null_max": -0.0013,
+            "null_mean": -0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 53
+      }
+    },
+    "KH0325": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.0033,
+            "cluster_null_mean": 0.0033,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0033,
+            "null_max": 0.0033,
+            "null_mean": 0.0033,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0037,
+            "cluster_null_mean": 0.0037,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0037,
+            "null_max": 0.0037,
+            "null_mean": 0.0037,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0037,
+            "cluster_null_mean": 0.0037,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0037,
+            "null_max": 0.0037,
+            "null_mean": 0.0037,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0036,
+            "null_max": 0.0036,
+            "null_mean": 0.0036,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0035,
+            "null_max": 0.0035,
+            "null_mean": 0.0035,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0037,
+            "cluster_null_mean": 0.0037,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0037,
+            "null_max": 0.0037,
+            "null_mean": 0.0037,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0037,
+            "cluster_null_mean": 0.0037,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0037,
+            "null_max": 0.0037,
+            "null_mean": 0.0037,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 204
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0456,
+            "cluster_null_mean": -0.0456,
+            "excess_bits_per_cord": -0.0015,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0456,
+            "null_max": -0.0005,
+            "null_mean": -0.0441,
+            "null_sd": 0.0122,
+            "p_upper": 0.3861,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0351,
+            "cluster_null_mean": -0.0351,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0351,
+            "null_max": -0.0351,
+            "null_mean": -0.0351,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": -0.0354,
+            "cluster_null_mean": -0.2008,
+            "excess_bits_per_cord": 0.3799,
+            "excess_within_cluster": 0.3584,
+            "gain_bits_per_cord": 0.1576,
+            "null_max": -0.0308,
+            "null_mean": -0.2223,
+            "null_sd": 0.0747,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": true,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 2.7649,
+            "gain_bits_per_cord": 2.3783,
+            "null_max": -0.2156,
+            "null_mean": -0.3866,
+            "null_sd": 0.0786,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0073,
+            "gain_bits_per_cord": -0.5374,
+            "null_max": -0.2856,
+            "null_mean": -0.5301,
+            "null_sd": 0.0963,
+            "p_upper": 0.4752,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": -0.0353,
+            "cluster_null_mean": -0.0353,
+            "excess_bits_per_cord": 0.0008,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0353,
+            "null_max": -0.0352,
+            "null_mean": -0.0361,
+            "null_sd": 0.0042,
+            "p_upper": 0.5644,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.2556,
+            "cluster_null_mean": -0.5024,
+            "excess_bits_per_cord": 0.4024,
+            "excess_within_cluster": 0.3995,
+            "gain_bits_per_cord": -0.1029,
+            "null_max": -0.2327,
+            "null_mean": -0.5053,
+            "null_sd": 0.1077,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": true,
+            "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+          }
+        },
+        "cords": 206
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0005,
+            "cluster_null_mean": 0.0005,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0004,
+            "cluster_null_mean": 0.0004,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0004,
+            "null_max": 0.0004,
+            "null_mean": 0.0004,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0005,
+            "cluster_null_mean": 0.0005,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0005,
+            "cluster_null_mean": 0.0005,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0005,
+            "cluster_null_mean": 0.0005,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0005,
+            "null_max": 0.0005,
+            "null_mean": 0.0005,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 206
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0036,
+            "cluster_null_mean": 0.0036,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0036,
+            "null_max": 0.0036,
+            "null_mean": 0.0036,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0032,
+            "cluster_null_mean": 0.0032,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0032,
+            "null_max": 0.0032,
+            "null_mean": 0.0032,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0036,
+            "cluster_null_mean": 0.0036,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0036,
+            "null_max": 0.0036,
+            "null_mean": 0.0036,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0035,
+            "null_max": 0.0035,
+            "null_mean": 0.0035,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0033,
+            "null_max": 0.0033,
+            "null_mean": 0.0033,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0036,
+            "cluster_null_mean": 0.0036,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0036,
+            "null_max": 0.0036,
+            "null_mean": 0.0036,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 171
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0022,
+            "cluster_null_mean": -0.0022,
+            "excess_bits_per_cord": 0.0342,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0022,
+            "null_max": -0.0022,
+            "null_mean": -0.0364,
+            "null_sd": 0.0035,
+            "p_upper": 0.0198,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.0207,
+            "cluster_null_mean": -0.0207,
+            "excess_bits_per_cord": -0.0045,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0207,
+            "null_max": -0.003,
+            "null_mean": -0.0162,
+            "null_sd": 0.0045,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0368,
+            "cluster_null_mean": -0.0368,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0368,
+            "null_max": -0.0368,
+            "null_mean": -0.0368,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": -0.0241,
+            "cluster_null_mean": -0.0241,
+            "excess_bits_per_cord": 0.0093,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0241,
+            "null_max": -0.0241,
+            "null_mean": -0.0334,
+            "null_sd": 0.0044,
+            "p_upper": 0.1881,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": -0.0368,
+            "null_max": -0.0368,
+            "null_mean": -0.0368,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0121,
+            "gain_bits_per_cord": -0.0149,
+            "null_max": -0.0063,
+            "null_mean": -0.027,
+            "null_sd": 0.0114,
+            "p_upper": 0.3267,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.022,
+            "cluster_null_mean": -0.022,
+            "excess_bits_per_cord": 0.0072,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.022,
+            "null_max": -0.016,
+            "null_mean": -0.0292,
+            "null_sd": 0.0052,
+            "p_upper": 0.1881,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 206
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0234,
+            "cluster_null_mean": 0.0234,
+            "excess_bits_per_cord": 0.0243,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0234,
+            "null_max": 0.0234,
+            "null_mean": -0.0009,
+            "null_sd": 0.0093,
+            "p_upper": 0.0297,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.0709,
+            "cluster_null_mean": -0.1911,
+            "excess_bits_per_cord": 0.1953,
+            "excess_within_cluster": 0.2029,
+            "gain_bits_per_cord": 0.0118,
+            "null_max": 0.0028,
+            "null_mean": -0.1835,
+            "null_sd": 0.0569,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": true,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "fibre": {
+            "cluster_null_max": 0.001,
+            "cluster_null_mean": 0.001,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.001,
+            "null_max": 0.001,
+            "null_mean": 0.001,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.4302,
+            "gain_bits_per_cord": 0.3504,
+            "null_max": 0.0365,
+            "null_mean": -0.0798,
+            "null_sd": 0.0398,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.2217,
+            "gain_bits_per_cord": 0.1356,
+            "null_max": 0.047,
+            "null_mean": -0.0861,
+            "null_sd": 0.0445,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": 0.0009,
+            "cluster_null_mean": 0.0009,
+            "excess_bits_per_cord": -0.0001,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.001,
+            "null_mean": 0.001,
+            "null_sd": 0.0001,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 195
+      }
+    },
+    "KH0326": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.372,
+            "cluster_null_mean": 0.1921,
+            "excess_bits_per_cord": 0.3396,
+            "excess_within_cluster": 0.0517,
+            "gain_bits_per_cord": 0.2438,
+            "null_max": 0.0207,
+            "null_mean": -0.0958,
+            "null_sd": 0.0486,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0001,
+            "cluster_null_mean": -0.0001,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0001,
+            "null_max": -0.0001,
+            "null_mean": -0.0001,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0722,
+            "cluster_null_mean": 0.0384,
+            "excess_bits_per_cord": 0.0457,
+            "excess_within_cluster": -0.0111,
+            "gain_bits_per_cord": 0.0273,
+            "null_max": 0.0416,
+            "null_mean": -0.0184,
+            "null_sd": 0.0222,
+            "p_upper": 0.0396,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.7102,
+            "gain_bits_per_cord": 0.6866,
+            "null_max": 0.0861,
+            "null_mean": -0.0236,
+            "null_sd": 0.0243,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0301,
+            "gain_bits_per_cord": -0.05,
+            "null_max": 0.0737,
+            "null_mean": -0.0801,
+            "null_sd": 0.0533,
+            "p_upper": 0.2574,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": -0.0002,
+            "cluster_null_mean": -0.0002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0002,
+            "null_max": -0.0002,
+            "null_mean": -0.0002,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0055,
+            "cluster_null_mean": -0.0109,
+            "excess_bits_per_cord": -0.0084,
+            "excess_within_cluster": -0.003,
+            "gain_bits_per_cord": -0.0139,
+            "null_max": 0.0403,
+            "null_mean": -0.0055,
+            "null_sd": 0.0107,
+            "p_upper": 0.9604,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 108
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.3261,
+            "cluster_null_mean": 0.068,
+            "excess_bits_per_cord": 0.5015,
+            "excess_within_cluster": 0.1389,
+            "gain_bits_per_cord": 0.2069,
+            "null_max": -0.0974,
+            "null_mean": -0.2946,
+            "null_sd": 0.09,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0553,
+            "cluster_null_mean": -0.0553,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0553,
+            "null_max": -0.0553,
+            "null_mean": -0.0553,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0348,
+            "cluster_null_mean": -0.1476,
+            "excess_bits_per_cord": 0.0731,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.1476,
+            "null_max": 0.024,
+            "null_mean": -0.2207,
+            "null_sd": 0.0876,
+            "p_upper": 0.2079,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 2.1643,
+            "gain_bits_per_cord": 1.7751,
+            "null_max": -0.0202,
+            "null_mean": -0.3892,
+            "null_sd": 0.1318,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.3157,
+            "gain_bits_per_cord": -0.2243,
+            "null_max": -0.184,
+            "null_mean": -0.54,
+            "null_sd": 0.1394,
+            "p_upper": 0.0396,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0205,
+            "cluster_null_mean": -0.0586,
+            "excess_bits_per_cord": 0.0006,
+            "excess_within_cluster": 0.003,
+            "gain_bits_per_cord": -0.0556,
+            "null_max": 0.0205,
+            "null_mean": -0.0562,
+            "null_sd": 0.0092,
+            "p_upper": 0.1386,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.0119,
+            "cluster_null_mean": -0.2978,
+            "excess_bits_per_cord": -0.1621,
+            "excess_within_cluster": -0.1569,
+            "gain_bits_per_cord": -0.4547,
+            "null_max": -0.1053,
+            "null_mean": -0.2926,
+            "null_sd": 0.0943,
+            "p_upper": 0.9406,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 108
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0009,
+            "cluster_null_mean": 0.0009,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.0009,
+            "null_mean": 0.0009,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0008,
+            "cluster_null_mean": 0.0008,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0008,
+            "null_max": 0.0008,
+            "null_mean": 0.0008,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0009,
+            "cluster_null_mean": 0.0009,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.0009,
+            "null_mean": 0.0009,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.0009,
+            "null_mean": 0.0009,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0008,
+            "null_max": 0.0008,
+            "null_mean": 0.0008,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0009,
+            "cluster_null_mean": 0.0009,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.0009,
+            "null_mean": 0.0009,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0009,
+            "cluster_null_mean": 0.0009,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0009,
+            "null_max": 0.0009,
+            "null_mean": 0.0009,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 108
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0727,
+            "cluster_null_mean": 0.0115,
+            "excess_bits_per_cord": 0.0305,
+            "excess_within_cluster": -0.0125,
+            "gain_bits_per_cord": -0.001,
+            "null_max": 0.0727,
+            "null_mean": -0.0315,
+            "null_sd": 0.0286,
+            "p_upper": 0.1485,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0927,
+            "cluster_null_mean": -0.1063,
+            "excess_bits_per_cord": 0.0338,
+            "excess_within_cluster": -0.0092,
+            "gain_bits_per_cord": -0.1155,
+            "null_max": 0.0852,
+            "null_mean": -0.1493,
+            "null_sd": 0.091,
+            "p_upper": 0.3564,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0011,
+            "cluster_null_mean": -0.0011,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0011,
+            "null_max": -0.0011,
+            "null_mean": -0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": -0.0831,
+            "gain_bits_per_cord": -0.1155,
+            "null_max": 0.0718,
+            "null_mean": -0.0324,
+            "null_sd": 0.0516,
+            "p_upper": 0.9505,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0012,
+            "gain_bits_per_cord": -0.0708,
+            "null_max": 0.061,
+            "null_mean": -0.0696,
+            "null_sd": 0.0531,
+            "p_upper": 0.495,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": -0.0012,
+            "cluster_null_mean": -0.0012,
+            "excess_bits_per_cord": 0.0001,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0012,
+            "null_max": -0.0012,
+            "null_mean": -0.0013,
+            "null_sd": 0.0004,
+            "p_upper": 0.901,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 105
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0483,
+            "cluster_null_mean": -0.0497,
+            "excess_bits_per_cord": 0.0045,
+            "excess_within_cluster": 0.0014,
+            "gain_bits_per_cord": -0.0483,
+            "null_max": -0.0483,
+            "null_mean": -0.0528,
+            "null_sd": 0.0035,
+            "p_upper": 0.3861,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0126,
+            "cluster_null_mean": -0.0279,
+            "excess_bits_per_cord": -0.01,
+            "excess_within_cluster": -0.0113,
+            "gain_bits_per_cord": -0.0392,
+            "null_max": -0.0061,
+            "null_mean": -0.0292,
+            "null_sd": 0.0086,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0615,
+            "cluster_null_mean": -0.0615,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0615,
+            "null_max": -0.0615,
+            "null_mean": -0.0615,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0139,
+            "cluster_null_mean": -0.0583,
+            "excess_bits_per_cord": -0.0073,
+            "excess_within_cluster": -0.0019,
+            "gain_bits_per_cord": -0.0602,
+            "null_max": 0.0139,
+            "null_mean": -0.0529,
+            "null_sd": 0.0172,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": -0.0008,
+            "gain_bits_per_cord": -0.0618,
+            "null_max": 0.014,
+            "null_mean": -0.061,
+            "null_sd": 0.0076,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0178,
+            "gain_bits_per_cord": -0.0565,
+            "null_max": -0.0128,
+            "null_mean": -0.0387,
+            "null_sd": 0.0203,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": -0.0486,
+            "cluster_null_mean": -0.0528,
+            "excess_bits_per_cord": -0.0055,
+            "excess_within_cluster": -0.0025,
+            "gain_bits_per_cord": -0.0553,
+            "null_max": 0.014,
+            "null_mean": -0.0498,
+            "null_sd": 0.0135,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 108
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0455,
+            "cluster_null_mean": -0.0608,
+            "excess_bits_per_cord": -0.0092,
+            "excess_within_cluster": -0.0021,
+            "gain_bits_per_cord": -0.0629,
+            "null_max": -0.0022,
+            "null_mean": -0.0537,
+            "null_sd": 0.0114,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.0113,
+            "cluster_null_mean": -0.131,
+            "excess_bits_per_cord": -0.0974,
+            "excess_within_cluster": -0.071,
+            "gain_bits_per_cord": -0.202,
+            "null_max": 0.0806,
+            "null_mean": -0.1046,
+            "null_sd": 0.0522,
+            "p_upper": 0.9802,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0552,
+            "cluster_null_mean": -0.0552,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0552,
+            "null_max": -0.0552,
+            "null_mean": -0.0552,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0808,
+            "gain_bits_per_cord": 0.0217,
+            "null_max": 0.0425,
+            "null_mean": -0.0591,
+            "null_sd": 0.0279,
+            "p_upper": 0.0297,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.1316,
+            "gain_bits_per_cord": 0.021,
+            "null_max": -0.0008,
+            "null_mean": -0.1106,
+            "null_sd": 0.057,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": -0.0553,
+            "cluster_null_mean": -0.0554,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0554,
+            "null_max": -0.0553,
+            "null_mean": -0.0554,
+            "null_sd": 0.0001,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 107
+      }
+    },
+    "KH0327": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.0077,
+            "cluster_null_mean": 0.0077,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0077,
+            "null_max": 0.0077,
+            "null_mean": 0.0077,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0084,
+            "cluster_null_mean": 0.0084,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0084,
+            "null_max": 0.0084,
+            "null_mean": 0.0084,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0083,
+            "cluster_null_mean": 0.0083,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0083,
+            "null_max": 0.0083,
+            "null_mean": 0.0083,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0082,
+            "null_max": 0.0082,
+            "null_mean": 0.0082,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0072,
+            "null_max": 0.0072,
+            "null_mean": 0.0072,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0084,
+            "cluster_null_mean": 0.0084,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0084,
+            "null_max": 0.0084,
+            "null_mean": 0.0084,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0081,
+            "cluster_null_mean": 0.0081,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0081,
+            "null_max": 0.0081,
+            "null_mean": 0.0081,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 90
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0078,
+            "cluster_null_mean": 0.0078,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0078,
+            "null_max": 0.0078,
+            "null_mean": 0.0078,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0078,
+            "cluster_null_mean": 0.0078,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0078,
+            "null_max": 0.0078,
+            "null_mean": 0.0078,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.1358,
+            "cluster_null_mean": 0.1358,
+            "excess_bits_per_cord": 0.2229,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.1358,
+            "null_max": 0.0134,
+            "null_mean": -0.0871,
+            "null_sd": 0.0335,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 2.4664,
+            "gain_bits_per_cord": 1.8871,
+            "null_max": -0.0477,
+            "null_mean": -0.5793,
+            "null_sd": 0.1814,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.3547,
+            "gain_bits_per_cord": 0.0091,
+            "null_max": 0.0868,
+            "null_mean": -0.3456,
+            "null_sd": 0.1325,
+            "p_upper": 0.0198,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0078,
+            "cluster_null_mean": 0.0078,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0078,
+            "null_max": 0.0078,
+            "null_mean": 0.0078,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.2028,
+            "cluster_null_mean": 0.0201,
+            "excess_bits_per_cord": 0.2369,
+            "excess_within_cluster": -0.0009,
+            "gain_bits_per_cord": 0.0192,
+            "null_max": -0.0154,
+            "null_mean": -0.2177,
+            "null_sd": 0.0736,
+            "p_upper": 0.0099,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          }
+        },
+        "cords": 90
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0011,
+            "cluster_null_mean": 0.0011,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0011,
+            "null_max": 0.0011,
+            "null_mean": 0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.001,
+            "cluster_null_mean": 0.001,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.001,
+            "null_max": 0.001,
+            "null_mean": 0.001,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0011,
+            "cluster_null_mean": 0.0011,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0011,
+            "null_max": 0.0011,
+            "null_mean": 0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0011,
+            "null_max": 0.0011,
+            "null_mean": 0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.001,
+            "null_max": 0.001,
+            "null_mean": 0.001,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0011,
+            "cluster_null_mean": 0.0011,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0011,
+            "null_max": 0.0011,
+            "null_mean": 0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0011,
+            "cluster_null_mean": 0.0011,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0011,
+            "null_max": 0.0011,
+            "null_mean": 0.0011,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 90
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0112,
+            "cluster_null_mean": 0.0112,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0112,
+            "null_max": 0.0112,
+            "null_mean": 0.0112,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.01,
+            "cluster_null_mean": 0.01,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.01,
+            "null_max": 0.01,
+            "null_mean": 0.01,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0112,
+            "cluster_null_mean": 0.0112,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0112,
+            "null_max": 0.0112,
+            "null_mean": 0.0112,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0108,
+            "null_max": 0.0108,
+            "null_mean": 0.0108,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0087,
+            "null_max": 0.0087,
+            "null_mean": 0.0087,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0112,
+            "cluster_null_mean": 0.0112,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0112,
+            "null_max": 0.0112,
+            "null_mean": 0.0112,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 54
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0013,
+            "cluster_null_mean": 0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0012,
+            "cluster_null_mean": 0.0012,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0012,
+            "null_max": 0.0012,
+            "null_mean": 0.0012,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0013,
+            "cluster_null_mean": 0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0013,
+            "cluster_null_mean": 0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0012,
+            "null_max": 0.0012,
+            "null_mean": 0.0012,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0013,
+            "cluster_null_mean": 0.0013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 90
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.002,
+            "cluster_null_mean": 0.002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.002,
+            "null_max": 0.002,
+            "null_mean": 0.002,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.1466,
+            "cluster_null_mean": 0.028,
+            "excess_bits_per_cord": 0.1293,
+            "excess_within_cluster": -0.0431,
+            "gain_bits_per_cord": -0.0151,
+            "null_max": 0.0283,
+            "null_mean": -0.1444,
+            "null_sd": 0.0626,
+            "p_upper": 0.0396,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.002,
+            "cluster_null_mean": 0.002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.002,
+            "null_max": 0.002,
+            "null_mean": 0.002,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 1.0665,
+            "gain_bits_per_cord": 0.9026,
+            "null_max": -0.0015,
+            "null_mean": -0.1639,
+            "null_sd": 0.0717,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0067,
+            "gain_bits_per_cord": -0.1468,
+            "null_max": 0.036,
+            "null_mean": -0.1401,
+            "null_sd": 0.0889,
+            "p_upper": 0.5446,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.002,
+            "cluster_null_mean": 0.002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.002,
+            "null_max": 0.002,
+            "null_mean": 0.002,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 88
+      }
+    },
+    "KH0328": {
+      "attach": {
+        "contexts": {
+          "colour": {
+            "cluster_null_max": 0.0114,
+            "cluster_null_mean": 0.0114,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0114,
+            "null_max": 0.0114,
+            "null_mean": 0.0114,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0123,
+            "cluster_null_mean": 0.0123,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0123,
+            "null_max": 0.0123,
+            "null_mean": 0.0123,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0121,
+            "cluster_null_mean": 0.0121,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0121,
+            "null_max": 0.0121,
+            "null_mean": 0.0121,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0116,
+            "null_max": 0.0116,
+            "null_mean": 0.0116,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0098,
+            "null_max": 0.0098,
+            "null_mean": 0.0098,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0121,
+            "cluster_null_mean": 0.0121,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0121,
+            "null_max": 0.0121,
+            "null_mean": 0.0121,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0121,
+            "cluster_null_mean": 0.0121,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0121,
+            "null_max": 0.0121,
+            "null_mean": 0.0121,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 55
+      },
+      "colour": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0973,
+            "cluster_null_mean": -0.048,
+            "excess_bits_per_cord": 0.1485,
+            "excess_within_cluster": 0.1452,
+            "gain_bits_per_cord": 0.0972,
+            "null_max": 0.0978,
+            "null_mean": -0.0513,
+            "null_sd": 0.063,
+            "p_upper": 0.0396,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.013,
+            "cluster_null_mean": 0.013,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.013,
+            "null_max": 0.013,
+            "null_mean": 0.013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0401,
+            "cluster_null_mean": -0.0698,
+            "excess_bits_per_cord": -0.0367,
+            "excess_within_cluster": -0.0339,
+            "gain_bits_per_cord": -0.1037,
+            "null_max": 0.1153,
+            "null_mean": -0.067,
+            "null_sd": 0.0531,
+            "p_upper": 0.7228,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 2.3258,
+            "gain_bits_per_cord": 1.7862,
+            "null_max": 0.2215,
+            "null_mean": -0.5396,
+            "null_sd": 0.2305,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0459,
+            "gain_bits_per_cord": 0.044,
+            "null_max": 0.0177,
+            "null_mean": -0.0019,
+            "null_sd": 0.0057,
+            "p_upper": 0.0099,
+            "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+          },
+          "spin": {
+            "cluster_null_max": 0.0686,
+            "cluster_null_mean": -0.0093,
+            "excess_bits_per_cord": 0.0795,
+            "excess_within_cluster": 0.0777,
+            "gain_bits_per_cord": 0.0684,
+            "null_max": 0.0686,
+            "null_mean": -0.0111,
+            "null_sd": 0.0309,
+            "p_upper": 0.1386,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0441,
+            "cluster_null_mean": -0.0687,
+            "excess_bits_per_cord": -0.0391,
+            "excess_within_cluster": -0.036,
+            "gain_bits_per_cord": -0.1047,
+            "null_max": 0.121,
+            "null_mean": -0.0656,
+            "null_sd": 0.0532,
+            "p_upper": 0.9505,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 60
+      },
+      "fibre": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0016,
+            "cluster_null_mean": 0.0016,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0016,
+            "null_max": 0.0016,
+            "null_mean": 0.0016,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0015,
+            "cluster_null_mean": 0.0015,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0015,
+            "null_max": 0.0015,
+            "null_mean": 0.0015,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0016,
+            "cluster_null_mean": 0.0016,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0016,
+            "null_max": 0.0016,
+            "null_mean": 0.0016,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0016,
+            "null_max": 0.0016,
+            "null_mean": 0.0016,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0,
+            "gain_bits_per_cord": 0.0013,
+            "null_max": 0.0013,
+            "null_mean": 0.0013,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0016,
+            "cluster_null_mean": 0.0016,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0016,
+            "null_max": 0.0016,
+            "null_mean": 0.0016,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0016,
+            "cluster_null_mean": 0.0016,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0016,
+            "null_max": 0.0016,
+            "null_mean": 0.0016,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 60
+      },
+      "knot_dir": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": -0.0262,
+            "cluster_null_mean": -0.0967,
+            "excess_bits_per_cord": 0.0712,
+            "excess_within_cluster": 0.0705,
+            "gain_bits_per_cord": -0.0262,
+            "null_max": -0.0262,
+            "null_mean": -0.0974,
+            "null_sd": 0.0164,
+            "p_upper": 0.0594,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": -0.055,
+            "cluster_null_mean": -0.0578,
+            "excess_bits_per_cord": 0.0032,
+            "excess_within_cluster": 0.0028,
+            "gain_bits_per_cord": -0.055,
+            "null_max": -0.055,
+            "null_mean": -0.0582,
+            "null_sd": 0.0022,
+            "p_upper": 0.2574,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.1028,
+            "cluster_null_mean": -0.1028,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.1028,
+            "null_max": -0.1028,
+            "null_mean": -0.1028,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0196,
+            "gain_bits_per_cord": -0.0559,
+            "null_max": 0.0374,
+            "null_mean": -0.0755,
+            "null_sd": 0.0251,
+            "p_upper": 0.4158,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0372,
+            "gain_bits_per_cord": -0.1047,
+            "null_max": 0.0331,
+            "null_mean": -0.0675,
+            "null_sd": 0.0615,
+            "p_upper": 1.0,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0409,
+            "cluster_null_mean": -0.1002,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": -0.0029,
+            "gain_bits_per_cord": -0.1031,
+            "null_max": -0.1031,
+            "null_mean": -0.1031,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 49
+      },
+      "spin": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.1272,
+            "cluster_null_mean": -0.0173,
+            "excess_bits_per_cord": -0.1142,
+            "excess_within_cluster": -0.1154,
+            "gain_bits_per_cord": -0.1327,
+            "null_max": 0.0016,
+            "null_mean": -0.0185,
+            "null_sd": 0.0482,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.0756,
+            "cluster_null_mean": -0.0851,
+            "excess_bits_per_cord": 0.1529,
+            "excess_within_cluster": 0.1607,
+            "gain_bits_per_cord": 0.0756,
+            "null_max": 0.0756,
+            "null_mean": -0.0773,
+            "null_sd": 0.0816,
+            "p_upper": 0.2277,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": -0.0019,
+            "cluster_null_mean": -0.0019,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": -0.0019,
+            "null_max": -0.0019,
+            "null_mean": -0.0019,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "knot_dir": {
+            "cluster_null_max": 0.0819,
+            "cluster_null_mean": -0.0323,
+            "excess_bits_per_cord": -0.1051,
+            "excess_within_cluster": -0.1184,
+            "gain_bits_per_cord": -0.1507,
+            "null_max": 0.0819,
+            "null_mean": -0.0456,
+            "null_sd": 0.0753,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": 0.0008,
+            "gain_bits_per_cord": -0.0019,
+            "null_max": 0.0451,
+            "null_mean": -0.0027,
+            "null_sd": 0.0224,
+            "p_upper": 0.8515,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": 0.0206,
+            "gain_bits_per_cord": -0.0011,
+            "null_max": 0.04,
+            "null_mean": -0.0217,
+            "null_sd": 0.0356,
+            "p_upper": 0.7228,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "value_class": {
+            "cluster_null_max": 0.0827,
+            "cluster_null_mean": -0.0308,
+            "excess_bits_per_cord": -0.1063,
+            "excess_within_cluster": -0.1195,
+            "gain_bits_per_cord": -0.1503,
+            "null_max": 0.0827,
+            "null_mean": -0.044,
+            "null_sd": 0.0753,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 60
+      },
+      "value_class": {
+        "contexts": {
+          "attach": {
+            "cluster_null_max": 0.0392,
+            "cluster_null_mean": -0.0063,
+            "excess_bits_per_cord": -0.0334,
+            "excess_within_cluster": -0.0311,
+            "gain_bits_per_cord": -0.0374,
+            "null_max": 0.0392,
+            "null_mean": -0.004,
+            "null_sd": 0.0315,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "colour": {
+            "cluster_null_max": 0.11,
+            "cluster_null_mean": -0.0697,
+            "excess_bits_per_cord": -0.0457,
+            "excess_within_cluster": -0.0393,
+            "gain_bits_per_cord": -0.109,
+            "null_max": 0.1194,
+            "null_mean": -0.0633,
+            "null_sd": 0.0575,
+            "p_upper": 0.9505,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "fibre": {
+            "cluster_null_max": 0.0098,
+            "cluster_null_mean": 0.0098,
+            "excess_bits_per_cord": 0.0,
+            "excess_within_cluster": 0.0,
+            "gain_bits_per_cord": 0.0098,
+            "null_max": 0.0098,
+            "null_mean": 0.0098,
+            "null_sd": 0.0,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "neighbours": {
+            "excess_bits_per_cord": -0.0357,
+            "gain_bits_per_cord": -0.0716,
+            "null_max": 0.1613,
+            "null_mean": -0.0359,
+            "null_sd": 0.0561,
+            "p_upper": 0.8317,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "position": {
+            "excess_bits_per_cord": -0.0019,
+            "gain_bits_per_cord": 0.0029,
+            "null_max": 0.0133,
+            "null_mean": 0.0048,
+            "null_sd": 0.0031,
+            "p_upper": 0.7426,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          },
+          "spin": {
+            "cluster_null_max": 0.0694,
+            "cluster_null_mean": 0.003,
+            "excess_bits_per_cord": -0.0267,
+            "excess_within_cluster": -0.028,
+            "gain_bits_per_cord": -0.025,
+            "null_max": 0.0148,
+            "null_mean": 0.0017,
+            "null_sd": 0.0188,
+            "p_upper": 1.0,
+            "survives_within_cluster_shuffle": false,
+            "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+          }
+        },
+        "cords": 60
+      }
+    }
+  },
+  "schema": "szl.okr.hidden-cord-information/v1",
+  "signature_verified": false,
+  "status": "POST_HOC_EXPLORATORY_INFORMATION_TEST",
+  "targets": {
+    "attach": {
+      "alphabet_size": 2,
+      "bits_per_cord_corpus": 1.0061,
+      "bits_per_cord_khipu": 0.2743,
+      "contexts": {
+        "colour": {
+          "cluster_null_max": 0.0156,
+          "cluster_null_mean": 0.0127,
+          "excess_bits_per_cord": 0.0349,
+          "excess_within_cluster": 0.0068,
+          "gain_bits_per_cord": 0.0195,
+          "null_max": -0.0111,
+          "null_mean": -0.0154,
+          "null_sd": 0.0016,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "fibre": {
+          "cluster_null_max": -0.0,
+          "cluster_null_mean": -0.0003,
+          "excess_bits_per_cord": 0.0001,
+          "excess_within_cluster": -0.0001,
+          "gain_bits_per_cord": -0.0004,
+          "null_max": -0.0003,
+          "null_mean": -0.0005,
+          "null_sd": 0.0001,
+          "p_upper": 0.4158,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "knot_dir": {
+          "cluster_null_max": 0.0066,
+          "cluster_null_mean": 0.0041,
+          "excess_bits_per_cord": 0.0113,
+          "excess_within_cluster": 0.0013,
+          "gain_bits_per_cord": 0.0054,
+          "null_max": -0.0038,
+          "null_mean": -0.0059,
+          "null_sd": 0.001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 0.1216,
+          "gain_bits_per_cord": 0.1117,
+          "null_max": -0.0045,
+          "null_mean": -0.0099,
+          "null_sd": 0.0013,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": -0.0002,
+          "gain_bits_per_cord": -0.0208,
+          "null_max": -0.0169,
+          "null_mean": -0.0206,
+          "null_sd": 0.0016,
+          "p_upper": 0.5545,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "spin": {
+          "cluster_null_max": -0.0,
+          "cluster_null_mean": -0.0004,
+          "excess_bits_per_cord": 0.0007,
+          "excess_within_cluster": 0.0005,
+          "gain_bits_per_cord": 0.0001,
+          "null_max": 0.0,
+          "null_mean": -0.0006,
+          "null_sd": 0.0002,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "value_class": {
+          "cluster_null_max": 0.0071,
+          "cluster_null_mean": 0.0041,
+          "excess_bits_per_cord": 0.0135,
+          "excess_within_cluster": 0.0005,
+          "gain_bits_per_cord": 0.0046,
+          "null_max": -0.007,
+          "null_mean": -0.0089,
+          "null_sd": 0.001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        }
+      },
+      "cords": 25422,
+      "khipus": 329
+    },
+    "colour": {
+      "alphabet_size": 626,
+      "bits_per_cord_corpus": 5.1199,
+      "bits_per_cord_khipu": 2.6055,
+      "contexts": {
+        "attach": {
+          "cluster_null_max": -0.1683,
+          "cluster_null_mean": -0.1733,
+          "excess_bits_per_cord": 0.0364,
+          "excess_within_cluster": 0.008,
+          "gain_bits_per_cord": -0.1653,
+          "null_max": -0.1977,
+          "null_mean": -0.2017,
+          "null_sd": 0.002,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "fibre": {
+          "cluster_null_max": -0.1739,
+          "cluster_null_mean": -0.175,
+          "excess_bits_per_cord": 0.0128,
+          "excess_within_cluster": 0.0043,
+          "gain_bits_per_cord": -0.1707,
+          "null_max": -0.1819,
+          "null_mean": -0.1835,
+          "null_sd": 0.0006,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "knot_dir": {
+          "cluster_null_max": -0.1977,
+          "cluster_null_mean": -0.2098,
+          "excess_bits_per_cord": 0.1388,
+          "excess_within_cluster": 0.0794,
+          "gain_bits_per_cord": -0.1304,
+          "null_max": -0.2575,
+          "null_mean": -0.2692,
+          "null_sd": 0.0046,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 1.0831,
+          "gain_bits_per_cord": 0.7292,
+          "null_max": -0.3367,
+          "null_mean": -0.3539,
+          "null_sd": 0.0067,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": 0.4022,
+          "gain_bits_per_cord": -0.0618,
+          "null_max": -0.4497,
+          "null_mean": -0.464,
+          "null_sd": 0.0067,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "spin": {
+          "cluster_null_max": -0.1765,
+          "cluster_null_mean": -0.1785,
+          "excess_bits_per_cord": 0.0111,
+          "excess_within_cluster": 0.0051,
+          "gain_bits_per_cord": -0.1734,
+          "null_max": -0.1821,
+          "null_mean": -0.1845,
+          "null_sd": 0.001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "value_class": {
+          "cluster_null_max": -0.2127,
+          "cluster_null_mean": -0.2221,
+          "excess_bits_per_cord": 0.2549,
+          "excess_within_cluster": 0.1505,
+          "gain_bits_per_cord": -0.0716,
+          "null_max": -0.3129,
+          "null_mean": -0.3265,
+          "null_sd": 0.0054,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        }
+      },
+      "cords": 36405,
+      "khipus": 477
+    },
+    "fibre": {
+      "alphabet_size": 7,
+      "bits_per_cord_corpus": 0.5267,
+      "bits_per_cord_khipu": 0.0355,
+      "contexts": {
+        "attach": {
+          "cluster_null_max": 0.0014,
+          "cluster_null_mean": 0.0009,
+          "excess_bits_per_cord": 0.0005,
+          "excess_within_cluster": 0.0,
+          "gain_bits_per_cord": 0.0009,
+          "null_max": 0.0013,
+          "null_mean": 0.0004,
+          "null_sd": 0.0004,
+          "p_upper": 0.1188,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "colour": {
+          "cluster_null_max": 0.012,
+          "cluster_null_mean": 0.0107,
+          "excess_bits_per_cord": 0.0189,
+          "excess_within_cluster": 0.0066,
+          "gain_bits_per_cord": 0.0173,
+          "null_max": 0.0006,
+          "null_mean": -0.0016,
+          "null_sd": 0.0008,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "knot_dir": {
+          "cluster_null_max": 0.0023,
+          "cluster_null_mean": 0.0012,
+          "excess_bits_per_cord": 0.0031,
+          "excess_within_cluster": 0.0021,
+          "gain_bits_per_cord": 0.0033,
+          "null_max": 0.0012,
+          "null_mean": 0.0002,
+          "null_sd": 0.0004,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 0.0215,
+          "gain_bits_per_cord": 0.021,
+          "null_max": 0.001,
+          "null_mean": -0.0005,
+          "null_sd": 0.0006,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": 0.0006,
+          "gain_bits_per_cord": -0.0017,
+          "null_max": -0.0004,
+          "null_mean": -0.0023,
+          "null_sd": 0.0008,
+          "p_upper": 0.2376,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "spin": {
+          "cluster_null_max": 0.0034,
+          "cluster_null_mean": 0.003,
+          "excess_bits_per_cord": 0.0038,
+          "excess_within_cluster": 0.0011,
+          "gain_bits_per_cord": 0.0041,
+          "null_max": 0.0009,
+          "null_mean": 0.0003,
+          "null_sd": 0.0003,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "value_class": {
+          "cluster_null_max": 0.0026,
+          "cluster_null_mean": 0.0011,
+          "excess_bits_per_cord": 0.0049,
+          "excess_within_cluster": 0.0036,
+          "gain_bits_per_cord": 0.0047,
+          "null_max": 0.0008,
+          "null_mean": -0.0002,
+          "null_sd": 0.0005,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        }
+      },
+      "cords": 21113,
+      "khipus": 248
+    },
+    "knot_dir": {
+      "alphabet_size": 3,
+      "bits_per_cord_corpus": 1.3572,
+      "bits_per_cord_khipu": 0.5948,
+      "contexts": {
+        "attach": {
+          "cluster_null_max": -0.0106,
+          "cluster_null_mean": -0.0131,
+          "excess_bits_per_cord": 0.0065,
+          "excess_within_cluster": 0.0013,
+          "gain_bits_per_cord": -0.0118,
+          "null_max": -0.0158,
+          "null_mean": -0.0183,
+          "null_sd": 0.001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "colour": {
+          "cluster_null_max": -0.0287,
+          "cluster_null_mean": -0.0345,
+          "excess_bits_per_cord": 0.0477,
+          "excess_within_cluster": 0.0293,
+          "gain_bits_per_cord": -0.0052,
+          "null_max": -0.0453,
+          "null_mean": -0.0529,
+          "null_sd": 0.0029,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "fibre": {
+          "cluster_null_max": -0.014,
+          "cluster_null_mean": -0.0144,
+          "excess_bits_per_cord": 0.0003,
+          "excess_within_cluster": 0.0004,
+          "gain_bits_per_cord": -0.014,
+          "null_max": -0.0135,
+          "null_mean": -0.0143,
+          "null_sd": 0.0002,
+          "p_upper": 0.0594,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 0.0715,
+          "gain_bits_per_cord": 0.0066,
+          "null_max": -0.053,
+          "null_mean": -0.0649,
+          "null_sd": 0.0037,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": 0.0309,
+          "gain_bits_per_cord": -0.0383,
+          "null_max": -0.0605,
+          "null_mean": -0.0692,
+          "null_sd": 0.0031,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "spin": {
+          "cluster_null_max": -0.0138,
+          "cluster_null_mean": -0.0146,
+          "excess_bits_per_cord": -0.0004,
+          "excess_within_cluster": -0.0005,
+          "gain_bits_per_cord": -0.0151,
+          "null_max": -0.0139,
+          "null_mean": -0.0147,
+          "null_sd": 0.0004,
+          "p_upper": 0.8218,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        }
+      },
+      "cords": 21450,
+      "khipus": 355
+    },
+    "spin": {
+      "alphabet_size": 2,
+      "bits_per_cord_corpus": 0.4176,
+      "bits_per_cord_khipu": 0.024,
+      "contexts": {
+        "attach": {
+          "cluster_null_max": 0.0017,
+          "cluster_null_mean": 0.0009,
+          "excess_bits_per_cord": 0.0013,
+          "excess_within_cluster": 0.0009,
+          "gain_bits_per_cord": 0.0018,
+          "null_max": 0.0009,
+          "null_mean": 0.0005,
+          "null_sd": 0.0002,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "colour": {
+          "cluster_null_max": 0.0034,
+          "cluster_null_mean": 0.0025,
+          "excess_bits_per_cord": 0.0067,
+          "excess_within_cluster": 0.0036,
+          "gain_bits_per_cord": 0.0061,
+          "null_max": 0.0008,
+          "null_mean": -0.0006,
+          "null_sd": 0.0006,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "fibre": {
+          "cluster_null_max": 0.0023,
+          "cluster_null_mean": 0.0021,
+          "excess_bits_per_cord": 0.0023,
+          "excess_within_cluster": 0.0006,
+          "gain_bits_per_cord": 0.0027,
+          "null_max": 0.0005,
+          "null_mean": 0.0004,
+          "null_sd": 0.0001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "knot_dir": {
+          "cluster_null_max": 0.001,
+          "cluster_null_mean": 0.0004,
+          "excess_bits_per_cord": 0.0002,
+          "excess_within_cluster": -0.0003,
+          "gain_bits_per_cord": 0.0001,
+          "null_max": 0.0008,
+          "null_mean": -0.0001,
+          "null_sd": 0.0005,
+          "p_upper": 0.3564,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 0.0056,
+          "gain_bits_per_cord": 0.0051,
+          "null_max": 0.0003,
+          "null_mean": -0.0005,
+          "null_sd": 0.0004,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": -0.0009,
+          "gain_bits_per_cord": -0.0024,
+          "null_max": -0.0005,
+          "null_mean": -0.0015,
+          "null_sd": 0.0006,
+          "p_upper": 0.9505,
+          "verdict": "NOT_ABOVE_SHUFFLE_NULL"
+        },
+        "value_class": {
+          "cluster_null_max": 0.0009,
+          "cluster_null_mean": 0.0002,
+          "excess_bits_per_cord": 0.0011,
+          "excess_within_cluster": 0.0006,
+          "gain_bits_per_cord": 0.0008,
+          "null_max": 0.0007,
+          "null_mean": -0.0003,
+          "null_sd": 0.0005,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        }
+      },
+      "cords": 30470,
+      "khipus": 389
+    },
+    "value_class": {
+      "alphabet_size": 5,
+      "bits_per_cord_corpus": 2.0798,
+      "bits_per_cord_khipu": 1.2767,
+      "contexts": {
+        "attach": {
+          "cluster_null_max": -0.0043,
+          "cluster_null_mean": -0.0063,
+          "excess_bits_per_cord": 0.0278,
+          "excess_within_cluster": 0.0015,
+          "gain_bits_per_cord": -0.0048,
+          "null_max": -0.03,
+          "null_mean": -0.0326,
+          "null_sd": 0.001,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": false,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "colour": {
+          "cluster_null_max": -0.0069,
+          "cluster_null_mean": -0.0134,
+          "excess_bits_per_cord": 0.2008,
+          "excess_within_cluster": 0.0989,
+          "gain_bits_per_cord": 0.0855,
+          "null_max": -0.1058,
+          "null_mean": -0.1153,
+          "null_sd": 0.0035,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "fibre": {
+          "cluster_null_max": -0.0168,
+          "cluster_null_mean": -0.0178,
+          "excess_bits_per_cord": 0.0088,
+          "excess_within_cluster": 0.0019,
+          "gain_bits_per_cord": -0.0159,
+          "null_max": -0.0239,
+          "null_mean": -0.0247,
+          "null_sd": 0.0004,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        },
+        "neighbours": {
+          "excess_bits_per_cord": 0.2788,
+          "gain_bits_per_cord": 0.1344,
+          "null_max": -0.1332,
+          "null_mean": -0.1444,
+          "null_sd": 0.0045,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "position": {
+          "excess_bits_per_cord": 0.1526,
+          "gain_bits_per_cord": 0.0016,
+          "null_max": -0.1423,
+          "null_mean": -0.151,
+          "null_sd": 0.004,
+          "p_upper": 0.0099,
+          "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+        },
+        "spin": {
+          "cluster_null_max": -0.0103,
+          "cluster_null_mean": -0.0117,
+          "excess_bits_per_cord": 0.0182,
+          "excess_within_cluster": 0.0037,
+          "gain_bits_per_cord": -0.008,
+          "null_max": -0.0244,
+          "null_mean": -0.0262,
+          "null_sd": 0.0006,
+          "p_upper": 0.0099,
+          "survives_within_cluster_shuffle": true,
+          "verdict": "ABOVE_SHUFFLE_NULL_NO_NET_SAVING"
+        }
+      },
+      "cords": 34203,
+      "khipus": 474
+    }
+  },
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}

@@ -1,0 +1,142 @@
+{
+  "claims": [
+    {
+      "id": "ur063_total_1439",
+      "measured": {
+        "sum": 1439,
+        "unreadable": 6
+      },
+      "reported": 1439,
+      "status": "REPLICATED"
+    },
+    {
+      "id": "ur068_cords_34_53_total_1447",
+      "measured": {
+        "sum": 1447,
+        "unreadable": 0
+      },
+      "reported": 1447,
+      "status": "REPLICATED"
+    },
+    {
+      "id": "hierarchy_sums_move_upward",
+      "note": "The paper's cord-by-cord correspondences were not read; only the one pair of figures above was checked.",
+      "reported": "Urton and Brezine 2005: sums pass from level I to II to III",
+      "status": "NOT_TESTED"
+    },
+    {
+      "id": "cm009",
+      "note": "CM009 is listed at level II but is not in the pinned OKR corpus.",
+      "status": "NOT_TESTABLE"
+    }
+  ],
+  "historical_khipu_decipherment": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "khipus": [
+    {
+      "investigator_num": "UR063",
+      "level1_pendants": 111,
+      "okr_num": "KH0300",
+      "tier": "I"
+    },
+    {
+      "investigator_num": "UR064",
+      "level1_pendants": 71,
+      "okr_num": "KH0301",
+      "tier": "II"
+    },
+    {
+      "investigator_num": "UR066",
+      "level1_pendants": 32,
+      "okr_num": "KH0303",
+      "tier": "III"
+    },
+    {
+      "investigator_num": "UR067",
+      "level1_pendants": 32,
+      "okr_num": "KH0304",
+      "tier": "III"
+    },
+    {
+      "investigator_num": "UR068",
+      "level1_pendants": 73,
+      "okr_num": "KH0305",
+      "tier": "II"
+    },
+    {
+      "investigator_num": "UR073",
+      "level1_pendants": 74,
+      "okr_num": "KH0310",
+      "tier": "I"
+    }
+  ],
+  "measured": {
+    "gap": 8,
+    "ur063_pendant_total": {
+      "sum": 1439,
+      "unreadable": 6
+    },
+    "ur068_cords_34_53": {
+      "sum": 1447,
+      "unreadable": 0
+    }
+  },
+  "new_reading_claimed": false,
+  "not_in_corpus": [
+    "CM009"
+  ],
+  "preregistered": false,
+  "report_sha256": "28f2ccfa7a866870da1c853f1d24b082038a0ac4ec4053a91cd8db2a46299518",
+  "reported": {
+    "tiers": {
+      "I": [
+        "UR063",
+        "UR073"
+      ],
+      "II": [
+        "UR064",
+        "CM009",
+        "UR068"
+      ],
+      "III": [
+        "UR067",
+        "UR066"
+      ]
+    },
+    "ur063_total": 1439,
+    "ur068_span": [
+      34,
+      53
+    ],
+    "ur068_span_total": 1447
+  },
+  "schema": "szl.okr.puruchuco-reported-sums/v1",
+  "signature_verified": false,
+  "source_paper_read": false,
+  "sources": [
+    {
+      "cite": "Urton, G. and Brezine, C. J. (2005). Khipu Accounting in Ancient Peru. Science 309(5737): 1065-1067.",
+      "doi": "10.1126/science.1113426",
+      "key": "urton_brezine2005",
+      "read_by_this_project": false
+    },
+    {
+      "cite": "Khosla, A. Khipu Field Guide, notebook 'Replicating Puruchuco'.",
+      "key": "khipu_field_guide",
+      "note": "tier list and the figures 1439 and 1447 taken from a web-search summary",
+      "read_by_this_project": false,
+      "url": "https://khipufieldguide.com/"
+    }
+  ],
+  "specificity": {
+    "label": "OURS_EXPLORATORY_NOT_IN_SOURCE",
+    "largest_single_cord_in_span": 1236,
+    "note": "No other khipu in the corpus has a pendant total this close to the UR068 span. Inside UR068 the match is not sensitive to where the window starts, because one cord (1236) carries most of the sum.",
+    "other_khipus_in_corpus": 618,
+    "other_khipus_with_total_within_gap_of_1447": 0,
+    "ur068_twenty_cord_windows": 54,
+    "ur068_windows_within_gap_of_1439": 15
+  },
+  "status": "POST_HOC_REPLICATION_OF_REPORTED_FIGURES",
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}
