@@ -1,0 +1,5 @@
+path,url,sha256,note
+kdb_recovery/khipu_kdb_recovery_record_v1.0.zip,https://zenodo.org/records/21514490/files/khipu_kdb_recovery_record_v1.0.zip?download=1,eaad02717372df9ae46920571e40600006b63a796ab8ab6b36d883d687d2917a,"KDB legacy recovery record (manifest+tooling+validation), Zenodo 10.5281/zenodo.21514490, md5 ff0a9b32a9ce72629a7a2f4b77921770, bytes=32133"
+contreras/2607.00185v1.pdf,https://arxiv.org/pdf/2607.00185v1,760462d5e657a74dc3525c8f3e95105789d5f21cd77e48860d4a97cd1f92a431,"Contreras: Structural Pattern Mining in Inka Khipus (clustering, provenance, Santa Valley), bytes=827295"
+contreras/2610.38580v1.pdf,https://arxiv.org/pdf/2610.38580v1,10bad1d5f368e1f967a1e44c2efacdd9e0ea1fdb40bd32bd6e4ec563446e5902,"Contreras: Structural Pattern Mining, a KFG Re-Analysis (cataloger confound, null models), bytes=242442"
+contreras/khipu-ml/LICENSE,https://raw.githubusercontent.com/mcontrerasmalpar-pixel/khipu-ml/main/LICENSE,dd528736be6d13300a986d349355e5399130b0b07cbff27179fea3c8ba9a5296,"Khipu-ML license file, VERIFIED ON FETCH: MIT, Copyright (c) 2026 Maria Contreras, bytes=1072"
