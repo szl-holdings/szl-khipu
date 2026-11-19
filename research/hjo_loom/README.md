@@ -35,10 +35,15 @@ Huang–Jiang–Oblomkov, *Quot scheme of points on torus knot singularities*,
    vectors of a descending chain of nonempty order filters, and
    Q(n + 1<sub>G</sub>) − Q(n) = B(G,G) + Σ<sub>v</sub> [B(F<sub>v</sub>,G) + B(G,F<sub>v</sub>)].
    For every pair tested, B(G,G) ≥ 1 and the nested cross term is ≥ 0, so Q strictly increases
-   along chains and the walk can stop exactly at Q > D. The engine **re-verifies this precondition
-   for each pair before use** and refuses (`MONOTONE_PRUNING_PRECONDITION_FAILED`) otherwise; the
-   symmetrised form of Q is *not* positive definite for a ≥ 4, so ambient-space bounds do not
-   apply. Tests compare the pruned walk with an unpruned reference.
+   along chains and the walk can stop exactly at Q > D. This precondition is not merely
+   empirical: it is proved in general as Theorem 1.2 of
+   [arXiv:2604.13238](https://arxiv.org/abs/2604.13238) (Y. Huang), in a stronger form with no
+   containment hypothesis between F and G — our earlier framing of it as possibly-open was
+   wrong, corrected by the author (personal communication, 2026-11-18). The engine
+   **re-verifies this precondition for each pair before use** and refuses
+   (`MONOTONE_PRUNING_PRECONDITION_FAILED`) otherwise; the symmetrised form of Q is *not*
+   positive definite for a ≥ 4, so ambient-space bounds do not apply. Tests compare the pruned
+   walk with an unpruned reference.
 3. **Linear echelon enumeration (V5).** Every R-submodule of colength m contains
    T<sup>m+c</sup>F<sub>q</sub>[[T]]<sup>N</sup> (c = conductor), so it is a subspace of
    (F<sub>q</sub>[T]/T<sup>m+c</sup>)<sup>N</sup>. Building its reduced echelon basis from the
@@ -85,5 +90,8 @@ regime. Separately, the V1 rows with a ≥ 4 are the product identities first se
   [AxiomMath/HJO](https://github.com/AxiomMath/HJO) (revision observed `6a58dfa6`, not replayed).
 - V6 compares partial sums of a convergent series with its predicted limit; it can only detect
   gross inconsistency.
+- 2026-11-18 correction (Y. Huang, personal communication): the monotone-pruning precondition
+  above was previously described as possibly-open; it is proved — Theorem 1.2 of
+  [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), stronger form, no containment hypothesis.
 - The torus knots of this mathematics are algebraic objects. Nothing here links them to the
   physical knots of khipus; the OKR work in `../okr_corpus/` is a separate study.
