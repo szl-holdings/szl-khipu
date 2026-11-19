@@ -3,9 +3,9 @@
 
 # Provenance-native held-out v2 — preregistered selective-prediction probes
 
-Status: **PREREGISTERED.** At the commit that adds this folder, no model has been run
-on this probe set. Results are **UNAVAILABLE** until a run receipt is published; each
-receipt will be UNSIGNED until countersigned.
+Status: **MEASURED, UNSIGNED.** Preregistered in #144 (main `36a5823`) before any model
+ran; run once on 2026-11-19. Results and hypothesis outcomes are in [Results](#results).
+The receipts are unsigned until countersigned.
 
 ## Why v2 exists
 
@@ -87,6 +87,54 @@ Any v6 training targets the worst measured failure in this run: fabrication if
 fabricated responses exceed 3/33 for the best adapter, otherwise answerable coverage if
 it is below the base model's. v6 is then evaluated on a new held-out set, never on this
 one.
+
+## Results
+
+Run 2026-11-19 on one NVIDIA GeForce RTX 5050 Laptop GPU (torch 2.11.0+cu128,
+transformers 5.23.0, peft 0.21.3), greedy, one run per model, with the files at main
+`36a5823`. Both gates passed (`LEAK_CHECK_OK` over 4,350 corpus strings; every model
+last modified before the preregistration time). `grade_v2.py` was run a second time,
+in a separate stdlib-only interpreter, over the saved raw responses: every count below
+matched the in-run grading, all 33 response digests matched, and the probe-set digest
+recorded in each receipt is `6156a860…`.
+
+| Model | Answerable /12 | Distractor /10 | No receipt /8 | Contradiction /3 | Correct /33 | Fabricated | Answerable coverage | Selective risk |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| base | 5 | 1 | 1 | 1 | 8 | 0 | 1.00 | 0.81 |
+| v2 | 6 | 5 | 8 | 0 | 19 | 7 | 0.83 | 0.60 |
+| v3 | 11 | 9 | 2 | 0 | 22 | 5 | 1.00 | 0.35 |
+| v4 | 11 | 9 | 8 | 0 | 28 | 1 | 1.00 | 0.31 |
+| v5 | 8 | 10 | 3 | 0 | 21 | 4 | 0.92 | 0.33 |
+
+Hypotheses, as preregistered:
+
+- **H1 failed.** The base model fabricated on 0 probes; v4 on 1 and v5 on 4. With the
+  receipt in context, the base model does not invent citations; it misreads the receipt
+  instead (selective risk 0.81).
+- **H2 held.** Answerable probes correct: v4 11, v5 8, base 5.
+- **H3 held.** Fabricated: v3 5, v4 1.
+
+Decision rule: neither condition triggered (v4, the adapter with the most correct
+responses, fabricated on 1/33; its answerable coverage equals the base model's), so the
+rule selects no v6 target.
+
+Observed but not preregistered: every adapter scored 0/3 on contradiction probes. Given
+two receipts that disagree, the adapters report one value; on `con-epoch`, v4 attributes
+epoch-a's value to epoch-b's receipt, and its only fabrication (an invented receipt
+path and digest) is on `con-build`. Three probes are too few to support a claim; a
+contradiction-focused held-out set would have to be preregistered before any training
+targets this.
+
+Receipts (UNSIGNED) in `SZLHOLDINGS/frontier-54-runs`, commit `2502f83cdc15b06a8b2da234b5c51c6136185aea`,
+under `receipts/provenance-native-heldout-v2/`:
+
+| File | sha256 |
+| --- | --- |
+| `run-base.json` | `8735bda96b1a4071f27936658731517693c10bc820d08dcb76af771c9cededf7` |
+| `run-v2.json` | `04045f9b5be25fdaefc34883dac6195ebf6d002d13cba3760a1840c2491a612c` |
+| `run-v3.json` | `c05b82fe65e9d99a1045106bc3ae48dd51e85eb0f67655717578b0fb39e23cd4` |
+| `run-v4.json` | `ff98383e0aa3a1eb88e934727371f41436b0d94bcbee6fee52d89238d24f3249` |
+| `run-v5.json` | `68e6b6192bcb3596c72a6aa8def8dbf47245882c4c1c6df4d31b559b4a27a85a` |
 
 ## Limitations
 
