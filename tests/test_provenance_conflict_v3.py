@@ -69,7 +69,7 @@ class AmendmentA1(unittest.TestCase):
         for node in tree.body:
             if isinstance(node, ast.Assign) and any(getattr(t, 'id', None) == name for t in node.targets):
                 return ast.literal_eval(node.value)
-        self.fail(f'{name} not assigned at module level')
+        raise self.failureException(f'{name} not assigned at module level')
 
     def test_pins_cover_default_models_and_match_readme(self):
         pinned = self._assigned('PINNED')
