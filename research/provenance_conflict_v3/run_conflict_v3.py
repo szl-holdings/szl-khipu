@@ -66,12 +66,32 @@ def user_turn(p):
 
 # Preregistration gate: every model must predate this probe set, so no weights can be tuned to it.
 PREREG_UTC = '2026-11-19T08:00:00+00:00'
+# Amendment A1 (README): load the exact revisions held-out v2 evaluated, and require each pinned
+# commit to predate PREREG_UTC. A later commit that only edits a model card no longer blocks the run;
+# a model without a pinned revision does.
+PINNED = {
+    'SZLHOLDINGS/szl-receiptagent-qwen35-0.8b-v2m-estate-sft-v1': 'aa3e937e991af2513f9f77f28aeab4f220622785',
+    'SZLHOLDINGS/szl-provenance-native-v2-lora': '4e3b48f077c1c060b4a3d3eb7e1523c14f9d4209',
+    'SZLHOLDINGS/szl-provenance-native-v3-lora': '97c2b8e29d019def82b95b3f1f8f7f14ee951aba',
+    'SZLHOLDINGS/szl-provenance-native-v4-lora': '7631759bfaf719944ebc6c6843261320ef0f0802',
+    'SZLHOLDINGS/szl-provenance-native-v5-lora': '1dc8e0203ae64c61157e8b98947ef1f4af49fe49',
+}
 api = HfApi()
-infos = {m: api.model_info(m) for m in [a.base] + a.adapters.split(',')}
-late = [m for m, i in infos.items() if i.last_modified is None or i.last_modified.isoformat() >= PREREG_UTC]
+models = [a.base] + a.adapters.split(',')
+unpinned = [m for m in models if m not in PINNED]
+if unpinned:
+    print('ABORT_UNPINNED_MODEL', unpinned, flush=True); sys.exit(4)
+revs = {m: PINNED[m] for m in models}
+pinned_utc, late = {}, []
+for m in models:
+    c = api.list_repo_commits(m, revision=revs[m])[0]
+    pinned_utc[m] = c.created_at.isoformat()
+    if c.commit_id != revs[m] or c.created_at.isoformat() >= PREREG_UTC:
+        late.append(m)
 if late:
     print('ABORT_MODEL_AFTER_PREREGISTRATION', late, flush=True); sys.exit(4)
-revs = {m: i.sha for m, i in infos.items()}
+infos = {m: api.model_info(m) for m in models}
+print('PIN_GATE_OK', json.dumps({m.split('/')[-1]: [revs[m][:12], pinned_utc[m]] for m in models}), flush=True)
 tok = AutoTokenizer.from_pretrained(a.base, revision=revs[a.base])
 model = AutoModelForCausalLM.from_pretrained(a.base, revision=revs[a.base], dtype=torch.bfloat16, device_map='cuda')
 env = {'python': platform.python_version(), 'torch': torch.__version__, 'transformers': transformers.__version__,
@@ -95,7 +115,8 @@ def run(name, m):
                'base': a.base, 'base_revision': revs[a.base], 'probe_set_sha256': sha_file(a.probes),
                'grader_sha256': sha_file(grader.__file__), 'corpus_sha256': corpus_sha, 'env': env,
                'decode': f'greedy, max_new_tokens={a.max_new_tokens}', 'preregistered_utc': PREREG_UTC,
-               'model_last_modified': infos[name].last_modified.isoformat(), 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+               'model_revision_commit_utc': pinned_utc[name], 'repo_head_at_run': infos[name].sha,
+               'repo_last_modified_at_run': infos[name].last_modified.isoformat(), 'amendment': 'A1', 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                'responses': resp, 'signature': 'UNSIGNED'}
     Path(f'{a.outdir}/run-{slug}.json').write_text(json.dumps(run_doc, indent=1), encoding='utf-8')
     s = grader.summarize(probes, {r['id']: r['text'] for r in resp})
