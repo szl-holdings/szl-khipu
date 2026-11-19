@@ -350,16 +350,16 @@ def audit(trials: int = TRIALS, targets: tuple = TARGETS) -> dict:
                        "unit": "level-1 pendant cords attached to a primary cord"},
         "definitional_pairs_not_scored": [list(p) for p in DEFINITIONAL],
         "reading_the_numbers": [
-            "gain_bits_per_cord is the saving over predicting the cord from its khipu's own "
-            "frequencies; it can be negative when a context splits the counts without helping.",
-            "null_* repeat the measurement after shuffling the hidden feature among the cords "
-            "of each khipu; p_upper cannot go below 1/(trials+1).",
-            "excess_bits_per_cord is the gain minus the shuffle mean: the part of the saving "
-            "that depends on which cord carries which value.",
-            "cluster_null_* and excess_within_cluster repeat that for feature-to-feature links "
-            "with values shuffled only inside their own cord cluster.",
-            "A recorded link can come from how a khipu was made, how it survived, or how it was "
-            "catalogued. This test cannot tell those apart.",
+            ("gain_bits_per_cord is the saving over predicting the cord from its khipu's own "
+             "frequencies; it can be negative when a context splits the counts without helping."),
+            ("null_* repeat the measurement after shuffling the hidden feature among the cords "
+             "of each khipu; p_upper cannot go below 1/(trials+1)."),
+            ("excess_bits_per_cord is the gain minus the shuffle mean: the part of the saving "
+             "that depends on which cord carries which value."),
+            ("cluster_null_* and excess_within_cluster repeat that for feature-to-feature links "
+             "with values shuffled only inside their own cord cluster."),
+            ("A recorded link can come from how a khipu was made, how it survived, or how it was "
+             "catalogued. This test cannot tell those apart."),
         ],
         "targets": {}, "santa_valley": {},
     }
