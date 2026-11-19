@@ -120,6 +120,13 @@ jobs:
           cmp "$audit/result.json" "$inputs/result.json"
           (cd "$inputs" && python -I "$audit/trace_unmatched.py" > unmatched.json)
           cmp "$audit/unmatched_trace.json" "$inputs/unmatched.json"
+          (cd "$inputs" && python -I "$audit/robustness.py" > robustness.json)
+          cmp "$audit/robustness.json" "$inputs/robustness.json"
+          cp szl_khipu/okr_khipu.py "$inputs/okr_khipu.py"
+          (cd "$audit" && KHIPU_XCAT_INPUTS="$inputs" python -B -m unittest -v test_candidates.py)
+          python -B "$audit/candidate_concordance.py" "$inputs" > "$inputs/candidates.json"
+          python -I "$audit/summarize.py" "$inputs/candidates.json" "$inputs/result.json" > "$inputs/summary.json"
+          cmp "$audit/candidate_summary.json" "$inputs/summary.json"
       - name: Replay the grouped split without changing the published archive
         shell: bash
         run: |

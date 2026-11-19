@@ -1,0 +1,156 @@
+{
+  "baseline_sha256": "476980099680971bc2580708b719c3b0b16007488b99cfb82cf134d5a8580378",
+  "corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "shared_identity_records": 557,
+  "strictly_mapped_KFG_positive_rows_on_shared_records": 39,
+  "all_single_group_OKR_positive_rows_on_shared_records": 47,
+  "row_sensitivity": {
+    "baseline": {
+      "rows": 39,
+      "matching_artifacts": 11
+    },
+    "recorded_non_unknown_provenance": {
+      "rows": 23,
+      "matching_artifacts": 8
+    },
+    "no_zero_valued_summand": {
+      "rows": 32,
+      "matching_artifacts": 11
+    },
+    "no_B_or_C_termination_code": {
+      "rows": 29,
+      "matching_artifacts": 9
+    },
+    "all_three_filters": {
+      "rows": 13,
+      "matching_artifacts": 6
+    }
+  },
+  "largest_artifact_share": {
+    "numerator": 6,
+    "denominator": 39
+  },
+  "top_four_share": {
+    "numerator": 21,
+    "denominator": 39
+  },
+  "leave_four_largest_out": {
+    "remaining_rows": 18,
+    "remaining_matching_artifacts": 7
+  },
+  "leave_one_matching_artifact_out": {
+    "rows_min": 33,
+    "rows_max": 38,
+    "matching_artifacts": 10
+  },
+  "leave_any_shared_artifact_out": {
+    "rows_min": 33,
+    "rows_max": 39,
+    "matching_artifacts_min": 10,
+    "matching_artifacts_max": 11
+  },
+  "artifact_omissions": [
+    {
+      "okr": "KH0055",
+      "kfg": "AS044",
+      "numeric_id": 1000345,
+      "reported_provenance": "",
+      "omitted_rows": 6,
+      "remaining_rows": 33
+    },
+    {
+      "okr": "KH0079",
+      "kfg": "AS066",
+      "numeric_id": 1000369,
+      "reported_provenance": "",
+      "omitted_rows": 5,
+      "remaining_rows": 34
+    },
+    {
+      "okr": "KH0109",
+      "kfg": "UR1096",
+      "numeric_id": 1000315,
+      "reported_provenance": "Pachacamac",
+      "omitted_rows": 5,
+      "remaining_rows": 34
+    },
+    {
+      "okr": "KH0217",
+      "kfg": "AS199",
+      "numeric_id": 1000164,
+      "reported_provenance": "",
+      "omitted_rows": 5,
+      "remaining_rows": 34
+    },
+    {
+      "okr": "KH0358",
+      "kfg": "UR118",
+      "numeric_id": 1000293,
+      "reported_provenance": "Paracas",
+      "omitted_rows": 4,
+      "remaining_rows": 35
+    },
+    {
+      "okr": "KH0359",
+      "kfg": "UR119",
+      "numeric_id": 1000329,
+      "reported_provenance": "Paracas",
+      "omitted_rows": 4,
+      "remaining_rows": 35
+    },
+    {
+      "okr": "KH0405",
+      "kfg": "UR166",
+      "numeric_id": 1000496,
+      "reported_provenance": "Huando, Chancay, Peru (Gaffron Collection)",
+      "omitted_rows": 4,
+      "remaining_rows": 35
+    },
+    {
+      "okr": "KH0277",
+      "kfg": "UR047",
+      "numeric_id": 1000240,
+      "reported_provenance": "Pueblo Libre, Lima, Peru",
+      "omitted_rows": 2,
+      "remaining_rows": 37
+    },
+    {
+      "okr": "KH0424",
+      "kfg": "UR186",
+      "numeric_id": 1000497,
+      "reported_provenance": "Hda. Huando, Chancay",
+      "omitted_rows": 2,
+      "remaining_rows": 37
+    },
+    {
+      "okr": "KH0235",
+      "kfg": "AS215",
+      "numeric_id": 1000037,
+      "reported_provenance": "Nazca",
+      "omitted_rows": 1,
+      "remaining_rows": 38
+    },
+    {
+      "okr": "KH0482",
+      "kfg": "UR246",
+      "numeric_id": 1000556,
+      "reported_provenance": "Pachacamac",
+      "omitted_rows": 1,
+      "remaining_rows": 38
+    }
+  ],
+  "leave_one_artifact_distribution": {
+    "33": 1,
+    "34": 3,
+    "35": 3,
+    "37": 2,
+    "38": 2
+  },
+  "interpretation": [
+    "Deletion is at the artifact level; prints exact finite-catalog counts rather than treating cord rows as independent.",
+    "Reported provenance is secondary catalog metadata, not confirmed geography.",
+    "The B/C exclusion applies the recorded termination codes used by the pinned SZL source; it is not a universal damage adjudication.",
+    "557 is the identity concordance frame, not a detector eligibility denominator. The 39 KFG rows are already selected mapped positives, and the 47 OKR rows are selected positives as well.",
+    "No confidence interval, p-value, sensitivity, false-negative rate, or independent validation is estimated."
+  ]
+}
