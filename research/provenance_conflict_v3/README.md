@@ -50,7 +50,45 @@ Same base model and adapters as held-out v2:
 `szl-provenance-native-v2-lora` through `-v5-lora`. Same system prompt, greedy decoding,
 256 new tokens, one run per model. `run_conflict_v3.py` refuses any model modified at
 or after `2026-11-19T08:00:00Z`, and any probe whose question (or its first 40
-characters) appears in corpus v0.2–v0.5.
+characters) appears in corpus v0.2–v0.5. Amendment A1 (below) changes how "modified"
+is established; nothing else in this section changed.
+
+## Amendment A1 (2026-11-19, before any model output on this set)
+
+**What happened.** The first run attempt (2026-11-19, 09:00:52Z, laptop RTX 5050) passed
+the leakage gate (`LEAK_CHECK_OK`, 4,350 corpus strings) and then stopped at the
+preregistration gate with `ABORT_MODEL_AFTER_PREREGISTRATION
+['SZLHOLDINGS/szl-provenance-native-v5-lora']`. The gate exits before any model is
+loaded: no model has generated a response to any probe in this set, and the output
+directory of that attempt is empty.
+
+**Why it stopped.** The gate compared each repository's last-modified time with
+`PREREG_UTC`. Commits that edit only the model card advance that time. Those commits
+are listed below, read from the Hub API on 2026-11-19 (MEASURED). At each repository's
+head, the LFS sha256 of `adapter_model.safetensors` and the blob of `adapter_config.json`
+are identical to the pinned revision.
+
+| Model | Revision held-out v2 evaluated | Its commit time (UTC) | Later commits |
+| --- | --- | --- | --- |
+| base `szl-receiptagent-qwen35-0.8b-v2m-estate-sft-v1` | `aa3e937e991af2513f9f77f28aeab4f220622785` | 2026-11-16 01:03:07 | none |
+| `szl-provenance-native-v2-lora` | `4e3b48f077c1c060b4a3d3eb7e1523c14f9d4209` | 2026-11-17 04:25:00 | none |
+| `szl-provenance-native-v3-lora` | `97c2b8e29d019def82b95b3f1f8f7f14ee951aba` | 2026-11-17 15:38:40 | `0c4bcf452420` 2026-11-19 06:35:29, card only |
+| `szl-provenance-native-v4-lora` | `7631759bfaf719944ebc6c6843261320ef0f0802` | 2026-11-17 11:34:32 | `2b9ebf666cdb` 2026-11-19 07:44:45, card only |
+| `szl-provenance-native-v5-lora` | `1dc8e0203ae64c61157e8b98947ef1f4af49fe49` | 2026-11-17 20:28:10 | `95bc45107e03` 2026-11-19 09:00:48, card only |
+
+**What changed.** `run_conflict_v3.py` now loads exactly these revisions (the ones
+recorded in the held-out v2 run receipts), and it requires each revision's own commit to
+predate `PREREG_UTC`. A model without a pinned revision is refused
+(`ABORT_UNPINNED_MODEL`). Each run receipt records the pinned revision, its commit time,
+and the repository head and last-modified time at run time.
+
+This makes the gate stricter about what it protects, which is the weights. The old gate
+loaded whatever the head was when it ran. The new gate loads a fixed revision, and that
+revision has to be older than the probe set. It also brings the run in line with "same
+base model and adapters as held-out v2" above.
+
+**What did not change.** The probe set, the grader, the system prompt, the decoding,
+the leakage gate, `PREREG_UTC`, the hypotheses and the decision rule.
 
 ## Hypotheses, stated before the run
 
@@ -86,5 +124,5 @@ never on this one. If H4 fails, no conflict-targeted training follows from this 
 | `provenance_conflict_probes_v3.json` | The frozen probe set, sha256 `995c01cc73e1a0eaf69a3cd36b6d6ed6653e9c4c7f5b5ec1810ff56179c8583a`. |
 | `generate_conflict_v3.py` | Deterministic generator; `--check FILE` must reproduce the file byte for byte. |
 | `grade_conflict_v3.py` | Deterministic grader (stdlib only). |
-| `run_conflict_v3.py` | GPU harness with preregistration and leakage gates. |
+| `run_conflict_v3.py` | GPU harness with pinned-revision preregistration and leakage gates (Amendment A1). |
 | `../../tests/test_provenance_conflict_v3.py` | Probe-set and grader contract tests. |

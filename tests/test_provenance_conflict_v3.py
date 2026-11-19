@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # (c) 2026 Lutar, Stephen P. - SZL Holdings - ORCID 0009-0001-0110-4173
 """Grader and probe-set contract for research/provenance_conflict_v3 (stdlib only, no model)."""
-import hashlib, importlib.util, json, unittest
+import ast, hashlib, importlib.util, json, re, unittest
 from pathlib import Path
 
 R = Path(__file__).resolve().parents[1] / 'research'
@@ -59,6 +59,34 @@ class Grader(unittest.TestCase):
         self.assertEqual(always['per_kind']['consistent_pair']['correct'], 0)
         refuse = g.summarize(list(P.values()), {pid: 'I abstain: no receipt grounds this claim.' for pid in P})
         self.assertEqual(refuse['correct_total'], 0)
+
+
+class AmendmentA1(unittest.TestCase):
+    """The harness pins the exact revisions held-out v2 evaluated (read without importing torch)."""
+
+    def _assigned(self, name):
+        tree = ast.parse((D / 'run_conflict_v3.py').read_text(encoding='utf-8'))
+        for node in tree.body:
+            if isinstance(node, ast.Assign) and any(getattr(t, 'id', None) == name for t in node.targets):
+                return ast.literal_eval(node.value)
+        self.fail(f'{name} not assigned at module level')
+
+    def test_pins_cover_default_models_and_match_readme(self):
+        pinned = self._assigned('PINNED')
+        self.assertEqual(self._assigned('PREREG_UTC'), '2026-11-19T08:00:00+00:00')
+        src = (D / 'run_conflict_v3.py').read_text(encoding='utf-8')
+        defaults = set(re.findall(r"SZLHOLDINGS/[\w.-]+", src.split('a = ap.parse_args()')[0]))
+        self.assertEqual(set(pinned), defaults)
+        readme = (D / 'README.md').read_text(encoding='utf-8')
+        for model, rev in pinned.items():
+            self.assertRegex(rev, r'^[0-9a-f]{40}$')
+            self.assertIn(f'`{rev}`', readme, model)
+
+    def test_gate_refuses_unpinned_models_and_loads_pins(self):
+        src = (D / 'run_conflict_v3.py').read_text(encoding='utf-8')
+        self.assertIn("ABORT_UNPINNED_MODEL", src)
+        self.assertIn("revs = {m: PINNED[m] for m in models}", src)
+        self.assertNotIn("revs = {m: i.sha", src)
 
 
 if __name__ == '__main__':
