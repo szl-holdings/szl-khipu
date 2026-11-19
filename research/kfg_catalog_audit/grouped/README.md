@@ -1,4 +1,4 @@
-# Khipu grouped split sensitivity — private research replay
+# Khipu grouped split sensitivity — archived baseline replay
 
 ## Scope and pinned provenance
 
@@ -7,7 +7,7 @@ Builder: `research/okr_structure_sft/build_structure_sft.py` (actual source impo
 Corpus: `research/okr_corpus/okr_corpus_v1.json.gz`, upstream OKR commit `4039ca51f4de661d80d0160596309c983a62a9c7`.
 The replay verifies clean tracked source and exact revision, uses the corpus loader's pinned digest, and first reproduces the committed baseline manifest exactly. It never rewrites the source, archived corpus, JSONL training artifacts or manifest. It generates only this separate sensitivity evidence. No training or model inference occurs.
 
-Alias-pair documentary provenance was supplied by coordinating research: Khipu Field Guide sketchbook footnote 8 identifies KH0473 as a duplicate of KH0121; OKR/KFG document KH0140/KH0483. This replay does not independently verify the physical objects. Historical distinct accession labels are not erased. Pair links for KH0192/KH0470 and KH0303/KH0304 are treated only as a similarity sensitivity, **not duplicate assertions**.
+Alias-pair documentary provenance: [Khipu Field Guide sketchbook footnote 8](https://khipufieldguide.com/sketchbook/index.html) identifies KH0473 as a duplicate of KH0121; OKR/KFG document KH0140/KH0483. This replay does not independently verify the physical objects. Historical distinct accession labels are not erased. Pair links for KH0192/KH0470 and KH0303/KH0304 are treated only as a similarity sensitivity, **not duplicate assertions**.
 
 ## Method
 
