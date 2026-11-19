@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://szl-holdings.github.io/szl-khipu/materiality.schema.json",
+  "title": "Materiality Observation Schema (MOS v0.1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "khipu_id",
+    "cord_id",
+    "observation_class",
+    "observed_value",
+    "method",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "mos/0.1"
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "khipu_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^KH[0-9]{4}$",
+          "description": "Open Khipu Repository identifier"
+        },
+        {
+          "type": "string",
+          "pattern": "^PROV-[A-Za-z0-9-]+$",
+          "description": "Provisional identifier for an unregistered khipu"
+        }
+      ]
+    },
+    "cord_id": {
+      "type": "string",
+      "description": "OKR-compatible cord identifier or positional key (e.g. p001 for pendant 1)"
+    },
+    "observation_class": {
+      "enum": [
+        "FIBRE",
+        "DYE",
+        "ATTACH",
+        "SPIN",
+        "DIAMETER",
+        "MICROSAMPLING",
+        "RADIOCARBON",
+        "OTHER"
+      ]
+    },
+    "observed_value": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "primary"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Main observation, using the shared vocabulary for fibre/dye classes when possible"
+        },
+        "qualifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Modifiers, admixtures, contaminations"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "measured": {
+          "type": "number"
+        },
+        "in_situ": {
+          "type": "boolean",
+          "description": "True when observed on the intact object rather than a sample"
+        }
+      }
+    },
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "destructive"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "visual",
+            "hand-lens",
+            "optical-microscopy",
+            "SEM",
+            "FTIR",
+            "radiocarbon",
+            "other"
+          ]
+        },
+        "destructive": {
+          "type": "boolean"
+        },
+        "instrument": {
+          "type": "string"
+        },
+        "protocol_ref": {
+          "type": "string",
+          "description": "Citation or DOI for the exact protocol"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observer",
+        "identified_as",
+        "confidence"
+      ],
+      "properties": {
+        "observer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "orcid": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
+            },
+            "institution": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            }
+          }
+        },
+        "identified_as": {
+          "type": "string",
+          "description": "What the observer concluded this observation shows, in the observer's own terms"
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "disagrees_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "record_ids of conflicting observations; disagreement is recorded, never averaged"
+        }
+      }
+    },
+    "source_media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_sha256",
+          "license",
+          "captured_at",
+          "custodian"
+        ],
+        "properties": {
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "license": {
+            "type": "string"
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "custodian": {
+            "type": "string"
+          },
+          "media_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "conditions": {
+      "type": "string",
+      "description": "Environmental, conservation, or handling caveats"
+    }
+  }
+}
