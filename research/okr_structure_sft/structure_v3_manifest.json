@@ -1,0 +1,44 @@
+{
+ "builder": "research/okr_structure_sft/build_structure_sft.py",
+ "builder_sha256": "5eb069d3309132839522ec4e8b8fd082f98e27fd2d72f4800eede41982a6f23a",
+ "cipher_rows_per_khipu": {
+  "eval": 5,
+  "train": 3
+ },
+ "corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+ "eval": {
+  "bytes": 165288,
+  "file": "khipu_structure_eval_v2.jsonl",
+  "khipus": 61,
+  "rows": 366,
+  "sha256": "a4a41c25f3d9d9943e5245b696761d3678271b3a23c0a69839c16910a8e2e1e2",
+  "tiers": {
+   "okr-cipher-qa": 282,
+   "okr-pendant-sum-qa": 23,
+   "okr-structure-qa": 61
+  }
+ },
+ "label": "MEASURED counts from the digest-pinned corpus; exploratory training data; not decipherment",
+ "okr_source": {
+  "commit": "4039ca51f4de661d80d0160596309c983a62a9c7",
+  "db_sha256": "607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db",
+  "doi": "https://doi.org/10.5281/zenodo.18025748"
+ },
+ "pendant_sum_max_pendants": 60,
+ "reading_rule": "cord value = sum of OKR knot_value_type (each knot's recorded decimal contribution); UNKNOWN, never 0, when a knot value is missing or a knotless cord is broken or cut; knotless intact cords are 0",
+ "schema": "szl.okr_structure_sft_manifest/v1",
+ "split_rule": "held out when int(sha256(str(KHIPU_ID)).hexdigest(), 16) % 10 == 0",
+ "train": {
+  "bytes": 2529410,
+  "file": "khipu_structure_sft_v3.jsonl",
+  "khipus": 550,
+  "rows": 2857,
+  "sha256": "bee9baa1ec4a0c29328085bed3c521cd81a5fec4957a4d1a4fc96ec8b4259a5f",
+  "tiers": {
+   "okr-cipher-qa": 1566,
+   "okr-cord-sequence": 550,
+   "okr-pendant-sum-qa": 191,
+   "okr-structure-qa": 550
+  }
+ }
+}
