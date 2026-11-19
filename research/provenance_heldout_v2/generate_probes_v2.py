@@ -7,6 +7,7 @@
 Receipts here are synthetic fixtures: their digests are integrity checks, not signatures.
 """
 import argparse, hashlib, json, sys
+from pathlib import Path
 
 
 def sha(s):
@@ -84,9 +85,9 @@ if __name__ == '__main__':
     a = ap.parse_args()
     blob = build()
     if a.check:
-        ok = open(a.check, encoding='utf-8').read() == blob
+        ok = Path(a.check).read_text(encoding='utf-8') == blob
         print('CHECK_OK' if ok else 'CHECK_MISMATCH', hashlib.sha256(blob.encode()).hexdigest())
         sys.exit(0 if ok else 1)
     if a.out:
-        open(a.out, 'w', encoding='utf-8').write(blob)
+        Path(a.out).write_text(blob, encoding='utf-8')
     print(hashlib.sha256(blob.encode()).hexdigest())

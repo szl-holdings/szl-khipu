@@ -6,6 +6,7 @@ Regrades raw responses without running any model. Rules are fixed before any
 model output exists; changing them changes this file's sha256.
 """
 import hashlib, json, re, sys
+from pathlib import Path
 
 HEX64 = re.compile(r'\b[0-9a-f]{64}\b')
 JSONPATH = re.compile(r'[\w\-./]+\.json')
@@ -71,8 +72,8 @@ def summarize(probes, responses):
 
 
 if __name__ == '__main__':
-    probes = json.load(open(sys.argv[1]))['probes']
-    run = json.load(open(sys.argv[2]))
+    probes = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))['probes']
+    run = json.loads(Path(sys.argv[2]).read_text(encoding='utf-8'))
     out = summarize(probes, {r['id']: r['text'] for r in run['responses']})
-    out['grader_sha256'] = hashlib.sha256(open(__file__, 'rb').read()).hexdigest()
+    out['grader_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     print(json.dumps({k: v for k, v in out.items() if k != 'rows'}, indent=1))

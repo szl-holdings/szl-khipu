@@ -6,6 +6,7 @@ Grading is done afterwards by grade_v2.py, from the raw responses, so the grade 
 recomputed by anyone without a GPU. Results are UNSIGNED and stay local until reviewed.
 """
 import argparse, hashlib, json, os, platform, re, sys, time
+from pathlib import Path
 import torch, transformers, peft
 from huggingface_hub import HfApi, hf_hub_download
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -31,10 +32,10 @@ SYS = ('You are a provenance-native assistant of the SZL governed-AI estate. Cit
        'what it records. State "no benchmark recorded" unless a receipt records one.')
 V1_KEYS = ['abstain', 'no receipt', 'will not claim', 'cannot cite', 'no benchmark']
 
-def sha_file(p): return hashlib.sha256(open(p, 'rb').read()).hexdigest()
-probe_doc = json.load(open(a.probes))
+def sha_file(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+probe_doc = json.loads(Path(a.probes).read_text(encoding='utf-8'))
 probes = probe_doc['probes']
-v1 = json.load(open(a.v1probes))['probes'] if a.v1probes else []
+v1 = json.loads(Path(a.v1probes).read_text(encoding='utf-8'))['probes'] if a.v1probes else []
 
 # Fail closed on leakage: no probe question may appear (exact or 40-char prefix) in any training corpus string.
 def strings(x):
@@ -47,10 +48,11 @@ corpus_text, corpus_sha = [], {}
 for f in ['provenance_corpus_v02.jsonl', 'provenance_corpus_v03.jsonl', 'provenance_corpus_v04.jsonl', 'provenance_corpus_v05.jsonl']:
     path = hf_hub_download('SZLHOLDINGS/provenance-native-corpus-v1', f, repo_type='dataset')
     corpus_sha[f] = sha_file(path)
-    for line in open(path, encoding='utf-8'):
-        line = line.strip()
-        if line:
-            corpus_text.extend(strings(json.loads(line)))
+    with open(path, encoding='utf-8') as fh:
+        for line in fh:
+            line = line.strip()
+            if line:
+                corpus_text.extend(strings(json.loads(line)))
 blob = '\n'.join(corpus_text)
 leaks = [p['id'] for p in probes + v1 if (p.get('question') or p.get('text')).lower() in blob
          or (p.get('question') or p.get('text')).lower()[:40] in blob]
@@ -105,7 +107,7 @@ def run(name, m):
                'decode': f'greedy, max_new_tokens={a.max_new_tokens}', 'preregistered_utc': PREREG_UTC,
                'model_last_modified': infos[name].last_modified.isoformat(), 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                'responses': resp, 'v1_rows': v1rows, 'signature': 'UNSIGNED'}
-    json.dump(run_doc, open(f'{a.outdir}/run-{slug}.json', 'w', encoding='utf-8'), indent=1)
+    Path(f'{a.outdir}/run-{slug}.json').write_text(json.dumps(run_doc, indent=1), encoding='utf-8')
     s = grade_v2.summarize(probes, {r['id']: r['text'] for r in resp})
     v1s = {'n': len(v1rows), 'abstained': sum(r['abstained'] for r in v1rows), 'fabricated': sum(r['fabricated_citation'] for r in v1rows)}
     print('RESULT', slug, json.dumps({'per_kind': s['per_kind'], 'fabricated': s['fabricated_total'],
