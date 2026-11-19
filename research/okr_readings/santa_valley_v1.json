@@ -1,0 +1,1075 @@
+{
+  "alignment_with_corpus_counts": {
+    "best_error": 2,
+    "best_verso": [
+      "Cuyuchin",
+      "Guauyan",
+      "Namus"
+    ],
+    "floor_error": 2,
+    "named": {
+      "fitzpatrick2024": {
+        "error": 2,
+        "rank_of_20": 1,
+        "verso": [
+          "Cuyuchin",
+          "Guauyan",
+          "Namus"
+        ]
+      },
+      "medrano_urton2018": {
+        "error": 6,
+        "rank_of_20": 3,
+        "verso": [
+          "Corongo",
+          "Cusca",
+          "Guauyan"
+        ]
+      }
+    },
+    "recto_groups": 63,
+    "splits_at_best_error": 1,
+    "verso_groups": 69
+  },
+  "alignment_with_corpus_counts_unspecified_as_recto": {
+    "best_error": 3,
+    "best_verso": [
+      "Cusca",
+      "Guauyan",
+      "Namus"
+    ],
+    "floor_error": 3,
+    "named": {
+      "fitzpatrick2024": {
+        "error": 3,
+        "rank_of_20": 1,
+        "verso": [
+          "Cuyuchin",
+          "Guauyan",
+          "Namus"
+        ]
+      },
+      "medrano_urton2018": {
+        "error": 7,
+        "rank_of_20": 3,
+        "verso": [
+          "Corongo",
+          "Cusca",
+          "Guauyan"
+        ]
+      }
+    },
+    "recto_groups": 64,
+    "splits_at_best_error": 2,
+    "verso_groups": 69
+  },
+  "alignment_with_published_counts": {
+    "best_error": 3,
+    "best_verso": [
+      "Cuyuchin",
+      "Guauyan",
+      "Namus"
+    ],
+    "floor_error": 3,
+    "named": {
+      "fitzpatrick2024": {
+        "error": 3,
+        "rank_of_20": 1,
+        "verso": [
+          "Cuyuchin",
+          "Guauyan",
+          "Namus"
+        ]
+      },
+      "medrano_urton2018": {
+        "error": 5,
+        "rank_of_20": 2,
+        "verso": [
+          "Corongo",
+          "Cusca",
+          "Guauyan"
+        ]
+      }
+    },
+    "recto_groups": 63,
+    "splits_at_best_error": 1,
+    "verso_groups": 70
+  },
+  "chance_check": {
+    "floor_error": 3,
+    "fraction_with_a_floor_split": 0.6176,
+    "label": "OURS_EXPLORATORY_NOT_IN_SOURCE",
+    "null": "uniform random compositions of the named tributaries into six positive sizes",
+    "seed": 1670,
+    "trials": 20000
+  },
+  "claims": [
+    {
+      "id": "khipus_in_corpus",
+      "measured": [
+        "KH0323=UR087 (Museo Temple Radicati)",
+        "KH0324=UR088 (Museo Temple Radicati)",
+        "KH0325=UR089 (Museo Temple Radicati)",
+        "KH0326=UR090 (Museo Temple Radicati)",
+        "KH0327=UR091 (Museo Temple Radicati)",
+        "KH0328=UR092 (Museo Temple Radicati)"
+      ],
+      "published": "six khipus UR087-UR092, Biblioteca Museo Temple Radicati, Lima",
+      "status": "REPLICATED"
+    },
+    {
+      "id": "pendant_cords_804",
+      "measured": {
+        "level1_pendants": 824,
+        "one_cord_cluster_pendants": 20,
+        "pendants_in_multi_cord_clusters": 804
+      },
+      "note": "804 is reached by leaving out the 20 pendants that are the only cord in their cluster; the source's own exclusion rule was not located.",
+      "published": 804,
+      "status": "REPLICATED"
+    },
+    {
+      "id": "six_cord_groups_133",
+      "measured": [
+        48,
+        9,
+        34,
+        17,
+        15,
+        10
+      ],
+      "note": "colour-band rule, written after seeing the data and the published counts.",
+      "published": [
+        48,
+        9,
+        34,
+        17,
+        15,
+        10
+      ],
+      "status": "REPLICATED"
+    },
+    {
+      "id": "identifier_recto_63_verso_70",
+      "measured": {
+        "R": 63,
+        "U": 1,
+        "V": 69
+      },
+      "note": "The pinned records differ from the published counts in two groups: the fifteenth group of KH0326 opens with a recto cord (published: verso), and the second group of KH0328 opens with a cord whose attachment is recorded as unspecified. The published KH0326 sequence is this project's transcription from the preprint.",
+      "published": {
+        "R": 63,
+        "V": 70
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "id": "kh0326_59_leading_verso",
+      "measured": 59,
+      "published": 59,
+      "status": "REPLICATED"
+    },
+    {
+      "id": "first_cord_total_near_367",
+      "measured": {
+        "knotless_identifier_cords": 10,
+        "knotted_identifier_cords": 120,
+        "their_sum": 360,
+        "unreadable_identifier_cords": 3
+      },
+      "note": "360 is 98.1% of 367. PARTIAL rather than REPLICATED because the source's exact sum was not read, thirteen identifier cords carry no knots or cannot be read, and the sum depends on the grouping rule (see rules.positional).",
+      "published": "first-cord values of the 133 groups total 'closely matches' 367 pesos",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "table_3_split_arithmetic",
+      "measured": "all twenty rows recomputed from the published pachaca sizes and group counts",
+      "note": "Arithmetic on published inputs; it does not test whether the split is meaningful.",
+      "published": "twenty splits of the six pachacas with error and p (FitzPatrick 2024, Table 3)",
+      "status": "REPLICATED"
+    },
+    {
+      "id": "tribute_paid_by_moiety",
+      "measured": {
+        "R": 91,
+        "U": 2,
+        "V": 267
+      },
+      "note": "That section was not read, so there is no published figure to compare with. The measured sums by attachment side are reported for whoever has the text.",
+      "published": "FitzPatrick 2024, section 4",
+      "status": "NOT_TESTED"
+    }
+  ],
+  "document": {
+    "note": "132 tributaries at 2 pesos 7 reales 3 quartillos come to 391 pesos 7 reales, not the 367 the document states. Our arithmetic, assuming 8 reales to the peso and 4 quartillos to the real; the source's footnote on this was not read.",
+    "total_pesos": 367,
+    "tributaries_times_stated_rate": {
+      "pesos": 391,
+      "quartillos": 0,
+      "reales": 7
+    }
+  },
+  "historical_khipu_decipherment": false,
+  "independent_research_lab_replication": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "kh0326_leading_verso_cords": 59,
+  "khipus": [
+    {
+      "investigator_num": "UR087",
+      "level1_pendants": 306,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0323",
+      "provenance": "Santa"
+    },
+    {
+      "investigator_num": "UR088",
+      "level1_pendants": 54,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0324",
+      "provenance": "Santa"
+    },
+    {
+      "investigator_num": "UR089",
+      "level1_pendants": 206,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0325",
+      "provenance": "Santa"
+    },
+    {
+      "investigator_num": "UR090",
+      "level1_pendants": 108,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0326",
+      "provenance": "Santa"
+    },
+    {
+      "investigator_num": "UR091",
+      "level1_pendants": 90,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0327",
+      "provenance": "Santa"
+    },
+    {
+      "investigator_num": "UR092",
+      "level1_pendants": 60,
+      "museum": "Museo Temple Radicati",
+      "okr_num": "KH0328",
+      "provenance": "Santa"
+    }
+  ],
+  "new_reading_claimed": false,
+  "preregistered": false,
+  "published": {
+    "groups_per_khipu": [
+      48,
+      9,
+      34,
+      17,
+      15,
+      10
+    ],
+    "identifier_recto": 63,
+    "identifier_verso": 70,
+    "kh0326_identifier_sequence": "VVVVVVVVVVRRRVVRR",
+    "kh0326_leading_verso_cords": 59,
+    "pendant_cords": 804,
+    "six_cord_groups": 133,
+    "tributaries": 132,
+    "tributaries_named": 130,
+    "tribute_each": {
+      "pesos": 2,
+      "quartillos": 3,
+      "reales": 7
+    },
+    "tribute_total_pesos": 367
+  },
+  "report_sha256": "cc7bdd98929acdee13f1d0101e5a4b369a9ae6418bf943e034544acc816a116f",
+  "rules": {
+    "colour_band": {
+      "ambiguous": 0,
+      "first_cord": {
+        "by_side_sum": {
+          "R": 91,
+          "U": 2,
+          "V": 267
+        },
+        "fraction_of_document_total": 0.9809,
+        "knotless": 10,
+        "knotted": 120,
+        "knotted_sum": 360,
+        "per_khipu_sum": [
+          48,
+          80,
+          101,
+          84,
+          36,
+          11
+        ],
+        "unreadable": 3
+      },
+      "groups": 133,
+      "identifier_attachment": {
+        "R": 63,
+        "U": 1,
+        "V": 69
+      },
+      "per_khipu": [
+        {
+          "groups": 48,
+          "identifier_sequence": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+          "identifier_values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "okr_num": "KH0323",
+          "set_aside": 0
+        },
+        {
+          "groups": 9,
+          "identifier_sequence": "VVVVVVVVV",
+          "identifier_values": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            13,
+            13,
+            0
+          ],
+          "okr_num": "KH0324",
+          "set_aside": 0
+        },
+        {
+          "groups": 34,
+          "identifier_sequence": "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV",
+          "identifier_values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            3,
+            5,
+            4,
+            4,
+            3,
+            0,
+            null,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            5,
+            5,
+            5,
+            5,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            null,
+            4,
+            4,
+            4,
+            4,
+            0
+          ],
+          "okr_num": "KH0325",
+          "set_aside": 0
+        },
+        {
+          "groups": 17,
+          "identifier_sequence": "VVVVVVVVVVRRRVRRR",
+          "identifier_sequence_mismatch_groups": [
+            15
+          ],
+          "identifier_values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            null,
+            5,
+            4,
+            5,
+            6,
+            6,
+            6,
+            6,
+            6,
+            5
+          ],
+          "okr_num": "KH0326",
+          "published_identifier_sequence": "VVVVVVVVVVRRRVVRR",
+          "set_aside": 6
+        },
+        {
+          "groups": 15,
+          "identifier_sequence": "VVVVVVVVVVVVVVV",
+          "identifier_values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "okr_num": "KH0327",
+          "set_aside": 0
+        },
+        {
+          "groups": 10,
+          "identifier_sequence": "RURRRRRRRR",
+          "identifier_values": [
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "okr_num": "KH0328",
+          "set_aside": 0
+        }
+      ]
+    },
+    "positional": {
+      "ambiguous": 0,
+      "first_cord": {
+        "by_side_sum": {
+          "R": 289,
+          "U": 2,
+          "V": 458
+        },
+        "fraction_of_document_total": 2.0409,
+        "knotless": 11,
+        "knotted": 119,
+        "knotted_sum": 749,
+        "per_khipu_sum": [
+          48,
+          80,
+          101,
+          473,
+          36,
+          11
+        ],
+        "unreadable": 3
+      },
+      "groups": 133,
+      "identifier_attachment": {
+        "R": 63,
+        "U": 1,
+        "V": 69
+      },
+      "per_khipu": [
+        {
+          "groups": 48,
+          "identifier_sequence": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+          "identifier_values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "okr_num": "KH0323",
+          "set_aside": 0
+        },
+        {
+          "groups": 9,
+          "identifier_sequence": "VVVVVVVVV",
+          "identifier_values": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            13,
+            13,
+            0
+          ],
+          "okr_num": "KH0324",
+          "set_aside": 0
+        },
+        {
+          "groups": 34,
+          "identifier_sequence": "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV",
+          "identifier_values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            3,
+            5,
+            4,
+            4,
+            3,
+            0,
+            null,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            5,
+            5,
+            5,
+            5,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            null,
+            4,
+            4,
+            4,
+            4,
+            0
+          ],
+          "okr_num": "KH0325",
+          "set_aside": 0
+        },
+        {
+          "groups": 17,
+          "identifier_sequence": "VVVVVVVVVVRVRRRRR",
+          "identifier_sequence_mismatch_groups": [
+            12,
+            14,
+            15
+          ],
+          "identifier_values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            203,
+            null,
+            5,
+            4,
+            4,
+            4,
+            6,
+            8,
+            102,
+            105,
+            7
+          ],
+          "okr_num": "KH0326",
+          "published_identifier_sequence": "VVVVVVVVVVRRRVVRR",
+          "set_aside": 6
+        },
+        {
+          "groups": 15,
+          "identifier_sequence": "VVVVVVVVVVVVVVV",
+          "identifier_values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "okr_num": "KH0327",
+          "set_aside": 0
+        },
+        {
+          "groups": 10,
+          "identifier_sequence": "RURRRRRRRR",
+          "identifier_values": [
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "okr_num": "KH0328",
+          "set_aside": 0
+        }
+      ]
+    }
+  },
+  "schema": "szl.okr.santa-valley-replication/v1",
+  "signature_verified": false,
+  "source_paper_fully_read": false,
+  "sources": [
+    {
+      "cite": "Urton, G. (2017). Inka History in Knots. University of Texas Press.",
+      "key": "urton2017",
+      "read_by_this_project": false
+    },
+    {
+      "cite": "Medrano, M. and Urton, G. (2018). Toward the Decipherment of a Set of Mid-Colonial Khipus from the Santa Valley, Coastal Peru. Ethnohistory 65(1): 1-23.",
+      "doi": "10.1215/00141801-4260638",
+      "key": "medrano_urton2018",
+      "read_by_this_project": false
+    },
+    {
+      "cite": "FitzPatrick, M. (2024). New Insights on Cord Attachment and Social Hierarchy in Six Khipus from the Santa Valley, Peru. Ethnohistory 71(4): 443-469.",
+      "doi": "10.1215/00141801-11266328",
+      "key": "fitzpatrick2024",
+      "open_preprint": "https://osf.io/sr8kw",
+      "read_by_this_project": "first half and footnotes 9-12 of the open preprint (pdf sha256 a776a8b56f66cab16b2e6bdd7972a62521f29fbb30e7931044015db69685ec4e); section 4 and footnotes 3, 5, 7, 8 were not read"
+    }
+  ],
+  "status": "POST_HOC_REPLICATION_OF_PUBLISHED_CLAIMS",
+  "table_3": [
+    {
+      "error": 3,
+      "p_published_form": 0.02985,
+      "recto": [
+        "Corongo",
+        "Cusca",
+        "Ucore"
+      ],
+      "recto_total": 62,
+      "verso": [
+        "Namus",
+        "Cuyuchin",
+        "Guauyan"
+      ],
+      "verso_total": 68
+    },
+    {
+      "error": 5,
+      "p_published_form": 0.04478,
+      "recto": [
+        "Namus",
+        "Cuyuchin",
+        "Ucore"
+      ],
+      "recto_total": 59,
+      "verso": [
+        "Corongo",
+        "Cusca",
+        "Guauyan"
+      ],
+      "verso_total": 71
+    },
+    {
+      "error": 5,
+      "p_published_form": 0.04478,
+      "recto": [
+        "Corongo",
+        "Cuyuchin",
+        "Ucore"
+      ],
+      "recto_total": 64,
+      "verso": [
+        "Namus",
+        "Cusca",
+        "Guauyan"
+      ],
+      "verso_total": 66
+    },
+    {
+      "error": 9,
+      "p_published_form": 0.07463,
+      "recto": [
+        "Namus",
+        "Cusca",
+        "Ucore"
+      ],
+      "recto_total": 57,
+      "verso": [
+        "Corongo",
+        "Cuyuchin",
+        "Guauyan"
+      ],
+      "verso_total": 73
+    },
+    {
+      "error": 9,
+      "p_published_form": 0.07463,
+      "recto": [
+        "Namus",
+        "Cusca",
+        "Guauyan"
+      ],
+      "recto_total": 66,
+      "verso": [
+        "Corongo",
+        "Cuyuchin",
+        "Ucore"
+      ],
+      "verso_total": 64
+    },
+    {
+      "error": 9,
+      "p_published_form": 0.07463,
+      "recto": [
+        "Cuyuchin",
+        "Cusca",
+        "Guauyan"
+      ],
+      "recto_total": 57,
+      "verso": [
+        "Namus",
+        "Corongo",
+        "Ucore"
+      ],
+      "verso_total": 73
+    },
+    {
+      "error": 13,
+      "p_published_form": 0.10448,
+      "recto": [
+        "Namus",
+        "Cuyuchin",
+        "Guauyan"
+      ],
+      "recto_total": 68,
+      "verso": [
+        "Corongo",
+        "Cusca",
+        "Ucore"
+      ],
+      "verso_total": 62
+    },
+    {
+      "error": 19,
+      "p_published_form": 0.14925,
+      "recto": [
+        "Corongo",
+        "Cusca",
+        "Guauyan"
+      ],
+      "recto_total": 71,
+      "verso": [
+        "Namus",
+        "Cuyuchin",
+        "Ucore"
+      ],
+      "verso_total": 59
+    },
+    {
+      "error": 23,
+      "p_published_form": 0.1791,
+      "recto": [
+        "Namus",
+        "Corongo",
+        "Cuyuchin"
+      ],
+      "recto_total": 50,
+      "verso": [
+        "Cusca",
+        "Guauyan",
+        "Ucore"
+      ],
+      "verso_total": 80
+    },
+    {
+      "error": 23,
+      "p_published_form": 0.1791,
+      "recto": [
+        "Namus",
+        "Corongo",
+        "Ucore"
+      ],
+      "recto_total": 73,
+      "verso": [
+        "Cuyuchin",
+        "Cusca",
+        "Guauyan"
+      ],
+      "verso_total": 57
+    },
+    {
+      "error": 23,
+      "p_published_form": 0.1791,
+      "recto": [
+        "Corongo",
+        "Cuyuchin",
+        "Guauyan"
+      ],
+      "recto_total": 73,
+      "verso": [
+        "Namus",
+        "Cusca",
+        "Ucore"
+      ],
+      "verso_total": 57
+    },
+    {
+      "error": 27,
+      "p_published_form": 0.20896,
+      "recto": [
+        "Namus",
+        "Corongo",
+        "Cusca"
+      ],
+      "recto_total": 48,
+      "verso": [
+        "Cuyuchin",
+        "Guauyan",
+        "Ucore"
+      ],
+      "verso_total": 82
+    },
+    {
+      "error": 27,
+      "p_published_form": 0.20896,
+      "recto": [
+        "Cuyuchin",
+        "Cusca",
+        "Ucore"
+      ],
+      "recto_total": 48,
+      "verso": [
+        "Namus",
+        "Corongo",
+        "Guauyan"
+      ],
+      "verso_total": 82
+    },
+    {
+      "error": 37,
+      "p_published_form": 0.28358,
+      "recto": [
+        "Cusca",
+        "Guauyan",
+        "Ucore"
+      ],
+      "recto_total": 80,
+      "verso": [
+        "Namus",
+        "Corongo",
+        "Cuyuchin"
+      ],
+      "verso_total": 50
+    },
+    {
+      "error": 41,
+      "p_published_form": 0.31343,
+      "recto": [
+        "Namus",
+        "Corongo",
+        "Guauyan"
+      ],
+      "recto_total": 82,
+      "verso": [
+        "Cuyuchin",
+        "Cusca",
+        "Ucore"
+      ],
+      "verso_total": 48
+    },
+    {
+      "error": 41,
+      "p_published_form": 0.31343,
+      "recto": [
+        "Cuyuchin",
+        "Guauyan",
+        "Ucore"
+      ],
+      "recto_total": 82,
+      "verso": [
+        "Namus",
+        "Corongo",
+        "Cusca"
+      ],
+      "verso_total": 48
+    },
+    {
+      "error": 45,
+      "p_published_form": 0.34328,
+      "recto": [
+        "Corongo",
+        "Cuyuchin",
+        "Cusca"
+      ],
+      "recto_total": 39,
+      "verso": [
+        "Namus",
+        "Guauyan",
+        "Ucore"
+      ],
+      "verso_total": 91
+    },
+    {
+      "error": 55,
+      "p_published_form": 0.41791,
+      "recto": [
+        "Namus",
+        "Cuyuchin",
+        "Cusca"
+      ],
+      "recto_total": 34,
+      "verso": [
+        "Corongo",
+        "Guauyan",
+        "Ucore"
+      ],
+      "verso_total": 96
+    },
+    {
+      "error": 59,
+      "p_published_form": 0.44776,
+      "recto": [
+        "Namus",
+        "Guauyan",
+        "Ucore"
+      ],
+      "recto_total": 91,
+      "verso": [
+        "Corongo",
+        "Cuyuchin",
+        "Cusca"
+      ],
+      "verso_total": 39
+    },
+    {
+      "error": 69,
+      "p_published_form": 0.52239,
+      "recto": [
+        "Corongo",
+        "Guauyan",
+        "Ucore"
+      ],
+      "recto_total": 96,
+      "verso": [
+        "Namus",
+        "Cuyuchin",
+        "Cusca"
+      ],
+      "verso_total": 34
+    }
+  ],
+  "totals": {
+    "level1_pendants": 824,
+    "one_cord_cluster_pendants": 20,
+    "pendants_in_multi_cord_clusters": 804
+  },
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}

@@ -71,6 +71,16 @@ jobs:
         env:
           SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
         run: python -m unittest discover -s tests -p test_okr_khipu.py -v
+      - name: Replay the published-reading checks and the hidden-cord test
+        run: |
+          python -I research/okr_readings/build_features.py --db "$RUNNER_TEMP/okr/khipu.db" --check
+          python -I research/okr_readings/santa_valley.py --check
+          python -I research/okr_readings/puruchuco.py --check
+          python -I research/okr_readings/hidden_cord.py --check
+      - name: Feature rebuild unit test against the pinned database
+        env:
+          SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
+        run: python -m unittest discover -s tests -p test_okr_features.py -v
 
   gradio-demo:
     runs-on: ubuntu-latest
