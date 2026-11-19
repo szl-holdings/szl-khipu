@@ -189,8 +189,23 @@ def bits_neighbours(segments: list, prior: dict) -> float:
                  for i, v in enumerate(seg) if v is not None)
 
 
+def pendant_order(khipu: dict) -> list:
+    """Indices of the level-1 pendants in order along each primary cord.
+
+    The corpus stores cords by id, which is not always their position; the
+    ordinal is.  Ties break by cord id and primaries keep their stored order,
+    as in the OKR engine.
+    """
+    cords = khipu["cords"]
+    idx = [i for i, c in enumerate(cords) if c["level"] == 1 and c["parent_kind"] == "primary"]
+    rank: dict = {}
+    for i in idx:
+        rank.setdefault(cords[i]["parent"], len(rank))
+    return sorted(idx, key=lambda i: (rank[cords[i]["parent"]], cords[i]["ordinal"], cords[i]["id"]))
+
+
 def _columns(khipu: dict, feat: dict) -> dict:
-    idx = [i for i, c in enumerate(khipu["cords"]) if c["level"] == 1 and c["parent_kind"] == "primary"]
+    idx = pendant_order(khipu)
     cords = [khipu["cords"][i] for i in idx]
     knot_raw = [feat["knot_dir"][i] for i in idx]
     target = {

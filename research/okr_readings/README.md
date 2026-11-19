@@ -122,7 +122,7 @@ one cord (1236) carries most of the sum.
 ## 3. Hidden-cord information test
 
 Sealed report: `hidden_cord_v1.json`, report sha256
-`a265e1c6c61fbfc1241732d42df7aeb507f02c155ad2901514966ca85042d06d`.
+`bec9e899caed4f7940927ce0528733f08a4f4196dc6b7c74b0d3ee46a61f102c`.
 
 Unit: level-1 pendant cords on a primary cord. Six recorded features: colour,
 attachment (recto/verso), spin (S/Z), knot direction (S, Z or mixed over the
@@ -158,9 +158,9 @@ Contexts:
 | --- | --- | --- | --- | --- | --- |
 | colour | attach | -0.1653 | 0.0364 | 0.0080 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | colour | fibre | -0.1707 | 0.0128 | 0.0043 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
-| colour | knot_dir | -0.1304 | 0.1388 | 0.0794 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
-| colour | neighbours | 0.7292 | 1.0831 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| colour | position | -0.0618 | 0.4022 |  | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| colour | knot_dir | -0.1304 | 0.1387 | 0.0794 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| colour | neighbours | 0.7293 | 1.0832 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
+| colour | position | -0.0618 | 0.4021 |  | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | colour | spin | -0.1734 | 0.0111 | 0.0051 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | colour | value_class | -0.0716 | 0.2549 | 0.1505 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | attach | colour | 0.0195 | 0.0349 | 0.0068 | ABOVE_SHUFFLE_NULL_NET_SAVING |
@@ -170,17 +170,17 @@ Contexts:
 | attach | position | -0.0208 | -0.0002 |  | NOT_ABOVE_SHUFFLE_NULL |
 | attach | spin | 0.0001 | 0.0007 | 0.0005 | ABOVE_SHUFFLE_NULL_NET_SAVING |
 | attach | value_class | 0.0046 | 0.0135 | 0.0005 (no) | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| value_class | attach | -0.0048 | 0.0278 | 0.0015 (no) | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
-| value_class | colour | 0.0855 | 0.2008 | 0.0989 | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| value_class | fibre | -0.0159 | 0.0088 | 0.0019 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
-| value_class | neighbours | 0.1344 | 0.2788 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| value_class | position | 0.0016 | 0.1526 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| value_class | spin | -0.0080 | 0.0182 | 0.0037 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| value_class | attach | -0.0048 | 0.0278 | 0.0016 (no) | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| value_class | colour | 0.0855 | 0.2007 | 0.0993 | ABOVE_SHUFFLE_NULL_NET_SAVING |
+| value_class | fibre | -0.0159 | 0.0088 | 0.0020 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| value_class | neighbours | 0.1348 | 0.2791 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
+| value_class | position | 0.0017 | 0.1528 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
+| value_class | spin | -0.0080 | 0.0183 | 0.0038 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | knot_dir | attach | -0.0118 | 0.0065 | 0.0013 (no) | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | knot_dir | colour | -0.0052 | 0.0477 | 0.0293 | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | knot_dir | fibre | -0.0140 | 0.0003 | 0.0004 (no) | NOT_ABOVE_SHUFFLE_NULL |
-| knot_dir | neighbours | 0.0066 | 0.0715 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
-| knot_dir | position | -0.0383 | 0.0309 |  | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
+| knot_dir | neighbours | 0.0066 | 0.0714 |  | ABOVE_SHUFFLE_NULL_NET_SAVING |
+| knot_dir | position | -0.0382 | 0.0310 |  | ABOVE_SHUFFLE_NULL_NO_NET_SAVING |
 | knot_dir | spin | -0.0151 | -0.0004 | -0.0005 (no) | NOT_ABOVE_SHUFFLE_NULL |
 | spin | attach | 0.0018 | 0.0013 | 0.0009 | ABOVE_SHUFFLE_NULL_NET_SAVING |
 | spin | colour | 0.0061 | 0.0067 | 0.0036 | ABOVE_SHUFFLE_NULL_NET_SAVING |

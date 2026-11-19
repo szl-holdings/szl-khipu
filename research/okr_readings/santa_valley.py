@@ -109,7 +109,12 @@ def _engine():
 
 
 def pendants(khipu: dict) -> list:
-    return [c for c in khipu["cords"] if c["level"] == 1 and c["parent_kind"] == "primary"]
+    """Level-1 pendants in order along each primary cord (ordinal, then id), not stored order."""
+    cords = [c for c in khipu["cords"] if c["level"] == 1 and c["parent_kind"] == "primary"]
+    rank: dict = {}
+    for c in cords:
+        rank.setdefault(c["parent"], len(rank))
+    return sorted(cords, key=lambda c: (rank[c["parent"]], c["ordinal"], c["id"]))
 
 
 def _clusters(cords: list):
