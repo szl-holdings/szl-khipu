@@ -296,13 +296,17 @@ def _validate_degree(D) -> int:
 
 @lru_cache(maxsize=None)
 def _filter_data(a: int, b: int):
-    """Order filters as index tuples, with a CHECKED monotonicity precondition.
+    """Order filters with a published guarantee and CHECKED implementation guard.
 
-    Each n in the cone is uniquely 1_{F_1} + ... + 1_{F_L} for a chain of nonempty
-    filters F_1 >= ... >= F_L, and Q(n + 1_G) - Q(n) = B(G,G) + sum_v X(F_v, G)
-    with X(F,G) = B(F,G) + B(G,F). If B(G,G) >= 1 and X >= 0 on nested pairs, Q
-    strictly increases along chains, so pruning at Q > D is exact. Verified per
-    pair here; never assumed.
+    Write C(F,G) for the nonsymmetric kernel sum computed by bform below.
+    For n = sum_v 1_{F_v}, Q(n + 1_G) - Q(n) equals
+    C(G,G) + sum_v [C(F_v,G) + C(G,F_v)].
+    Huang, arXiv:2604.13238, Theorem 1.1 gives C(G,G) >= 1 for nonempty
+    filters. Theorem 1.2 gives nonnegative cross terms for ALL filter pairs.
+    The paper's symmetric B is (C(F,G) + C(G,F))/2, not bform alone.
+    Hence Q strictly increases along nonempty filter chains and pruning
+    at Q > D is exact. Runtime checks on the nested pairs used by this
+    traversal are retained as implementation guards, not novelty claims.
     """
     poset = _gap_poset(a, b)
     m = len(poset.gaps)

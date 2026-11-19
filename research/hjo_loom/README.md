@@ -31,19 +31,25 @@ Huang–Jiang–Oblomkov, *Quot scheme of points on torus knot singularities*,
    m<sub>i+1</sub>(v) ≤ m<sub>i</sub>(v) + c<sub>i</sub> for all v, and rows are partitions iff
    m(1) ≥ m(2) ≥ … componentwise. So C<sub>c,≤N</sub> is a weighted count of descending chains of N
    lattice points in a cyclic polyhedron — enumerated directly.
-2. **Monotone pruning (V1), checked at runtime.** Each cone vector is uniquely a sum of indicator
-   vectors of a descending chain of nonempty order filters, and
-   Q(n + 1<sub>G</sub>) − Q(n) = B(G,G) + Σ<sub>v</sub> [B(F<sub>v</sub>,G) + B(G,F<sub>v</sub>)].
-   For every pair tested, B(G,G) ≥ 1 and the nested cross term is ≥ 0, so Q strictly increases
-   along chains and the walk can stop exactly at Q > D. This precondition is not merely
-   empirical: it is proved in general as Theorem 1.2 of
-   [arXiv:2604.13238](https://arxiv.org/abs/2604.13238) (Y. Huang), in a stronger form with no
-   containment hypothesis between F and G — our earlier framing of it as possibly-open was
-   wrong, corrected by the author (personal communication, 2026-11-18). The engine
-   **re-verifies this precondition for each pair before use** and refuses
-   (`MONOTONE_PRUNING_PRECONDITION_FAILED`) otherwise; the symmetrised form of Q is *not*
-   positive definite for a ≥ 4, so ambient-space bounds do not apply. Tests compare the pruned
-   walk with an unpruned reference.
+2. **Monotone pruning (V1), published guarantee plus runtime checks.** Write
+   C(F,G) = Σ<sub>i∈F,j∈G</sub> K(j−i), the implementation's `bform`.
+   Each cone vector is a sum of indicators of descending nonempty order filters, and
+   Q(n + 1<sub>G</sub>) − Q(n) = C(G,G) + Σ<sub>v</sub> [C(F<sub>v</sub>,G) + C(G,F<sub>v</sub>)].
+   These inequalities are **established mathematics, not a new conjecture or discovery here**:
+   Huang, *A quadratic form generalization of rational dinv*,
+   [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), Theorem 1.1 gives
+   C(G,G) ≥ 1 for nonempty filters; Theorem 1.2 gives nonnegative cross terms for
+   **all** filter pairs, not just nested ones. Our earlier framing of this precondition as
+   possibly open was wrong, corrected by the author (personal communication, 2026-11-18).
+   The paper's symmetric form is
+   B(F,G) = [C(F,G) + C(G,F)] / 2, so the implementation's cross term is 2B(F,G).
+   Thus Q increases strictly along chains and pruning at Q > D is exact.
+   The engine retains its per-pair checks and fails closed with
+   `MONOTONE_PRUNING_PRECONDITION_FAILED`; those checks protect the implementation,
+   not establish the theorem. Tests compare pruned and unpruned enumeration.
+   Theorem 1.3 also gives the cone bound ||n||∞ ≤ √(D|G|) when Q(n) ≤ D; the symmetrised
+   form of Q is *not* positive definite for a ≥ 4, and ambient-space positive definiteness
+   is not needed.
 3. **Linear echelon enumeration (V5).** Every R-submodule of colength m contains
    T<sup>m+c</sup>F<sub>q</sub>[[T]]<sup>N</sup> (c = conductor), so it is a subspace of
    (F<sub>q</sub>[T]/T<sup>m+c</sup>)<sup>N</sup>. Building its reduced echelon basis from the
