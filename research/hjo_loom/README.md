@@ -6,6 +6,8 @@
 Status: **MEASURED finite checks of published theorems.** Nothing here proves a new theorem,
 replays the Lean certificate, or says anything about historical Andean knowledge.
 
+A one-page account of the method, including how to rerun it, is in [METHOD.md](METHOD.md).
+
 ## What is checked, and by which independent route
 
 Definitions are transcribed from Huang–Lau–Ono, *Rogers–Ramanujan identities from the geometry
@@ -66,6 +68,7 @@ V1 through q<sup>40</sup>; 43 V2/V4 rows (ranks 1–3 where δ ≤ 6, else 1–2
 deg F<sub>N</sub> + 4; V3; and the V5 census below. Build time on this container: 104 s.
 
 ```
+python -m pip install -e .   # the szl_khipu package imports numpy; the enumeration does not use it
 python research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
 ```
 
