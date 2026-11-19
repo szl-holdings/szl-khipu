@@ -116,3 +116,32 @@ class ChainConcurrencyTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ChainCopyTests(unittest.TestCase):
+    """gr.State deep-copies its initial value; the lock must not block that."""
+
+    def test_deepcopy_gives_independent_intact_chain(self):
+        from copy import deepcopy
+        from szl_khipu.chain import UnifiedReceiptChain
+
+        chain = UnifiedReceiptChain()
+        chain.emit("k", "op", {"a": 1})
+        clone = deepcopy(chain)
+        self.assertEqual(clone.verify(), (True, 1, -1))
+        self.assertEqual(clone.head, chain.head)
+        clone.emit("k", "op", {"a": 2})
+        self.assertEqual(len(chain.receipts), 1)
+        self.assertEqual(clone.verify(), (True, 2, -1))
+        self.assertIsNot(clone._lock, chain._lock)
+
+    def test_pickle_round_trip_keeps_chain_and_lock_usable(self):
+        import pickle
+        from szl_khipu.chain import UnifiedReceiptChain
+
+        chain = UnifiedReceiptChain()
+        chain.emit("k", "op", {"a": 1})
+        restored = pickle.loads(pickle.dumps(chain))
+        self.assertEqual(restored.verify(), (True, 1, -1))
+        restored.emit("k", "op", {"a": 2})
+        self.assertEqual(restored.verify(), (True, 2, -1))

@@ -130,6 +130,22 @@ class UnifiedReceiptChain:
         # One chain is shared by ThreadingHTTPServer handlers; unserialized appends fork prev/seq.
         self._lock = threading.Lock()
 
+    # Locks cannot be copied or pickled, and gr.State deep-copies its initial
+    # value; snapshot under the lock and give each copy its own lock.
+    def __getstate__(self) -> dict[str, Any]:
+        with self._lock:
+            return {"_receipts": deepcopy(self._receipts)}
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        self._receipts = state["_receipts"]
+        self._lock = threading.Lock()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> "UnifiedReceiptChain":
+        clone = UnifiedReceiptChain.__new__(UnifiedReceiptChain)
+        memo[id(self)] = clone
+        clone.__setstate__(self.__getstate__())
+        return clone
+
     @property
     def receipts(self) -> list[Receipt]:
         with self._lock:
