@@ -23,14 +23,15 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
         cls.text = README.read_text(encoding="utf-8")
 
     def test_every_claim_status_is_stated_as_sealed(self):
-        for name in ("santa_valley_v1.json", "puruchuco_v1.json"):
+        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "syllabary_stress_v1.json"):
             for claim in sealed(name)["claims"]:
                 self.assertRegex(self.text,
                                  rf"`{re.escape(claim['id'])}`[^\n]*\*\*{claim['status']}\*\*",
                                  (name, claim["id"]))
 
     def test_report_digests_are_listed(self):
-        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "hidden_cord_v1.json"):
+        for name in ("santa_valley_v1.json", "puruchuco_v1.json", "hidden_cord_v1.json",
+                     "syllabary_stress_v1.json", "knot_direction_v1.json", "matching_khipus_v1.json"):
             self.assertIn(sealed(name)["report_sha256"], self.text, name)
 
     def test_headline_numbers_match(self):
@@ -44,6 +45,51 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
             row = hidden[target]["contexts"][context]
             self.assertIn(f"| {target} | {context} | {row['gain_bits_per_cord']:.4f} | "
                           f"{row['excess_bits_per_cord']:.4f} |", self.text, (target, context))
+
+    def test_syllabary_stress_rows_match(self):
+        stress = sealed("syllabary_stress_v1.json")
+        for name, block in stress["dictionaries"].items():
+            for rule, r in block["rules"].items():
+                row = (f"| {name} | {rule} | {100 * r['density']['two_syllables']:.1f}% | "
+                       f"{r['observed']['hits']} | {r['random_mappings']['null_mean']:.0f} | "
+                       f"{r['order_shuffle']['null_mean']:.0f} | {r['khipu_shuffle']['null_mean']:.0f} | "
+                       f"{r['refit']['best_hits_on_real_cords']} | "
+                       f"{r['refit']['null_min']}-{r['refit']['null_max']} |")
+                self.assertIn(row, self.text, (name, rule))
+        self.assertIn("It does not show that the proposal is wrong", self.text)
+        self.assertIn("Sivan", self.text)
+
+    def test_published_tribute_figures_are_reported_with_the_measured_ones(self):
+        first = sealed("santa_valley_v1.json")["rules"]["colour_band"]["first_cord"]
+        self.assertIn(f"recto {first['by_published_side_sum']['R']}", self.text)
+        self.assertIn(f"verso {first['by_published_side_sum']['V']}", self.text)
+        self.assertIn("381 or 382", self.text)
+
+    def test_knot_direction_numbers_match_and_the_old_guess_is_withdrawn(self):
+        knots = sealed("knot_direction_v1.json")
+        acc = knots["majority_accuracy"]
+        self.assertIn(f"{100 * acc['khipu']:.1f}%", self.text)
+        self.assertIn(f"{100 * acc['type']:.1f}%", self.text)
+        self.assertIn(f"{knots['bits_per_knot_khipu']:.4f}", self.text)
+        self.assertIn(f"{knots['contexts']['type']['gain_bits_per_knot']:.4f}", self.text)
+        self.assertNotIn("follows something OKR does not record", self.text)
+        self.assertIn("largely follows knot type", self.text)
+
+    def test_matching_pairs_are_listed_as_sealed(self):
+        match = sealed("matching_khipus_v1.json")
+        for p in match["pairs"]:
+            row = (f"| {p['a_name']} ~ {p['b_name']} | {p['orientation']} | {p['score_bits']:.1f} | "
+                   f"{p['null_max_bits']:.1f} | {p['exact_nonzero']} |")
+            self.assertIn(row, self.text, (p["a_name"], p["b_name"]))
+        for known in match["known_pairs"]:
+            self.assertRegex(self.text, rf"`{re.escape(known['id'])}`[^\n]*\*\*{known['status']}\*\*")
+        two = match["fidelity_summary"]["two_objects"]["breakage"]
+        self.assertIn(f"{two['unreadable_on_shorter_cord']} of {two['unreadable_with_lengths']}", self.text)
+        self.assertIn(f"{two['truncated_on_shorter_cord']} of {two['truncated_with_lengths']}", self.text)
+
+    def test_prior_art_for_the_pairs_is_credited(self):
+        for phrase in ("Khipu Field Guide", "Winston Wright", "spliced", "Urton and Brezine"):
+            self.assertIn(phrase, self.text, phrase)
 
     def test_limits_are_stated(self):
         for phrase in ("not decipherment", "post hoc", "No neural model", "were not read"):

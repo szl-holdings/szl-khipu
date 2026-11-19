@@ -93,3 +93,53 @@ class ShippedFeatures(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class KnotRecords(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.bf = _load()
+        cls.knots = cls.bf.load_knots()
+
+    def test_knot_code_round_trip(self):
+        for kind, turns, direction in (("S", None, "S"), ("L", 4, "Z"), ("E", None, "U"),
+                                       ("SP", None, "S"), ("LL", 12, "Z"), ("?", None, "U")):
+            code = self.bf.knot_code(kind, turns, direction)
+            self.assertEqual(self.bf.parse_knot(code), (kind, turns, direction), code)
+
+    def test_direction_outside_s_and_z_is_unrecorded(self):
+        self.assertEqual(self.bf.knot_code("S", None, "null")[-1], "U")
+        self.assertEqual(self.bf.knot_code("S", None, None)[-1], "U")
+
+    def test_cord_knots_split_per_cord_in_corpus_order(self):
+        corpus = self.bf.engine().load_corpus()
+        total = 0
+        for khipu in corpus["khipus"]:
+            per_cord = self.bf.cord_knots(self.knots["khipus"][khipu["okr_num"]])
+            self.assertEqual(len(per_cord), len(khipu["cords"]), khipu["okr_num"])
+            self.assertEqual([len(c) for c in per_cord], [len(c["knots"]) for c in khipu["cords"]],
+                             khipu["okr_num"])
+            total += sum(len(c) for c in per_cord)
+        self.assertEqual(total, self.knots["totals"]["knots"])
+
+    def test_a_khipu_with_no_cords_and_one_with_a_single_bare_cord_stay_distinct(self):
+        self.assertEqual(self.bf.cord_knots({"knots": "", "cords": 0}), [])
+        self.assertEqual(self.bf.cord_knots({"knots": "", "cords": 1}), [[]])
+        with self.assertRaises(self.bf.Hold):
+            self.bf.cord_knots({"knots": "SZ|SZ", "cords": 3})
+
+    def test_pins_and_totals(self):
+        k = self.knots
+        self.assertEqual(k["schema"], self.bf.KNOTS_SCHEMA)
+        self.assertEqual(k["source"]["db_sha256"],
+                         "607913034a0f478c5c792025d0c3cab8a9a8f05223ed6bc9c2990122a8c1c4db")
+        # 526 of the database's 110,677 knot rows sit on cords the corpus does not carry.
+        self.assertEqual(k["totals"]["knots"], 110151)
+        self.assertEqual(k["totals"]["direction"], {"S": 31701, "U": 12566, "Z": 65884})
+        self.assertEqual(len(k["khipus"]), 619)
+        self.assertIn("museum_num", k["khipus"]["KH0305"])
+
+    @unittest.skipUnless(os.environ.get("SZL_OKR_DB"), "pinned OKR database not present")
+    def test_knot_rebuild_from_pinned_database_matches_shipped_file(self):
+        rebuilt = self.bf.build_knots(Path(os.environ["SZL_OKR_DB"]))
+        self.assertEqual(self.bf.encode(rebuilt), self.bf.KNOTS_SHIPPED.read_bytes())

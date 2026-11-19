@@ -1,0 +1,395 @@
+{
+  "census": {
+    "distinct_sequences": 529,
+    "khipus_with_sequences": 222,
+    "knotted_cords": 37082,
+    "sequences": 2256,
+    "sequences_readable_by_v3": 2247,
+    "string_cords": 2728,
+    "string_share": 0.0736,
+    "symbol_counts": {
+      "10": 53,
+      "11": 28,
+      "12": 12,
+      "13": 4,
+      "15": 2,
+      "16": 1,
+      "2": 565,
+      "20": 1,
+      "23": 1,
+      "3": 467,
+      "4": 720,
+      "5": 939,
+      "6": 757,
+      "7": 583,
+      "8": 274,
+      "9": 154,
+      "E": 1056
+    }
+  },
+  "claims": [
+    {
+      "id": "string_cords_1992_of_37206",
+      "measured": {
+        "knotted_cords": 37082,
+        "string_cords": 2728
+      },
+      "note": "Same order of size, different counts. The proposal's tool builds its own table from OKR and patches some turn counts from a second database; this run uses the pinned corpus only and did not execute that tool.",
+      "published": {
+        "knotted_cords": 37206,
+        "string_cords": 1992
+      },
+      "status": "PARTIAL"
+    },
+    {
+      "id": "mapping_beats_random_mappings",
+      "measured": {
+        "best_random_mapping_hits": 1548,
+        "hits": 1696,
+        "p_upper": 0.0005,
+        "random_mappings": 2000,
+        "sequences": 2256
+      },
+      "note": "The proposed syllables do beat syllables drawn at random. That shows the chosen syllables form dictionary strings more often than arbitrary ones. It does not show the cords spell words: the same mapping scores scrambled cords as highly as real ones (see order_shuffle, khipu_shuffle and refit).",
+      "published": {
+        "p": 0.001,
+        "random_mappings": 10000
+      },
+      "status": "REPLICATED"
+    }
+  ],
+  "dictionaries": {
+    "kaikki_2074": {
+      "entries": 2074,
+      "path_in_repository": "reproducibility/data/quechua_kaikki_2074.txt",
+      "rules": {
+        "exact": {
+          "density": {
+            "three_syllables": 0.0305,
+            "two_syllables": 0.6391
+          },
+          "khipu_shuffle": {
+            "null_max": 1258,
+            "null_mean": 1212.83,
+            "null_min": 1173,
+            "p_upper": 1.0,
+            "trials": 200
+          },
+          "observed": {
+            "hits": 1168,
+            "hits_onset_then_coda": 1139,
+            "outside_fit_khipus": {
+              "hits": 1094,
+              "rate": 0.5894,
+              "sequences": 1856
+            },
+            "rate": 0.5177,
+            "sequences": 2256
+          },
+          "order_shuffle": {
+            "null_max": 1240,
+            "null_mean": 1196.73,
+            "null_min": 1160,
+            "p_upper": 0.995,
+            "trials": 200
+          },
+          "random_mappings": {
+            "null_max": 1104,
+            "null_mean": 631.88,
+            "null_mean_rate": 0.2801,
+            "null_min": 131,
+            "p_upper": 0.0005,
+            "trials": 2000
+          },
+          "refit": {
+            "best_hits_on_real_cords": 1480,
+            "null_max": 1468,
+            "null_mean": 1442.45,
+            "null_min": 1414,
+            "p_upper": 0.0476,
+            "proposal_hits_on_real_cords": 1168,
+            "scrambled_refits_at_or_above_the_proposal": 20,
+            "trials": 20
+          }
+        },
+        "published_lookup": {
+          "density": {
+            "three_syllables": 0.325,
+            "two_syllables": 0.8225
+          },
+          "khipu_shuffle": {
+            "null_max": 1738,
+            "null_mean": 1700.87,
+            "null_min": 1667,
+            "p_upper": 0.6269,
+            "trials": 200
+          },
+          "observed": {
+            "hits": 1696,
+            "hits_onset_then_coda": 1736,
+            "outside_fit_khipus": {
+              "hits": 1475,
+              "rate": 0.7947,
+              "sequences": 1856
+            },
+            "rate": 0.7518,
+            "sequences": 2256
+          },
+          "order_shuffle": {
+            "null_max": 1725,
+            "null_mean": 1697.33,
+            "null_min": 1666,
+            "p_upper": 0.592,
+            "trials": 200
+          },
+          "random_mappings": {
+            "null_max": 1548,
+            "null_mean": 872.67,
+            "null_mean_rate": 0.3868,
+            "null_min": 219,
+            "p_upper": 0.0005,
+            "trials": 2000
+          },
+          "refit": {
+            "best_hits_on_real_cords": 1899,
+            "null_max": 1895,
+            "null_mean": 1884.05,
+            "null_min": 1875,
+            "p_upper": 0.0476,
+            "proposal_hits_on_real_cords": 1696,
+            "scrambled_refits_at_or_above_the_proposal": 20,
+            "trials": 20
+          }
+        }
+      },
+      "sha256": "38e957982087e139ce30a99e24fd41dc97e6b20a7ff8ec6fef158863912cf622"
+    },
+    "kaikki_aulex_14991": {
+      "entries": 14991,
+      "path_in_repository": "src/khipu_translator/data/quechua_strict_clean.txt",
+      "rules": {
+        "exact": {
+          "density": {
+            "three_syllables": 0.0451,
+            "two_syllables": 0.7396
+          },
+          "khipu_shuffle": {
+            "null_max": 1447,
+            "null_mean": 1394.18,
+            "null_min": 1358,
+            "p_upper": 0.0299,
+            "trials": 200
+          },
+          "observed": {
+            "hits": 1424,
+            "hits_onset_then_coda": 1442,
+            "outside_fit_khipus": {
+              "hits": 1327,
+              "rate": 0.715,
+              "sequences": 1856
+            },
+            "rate": 0.6312,
+            "sequences": 2256
+          },
+          "order_shuffle": {
+            "null_max": 1451,
+            "null_mean": 1415.73,
+            "null_min": 1386,
+            "p_upper": 0.2438,
+            "trials": 200
+          },
+          "random_mappings": {
+            "null_max": 1243,
+            "null_mean": 731.35,
+            "null_mean_rate": 0.3242,
+            "null_min": 181,
+            "p_upper": 0.0005,
+            "trials": 2000
+          },
+          "refit": {
+            "best_hits_on_real_cords": 1605,
+            "null_max": 1577,
+            "null_mean": 1537.75,
+            "null_min": 1517,
+            "p_upper": 0.0476,
+            "proposal_hits_on_real_cords": 1424,
+            "scrambled_refits_at_or_above_the_proposal": 20,
+            "trials": 20
+          }
+        },
+        "published_lookup": {
+          "density": {
+            "three_syllables": 0.4297,
+            "two_syllables": 0.9172
+          },
+          "khipu_shuffle": {
+            "null_max": 1900,
+            "null_mean": 1876.15,
+            "null_min": 1852,
+            "p_upper": 0.0299,
+            "trials": 200
+          },
+          "observed": {
+            "hits": 1896,
+            "hits_onset_then_coda": 1949,
+            "outside_fit_khipus": {
+              "hits": 1656,
+              "rate": 0.8922,
+              "sequences": 1856
+            },
+            "rate": 0.8404,
+            "sequences": 2256
+          },
+          "order_shuffle": {
+            "null_max": 1921,
+            "null_mean": 1891.24,
+            "null_min": 1865,
+            "p_upper": 0.3333,
+            "trials": 200
+          },
+          "random_mappings": {
+            "null_max": 1763,
+            "null_mean": 1052.98,
+            "null_mean_rate": 0.4667,
+            "null_min": 346,
+            "p_upper": 0.0005,
+            "trials": 2000
+          },
+          "refit": {
+            "best_hits_on_real_cords": 1977,
+            "null_max": 1982,
+            "null_mean": 1970.35,
+            "null_min": 1961,
+            "p_upper": 0.3333,
+            "proposal_hits_on_real_cords": 1896,
+            "scrambled_refits_at_or_above_the_proposal": 20,
+            "trials": 20
+          }
+        }
+      },
+      "sha256": "ad163c3abbb01c46ee3c3107ad85970cda6738d92131ae854b47e7b68a1f67f1"
+    }
+  },
+  "dictionary_note": "Per the proposal's reproducibility/build_kaikki_dictionary.py, the 2,074-entry list is a Wiktionary-derived list of 2,060 entries plus forms 'observed in the OKR STRING cord corpus' under the mapping (14 net new). Those additions favour the mapping in every row here.",
+  "historical_khipu_decipherment": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "new_reading_claimed": false,
+  "not_tested": [
+    "thematic coherence of readings by document type",
+    "astronomical dating of UR006",
+    "the proposed calendar in opening cords",
+    "generalisation to the Khipu Field Guide database",
+    "the UR112 ranking against 154,440 alternative mappings"
+  ],
+  "parameters": {
+    "fit_khipus": [
+      "UR039",
+      "UR050",
+      "UR055"
+    ],
+    "mapping_scored": {
+      "0": "lla",
+      "10": "si",
+      "11": "ti",
+      "12": "ku",
+      "2": "chi",
+      "3": "ma",
+      "4": "ka",
+      "5": "ta",
+      "6": "pa",
+      "7": "wa",
+      "8": "cha",
+      "9": "pi",
+      "E": "qa"
+    },
+    "min_reading_length": 4,
+    "random_mappings": 2000,
+    "refits": 20,
+    "seed": 2026,
+    "shuffles": 200,
+    "suffixes": [
+      "ta",
+      "pa",
+      "ka",
+      "ma",
+      "na",
+      "qa",
+      "ki",
+      "si",
+      "y"
+    ],
+    "syllable_inventory": [
+      "cha",
+      "chi",
+      "chu",
+      "ha",
+      "hi",
+      "hu",
+      "ka",
+      "ki",
+      "ku",
+      "la",
+      "li",
+      "lu",
+      "lla",
+      "lli",
+      "llu",
+      "ma",
+      "mi",
+      "mu",
+      "na",
+      "ni",
+      "nu",
+      "pa",
+      "pi",
+      "pu",
+      "qa",
+      "qi",
+      "qu",
+      "ra",
+      "ri",
+      "ru",
+      "sa",
+      "si",
+      "su",
+      "ta",
+      "ti",
+      "tu",
+      "wa",
+      "wi",
+      "wu",
+      "ya",
+      "yi",
+      "yu"
+    ]
+  },
+  "peer_reviewed_source": false,
+  "preregistered": false,
+  "proposal": {
+    "cite": "Sivan, J. (2026). Evidence for a Syllabic Mapping in Andean Khipu Long-Knot Turn Counts. ALBA Project preprint.",
+    "doi": "10.5281/zenodo.19184002",
+    "licence": "MIT",
+    "page": "https://alba-project.org/khipu-reader/",
+    "read_by_this_project": "project page, README, syllabary.py, corpus_coverage.py, negative_controls.py and the head of replication_ur112.py at that commit; the preprint itself was not read",
+    "repository": "https://github.com/Alba-Research/KhipuReader",
+    "repository_commit": "7c2722b91fcad514653c96f40fa2dae125de92b8"
+  },
+  "published": {
+    "knotted_cords": 37206,
+    "random_mapping_p": 0.001,
+    "random_mappings": 10000,
+    "string_cords": 1992
+  },
+  "reading_the_numbers": [
+    "density is the share of every possible two- or three-knot reading that the scoring rule accepts as a word; it is the hit rate a mapping gets for free.",
+    "order_shuffle scrambles the knots within each cord; khipu_shuffle deals each khipu's knots back out to its cords at random. The mapping is held fixed.",
+    "refit searches for the best one-to-one mapping on the real cords and again on scrambled cords, so a fitted score is compared with fitted scores.",
+    "p_upper cannot go below 1/(trials+1). A hit means a string is in a word list. It does not mean the cord says that word."
+  ],
+  "report_sha256": "c8728e9ca086c6dbb26edc7eb6860b8f7cf2c4cefa99b97ff46f5ddf84e9522e",
+  "schema": "szl.okr.syllabary-stress/v1",
+  "signature_verified": false,
+  "status": "POST_HOC_INDEPENDENT_STRESS_TEST_OF_A_PUBLISHED_PROPOSAL",
+  "third_party_code_executed": false,
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}
