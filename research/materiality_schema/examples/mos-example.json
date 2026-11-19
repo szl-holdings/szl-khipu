@@ -1,0 +1,74 @@
+{
+  "_notice": "ILLUSTRATIVE ONLY. All values are fictional; these records use a provisional khipu identifier and a fictional observer.",
+  "records": [
+    {
+      "schema_version": "mos/0.1",
+      "record_id": "9f1c2b0e-6a44-4d7a-9c51-0d2f669e1001",
+      "khipu_id": "PROV-EXAMPLE-001",
+      "cord_id": "p001",
+      "observation_class": "FIBRE",
+      "observed_value": {
+        "primary": "camelid",
+        "qualifiers": [
+          "camelid-dominant",
+          "minor cervid admixture identified at two locations along the cord"
+        ],
+        "in_situ": true
+      },
+      "method": {
+        "name": "SEM",
+        "destructive": false,
+        "instrument": "fictional-instrument-xyz",
+        "protocol_ref": "fictional protocol DOI"
+      },
+      "provenance": {
+        "observer": {
+          "name": "Fictional Observer A",
+          "orcid": "0000-0002-0000-0000",
+          "institution": "Fictional Lab",
+          "role": "fibre analyst"
+        },
+        "identified_as": "camelid with cervid admixture",
+        "confidence": "high"
+      },
+      "source_media": [
+        {
+          "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "license": "CC BY 4.0 (fictional)",
+          "captured_at": "2026-01-01",
+          "custodian": "Fictional Museum",
+          "media_type": "image/tiff"
+        }
+      ],
+      "recorded_at": "2026-01-01T12:00:00Z",
+      "conditions": "Mounted cord; no sampling performed"
+    },
+    {
+      "schema_version": "mos/0.1",
+      "record_id": "9f1c2b0e-6a44-4d7a-9c51-0d2f669e1002",
+      "khipu_id": "PROV-EXAMPLE-001",
+      "cord_id": "p001",
+      "observation_class": "FIBRE",
+      "observed_value": {
+        "primary": "cotton",
+        "in_situ": true
+      },
+      "method": {
+        "name": "visual",
+        "destructive": false
+      },
+      "provenance": {
+        "observer": {
+          "name": "Fictional Observer B"
+        },
+        "identified_as": "all-cotton",
+        "confidence": "medium",
+        "disagrees_with": [
+          "9f1c2b0e-6a44-4d7a-9c51-0d2f669e1001"
+        ]
+      },
+      "recorded_at": "2026-02-01T09:30:00Z",
+      "conditions": "Legacy catalogue description consulted"
+    }
+  ]
+}
