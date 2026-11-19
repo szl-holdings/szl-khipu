@@ -6,7 +6,7 @@ colorTo: green
 sdk: docker
 app_port: 7860
 license: apache-2.0
-short_description: Interactive synthetic accounting and rights-aware Khipu research
+short_description: Synthetic accounting and rights-aware Khipu research
 ---
 
 # SZL Khipu Yachay — Living Cord Lab

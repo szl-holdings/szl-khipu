@@ -78,7 +78,7 @@ from .nina import NINA_SPARKS, run_nina
 from .suyay import SUYAY_TICK, run_suyay
 from .huklla import run_huklla
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 
 class _Result(dict[str, Any]):
