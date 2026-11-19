@@ -100,6 +100,39 @@ jobs:
             | sha256sum -c -
           python -I research/okr_readings/syllabary_stress.py --dict-dir "$RUNNER_TEMP/alba" --check
 
+
+      - name: Replay exact Field Guide overlaps and the eight unmatched rows
+        shell: bash
+        run: |
+          set -euo pipefail
+          kfg="https://raw.githubusercontent.com/khipufieldguide/data-science-khipu-article/a89c5dc1b8e412e3d0203719f76d5902563ab736/data"
+          audit="$GITHUB_WORKSPACE/research/kfg_catalog_audit/xcat"
+          inputs="$RUNNER_TEMP/kfg-audit"
+          mkdir -p "$inputs"
+          curl -fsSL --retry 3 -o "$inputs/KFG_DB.SQL" "$kfg/KFG_DB.SQL"
+          curl -fsSL --retry 3 -o "$inputs/khipu_summary.csv" "$kfg/khipu_summary.csv"
+          curl -fsSL --retry 3 -o "$inputs/sum_top_cords_relation.csv" "$kfg/ascher_sum_relations/sum_top_cords_relation.csv"
+          cp research/okr_corpus/okr_corpus_v1.json.gz "$inputs/corpus.json.gz"
+          cp research/okr_corpus/okr_relations_v1.json "$inputs/okr.json"
+          (cd "$audit" && python -m unittest -v \
+            test_import_safety.py)
+          python -I "$audit/compare.py" --input-dir "$inputs" > "$inputs/result.json"
+          cmp "$audit/result.json" "$inputs/result.json"
+          (cd "$inputs" && python -I "$audit/trace_unmatched.py" > unmatched.json)
+          cmp "$audit/unmatched_trace.json" "$inputs/unmatched.json"
+      - name: Replay the grouped split without changing the published archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          source="$RUNNER_TEMP/kfg-split-source"
+          pin="9d62dec25f6ff6fd69a73bc74a7b714f8dcb2187"
+          git init -q "$source"
+          git -C "$source" fetch --no-tags --depth=1 https://github.com/szl-holdings/szl-khipu.git "$pin"
+          git -C "$source" checkout -q --detach FETCH_HEAD
+          grouped="research/kfg_catalog_audit/grouped"
+          python -B "$grouped/grouped_split_sensitivity.py" "$source" > "$RUNNER_TEMP/grouped-evidence.json"
+          cmp "$grouped/evidence.json" "$RUNNER_TEMP/grouped-evidence.json"
+
   gradio-demo:
     runs-on: ubuntu-latest
     timeout-minutes: 15
