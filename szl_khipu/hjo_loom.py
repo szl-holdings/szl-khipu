@@ -21,6 +21,9 @@ reaches the published statement by a route different from the paper's proof:
       by echelon enumeration == the N_{a,b;N} formula at L = q (N = 1, 2).
   V6  HJO Thm 1.4: partial groupoid sums of commuting nilpotent pairs with
       A^a = B^b over F_q stay below P_{a,b}(1/q)/(1/q;1/q)_inf (consistency only).
+  V7  V5 over every prime power q <= 9 (GF(4), GF(8), GF(9) by table arithmetic).
+  V8  Each colength count as a polynomial in q, interpolated exactly from the
+      formula and, separately, from the brute-force counts alone.
 
 These are finite checks of PUBLISHED theorems. They prove nothing new, do not
 replay the Lean certificate, and say nothing about historical Andean knowledge.
@@ -45,13 +48,21 @@ LEAN_REVISION_OBSERVED = "6a58dfa6ab98bd35d841cb2cf8fd9081f62fad03"
 MAX_SUM = 13          # a + b bound for interactive requests
 MAX_DEGREE = 72
 MAX_RANK = 4
-FIELDS = (2, 3)
+FIELDS = (2, 3)                       # interactive requests
+CENSUS_FIELDS = (2, 3, 4, 5, 7, 8, 9)  # every prime power q <= 9 (offline census)
+# Monic moduli, coefficients low -> high over F_p. A prime field is F_p[x]/(x).
+GF_MODULI = {
+    4: (2, (1, 1, 1)),     # x^2 + x + 1 over F_2
+    8: (2, (1, 1, 0, 1)),  # x^3 + x + 1 over F_2
+    9: (3, (1, 0, 1)),     # x^2 + 1 over F_3
+}
 
 __all__ = [
     "HjoHold", "GapPoset", "gap_poset", "rational_catalan", "order_filters",
     "z_series", "p_series", "rho", "f_polynomial", "n_bivariate",
     "balanced_profile", "cylindric_series", "quot_formula_counts",
-    "quot_bruteforce_counts", "nilpotent_pair_terms", "groupoid_prediction",
+    "quot_formula_polynomials", "quot_bruteforce_counts", "quot_bruteforce_census",
+    "GaloisField", "galois_field", "nilpotent_pair_terms", "groupoid_prediction",
     "verify", "seal", "GOLDEN",
 ]
 
@@ -513,18 +524,25 @@ def quot_formula_counts(a: int, b: int, rank: int, q: int, m_max: int) -> list[i
     """#Quot_m^R(F_q[[T]]^N) for m = 0..m_max from
     Z(t) = q^{N^2 delta} t^{N delta} N_{a,b;N}(1/q, 1/t) / prod_{i<N} (1 - q^i t)."""
     poset = gap_poset(a, b)
-    if q not in FIELDS or type(m_max) is not int or not 0 <= m_max <= 12:
+    if type(q) is not int or q not in CENSUS_FIELDS or type(m_max) is not int or not 0 <= m_max <= 12:
         raise HjoHold("FIELD_OR_RANGE_INVALID")
-    biv = n_bivariate(a, b, rank)
-    x = Fraction(1, q)
-    top = rank * poset.delta
+    return _quot_formula_at(n_bivariate(a, b, rank), poset.delta, rank, q, m_max)
+
+
+def _quot_formula_at(biv: dict[int, list[int]], delta: int, rank: int, L: int, m_max: int) -> list[int]:
+    """Coefficients t^0..t^m_max of the Thm 1.2 series at the integer L >= 1.
+
+    At a prime power L this is a point count; at any other L it is only the
+    value of a polynomial, which is all the interpolation in V8 needs."""
+    x = Fraction(1, L)
+    top = rank * delta
     poly_t = [Fraction(0)] * (top + 1)
     for size, poly in biv.items():
         poly_t[top - size] += _eval(poly, x)
-    scale = q ** (rank * rank * poset.delta)
+    scale = L ** (rank * rank * delta)
     series = [c * scale for c in poly_t[: m_max + 1]] + [Fraction(0)] * max(0, m_max + 1 - len(poly_t))
     for i in range(rank):
-        r = q ** i
+        r = L ** i
         for k in range(1, m_max + 1):
             series[k] += r * series[k - 1]
     if any(c.denominator != 1 for c in series):
@@ -532,34 +550,148 @@ def quot_formula_counts(a: int, b: int, rank: int, q: int, m_max: int) -> list[i
     return [int(c) for c in series]
 
 
-def _solve_affine(rows: list[list[int]], rhs: list[int], nvars: int, q: int):
-    """All solutions x in F_q^nvars of rows @ x = rhs (Gaussian elimination)."""
-    mat = [list(r) + [v % q] for r, v in zip(rows, rhs)]
+def _interpolate(points: list[tuple[int, int]]) -> list[Fraction]:
+    """The unique polynomial of degree < len(points) through the points, as exact
+    coefficients low -> high (trailing zeros trimmed). Newton divided differences."""
+    xs = [Fraction(x) for x, _ in points]
+    if not xs or len(set(xs)) != len(xs):
+        raise HjoHold("INTERPOLATION_NODES_INVALID")
+    coef = [Fraction(y) for _, y in points]
+    n = len(xs)
+    for j in range(1, n):
+        for i in range(n - 1, j - 1, -1):
+            coef[i] = (coef[i] - coef[i - 1]) / (xs[i] - xs[i - j])
+    poly = [Fraction(0)]
+    for i in range(n - 1, -1, -1):          # Horner on the Newton form
+        nxt = [Fraction(0)] * (len(poly) + 1)
+        for k, c in enumerate(poly):
+            nxt[k + 1] += c
+            nxt[k] -= c * xs[i]
+        nxt[0] += coef[i]
+        poly = nxt
+    while len(poly) > 1 and poly[-1] == 0:
+        poly.pop()
+    return poly
+
+
+def quot_formula_polynomials(a: int, b: int, rank: int, m_max: int, *, extra: int = 3) -> list[list[int]]:
+    """The colength-m coefficient of the Thm 1.2 series as an integer polynomial
+    in q (low -> high), for m = 0..m_max, recovered by exact interpolation.
+
+    That coefficient is sum_j u_j(L) h_{m-j}(1, L, ..., L^{N-1}) with
+    u_j(L) = L^{N^2 delta} n_{N delta - j}(1/L), where n_s is the t^s part of
+    N_{a,b;N}. If no n_s has degree above N^2 delta (checked here), it is a
+    polynomial of degree at most B_m = N^2 delta + (N-1) m, so B_m + 1 values fix
+    it. It is interpolated through B_{m_max} + 1 + extra values at L = 2, 3, ...
+    and must come out with degree <= B_m: the surplus points confirm the degree.
+    """
+    poset = gap_poset(a, b)
+    if type(rank) is not int or not 1 <= rank <= MAX_RANK:
+        raise HjoHold("RANK_OUT_OF_RANGE")
+    if type(m_max) is not int or not 0 <= m_max <= 12 or type(extra) is not int or not 1 <= extra <= 8:
+        raise HjoHold("COLENGTH_RANGE_INVALID")
+    biv = n_bivariate(a, b, rank)
+    square = rank * rank * poset.delta
+    if max(len(poly) - 1 for poly in biv.values()) > square:
+        raise HjoHold("FORMULA_DEGREE_PRECONDITION_FAILED")
+    nodes = range(2, square + (rank - 1) * m_max + 3 + extra)
+    values = [_quot_formula_at(biv, poset.delta, rank, L, m_max) for L in nodes]
+    out = []
+    for m in range(m_max + 1):
+        poly = _interpolate([(L, v[m]) for L, v in zip(nodes, values)])
+        if len(poly) - 1 > square + (rank - 1) * m or any(c.denominator != 1 for c in poly):
+            raise HjoHold("FORMULA_NOT_A_POLYNOMIAL_WITHIN_BOUND")
+        out.append([int(c) for c in poly])
+    return out
+
+
+@dataclass(frozen=True)
+class GaloisField:
+    """GF(q) as lookup tables on the codes 0..q-1. Code e stands for the
+    polynomial sum_i d_i x^i over F_p, d_i the base-p digits of e, taken modulo
+    the monic `modulus`; for a prime q the tables are plain arithmetic mod q."""
+    q: int
+    p: int
+    modulus: tuple[int, ...]
+    add: tuple[tuple[int, ...], ...]
+    sub: tuple[tuple[int, ...], ...]
+    mul: tuple[tuple[int, ...], ...]
+    inv: tuple[int, ...]               # inv[0] = 0 is a placeholder
+
+
+def galois_field(q: int) -> GaloisField:
+    if type(q) is not int or q not in CENSUS_FIELDS:
+        raise HjoHold("FIELD_ORDER_UNSUPPORTED")
+    return _galois_field(q)
+
+
+@lru_cache(maxsize=None)
+def _galois_field(q: int) -> GaloisField:
+    p, modulus = GF_MODULI.get(q, (q, (0, 1)))
+    k = len(modulus) - 1
+    if p ** k != q or modulus[-1] != 1:
+        raise HjoHold("FIELD_MODULUS_INVALID")
+    digits = [tuple((e // p ** i) % p for i in range(k)) for e in range(q)]
+    code = {d: e for e, d in enumerate(digits)}
+
+    def times(u: int, v: int) -> int:
+        prod = [0] * (2 * k - 1)
+        for i, x in enumerate(digits[u]):
+            for j, y in enumerate(digits[v]):
+                prod[i + j] = (prod[i + j] + x * y) % p
+        for top in range(2 * k - 2, k - 1, -1):
+            c = prod[top]
+            if c:
+                for i, mc in enumerate(modulus):
+                    prod[top - k + i] = (prod[top - k + i] - c * mc) % p
+        return code[tuple(prod[:k])]
+
+    def digitwise(sign: int) -> tuple[tuple[int, ...], ...]:
+        return tuple(tuple(code[tuple((x + sign * y) % p for x, y in zip(digits[u], digits[v]))]
+                           for v in range(q)) for u in range(q))
+
+    mul = tuple(tuple(times(u, v) for v in range(q)) for u in range(q))
+    inv = [0] * q
+    for u in range(1, q):
+        units = [v for v in range(1, q) if mul[u][v] == 1]
+        if len(units) != 1:          # only a reducible modulus leaves a non-unit
+            raise HjoHold("FIELD_MODULUS_REDUCIBLE")
+        inv[u] = units[0]
+    return GaloisField(q, p, modulus, digitwise(1), digitwise(-1), mul, tuple(inv))
+
+
+def _solve_affine(rows: list[list[int]], rhs: list[int], nvars: int, field: GaloisField):
+    """All solutions x in GF(q)^nvars of rows @ x = rhs (Gaussian elimination)."""
+    sub, mul, inv = field.sub, field.mul, field.inv
+    mat = [list(r) + [v] for r, v in zip(rows, rhs)]
     pivots: list[int] = []
     r = 0
     for col in range(nvars):
-        piv = next((i for i in range(r, len(mat)) if mat[i][col] % q), None)
+        piv = next((i for i in range(r, len(mat)) if mat[i][col]), None)
         if piv is None:
             continue
         mat[r], mat[piv] = mat[piv], mat[r]
-        inv = pow(mat[r][col], q - 2, q)
-        mat[r] = [(v * inv) % q for v in mat[r]]
+        scale = mul[inv[mat[r][col]]]
+        mat[r] = [scale[v] for v in mat[r]]
         for i in range(len(mat)):
-            if i != r and mat[i][col] % q:
-                fct = mat[i][col]
-                mat[i] = [(vi - fct * vr) % q for vi, vr in zip(mat[i], mat[r])]
+            if i != r and mat[i][col]:
+                fct = mul[mat[i][col]]
+                mat[i] = [sub[vi][fct[vr]] for vi, vr in zip(mat[i], mat[r])]
         pivots.append(col)
         r += 1
     for i in range(r, len(mat)):
-        if mat[i][-1] % q:
+        if mat[i][-1]:
             return
     free = [c for c in range(nvars) if c not in pivots]
-    for values in _cartesian(range(q), repeat=len(free)):
+    for values in _cartesian(range(field.q), repeat=len(free)):
         x = [0] * nvars
         for c, v in zip(free, values):
             x[c] = v
         for i, col in enumerate(pivots):
-            x[col] = (mat[i][-1] - sum(mat[i][c] * x[c] for c in free)) % q
+            acc = mat[i][-1]
+            for c in free:
+                acc = sub[acc][mul[mat[i][c]][x[c]]]
+            x[col] = acc
         yield x
 
 
@@ -586,76 +718,118 @@ def quot_bruteforce_counts(a: int, b: int, rank: int, q: int, m_max: int, *, bud
     enumerated explicitly. No formula from the papers is used.
     """
     poset = gap_poset(a, b)
-    if q not in FIELDS or type(rank) is not int or not 1 <= rank <= 2:
+    if type(q) is not int or q not in FIELDS or type(rank) is not int or not 1 <= rank <= 2:
         raise HjoHold("FIELD_OR_RANK_INVALID")
     if type(m_max) is not int or not 0 <= m_max <= 8:
         raise HjoHold("COLENGTH_RANGE_INVALID")
-    conductor = 2 * poset.delta
-    counts = []
+    field = _galois_field(q)
     work = [0]
-    for m in range(m_max + 1):
-        K = m + conductor
-        dim = rank * K
-        shifts = (a * rank, b * rank)
-        basis: dict[int, list[int]] = {}
-        nonlead: list[int] = []
-        total = [0]
+    return [_echelon_count(a, b, rank, field, m, 2 * poset.delta, work, budget)
+            for m in range(m_max + 1)]
 
-        def reduce(vec: list[int]) -> list[int]:
-            v = list(vec)
-            for lead in sorted(basis):
-                c = v[lead] % q
-                if c:
-                    w = basis[lead]
-                    for i in range(lead, dim):
-                        if w[i]:
-                            v[i] = (v[i] - c * w[i]) % q
-            return v
 
-        def shifted(vec: list[int], s: int) -> list[int]:
-            out = [0] * dim
-            for i in range(dim - s):
-                out[i + s] = vec[i]
-            return out
+def quot_bruteforce_census(a: int, b: int, rank: int, q: int, colength_ceiling: int, *, budget: int) -> dict:
+    """Offline census over GF(q), q any prime power <= 9: the counts of
+    quot_bruteforce_counts for colengths 0, 1, ... up to colength_ceiling, stopping
+    early at the first colength that would take the series past `budget` steps.
 
-        def rec(p: int, codim: int):
-            work[0] += 1
-            if work[0] > budget:
-                raise HjoHold("BRUTE_FORCE_BUDGET_EXCEEDED")
-            if codim > m:
-                return
-            if p < 0:
-                if codim == m:
-                    total[0] += 1
-                return
-            # option A: p is not a leading position
-            nonlead.append(p)
-            rec(p - 1, codim + 1)
-            nonlead.pop()
-            # option B: p leads w_p = e_p + sum_{j in nonlead, j > p} x_j e_j
-            free = [j for j in nonlead if j > p]
-            e_p = [0] * dim
-            e_p[p] = 1
-            rows: list[list[int]] = []
-            rhs: list[int] = []
-            for s in shifts:
-                r0 = reduce(shifted(e_p, s))
-                cols = [reduce(shifted([1 if i == j else 0 for i in range(dim)], s)) for j in free]
-                for i in range(dim):
-                    if r0[i] or any(col[i] for col in cols):
-                        rows.append([col[i] for col in cols])
-                        rhs.append((-r0[i]) % q)
-            for x in _solve_affine(rows, rhs, len(free), q):
-                w = list(e_p)
-                for j, xv in zip(free, x):
-                    w[j] = xv
-                basis[p] = w
-                rec(p - 1, codim)
-                del basis[p]
+    That colength's partial count is discarded, never returned. `cumulative_work`
+    gives, after each colength returned, the steps spent so far (the unit of
+    `budget`); `work_steps` is its last entry.
+    """
+    poset = gap_poset(a, b)
+    if type(q) is not int or q not in CENSUS_FIELDS or type(rank) is not int or not 1 <= rank <= 2:
+        raise HjoHold("FIELD_OR_RANK_INVALID")
+    if type(colength_ceiling) is not int or not 0 <= colength_ceiling <= 8:
+        raise HjoHold("COLENGTH_RANGE_INVALID")
+    if type(budget) is not int or budget < 1:
+        raise HjoHold("BUDGET_INVALID")
+    field = _galois_field(q)
+    work = [0]
+    counts: list[int] = []
+    cumulative: list[int] = []
+    stop = "COLENGTH_CEILING"
+    for m in range(colength_ceiling + 1):
+        try:
+            counts.append(_echelon_count(a, b, rank, field, m, 2 * poset.delta, work, budget))
+        except HjoHold as exc:
+            if str(exc) != "BRUTE_FORCE_BUDGET_EXCEEDED":
+                raise
+            stop = "WORK_CAP"
+            break
+        cumulative.append(work[0])
+    return {"counts": counts, "cumulative_work": cumulative,
+            "work_steps": cumulative[-1] if cumulative else 0, "stop": stop}
 
-        rec(dim - 1, 0)
-        counts.append(total[0])
-    return counts
+
+def _echelon_count(a: int, b: int, rank: int, field: GaloisField, m: int, conductor: int,
+                   work: list[int], budget: int) -> int:
+    """#subspaces of (GF(q)[T]/T^K)^N, K = m + conductor, of codimension m that are
+    stable under T^a and T^b. work[0] is shared by every colength of one series."""
+    K = m + conductor
+    dim = rank * K
+    shifts = (a * rank, b * rank)
+    sub, mul = field.sub, field.mul
+    neg = sub[0]
+    basis: dict[int, list[int]] = {}
+    nonlead: list[int] = []
+    total = [0]
+
+    def reduce(vec: list[int]) -> list[int]:
+        v = list(vec)
+        for lead in sorted(basis):
+            c = v[lead]
+            if c:
+                w = basis[lead]
+                scale = mul[c]
+                for i in range(lead, dim):
+                    if w[i]:
+                        v[i] = sub[v[i]][scale[w[i]]]
+        return v
+
+    def shifted(vec: list[int], s: int) -> list[int]:
+        out = [0] * dim
+        for i in range(dim - s):
+            out[i + s] = vec[i]
+        return out
+
+    def rec(p: int, codim: int):
+        work[0] += 1
+        if work[0] > budget:
+            raise HjoHold("BRUTE_FORCE_BUDGET_EXCEEDED")
+        if codim > m:
+            return
+        if p < 0:
+            if codim == m:
+                total[0] += 1
+            return
+        # option A: p is not a pivot position
+        nonlead.append(p)
+        rec(p - 1, codim + 1)
+        nonlead.pop()
+        # option B: p is the pivot of w_p = e_p + sum_{j in nonlead, j > p} x_j e_j
+        free = [j for j in nonlead if j > p]
+        e_p = [0] * dim
+        e_p[p] = 1
+        rows: list[list[int]] = []
+        rhs: list[int] = []
+        for s in shifts:
+            r0 = reduce(shifted(e_p, s))
+            cols = [reduce(shifted([1 if i == j else 0 for i in range(dim)], s)) for j in free]
+            for i in range(dim):
+                if r0[i] or any(col[i] for col in cols):
+                    rows.append([col[i] for col in cols])
+                    rhs.append(neg[r0[i]])
+        for x in _solve_affine(rows, rhs, len(free), field):
+            w = list(e_p)
+            for j, xv in zip(free, x):
+                w[j] = xv
+            basis[p] = w
+            rec(p - 1, codim)
+            del basis[p]
+
+    rec(dim - 1, 0)
+    return total[0]
 
 
 # --------------------------------------------------------------------------

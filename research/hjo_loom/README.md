@@ -24,6 +24,8 @@ Huang–Jiang–Oblomkov, *Quot scheme of points on torus knot singularities*,
 | V4 | #order filters = rational Catalan; F<sub>N</sub>(1) = Cat(a,b)<sup>N</sup> | Direct enumeration |
 | V5 | #Quot<sub>m</sub><sup>R</sup>(F<sub>q</sub>[[T]]<sup>N</sup>) = coefficient of the HJO Thm 1.2 motive at L = q | **Brute-force enumeration of submodules over F<sub>2</sub>, F<sub>3</sub>** |
 | V6 | Groupoid volume of commuting nilpotent pairs with A<sup>a</sup> = B<sup>b</sup> (HJO Thm 1.4) | Orbit–stabilizer enumeration; partial sums only — **consistency, not verification** |
+| V7 | V5 over GF(4), GF(5), GF(7), GF(8), GF(9) as well as F<sub>2</sub>, F<sub>3</sub> | The V5 enumeration with table arithmetic for GF(p<sup>k</sup>) (v2 certificate) |
+| V8 | Each colength count is a polynomial in q (HJO Thm 1.2) | Exact interpolation of the formula at integer L, and separately of the brute-force counts alone |
 
 ### Three implementation facts that make this exact and fast
 
@@ -99,11 +101,111 @@ rows are an independent finite-field replay of it, and the rank-2 rows exercise 
 regime. Separately, the V1 rows with a ≥ 4 are the product identities first settled by HLO
 (cases a ≤ 3 were known earlier).
 
+## Sealed certificate v2 — V7 census over every prime power q ≤ 9, V8 counts as polynomials in q
+
+Status: **MEASURED finite checks, run on 2026-11-19**; evidence, not proof. HJO Thm 1.2
+already covers every finite field, nothing here is a new theorem, and the brute force and the
+formula are two routes in one codebase, not independent replication.
+
+`hjo_certificate_v2.json` (schema `szl.khipu.hjo-certificate/v2`, seal
+`bd7b4197b81939c4d6aca29f919c01f5f8dc2d72756623ea75a005cf34c8bc2b`, domain-separated
+SHA-256; unsigned) extends the V5 census to
+GF(4), GF(5), GF(7), GF(8) and GF(9), with GF(4) = F<sub>2</sub>[x]/(x<sup>2</sup>+x+1),
+GF(8) = F<sub>2</sub>[x]/(x<sup>3</sup>+x+1) and GF(9) = F<sub>3</sub>[x]/(x<sup>2</sup>+1).
+Method, caps and wall time: [METHOD.md](METHOD.md#addendum-v2-2026-11-19-every-prime-power-q--9-and-the-counts-as-polynomials-in-q).
+
+```
+python research/hjo_loom/build_certificate.py --v2 --jobs 4 --check research/hjo_loom/hjo_certificate_v2.json
+```
+
+### V7 — colengths whose brute-force count equals HJO Thm 1.2 at L = q
+
+Each of the 112 series runs colength 0, 1, 2, … under a cap of 3,000,000 recursion steps for
+the whole series, up to colength 8. A range ending below 8 means the next colength was
+abandoned at the cap; no partial count is recorded. Every listed colength agrees with the
+formula.
+
+| (a,b) | N | q = 2 | q = 3 | q = 4 | q = 5 | q = 7 | q = 8 | q = 9 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| (2,3) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 |
+| (2,3) | 2 | 0–8 | 0–7 | 0–6 | 0–5 | 0–4 | 0–3 | 0–3 |
+| (2,5) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 |
+| (2,5) | 2 | 0–8 | 0–5 | 0–3 | 0–3 | 0–2 | 0–2 | 0–1 |
+| (3,4) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 |
+| (3,4) | 2 | 0–5 | 0–3 | 0–2 | 0–1 | 0–1 | 0–1 | 0–1 |
+| (3,5) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 |
+| (3,5) | 2 | 0–4 | 0–2 | 0–1 | 0–1 | 0–1 | 0–1 | 0–1 |
+| (2,7) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 | 0–8 |
+| (2,7) | 2 | 0–6 | 0–3 | 0–2 | 0–2 | 0–2 | 0–1 | 0–1 |
+| (4,5) | 1 | 0–8 | 0–8 | 0–8 | 0–7 | 0–4 | 0–4 | 0–3 |
+| (4,5) | 2 | 0–2 | 0–1 | 0–1 | 0–0 | 0–0 | 0–0 | 0–0 |
+| (3,7) | 1 | 0–8 | 0–8 | 0–8 | 0–8 | 0–5 | 0–4 | 0–4 |
+| (3,7) | 2 | 0–3 | 0–1 | 0–1 | 0–1 | 0–1 | 0–1 | 0–1 |
+| (4,7) | 1 | 0–8 | 0–7 | 0–4 | 0–3 | 0–2 | 0–2 | 0–2 |
+| (5,6) | 1 | 0–8 | 0–5 | 0–3 | 0–2 | 0–1 | 0–1 | 0–1 |
+
+For example, over GF(9) the rank-2 series of (2,3) has 820, 14,752 and 140,140 submodules of
+colength 1 to 3, and over GF(8) the rank-1 series of (4,5) has 585, 5,257, 42,633 and 79,497
+of colength 1 to 4.
+
+### V8 — the counts as polynomials in q, recovered from brute force alone
+
+The formula's colength-m count is interpolated exactly at integer L = 2, 3, … (with at least
+three points beyond the degree bound N²δ + (N−1)m). Separately, the brute-force counts at the
+prime powers that reached colength m are interpolated on their own. **RECOVERED**: at least
+degree + 1 brute-force points, and their interpolant equals the formula's polynomial
+coefficient by coefficient. **UNDERDETERMINED**: fewer points than degree + 1. Given V7, a
+RECOVERED row is what uniqueness of interpolation predicts; it shows that the enumeration data
+alone fix that polynomial.
+
+| (a,b) | N | RECOVERED: colength (degree) | UNDERDETERMINED: colength (degree; brute-force points) |
+| --- | --- | --- | --- |
+| (2,3) | 1 | 0 (0), 1 (1), 2 (1), 3 (1), 4 (1), 5 (1), 6 (1), 7 (1), 8 (1) | — |
+| (2,3) | 2 | 0 (0), 1 (3), 2 (4), 3 (5) | 4 (6; 5), 5 (7; 4), 6 (8; 3), 7 (9; 2), 8 (10; 1) |
+| (2,5) | 1 | 0 (0), 1 (1), 2 (2), 3 (2), 4 (2), 5 (2), 6 (2), 7 (2), 8 (2) | — |
+| (2,5) | 2 | 0 (0), 1 (3) | 2 (6; 6), 3 (7; 4), 4 (8; 2), 5 (9; 2), 6 (10; 1), 7 (11; 1), 8 (12; 1) |
+| (3,4) | 1 | 0 (0), 1 (2), 2 (2), 3 (3), 4 (3), 5 (3), 6 (3), 7 (3), 8 (3) | — |
+| (3,4) | 2 | 0 (0), 1 (5) | 2 (8; 3), 3 (9; 2), 4 (11; 1), 5 (12; 1) |
+| (3,5) | 1 | 0 (0), 1 (2), 2 (3), 3 (3), 4 (4), 5 (4), 6 (4), 7 (4), 8 (4) | — |
+| (3,5) | 2 | 0 (0), 1 (5) | 2 (8; 2), 3 (11; 1), 4 (12; 1) |
+| (2,7) | 1 | 0 (0), 1 (1), 2 (2), 3 (3), 4 (3), 5 (3), 6 (3), 7 (3), 8 (3) | — |
+| (2,7) | 2 | 0 (0), 1 (3) | 2 (6; 5), 3 (9; 2), 4 (10; 1), 5 (11; 1), 6 (12; 1) |
+| (4,5) | 1 | 0 (0), 1 (3), 2 (4), 3 (5), 4 (5) | 5 (5; 4), 6 (6; 4), 7 (6; 4), 8 (6; 3) |
+| (4,5) | 2 | 0 (0) | 1 (7; 3), 2 (12; 1) |
+| (3,7) | 1 | 0 (0), 1 (2), 2 (4), 3 (4), 4 (5) | 5 (5; 5), 6 (6; 4), 7 (6; 4), 8 (6; 4) |
+| (3,7) | 2 | 0 (0), 1 (5) | 2 (10; 1), 3 (13; 1) |
+| (4,7) | 1 | 0 (0), 1 (3), 2 (5) | 3 (6; 4), 4 (7; 3), 5 (7; 2), 6 (8; 2), 7 (8; 2), 8 (8; 1) |
+| (5,6) | 1 | 0 (0), 1 (4) | 2 (6; 4), 3 (7; 3), 4 (8; 2), 5 (8; 2), 6 (9; 1), 7 (9; 1), 8 (9; 1) |
+
+Recovered polynomials of degree 4 or more, coefficients from the certificate:
+
+| (a,b) | N | colength | count as a polynomial in q | brute-force points | extra checks |
+| --- | --- | --- | --- | --- | --- |
+| (2,3) | 2 | 2 | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + 2q<sup>4</sup> | 7 | 2 |
+| (2,3) | 2 | 3 | 1 + q + 2q<sup>2</sup> + 3q<sup>3</sup> + 3q<sup>4</sup> + 2q<sup>5</sup> | 7 | 1 |
+| (3,4) | 2 | 1 | 1 + q + q<sup>2</sup> + q<sup>3</sup> + q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (3,5) | 1 | 4 to 8, each | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + q<sup>4</sup> | 7 | 2 |
+| (3,5) | 2 | 1 | 1 + q + q<sup>2</sup> + q<sup>3</sup> + q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (4,5) | 1 | 2 | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + q<sup>4</sup> | 7 | 2 |
+| (4,5) | 1 | 3 | 1 + q + 2q<sup>2</sup> + 3q<sup>3</sup> + 2q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (4,5) | 1 | 4 | 1 + q + 2q<sup>2</sup> + 3q<sup>3</sup> + 3q<sup>4</sup> + 2q<sup>5</sup> | 6 | 0 |
+| (3,7) | 1 | 2 | 1 + q + 2q<sup>2</sup> + q<sup>3</sup> + q<sup>4</sup> | 7 | 2 |
+| (3,7) | 1 | 3 | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + 2q<sup>4</sup> | 7 | 2 |
+| (3,7) | 1 | 4 | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + 3q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (3,7) | 2 | 1 | 1 + q + q<sup>2</sup> + q<sup>3</sup> + q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (4,7) | 1 | 2 | 1 + q + 2q<sup>2</sup> + 2q<sup>3</sup> + 2q<sup>4</sup> + q<sup>5</sup> | 7 | 1 |
+| (5,6) | 1 | 1 | 1 + q + q<sup>2</sup> + q<sup>3</sup> + q<sup>4</sup> | 7 | 2 |
+
+A row with 0 extra checks, such as (4,5) with N = 1 at colength 4, has exactly degree + 1
+brute-force points: the polynomial is determined, but no spare point tests it.
+
 ## Limits
 
 - Finite ranges only. Agreement on finitely many coefficients is evidence, not proof; the
   theorems are proved in the cited papers and formalized at
   [AxiomMath/HJO](https://github.com/AxiomMath/HJO) (revision observed `6a58dfa6`, not replayed).
+- V7 and V8 stop at q ≤ 9, colength 8 and a fixed work cap. With seven fields, a count of
+  degree 7 or more in q can never be RECOVERED from brute force here, whatever the cap.
 - V6 compares partial sums of a convergent series with its predicted limit; it can only detect
   gross inconsistency.
 - 2026-11-18 correction (Y. Huang, personal communication): the monotone-pruning precondition

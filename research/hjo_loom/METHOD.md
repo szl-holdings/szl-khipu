@@ -108,3 +108,71 @@ Agreement on finitely many coefficients is evidence, not proof. The identities a
 of the cited papers and are formalized at [AxiomMath/HJO](https://github.com/AxiomMath/HJO),
 which this work has not replayed. Nothing here is a new theorem, and nothing connects this
 algebra to the physical knots of khipus.
+
+## Addendum (v2, 2026-11-19): every prime power q ≤ 9, and the counts as polynomials in q
+
+[`hjo_certificate_v2.json`](hjo_certificate_v2.json) repeats the V5 comparison over GF(4),
+GF(5), GF(7), GF(8) and GF(9) as well as F_2 and F_3 (V7), and reads each colength count as a
+polynomial in `q` (V8). The rules above still hold: exact standard-library arithmetic, no
+model, fail-closed caps, and no partial count ever recorded.
+
+**Fields of order `p^k`.** The enumeration only adds, subtracts, multiplies and inverts field
+elements, so it runs unchanged over any finite field given its tables. Element `e` of GF(q)
+stands for `Σ d_i x^i` over F_p, where `d_i` are the base-`p` digits of `e`, reduced modulo
+`x^2 + x + 1` (GF(4)) or `x^3 + x + 1` (GF(8)) over F_2, or `x^2 + 1` (GF(9)) over F_3. Each
+modulus has degree at most 3 and no root in its prime field, so it is irreducible.
+`tests/test_hjo_loom.py` checks this a second way, by forming every product of two monic
+factors, and checks the field axioms on every triple of elements of every field. For a prime
+`q` the tables are exactly arithmetic mod `q` (also tested), so the F_2 and F_3 path computes
+what it computed before. The recursion itself is unchanged: on 15 prime-field series the new
+code gave the same counts in the same number of steps as the previous one, and the v1
+certificate still replays to `REPLAY_MATCH` with seal
+`9849e9b1cefdcb0ad67544cf0895f14e37cc62c93c089051b6541a76d0e7a4e7`.
+
+**Caps.** There are 112 series: the 16 (pair, rank) combinations of V5 times 7 fields. Each
+runs colengths 0, 1, 2, … under one cap of 3,000,000 recursion steps shared by all its
+colengths, up to colength 8. The first colength that would cross the cap is abandoned and not
+recorded. The cap is half of V5's: a trial with 6,000,000 was stopped after 16.5 minutes with
+all four workers still busy, and a calibration pass at 300,000 steps per series was used to
+estimate the cost per step and which V8 rows a larger cap could still recover. Each V7 row
+records the cumulative steps after every colength it completed. 66 series stopped at the cap
+and 46 at colength 8; 643 colength counts were compared, and all agree with
+`quot_formula_counts` at the same `q`.
+
+**Polynomials in `q`.** The coefficient of `t^m` in `Z(t)` is
+`Σ_j u_j(L) h_{m-j}(1, L, …, L^{N-1})` with `u_j(L) = L^{N²δ} n_{Nδ-j}(1/L)`, where `n_s` is the
+`t^s` part of `N_{a,b;N}(q, t)` and `h_k` is the complete homogeneous symmetric polynomial. No
+`n_s` has degree above `N²δ` (checked at run time), so the coefficient is a polynomial in `L`
+of degree at most `B_m = N²δ + (N-1)m`. `quot_formula_polynomials` evaluates the formula
+exactly at `L = 2, 3, …`, at `B + 4` points (`B` for the largest colength of the series),
+interpolates over the rationals, and requires integer coefficients and degree at most `B_m`;
+at least three points beyond those needed confirm the degree. Separately, the brute-force
+counts alone, at the prime powers whose series reached colength `m`, are interpolated by the
+unique polynomial of degree below the number of points. The row is RECOVERED when there are
+at least degree + 1 such points and that interpolant equals the formula's polynomial
+coefficient by coefficient; the points beyond degree + 1 are reported as extra checks.
+Otherwise it is UNDERDETERMINED, with its point count and degree. Of 124 rows, 75 are
+RECOVERED and 49 UNDERDETERMINED.
+
+Given V7's agreement at every point, RECOVERED is what uniqueness of interpolation predicts
+once there are degree + 1 points. What V8 adds is that, for those colengths, the enumeration
+data alone fix every coefficient of the polynomial without using the formula, and that where
+they cannot, the certificate says UNDERDETERMINED instead of fitting a curve.
+
+**Wall time.** On this 4-vCPU container with Python 3.13, `--v2 --jobs 4 --write` took
+667.1 s and `--v2 --jobs 4 --check` took 633.3 s (`REPLAY_MATCH`), on 2026-11-19. `--jobs`
+only spreads series over processes: the bytes do not depend on it (`--jobs 1` and `--jobs 3`
+gave identical output on a reduced plan). The test file checks the v2 seal and the
+internal consistency of every row, and replays a cheap subset from scratch: (2,3) rank 1 over
+all seven fields, two more rows, and V8 for (2,3) rank 1.
+
+```
+python3 research/hjo_loom/build_certificate.py --v2 --jobs 4 --check research/hjo_loom/hjo_certificate_v2.json
+```
+
+**What v2 is not.** Finite evidence, not proof. HJO Theorem 1.2 already covers every finite
+field: it gives the motive, and so the point count over every F_q. Nothing here is a new
+theorem, and V8 does not show that the counts are polynomials in `q`; the theorem does. The
+brute force and the formula are two routes in one codebase, written with the same AI coding
+assistant, so their agreement is not independent replication; neither is the cylindric
+cross-check above.
