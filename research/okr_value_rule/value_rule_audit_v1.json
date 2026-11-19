@@ -1,0 +1,33 @@
+{
+ "cords_changed": 19145,
+ "corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+ "khipus": 619,
+ "khipus_changed": 476,
+ "knots_changed": 21676,
+ "label": "MEASURED on the digest-pinned OKR corpus; exploratory; not decipherment",
+ "relation_rules": {
+  "R1": "subsidiary sum: a cord's value equals the sum of ALL its direct subsidiaries (>=2 subsidiaries, all values known, target > 0, >=2 nonzero summands)",
+  "R2": "top-cord sum: a top cord's value equals the sum of 1-3 consecutive whole pendant groups that touch the top cord's position on the primary (>=2 pendants, all known, every group in a multi-group union nonzero, target > 0, >=2 nonzero summands)",
+  "R3": "group-sum cord: a pendant's value equals the sum of all pendants of a different whole pendant group (group size >=2, all known, target >= 10, >=2 nonzero summands)",
+  "R4": "in-group sum cord: the first or last pendant of a group (>=3 pendants) equals the sum of the other pendants of that group (all known, target > 0, >=2 nonzero summands)"
+ },
+ "relations": {
+  "canonical": {
+   "R1": 59,
+   "R2": 54,
+   "R3": 714,
+   "R4": 106
+  },
+  "turns_multiplied": {
+   "R1": 12,
+   "R2": 3,
+   "R3": 564,
+   "R4": 87
+  }
+ },
+ "rules": {
+  "canonical": "cord value = sum of knot_value_type over the cord's knots (research/okr_corpus DECODING_RULES)",
+  "turns_multiplied": "long-type knots (L, LL, BL, SP) contribute knot_value_type * NUM_TURNS when NUM_TURNS > 1; other knots contribute knot_value_type"
+ },
+ "schema": "szl.okr_value_rule_audit/v1"
+}
