@@ -78,14 +78,19 @@ All 24 `(a, b, N, q)` series in the certificate agree term by term. The table is
 
 ## Rerun it
 
-Python 3.11 or later. The enumeration needs nothing beyond the standard library, but
-importing it through the `szl_khipu` package also loads numpy, a declared package
-dependency, so install the package first:
+Python 3.11 or later. The certificate check needs only the standard library: the
+builder loads `szl_khipu/hjo_loom.py` by file path, so nothing has to be installed.
 
 ```
 git clone https://github.com/szl-holdings/szl-khipu && cd szl-khipu
-python3 -m pip install -e . pytest
 python3 research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
+```
+
+The tests import through the `szl_khipu` package, whose `__init__` loads numpy, so they
+need the package installed:
+
+```
+python3 -m pip install -e . pytest
 python3 -m pytest tests/test_hjo_loom.py tests/test_hjo_cylindric_profile.py
 ```
 
@@ -93,7 +98,8 @@ python3 -m pytest tests/test_hjo_loom.py tests/test_hjo_cylindric_profile.py
 test files gave 31 passed (102 subtests) in a fresh virtual environment on 2026-11-19.
 Rerun on 2026-11-19 at commit `8925f46` with Python 3.13 on a 4-vCPU container:
 `REPLAY_MATCH`, seal `9849e9b1cefdcb0ad67544cf0895f14e37cc62c93c089051b6541a76d0e7a4e7`,
-71.5 s. The seal is the certificate's own domain-separated digest, recorded in its
+71.5 s; with the builder loading the module by path, the same check gave `REPLAY_MATCH` in
+71.2 s under a Python with no numpy installed. The seal is the certificate's own domain-separated digest, recorded in its
 `sha256` field; it is not the SHA-256 of the file.
 
 ## What this is not

@@ -74,9 +74,10 @@ V1 through q<sup>40</sup>; 43 V2/V4 rows (ranks 1–3 where δ ≤ 6, else 1–2
 deg F<sub>N</sub> + 4; V3; and the V5 census below. Build time on this container: 104 s.
 
 ```
-python -m pip install -e .   # the szl_khipu package imports numpy; the enumeration does not use it
 python research/hjo_loom/build_certificate.py --check research/hjo_loom/hjo_certificate_v1.json
 ```
+
+Standard library only: the builder loads `szl_khipu/hjo_loom.py` by file path.
 
 ### V5 census — brute-force submodule counts, all equal to HJO Thm 1.2 at L = q
 
