@@ -1,0 +1,364 @@
+{
+  "counts": {
+    "guide_article_rows": 650,
+    "guide_non_KH_label_rows": 54,
+    "guide_only_KH_labels": 0,
+    "guide_unique_KH_labels": 593,
+    "okr_only_KH_labels": 109,
+    "okr_registry_rows": 702,
+    "shared_KH_labels": 593
+  },
+  "focus_rows": {
+    "field_guide_2024": [
+      {
+        "kfg_name": "UR237",
+        "museum_num": "VA 66834",
+        "okr_name": "KH0473"
+      },
+      {
+        "kfg_name": "UR1107",
+        "museum_num": "VA24370(B)",
+        "okr_name": "KH0121"
+      },
+      {
+        "kfg_name": "AS125",
+        "museum_num": "VA42670",
+        "okr_name": "KH0140"
+      },
+      {
+        "kfg_name": "UR247",
+        "museum_num": "VA 42610",
+        "okr_name": "KH0483"
+      }
+    ],
+    "okr": [
+      {
+        "Collection Number": "VA24370(B)",
+        "Comments": "",
+        "OKR Number": "KH0121",
+        "Other Names": "AS107, UR1107"
+      },
+      {
+        "Collection Number": "VA42670",
+        "Comments": "This khipus is a duplicate of KH0483.",
+        "OKR Number": "KH0140",
+        "Other Names": "AS125"
+      },
+      {
+        "Collection Number": "VA66834",
+        "Comments": "",
+        "OKR Number": "KH0473",
+        "Other Names": "UR237"
+      },
+      {
+        "Collection Number": "VA42610",
+        "Comments": "This khipu is a duplicate of KH0140.",
+        "OKR Number": "KH0483",
+        "Other Names": "UR247"
+      }
+    ]
+  },
+  "guide_only_KH_labels_not_claimed_absent_in_okr": [],
+  "guide_repeated_KH_labels_not_auto_merged": {
+    "KH0227": [
+      "KH0227",
+      "AS207C"
+    ],
+    "KH0267": [
+      "UR034",
+      "KH0267"
+    ],
+    "KH0350": [
+      "UR114",
+      "KH0350"
+    ]
+  },
+  "input_sha256": {
+    "field_guide_2024": "0545deea4246d117a3de1ea425fb14800970c202b772ceded65bc13a90b4c7af",
+    "okr": "d0453883762b2511f72bf48672a7c018084d67d59fe12a4a11bc3ab6b9708e5e"
+  },
+  "known_pairs": [
+    {
+      "decision": "documented duplicate; group for splitting; preserve source descriptions",
+      "ids": [
+        "KH0140",
+        "KH0483"
+      ]
+    },
+    {
+      "decision": "live Field Guide documents duplicate (index note 8); accession conflict in pinned catalogs; group conservatively for splitting; do not collapse original observations",
+      "ids": [
+        "KH0121",
+        "KH0473"
+      ]
+    }
+  ],
+  "live_index": {
+    "display_rows": 711,
+    "index_only_exact_KH_labels": [],
+    "index_sha256": "a709e04339f3a5eebbbc362f5a89fbe6d84bd0abd15fbf2f8c1a56cafb3158f8",
+    "non_KH_display_rows": [
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "CM009"
+      },
+      {
+        "aliases": "AS072, KH0085",
+        "candidate_okr_labels": [
+          "KH0085"
+        ],
+        "label": "KH0085A"
+      },
+      {
+        "aliases": "AS072, KH0085",
+        "candidate_okr_labels": [
+          "KH0085"
+        ],
+        "label": "KH0085B"
+      },
+      {
+        "aliases": "AS072, KH0085",
+        "candidate_okr_labels": [
+          "KH0085"
+        ],
+        "label": "KH0085C"
+      },
+      {
+        "aliases": "UR1096, AS096, KH0109",
+        "candidate_okr_labels": [
+          "KH0109"
+        ],
+        "label": "KH0109A"
+      },
+      {
+        "aliases": "UR1096, AS096, KH0109",
+        "candidate_okr_labels": [
+          "KH0109"
+        ],
+        "label": "KH0109B"
+      },
+      {
+        "aliases": "UR1096, AS096, KH0109",
+        "candidate_okr_labels": [
+          "KH0109"
+        ],
+        "label": "KH0109C"
+      },
+      {
+        "aliases": "QU016A, QU16",
+        "candidate_okr_labels": [
+          "KH0604"
+        ],
+        "label": "KH0604A"
+      },
+      {
+        "aliases": "QU016B, QU16",
+        "candidate_okr_labels": [
+          "KH0604"
+        ],
+        "label": "KH0604B"
+      },
+      {
+        "aliases": "QU017A, QU17",
+        "candidate_okr_labels": [
+          "KH0605"
+        ],
+        "label": "KH0605A"
+      },
+      {
+        "aliases": "QU017B, QU17",
+        "candidate_okr_labels": [
+          "KH0605"
+        ],
+        "label": "KH0605B"
+      },
+      {
+        "aliases": "QU017C, QU17",
+        "candidate_okr_labels": [
+          "KH0605"
+        ],
+        "label": "KH0605C"
+      },
+      {
+        "aliases": "QU018A, QU18",
+        "candidate_okr_labels": [
+          "KH0606"
+        ],
+        "label": "KH0606A"
+      },
+      {
+        "aliases": "QU018B, QU18",
+        "candidate_okr_labels": [
+          "KH0606"
+        ],
+        "label": "KH0606B"
+      },
+      {
+        "aliases": "QU018, QU18",
+        "candidate_okr_labels": [
+          "KH0606"
+        ],
+        "label": "KH0606C"
+      },
+      {
+        "aliases": "QU019A, QU19",
+        "candidate_okr_labels": [
+          "KH0607"
+        ],
+        "label": "KH0607A"
+      },
+      {
+        "aliases": "QU019B, QU19",
+        "candidate_okr_labels": [
+          "KH0607"
+        ],
+        "label": "KH0607B"
+      },
+      {
+        "aliases": "QU019C, QU19",
+        "candidate_okr_labels": [
+          "KH0607"
+        ],
+        "label": "KH0607C"
+      },
+      {
+        "aliases": "QU019D, QU19",
+        "candidate_okr_labels": [
+          "KH0607"
+        ],
+        "label": "KH0607D"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "KT002"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "KT003"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "KT004"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "KT005"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA001"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA002"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA003"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA004"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA005"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA006"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA007"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA008"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA009"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RA010"
+      },
+      {
+        "aliases": "",
+        "candidate_okr_labels": [],
+        "label": "RS001"
+      }
+    ],
+    "non_KH_display_rows_with_no_name_candidate": [
+      "CM009",
+      "KT002",
+      "KT003",
+      "KT004",
+      "KT005",
+      "RA001",
+      "RA002",
+      "RA003",
+      "RA004",
+      "RA005",
+      "RA006",
+      "RA007",
+      "RA008",
+      "RA009",
+      "RA010",
+      "RS001"
+    ],
+    "okr_labels_without_exact_display_label": [
+      "KH0085",
+      "KH0109",
+      "KH0146",
+      "KH0483",
+      "KH0604",
+      "KH0605",
+      "KH0606",
+      "KH0607",
+      "KH0636",
+      "KH0637",
+      "KH0638",
+      "KH0639",
+      "KH0640",
+      "KH0641",
+      "KH0642",
+      "KH0643",
+      "KH0644",
+      "KH0645",
+      "KH0646",
+      "KH0647",
+      "KH0648",
+      "KH0649",
+      "KH0650",
+      "KH0651",
+      "KH0652"
+    ],
+    "shared_exact_KH_labels": 677,
+    "unique_exact_KH_labels": 677
+  },
+  "source_urls": {
+    "field_guide_2024": "https://github.com/khipufieldguide/data-science-khipu-article/blob/a89c5dc1b8e412e3d0203719f76d5902563ab736/data/khipu_summary.csv",
+    "live_catalog_KH0121": "https://www.khipufieldguide.com/catalog/KH0121.html",
+    "live_catalog_KH0140": "https://www.khipufieldguide.com/catalog/KH0140.html",
+    "live_index": "https://khipufieldguide.com/sketchbook/index.html",
+    "okr": "https://github.com/khipulab/open-khipu-repository/blob/4039ca51f4de661d80d0160596309c983a62a9c7/data/okr-kh-numbers.csv"
+  },
+  "status": "catalog identifier coverage only; no inference of artifact absence or novelty"
+}
