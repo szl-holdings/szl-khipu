@@ -39,14 +39,17 @@ Huang–Jiang–Oblomkov, *Quot scheme of points on torus knot singularities*,
    Huang, *A quadratic form generalization of rational dinv*,
    [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), Theorem 1.1 gives
    C(G,G) ≥ 1 for nonempty filters; Theorem 1.2 gives nonnegative cross terms for
-   **all** filter pairs, not just nested ones. The paper's symmetric form is
+   **all** filter pairs, not just nested ones. Our earlier framing of this precondition as
+   possibly open was wrong, corrected by the author (personal communication, 2026-11-18).
+   The paper's symmetric form is
    B(F,G) = [C(F,G) + C(G,F)] / 2, so the implementation's cross term is 2B(F,G).
    Thus Q increases strictly along chains and pruning at Q > D is exact.
    The engine retains its per-pair checks and fails closed with
    `MONOTONE_PRUNING_PRECONDITION_FAILED`; those checks protect the implementation,
    not establish the theorem. Tests compare pruned and unpruned enumeration.
-   Theorem 1.3 also gives the cone bound ||n||∞ ≤ √(D|G|) when Q(n) ≤ D;
-   ambient-space positive definiteness is not needed.
+   Theorem 1.3 also gives the cone bound ||n||∞ ≤ √(D|G|) when Q(n) ≤ D; the symmetrised
+   form of Q is *not* positive definite for a ≥ 4, and ambient-space positive definiteness
+   is not needed.
 3. **Linear echelon enumeration (V5).** Every R-submodule of colength m contains
    T<sup>m+c</sup>F<sub>q</sub>[[T]]<sup>N</sup> (c = conductor), so it is a subspace of
    (F<sub>q</sub>[T]/T<sup>m+c</sup>)<sup>N</sup>. Building its reduced echelon basis from the
@@ -93,5 +96,8 @@ regime. Separately, the V1 rows with a ≥ 4 are the product identities first se
   [AxiomMath/HJO](https://github.com/AxiomMath/HJO) (revision observed `6a58dfa6`, not replayed).
 - V6 compares partial sums of a convergent series with its predicted limit; it can only detect
   gross inconsistency.
+- 2026-11-18 correction (Y. Huang, personal communication): the monotone-pruning precondition
+  above was previously described as possibly-open; it is proved — Theorem 1.2 of
+  [arXiv:2604.13238](https://arxiv.org/abs/2604.13238), stronger form, no containment hypothesis.
 - The torus knots of this mathematics are algebraic objects. Nothing here links them to the
   physical knots of khipus; the OKR work in `../okr_corpus/` is a separate study.
