@@ -47,6 +47,16 @@ class WindowArithmetic(unittest.TestCase):
         self.assertEqual(self.pu.window_sums(cords, 2), [3, 5, 7])
 
 
+class PendantOrder(unittest.TestCase):
+    def test_pendants_follow_ordinal_not_stored_order(self):
+        module = _load()
+        cords = [{"id": 10, "ordinal": 1, "parent": 1, "level": 1, "parent_kind": "primary"},
+                 {"id": 11, "ordinal": 3, "parent": 1, "level": 1, "parent_kind": "primary"},
+                 {"id": 12, "ordinal": 2, "parent": 1, "level": 1, "parent_kind": "primary"},
+                 {"id": 13, "ordinal": 1, "parent": 10, "level": 2, "parent_kind": "cord"}]
+        self.assertEqual([c["id"] for c in module.pendants({"cords": cords})], [10, 12, 11])
+
+
 class PuruchucoCorpus(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

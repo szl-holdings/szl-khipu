@@ -44,9 +44,10 @@ SOURCES = [
      "cite": "FitzPatrick, M. (2024). New Insights on Cord Attachment and Social Hierarchy in Six "
              "Khipus from the Santa Valley, Peru. Ethnohistory 71(4): 443-469.",
      "doi": "10.1215/00141801-11266328", "open_preprint": "https://osf.io/sr8kw",
-     "read_by_this_project": "first half and footnotes 9-12 of the open preprint "
-                             "(pdf sha256 a776a8b56f66cab16b2e6bdd7972a62521f29fbb30e7931044015db69685ec4e); "
-                             "section 4 and footnotes 3, 5, 7, 8 were not read"},
+     "read_by_this_project": "about three fifths of the open preprint "
+                             "(pdf sha256 a776a8b56f66cab16b2e6bdd7972a62521f29fbb30e7931044015db69685ec4e): "
+                             "sections 1 to 3.1, the tribute passage of 3.4, the start of 3.5 and "
+                             "footnotes 1-21; the rest of sections 3 and 4 was not read"},
 ]
 
 # Everything in PUBLISHED is quoted or tabulated from the FitzPatrick preprint,
@@ -65,6 +66,10 @@ PUBLISHED = {
     "tributaries_named": 130,
     "tribute_each": {"pesos": 2, "reales": 7, "quartillos": 3},
     "tribute_total_pesos": 367,
+    "cords_outside_groups": 6,
+    # "likely 381 or 382 pesos" because of broken cords (footnote 14, after Urton 2017: 229).
+    "tribute_by_moiety": {"verso_estimate": [381, 382], "recto": 86},
+    "owed_at_stated_rate_approx_pesos": 363,
 }
 PACHACAS = (("Namus", 18), ("Corongo", 23), ("Cuyuchin", 9),
             ("Cusca", 7), ("Guauyan", 41), ("Ucore", 32))
@@ -104,7 +109,12 @@ def _engine():
 
 
 def pendants(khipu: dict) -> list:
-    return [c for c in khipu["cords"] if c["level"] == 1 and c["parent_kind"] == "primary"]
+    """Level-1 pendants in order along each primary cord (ordinal, then id), not stored order."""
+    cords = [c for c in khipu["cords"] if c["level"] == 1 and c["parent_kind"] == "primary"]
+    rank: dict = {}
+    for c in cords:
+        rank.setdefault(c["parent"], len(rank))
+    return sorted(cords, key=lambda c: (rank[c["parent"]], c["ordinal"], c["id"]))
 
 
 def _clusters(cords: list):
@@ -224,20 +234,31 @@ def _rule_report(per_khipu_groupings: list) -> dict:
     per_khipu, attach, sums = [], {"R": 0, "U": 0, "V": 0}, []
     knotted = knotless = unreadable = total = ambiguous = n_groups = 0
     side = {"R": 0, "U": 0, "V": 0}
+    published_side = {"R": 0, "V": 0}
+    missing = {"R": 0, "U": 0, "V": 0}
     for okr_num, grouping in per_khipu_groupings:
         first = [g[0] for g in grouping["groups"]]
         sequence = "".join(c["attach"] if c["attach"] in ("R", "V") else "U" for c in first)
         khipu_sum = 0
-        for cord, letter in zip(first, sequence):
+        # The sources count every group of a khipu on one side, except on
+        # KH0326, where they give the side of each group.
+        said = PUBLISHED["kh0326_identifier_sequence"] if okr_num == "KH0326" else None
+        if said is not None and len(said) != len(sequence):
+            said = None
+        for i, (cord, letter) in enumerate(zip(first, sequence)):
             attach[letter] += 1
             if cord["value_status"] == "known":
                 knotted += 1
                 khipu_sum += cord["value"]
                 side[letter] += cord["value"]
+                majority = max("RV", key=sequence.count)
+                published_side[said[i] if said else majority] += cord["value"]
             elif cord["value_status"] == "knotless":
                 knotless += 1
+                missing[letter] += 1
             else:
                 unreadable += 1
+                missing[letter] += 1
         row = {"okr_num": okr_num, "groups": len(first), "set_aside": len(grouping["extras"]),
                "identifier_sequence": sequence,
                "identifier_values": [c["value"] if c["value_status"] != "unknown" else None
@@ -258,6 +279,8 @@ def _rule_report(per_khipu_groupings: list) -> dict:
         "identifier_attachment": attach,
         "first_cord": {"knotted": knotted, "knotless": knotless, "unreadable": unreadable,
                        "knotted_sum": total, "per_khipu_sum": sums, "by_side_sum": side,
+                       "by_published_side_sum": published_side,
+                       "unknotted_or_unreadable_by_side": missing,
                        "fraction_of_document_total": round(total / PUBLISHED["tribute_total_pesos"], 4)},
     }
 
@@ -303,7 +326,7 @@ def _claims(band: dict, totals: dict, khipus: list, leading: int, table_ok: bool
          "note": "The pinned records differ from the published counts in two groups: the fifteenth "
                  "group of KH0326 opens with a recto cord (published: verso), and the second group "
                  "of KH0328 opens with a cord whose attachment is recorded as unspecified. The "
-                 "published KH0326 sequence is this project's transcription from the preprint."},
+                 "published KH0326 sequence was checked against the preprint text."},
         {"id": "kh0326_59_leading_verso",
          "status": "REPLICATED" if leading == PUBLISHED["kh0326_leading_verso_cords"] else "CONTRADICTED",
          "published": PUBLISHED["kh0326_leading_verso_cords"], "measured": leading},
@@ -319,11 +342,22 @@ def _claims(band: dict, totals: dict, khipus: list, leading: int, table_ok: bool
          "published": "twenty splits of the six pachacas with error and p (FitzPatrick 2024, Table 3)",
          "measured": "all twenty rows recomputed from the published pachaca sizes and group counts",
          "note": "Arithmetic on published inputs; it does not test whether the split is meaningful."},
-        {"id": "tribute_paid_by_moiety", "status": "NOT_TESTED",
-         "published": "FitzPatrick 2024, section 4",
-         "measured": first["by_side_sum"],
-         "note": "That section was not read, so there is no published figure to compare with. "
-                 "The measured sums by attachment side are reported for whoever has the text."},
+        {"id": "six_cords_outside_groups",
+         "status": "REPLICATED" if sum(k["set_aside"] for k in band["per_khipu"]) == PUBLISHED["cords_outside_groups"]
+         else "CONTRADICTED",
+         "published": "six pendant cords do not belong to six-cord groups (footnote 3)",
+         "measured": {k["okr_num"]: k["set_aside"] for k in band["per_khipu"]}},
+        {"id": "tribute_paid_by_moiety", "status": "PARTIAL",
+         "published": PUBLISHED["tribute_by_moiety"],
+         "measured": {"by_recorded_side": first["by_side_sum"],
+                      "by_published_side": first["by_published_side_sum"],
+                      "unknotted_or_unreadable_by_side": first["unknotted_or_unreadable_by_side"]},
+         "note": "Recto agrees: 87 measured with the published side of each group, 86 published. "
+                 "Verso does not: 273 measured from knotted first cords against a published "
+                 "estimate of 381 or 382 that allows for broken cords. All thirteen first cords "
+                 "without a readable value are verso. The two published figures sum to 467 or "
+                 "468, not the 367 the first-cord total is said to match closely; the text read "
+                 "here does not say how those fit together."},
     ]
 
 
@@ -384,9 +418,11 @@ def audit(corpus: dict | None = None) -> dict:
             "tributaries_times_stated_rate": dict(zip(
                 ("pesos", "reales", "quartillos"),
                 as_pesos_reales_quartillos(PUBLISHED["tributaries"] * each))),
-            "note": "132 tributaries at 2 pesos 7 reales 3 quartillos come to 391 pesos 7 reales, "
-                    "not the 367 the document states. Our arithmetic, assuming 8 reales to the peso "
-                    "and 4 quartillos to the real; the source's footnote on this was not read.",
+            "owed_at_stated_rate_per_source_pesos": PUBLISHED["owed_at_stated_rate_approx_pesos"],
+            "note": "The source (footnote 5) puts 132 tributaries at 2 pesos 7 reales 3 quartillos "
+                    "at about 363 pesos, slightly under the stated 367. With 8 reales to the peso "
+                    "and 4 quartillos to the real the same rate comes to 391 pesos 7 reales. The "
+                    "source's conversion was not found in the text read here.",
         },
         "table_3": table,
         "alignment_with_published_counts": _alignment(PUBLISHED["identifier_verso"],

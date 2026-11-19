@@ -156,7 +156,7 @@
         "U": 1,
         "V": 69
       },
-      "note": "The pinned records differ from the published counts in two groups: the fifteenth group of KH0326 opens with a recto cord (published: verso), and the second group of KH0328 opens with a cord whose attachment is recorded as unspecified. The published KH0326 sequence is this project's transcription from the preprint.",
+      "note": "The pinned records differ from the published counts in two groups: the fifteenth group of KH0326 opens with a recto cord (published: verso), and the second group of KH0328 opens with a cord whose attachment is recorded as unspecified. The published KH0326 sequence was checked against the preprint text.",
       "published": {
         "R": 63,
         "V": 70
@@ -189,19 +189,50 @@
       "status": "REPLICATED"
     },
     {
+      "id": "six_cords_outside_groups",
+      "measured": {
+        "KH0323": 0,
+        "KH0324": 0,
+        "KH0325": 0,
+        "KH0326": 6,
+        "KH0327": 0,
+        "KH0328": 0
+      },
+      "published": "six pendant cords do not belong to six-cord groups (footnote 3)",
+      "status": "REPLICATED"
+    },
+    {
       "id": "tribute_paid_by_moiety",
       "measured": {
-        "R": 91,
-        "U": 2,
-        "V": 267
+        "by_published_side": {
+          "R": 87,
+          "V": 273
+        },
+        "by_recorded_side": {
+          "R": 91,
+          "U": 2,
+          "V": 267
+        },
+        "unknotted_or_unreadable_by_side": {
+          "R": 0,
+          "U": 0,
+          "V": 13
+        }
       },
-      "note": "That section was not read, so there is no published figure to compare with. The measured sums by attachment side are reported for whoever has the text.",
-      "published": "FitzPatrick 2024, section 4",
-      "status": "NOT_TESTED"
+      "note": "Recto agrees: 87 measured with the published side of each group, 86 published. Verso does not: 273 measured from knotted first cords against a published estimate of 381 or 382 that allows for broken cords. All thirteen first cords without a readable value are verso. The two published figures sum to 467 or 468, not the 367 the first-cord total is said to match closely; the text read here does not say how those fit together.",
+      "published": {
+        "recto": 86,
+        "verso_estimate": [
+          381,
+          382
+        ]
+      },
+      "status": "PARTIAL"
     }
   ],
   "document": {
-    "note": "132 tributaries at 2 pesos 7 reales 3 quartillos come to 391 pesos 7 reales, not the 367 the document states. Our arithmetic, assuming 8 reales to the peso and 4 quartillos to the real; the source's footnote on this was not read.",
+    "note": "The source (footnote 5) puts 132 tributaries at 2 pesos 7 reales 3 quartillos at about 363 pesos, slightly under the stated 367. With 8 reales to the peso and 4 quartillos to the real the same rate comes to 391 pesos 7 reales. The source's conversion was not found in the text read here.",
+    "owed_at_stated_rate_per_source_pesos": 363,
     "total_pesos": 367,
     "tributaries_times_stated_rate": {
       "pesos": 391,
@@ -260,6 +291,7 @@
   "new_reading_claimed": false,
   "preregistered": false,
   "published": {
+    "cords_outside_groups": 6,
     "groups_per_khipu": [
       48,
       9,
@@ -272,10 +304,18 @@
     "identifier_verso": 70,
     "kh0326_identifier_sequence": "VVVVVVVVVVRRRVVRR",
     "kh0326_leading_verso_cords": 59,
+    "owed_at_stated_rate_approx_pesos": 363,
     "pendant_cords": 804,
     "six_cord_groups": 133,
     "tributaries": 132,
     "tributaries_named": 130,
+    "tribute_by_moiety": {
+      "recto": 86,
+      "verso_estimate": [
+        381,
+        382
+      ]
+    },
     "tribute_each": {
       "pesos": 2,
       "quartillos": 3,
@@ -283,11 +323,15 @@
     },
     "tribute_total_pesos": 367
   },
-  "report_sha256": "cc7bdd98929acdee13f1d0101e5a4b369a9ae6418bf943e034544acc816a116f",
+  "report_sha256": "0c8b38acad3936b27d9622626255ddb40395eb002b01bde8ac77efbba686d687",
   "rules": {
     "colour_band": {
       "ambiguous": 0,
       "first_cord": {
+        "by_published_side_sum": {
+          "R": 87,
+          "V": 273
+        },
         "by_side_sum": {
           "R": 91,
           "U": 2,
@@ -305,6 +349,11 @@
           36,
           11
         ],
+        "unknotted_or_unreadable_by_side": {
+          "R": 0,
+          "U": 0,
+          "V": 13
+        },
         "unreadable": 3
       },
       "groups": 133,
@@ -504,6 +553,10 @@
     "positional": {
       "ambiguous": 0,
       "first_cord": {
+        "by_published_side_sum": {
+          "R": 185,
+          "V": 564
+        },
         "by_side_sum": {
           "R": 289,
           "U": 2,
@@ -521,6 +574,11 @@
           36,
           11
         ],
+        "unknotted_or_unreadable_by_side": {
+          "R": 0,
+          "U": 0,
+          "V": 14
+        },
         "unreadable": 3
       },
       "groups": 133,
@@ -740,7 +798,7 @@
       "doi": "10.1215/00141801-11266328",
       "key": "fitzpatrick2024",
       "open_preprint": "https://osf.io/sr8kw",
-      "read_by_this_project": "first half and footnotes 9-12 of the open preprint (pdf sha256 a776a8b56f66cab16b2e6bdd7972a62521f29fbb30e7931044015db69685ec4e); section 4 and footnotes 3, 5, 7, 8 were not read"
+      "read_by_this_project": "about three fifths of the open preprint (pdf sha256 a776a8b56f66cab16b2e6bdd7972a62521f29fbb30e7931044015db69685ec4e): sections 1 to 3.1, the tribute passage of 3.4, the start of 3.5 and footnotes 1-21; the rest of sections 3 and 4 was not read"
     }
   ],
   "status": "POST_HOC_REPLICATION_OF_PUBLISHED_CLAIMS",

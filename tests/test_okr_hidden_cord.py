@@ -96,6 +96,40 @@ class LeaveOneOutArithmetic(unittest.TestCase):
         self.assertEqual(got[-1], self.hc.POSITION_CAP)
 
 
+class CordOrder(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.hc = _load()
+
+    @staticmethod
+    def cord(cid, ordinal, parent=1, level=1, kind="primary"):
+        return {"id": cid, "ordinal": ordinal, "parent": parent, "level": level, "parent_kind": kind}
+
+    def test_pendants_follow_ordinal_along_the_primary_not_stored_order(self):
+        khipu = {"cords": [self.cord(10, 1), self.cord(11, 3), self.cord(12, 2)]}
+        self.assertEqual(self.hc.pendant_order(khipu), [0, 2, 1])
+
+    def test_ties_break_by_cord_id_and_primaries_keep_their_first_seen_order(self):
+        khipu = {"cords": [self.cord(30, 2, parent=7), self.cord(20, 1, parent=5),
+                           self.cord(31, 1, parent=7), self.cord(19, 1, parent=5)]}
+        self.assertEqual(self.hc.pendant_order(khipu), [2, 0, 3, 1])
+
+    def test_subsidiaries_are_left_out(self):
+        khipu = {"cords": [self.cord(1, 1), self.cord(2, 1, parent=1, level=2, kind="cord")]}
+        self.assertEqual(self.hc.pendant_order(khipu), [0])
+
+    def test_the_whole_corpus_is_read_in_ordinal_order(self):
+        corpus = self.hc._module(self.hc.ENGINE, "szl_okr_hidden_cord_order_test").load_corpus()
+        out_of_order = 0
+        for khipu in corpus["khipus"]:
+            order = self.hc.pendant_order(khipu)
+            out_of_order += order != sorted(order)
+            seen = [(khipu["cords"][i]["parent"], khipu["cords"][i]["ordinal"]) for i in order]
+            for a, b in zip(seen, seen[1:]):
+                self.assertTrue(a[0] != b[0] or a[1] <= b[1], khipu["okr_num"])
+        self.assertEqual(out_of_order, 5)
+
+
 class WithinClusterShuffle(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

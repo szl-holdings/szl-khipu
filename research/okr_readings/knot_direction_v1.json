@@ -1,0 +1,55 @@
+{
+  "bits_per_knot_corpus": 0.9161,
+  "bits_per_knot_khipu": 0.3187,
+  "contexts": {
+    "type": {
+      "excess_bits_per_knot": 0.1958,
+      "gain_bits_per_knot": 0.1899,
+      "null_max": -0.0047,
+      "null_mean": -0.0059,
+      "null_sd": 0.0004,
+      "p_upper": 0.0099,
+      "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+    },
+    "type_and_turns": {
+      "excess_bits_per_knot": 0.1977,
+      "gain_bits_per_knot": 0.1866,
+      "null_max": -0.0095,
+      "null_mean": -0.0111,
+      "null_sd": 0.0006,
+      "p_upper": 0.0099,
+      "verdict": "ABOVE_SHUFFLE_NULL_NET_SAVING"
+    }
+  },
+  "historical_khipu_decipherment": false,
+  "input_corpus_sha256": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+  "input_knots_sha256": "1ad88f0252fadcf489e09c1237c0a74bb92c2712d5cec97f3cffd9153cbe6c5e",
+  "khipus": 407,
+  "khipus_with_both_directions": 270,
+  "knots": 96856,
+  "majority_accuracy": {
+    "khipu": 0.9108,
+    "type": 0.9653,
+    "type_and_turns": 0.9661
+  },
+  "meaning_assigned_to_any_feature": false,
+  "parameters": {
+    "alpha": 1.0,
+    "gamma": 1.0,
+    "min_directed_knots_per_khipu": 20,
+    "seed": 2026,
+    "trials": 100,
+    "unit": "knots with a recorded S or Z direction, on cords of any level"
+  },
+  "preregistered": false,
+  "reading_the_numbers": [
+    "majority_accuracy is the share of knots that carry the commonest direction of their khipu, of their knot type in that khipu, and of their type and turn count.",
+    "gain_bits_per_knot is the saving over the khipu's own direction frequencies; the null repeats it with directions shuffled among the khipu's knots.",
+    "Direction is recorded per knot by the cataloguer. Agreement between type and direction can reflect how knots are tied as well as how they were written down."
+  ],
+  "report_sha256": "4a3c3b835de5a3b865c260c31ddb9f9287dfba16dcbb6e449340d8e0b219403e",
+  "schema": "szl.okr.knot-direction/v1",
+  "signature_verified": false,
+  "status": "POST_HOC_EXPLORATORY_INFORMATION_TEST",
+  "upstream_okr_revision": "4039ca51f4de661d80d0160596309c983a62a9c7"
+}

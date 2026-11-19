@@ -74,13 +74,31 @@ jobs:
       - name: Replay the published-reading checks and the hidden-cord test
         run: |
           python -I research/okr_readings/build_features.py --db "$RUNNER_TEMP/okr/khipu.db" --check
+          python -I research/okr_readings/build_features.py --db "$RUNNER_TEMP/okr/khipu.db" --knots --check
           python -I research/okr_readings/santa_valley.py --check
           python -I research/okr_readings/puruchuco.py --check
           python -I research/okr_readings/hidden_cord.py --check
+      - name: Replay the knot-direction test and the matching-khipu search
+        run: |
+          python -I research/okr_readings/knot_direction.py --check
+          python -I research/okr_readings/matching_khipus.py --check
       - name: Feature rebuild unit test against the pinned database
         env:
           SZL_OKR_DB: ${{ runner.temp }}/okr/khipu.db
         run: python -m unittest discover -s tests -p test_okr_features.py -v
+      - name: Replay the syllabary stress test with the proposal's digest-checked dictionaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          alba="https://raw.githubusercontent.com/Alba-Research/KhipuReader/7c2722b91fcad514653c96f40fa2dae125de92b8"
+          mkdir -p "$RUNNER_TEMP/alba"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/alba/quechua_kaikki_2074.txt" "$alba/reproducibility/data/quechua_kaikki_2074.txt"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/alba/quechua_strict_clean.txt" "$alba/src/khipu_translator/data/quechua_strict_clean.txt"
+          printf '%s  %s\n' \
+            38e957982087e139ce30a99e24fd41dc97e6b20a7ff8ec6fef158863912cf622 "$RUNNER_TEMP/alba/quechua_kaikki_2074.txt" \
+            ad163c3abbb01c46ee3c3107ad85970cda6738d92131ae854b47e7b68a1f67f1 "$RUNNER_TEMP/alba/quechua_strict_clean.txt" \
+            | sha256sum -c -
+          python -I research/okr_readings/syllabary_stress.py --dict-dir "$RUNNER_TEMP/alba" --check
 
   gradio-demo:
     runs-on: ubuntu-latest
