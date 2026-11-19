@@ -94,6 +94,21 @@ class Bound(unittest.TestCase):
         self.assertEqual(self.mk.bound([12, 7, 305], [44, 9, 61], INFO), (0.0, 0))
 
 
+class KnotFamilies(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.mk = _load()
+
+    def test_long_and_figure_eight_variants_count_as_long_knots(self):
+        # Double long (LL), belted long (BL), spiral (SP) and double figure-eight (EE)
+        # are long-knot forms in the OKR engine's knot_family; they must not drop out.
+        for code in ("L", "LL", "BL", "SP", "E", "EE"):
+            self.assertEqual(self.mk.family_direction([(code, 3, "S")], ("long", "figure-eight")), "S", code)
+        self.assertIsNone(self.mk.family_direction([("S", None, "Z"), ("?", None, "S")], ("long", "figure-eight")))
+        self.assertEqual(self.mk.family_direction([("LL", 2, "S"), ("E", None, "Z")], ("long", "figure-eight")), "M")
+        self.assertEqual(self.mk.family_direction([("S", None, "Z"), ("L", 4, "S")], ("single",)), "Z")
+
+
 class OrderNull(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -308,6 +323,12 @@ class Catalogue(unittest.TestCase):
         by = {frozenset((p["a_name"], p["b_name"])): p for p in self.sealed["pairs"]}
         first, second = by[frozenset(("UR1175", "UR233"))], by[frozenset(("UR1175", "UR232"))]
         self.assertLess(first["span"][0][1], second["span"][0][0])
+
+    def test_a_smaller_shuffle_count_keeps_a_pair_that_beats_every_shuffle(self):
+        want = self.sealed["pairs"][0]
+        fresh = self.mk.audit(trials=20, only=(want["a"], want["b"]))
+        self.assertEqual([(p["a"], p["b"], p["p_order"]) for p in fresh["pairs"]],
+                         [(want["a"], want["b"], round(1 / 21, 4))])
 
     def test_one_pair_null_matches_recomputation(self):
         want = self.sealed["pairs"][0]

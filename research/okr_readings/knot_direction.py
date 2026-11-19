@@ -5,11 +5,14 @@
 
 Knot direction has been proposed as a binary sign (Urton 2003).  Before asking
 what it might mean, this test asks how much of its recorded variation inside a
-khipu is left once the knot's type (single, long, figure-eight) is known.  Each
-knot with a recorded direction is hidden in turn and predicted from the other
-knots of the same khipu, first from the khipu's own frequencies, then knowing
-the knot's type, then its type and turn count.  Shuffling directions among the
-khipu's knots gives the control.
+khipu is left once the knot's type (single, long, figure-eight) is known.  Type
+means the knot's family as the OKR engine's knot_family draws it: double long,
+belted long and spiral count as long, double figure-eight as figure-eight, and
+codes outside the three families as other.  Each knot with a recorded
+direction is hidden in turn and predicted from the other knots of the same
+khipu, first from the khipu's own frequencies, then knowing the knot's type,
+then its type and turn count.  Shuffling directions among the khipu's knots
+gives the control.
 
 A saving shows a statistical link in the transcription.  It does not say what
 direction meant, and the choice of contexts was made after looking at the data.
@@ -30,7 +33,20 @@ SCHEMA = "szl.okr.knot-direction/v1"
 MIN_KNOTS = 20
 TRIALS = 100
 SEED = 2026
-CONTEXTS = {"type": lambda k: k[0], "type_and_turns": lambda k: (k[0], k[1])}
+
+
+def _engine():
+    spec = importlib.util.spec_from_file_location("szl_okr_knot_direction_engine",
+                                                  HERE.parents[1] / "szl_khipu/okr_khipu.py")
+    if spec is None or spec.loader is None:
+        raise ValueError("ENGINE_UNAVAILABLE")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+knot_family = _engine().knot_family
+CONTEXTS = {"type": lambda k: knot_family(k[0]), "type_and_turns": lambda k: (knot_family(k[0]), k[1])}
 
 
 def _module(name: str):

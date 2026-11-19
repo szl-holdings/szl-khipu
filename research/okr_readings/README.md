@@ -310,8 +310,8 @@ shuffle control as section 3. It covers 407 khipus with at least
 - Knowing the khipu cuts the uncertainty about a knot's direction from
   0.9161 to 0.3187 bits per knot.
 - Knowing the knot's type (single, long, figure-eight) as well saves another
-  0.1899 bits per knot, 60% of what was left. Shuffling
-  directions among a khipu's knots never comes close (best shuffle -0.0047).
+  0.1892 bits per knot, 59% of what was left. Shuffling
+  directions among a khipu's knots never comes close (best shuffle -0.0046).
 - The khipu's commonest direction is right for 91.1% of knots. The
   commonest direction of the knot's own type in its khipu is right for
   96.5%; adding the turn count of long knots gives 96.6%.
@@ -320,7 +320,7 @@ shuffle control as section 3. It covers 407 khipus with at least
 So knot direction largely follows knot type, khipu by khipu: each type has a
 habitual direction, and about 3.5% of knots go against it. Whether those
 exceptions carry information, or are slips in tying or recording, is open.
-Report digest `4a3c3b835de5a3b865c260c31ddb9f9287dfba16dcbb6e449340d8e0b219403e`.
+Report digest `51458ff334e4081aecf06b6cd1feb96c3c62b10c22fbf3435836151d02ac76fd`.
 
 ## 6. Khipus that carry the same numbers
 
@@ -431,7 +431,7 @@ What the pairs show:
 
 The thresholds were set after looking at the data, a kept pair is a candidate
 until someone checks the objects, and the records cannot rule out one record
-typed from another. Report digest `bf97c466f2c88833944a85a9b45d92988d06ea78a086c329ba3f4b7d67715259`.
+typed from another. Report digest `dc5727edc46a949c30da30b88e0dd685bdee988b8db8ee545d304370503099e5`.
 
 ## Other published readings, not tested here
 
