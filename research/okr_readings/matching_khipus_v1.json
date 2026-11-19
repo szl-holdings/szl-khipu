@@ -147,7 +147,7 @@
         "long_knot_dir": {
           "agree": 210,
           "compared": 346,
-          "consistent": 309,
+          "consistent": 307,
           "pairs_agree_above_shuffle": 6,
           "pairs_agree_above_within_value": 0,
           "pairs_agree_below_shuffle": 1,
@@ -1096,9 +1096,9 @@
         "long_knot_dir": {
           "agree": 13,
           "compared": 44,
-          "consistent": 37,
+          "consistent": 35,
           "movable_within_value": 2,
-          "null_mean": 6.94,
+          "null_mean": 7.0,
           "p_above": 0.002,
           "p_above_within_value": 1.0,
           "p_below": 1.0,
@@ -4695,7 +4695,7 @@
     "prior_art records what the OKR notes and the Khipu Field Guide already say about these pairs. The Field Guide entries were seen through search-engine summaries; those pages were not opened from this environment.",
     "A kept pair is a candidate until the objects are checked. The records cannot exclude one record typed from another."
   ],
-  "report_sha256": "bf97c466f2c88833944a85a9b45d92988d06ea78a086c329ba3f4b7d67715259",
+  "report_sha256": "dc5727edc46a949c30da30b88e0dd685bdee988b8db8ee545d304370503099e5",
   "schema": "szl.okr.matching-khipus/v1",
   "scored": [
     {

@@ -30,6 +30,15 @@ class MajorityRules(unittest.TestCase):
         cords = [[("S", None, "Z"), ("L", 4, "S")], [("E", None, "U")], []]
         self.assertEqual(self.kd.directed_knots(cords), [("S", None, "Z"), ("L", 4, "S")])
 
+    def test_type_means_the_three_knot_families_not_the_raw_code(self):
+        # The README promises single / long / figure-eight. Variant codes fold into
+        # their family as the OKR engine's knot_family does; turns ride along.
+        family = self.kd.CONTEXTS["type"]
+        self.assertEqual([family(k) for k in (("S", None, "Z"), ("L", 3, "S"), ("LL", 2, "S"), ("BL", 4, "Z"),
+                                              ("SP", 1, "Z"), ("E", None, "Z"), ("EE", None, "S"), ("TF", None, "S"))],
+                         ["single", "long", "long", "long", "long", "figure-eight", "figure-eight", "other"])
+        self.assertEqual(self.kd.CONTEXTS["type_and_turns"](("LL", 2, "S")), ("long", 2))
+
     def test_majority_accuracy_by_khipu_and_by_type(self):
         knots = [("S", None, "Z")] * 6 + [("L", 3, "S")] * 3 + [("L", 4, "Z")]
         self.assertEqual(self.kd.majority_hits(knots, lambda k: None), 7)

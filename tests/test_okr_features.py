@@ -91,10 +91,6 @@ class ShippedFeatures(unittest.TestCase):
         self.assertEqual(self.bf.encode(rebuilt), self.bf.SHIPPED.read_bytes())
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class KnotRecords(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -143,3 +139,7 @@ class KnotRecords(unittest.TestCase):
     def test_knot_rebuild_from_pinned_database_matches_shipped_file(self):
         rebuilt = self.bf.build_knots(Path(os.environ["SZL_OKR_DB"]))
         self.assertEqual(self.bf.encode(rebuilt), self.bf.KNOTS_SHIPPED.read_bytes())
+
+
+if __name__ == "__main__":
+    unittest.main()

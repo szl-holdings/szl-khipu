@@ -113,6 +113,16 @@ def _module(path: Path, name: str):
     return module
 
 
+def _knot_family(code) -> str:
+    global _ENGINE_FAMILY
+    if _ENGINE_FAMILY is None:
+        _ENGINE_FAMILY = _module(ENGINE, "szl_okr_matching_family").knot_family
+    return _ENGINE_FAMILY(code)
+
+
+_ENGINE_FAMILY = None
+
+
 def _gain(x, y, info: dict) -> float:
     if x is None or y is None:
         return 0.0
@@ -403,8 +413,13 @@ def dominant(values: list):
     return value if n / total >= 0.8 else "mixed"
 
 
-def _signature(knots: list, kinds: tuple):
-    seen = {d for kind, _, d in knots if kind in kinds and d in ("S", "Z")}
+def family_direction(knots: list, families: tuple):
+    """S or Z if every directed knot of these families on the cord agrees, M if they differ, else None.
+
+    Families follow the OKR engine's knot_family: double long, belted long and
+    spiral are long knots, double figure-eight is a figure-eight.
+    """
+    seen = {d for kind, _, d in knots if _knot_family(kind) in families and d in ("S", "Z")}
     return None if not seen else seen.pop() if len(seen) == 1 else "M"
 
 
@@ -427,8 +442,8 @@ def _tables(corpus: dict, features: dict, knots: dict, hidden) -> dict:
                 "spin": [feat["spin"][i] if feat["spin"][i] in "SZ" else None for i in order],
                 "fibre": [feat["fibre"][i] if feat["fibre"][i] != "U" else None for i in order],
                 "term": [c["term"] or None for c in cords],
-                "long_knot_dir": [_signature(per_cord[i], ("L", "E")) for i in order],
-                "single_knot_dir": [_signature(per_cord[i], ("S",)) for i in order],
+                "long_knot_dir": [family_direction(per_cord[i], ("long", "figure-eight")) for i in order],
+                "single_knot_dir": [family_direction(per_cord[i], ("single",)) for i in order],
             },
             "meta": {"name": khipu["investigator_num"], "museum": khipu["museum"],
                      "museum_num": knots["khipus"][name]["museum_num"],
@@ -548,7 +563,7 @@ def audit(trials: int | None = None, only: tuple | None = None) -> dict:
     tables, info, best = found["tables"], found["info"], found["best"]
     scored = sorted(best.values(), key=lambda r: (-r["score_bits"], r["a"], r["b"]))
     n_order = N_ORDER if trials is None else trials
-    floor = round(1 / (N_ORDER + 1), 4)
+    floor = round(1 / (n_order + 1), 4) if n_order else None
     pairs = []
     if n_order:
         for row in scored:
