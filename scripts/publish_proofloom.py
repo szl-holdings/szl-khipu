@@ -104,13 +104,24 @@ def _identity(*, publish: bool):
         expected = {
             "GITHUB_REPOSITORY": SOURCE_REPO,
             "GITHUB_REF": "refs/heads/main",
-            "GITHUB_EVENT_NAME": "push",
+            "GITHUB_EVENT_NAME": "workflow_dispatch",
             "GITHUB_WORKFLOW": "publish-proof-loom",
             "GITHUB_WORKFLOW_SHA": sha,
         }
         for key, value in expected.items():
             if os.getenv(key) != value:
                 raise AdmissionHold("PROTECTED_SOURCE_AUTHORITY_MISMATCH")
+        # A main-branch SHA and green CI do not authorize a Hub write.
+        # Reject absent operator opt-in before reading tokens or importing SDK.
+        if os.getenv("PROOF_LOOM_PUBLISH_ENABLED") != "true":
+            raise AdmissionHold("OWNER_PUBLISH_SWITCH_DISABLED")
+        if os.getenv("PROOF_LOOM_PUBLISH_APPROVAL") != "PUBLISH_KHIPU_PROOF_LOOM":
+            raise AdmissionHold("OWNER_EXPLICIT_APPROVAL_UNAVAILABLE")
+        operator = os.getenv("PROOF_LOOM_ALLOWED_ACTOR")
+        if not operator or os.getenv("GITHUB_ACTOR") != operator:
+            raise AdmissionHold("OWNER_OPERATOR_IDENTITY_UNVERIFIED")
+        if os.getenv("PROOF_LOOM_REVIEWED_SHA") != sha:
+            raise AdmissionHold("OWNER_REVIEWED_SHA_UNAVAILABLE_OR_CHANGED")
     return sha
 
 
