@@ -202,21 +202,71 @@ class Scene:
 
 
 def parse_glb(data: bytes) -> dict:
-    """Structural readback used by tests and the app's pre-serve check."""
-    if len(data) < 28:
+    """Bounded structural readback; not a substitute for full glTF validation.
+
+    Pre-serve readback must return a HoloHold on malformed bytes rather than
+    leaking JSON/struct exceptions or accepting out-of-buffer negative views.
+    """
+    if type(data) is not bytes or len(data) < 28:
         raise HoloHold("GLB_TRUNCATED")
+    if len(data) > MAX_BYTES:
+        raise HoloHold("GLB_BYTE_BUDGET")
     magic, version, total = struct.unpack("<4sII", data[:12])
     if magic != b"glTF" or version != 2 or total != len(data):
         raise HoloHold("GLB_HEADER_INVALID")
     jlen, jtype = struct.unpack("<I4s", data[12:20])
     if jtype != b"JSON":
         raise HoloHold("GLB_JSON_CHUNK_MISSING")
-    manifest = json.loads(data[20:20 + jlen])
+    if jlen == 0 or jlen % 4 or 28 + jlen > len(data):
+        raise HoloHold("GLB_JSON_CHUNK_INVALID")
+
+    def distinct_keys(pairs):
+        out = {}
+        for key, value in pairs:
+            if key in out:
+                raise HoloHold("GLB_JSON_DUPLICATE_KEY")
+            out[key] = value
+        return out
+
+    def invalid_constant(_):
+        raise HoloHold("GLB_JSON_INVALID_NUMBER")
+
+    try:
+        manifest = json.loads(
+            data[20:20 + jlen].decode("utf-8"),
+            object_pairs_hook=distinct_keys,
+            parse_constant=invalid_constant,
+        )
+    except HoloHold:
+        raise
+    except (UnicodeError, ValueError, RecursionError) as exc:
+        raise HoloHold("GLB_JSON_INVALID") from exc
+
     blen, btype = struct.unpack("<I4s", data[20 + jlen:28 + jlen])
-    if btype != b"BIN\0" or manifest["buffers"][0]["byteLength"] != blen:
+    if btype != b"BIN\0" or blen % 4 or 28 + jlen + blen != len(data):
         raise HoloHold("GLB_BIN_CHUNK_INVALID")
-    for view in manifest["bufferViews"]:
-        if view["byteOffset"] + view["byteLength"] > blen:
+    if type(manifest) is not dict:
+        raise HoloHold("GLB_SCHEMA_INVALID")
+    buffers = manifest.get("buffers")
+    views = manifest.get("bufferViews")
+    if (
+        type(buffers) is not list or len(buffers) != 1
+        or type(buffers[0]) is not dict
+        or type(buffers[0].get("byteLength")) is not int
+        or buffers[0]["byteLength"] != blen
+        or type(views) is not list
+    ):
+        raise HoloHold("GLB_BIN_CHUNK_INVALID")
+    for view in views:
+        if type(view) is not dict:
+            raise HoloHold("GLB_VIEW_OUT_OF_RANGE")
+        offset = view.get("byteOffset", 0)
+        length = view.get("byteLength")
+        if (
+            type(view.get("buffer")) is not int or view["buffer"] != 0
+            or type(offset) is not int or type(length) is not int
+            or offset < 0 or length < 0 or offset + length > blen
+        ):
             raise HoloHold("GLB_VIEW_OUT_OF_RANGE")
     return manifest
 
