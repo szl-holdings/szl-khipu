@@ -3,5 +3,5 @@
 # tests/test_ci_requirements.py fails if the two drift apart.
 # Regenerate the hash lock after editing:
 #   uv pip compile requirements/ci/khipu-x1.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/khipu-x1.txt
-numpy>=1.26
+numpy>=2.5.5
 pytest>=8

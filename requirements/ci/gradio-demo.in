@@ -6,7 +6,7 @@
 # The overrides file pins Pillow to the earliest release that fixes GHSA-8g5g-8vmr-9782;
 # without it, Gradio 6.32.0 supports Pillow 13; keep the exact safe override and locked hashes.
 #   uv pip compile requirements/ci/gradio-demo.in --universal --python-version 3.11 --generate-hashes --overrides requirements/ci/pillow-security-override.txt -o requirements/ci/gradio-demo.txt
-numpy>=1.26
+numpy>=2.5.5
 pytest
 PyYAML>=6.0,<7
 gradio>=6.27.0,<7

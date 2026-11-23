@@ -3,5 +3,5 @@
 # tests/test_ci_requirements.py fails if the two drift apart.
 # Regenerate the hash lock after editing:
 #   uv pip compile requirements/ci/hub.in --universal --python-version 3.11 --generate-hashes -o requirements/ci/hub.txt
-numpy>=1.26
+numpy>=2.5.5
 huggingface_hub>=0.24
