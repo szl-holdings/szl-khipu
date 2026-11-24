@@ -2,11 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # (c) 2026 Lutar, Stephen P. - SZL Holdings - ORCID 0009-0001-0110-4173
 """Offline, exact tests for the HJO Loom engine and holographic GLB writer."""
+import copy
 import hashlib
 import importlib.util
 import itertools
 import json
 import math
+import random
 import subprocess
 import sys
 import unittest
@@ -319,6 +321,37 @@ class FiniteFields(unittest.TestCase):
             with self.subTest(q=q), self.assertRaises(h.HjoHold):
                 h.galois_field(q)
 
+    def test_linear_solver_yields_exactly_the_solutions(self):
+        # Every census replay in this file still passes with a solver that returns wrong
+        # solutions (a sign error in back-substitution, a pivot row left unscaled), so
+        # _solve_affine is checked on its own: over every field it must yield each x
+        # with rows @ x = rhs exactly once, and nothing else.
+        rng = random.Random(20261124)
+        for q in h.CENSUS_FIELDS:
+            f = h.galois_field(q)
+
+            def apply(rows, x):
+                out = []
+                for row in rows:
+                    acc = 0
+                    for c, v in zip(row, x):
+                        acc = f.add[acc][f.mul[c][v]]
+                    out.append(acc)
+                return out
+
+            with self.subTest(q=q):
+                for trial in range(40):
+                    nvars, nrows = rng.randint(1, 3), rng.randint(1, 3)
+                    rows = [[rng.randrange(q) for _ in range(nvars)] for _ in range(nrows)]
+                    if trial % 2:      # half consistent by construction, half arbitrary
+                        rhs = apply(rows, [rng.randrange(q) for _ in range(nvars)])
+                    else:
+                        rhs = [rng.randrange(q) for _ in range(nrows)]
+                    want = [list(x) for x in itertools.product(range(q), repeat=nvars)
+                            if apply(rows, x) == rhs]
+                    got = sorted(h._solve_affine(rows, rhs, nvars, f))
+                    self.assertEqual(got, want, (rows, rhs))
+
 
 class MultiFieldCensus(unittest.TestCase):
     def test_bruteforce_matches_formula_over_gf4_and_gf5(self):
@@ -346,6 +379,27 @@ class MultiFieldCensus(unittest.TestCase):
         self.assertLess(len(capped["counts"]), len(full["counts"]))
         self.assertEqual(capped["counts"], full["counts"][:len(capped["counts"])])
         self.assertLessEqual(capped["work_steps"], 6_000)
+
+    def test_work_cap_boundary_is_exact(self):
+        # (2,3), N = 1 over F_2 takes exactly 601 steps for colengths 0..8. A cap equal
+        # to that completes every colength; one step less abandons colength 8 only.
+        full = h.quot_bruteforce_census(2, 3, 1, 2, 8, budget=10 ** 6)
+        self.assertEqual((full["stop"], full["work_steps"]), ("COLENGTH_CEILING", 601))
+        self.assertEqual(h.quot_bruteforce_census(2, 3, 1, 2, 8, budget=601), full)
+        short = h.quot_bruteforce_census(2, 3, 1, 2, 8, budget=600)
+        self.assertEqual(short["stop"], "WORK_CAP")
+        self.assertEqual(short["counts"], full["counts"][:-1])
+        self.assertEqual(short["cumulative_work"], full["cumulative_work"][:-1])
+        self.assertEqual(short["work_steps"], full["cumulative_work"][-2])
+
+    def test_odd_characteristic_sign_is_seen_at_colength_5(self):
+        # Solving for +r0 instead of -r0 is harmless in characteristic 2 and changes no
+        # count below colength 5 here; at colength 5 it gave 6502 instead of 7960
+        # (mutation run). Every other replay in this file passed with that error.
+        run = h.quot_bruteforce_census(2, 3, 2, 3, 5, budget=200_000)
+        self.assertEqual(run["stop"], "COLENGTH_CEILING")
+        self.assertEqual(run["counts"], h.quot_formula_counts(2, 3, 2, 3, 5))
+        self.assertEqual(run["counts"][5], 7960)
 
     def test_census_inputs_fail_closed(self):
         bad = [dict(q=6), dict(q=10), dict(q=True), dict(rank=3), dict(rank=0),
@@ -385,6 +439,32 @@ class QPolynomials(unittest.TestCase):
         pts = [(q, int(h._eval(poly, Fraction(q)))) for q in (2, 3, 4, 5)]
         self.assertNotEqual(h._interpolate(pts), poly)
         self.assertEqual(h._interpolate(pts + [(7, int(h._eval(poly, Fraction(7))))]), poly)
+
+    def test_degree_precondition_fails_closed(self):
+        # An n_s of degree 3 > N^2 delta = 1 would leave negative powers of L.
+        with mock.patch.object(h, "n_bivariate", return_value={0: [1], 1: [0, 1, 0, 1]}):
+            with self.assertRaisesRegex(h.HjoHold, "^FORMULA_DEGREE_PRECONDITION_FAILED$"):
+                h.quot_formula_polynomials(2, 3, 1, 2)
+
+    def test_surplus_points_catch_values_off_a_polynomial_within_the_bound(self):
+        # The formula is evaluated at B + 1 + extra nodes L = 2, 3, ... (METHOD.md).
+        # Add to one colength the integer polynomial that vanishes at every node but
+        # the last: only the last surplus point sees it, and the degree bound must
+        # then refuse the interpolant.
+        a, b, rank, m_max, extra = 2, 3, 2, 2, 3
+        bound = rank * rank * h.gap_poset(a, b).delta + (rank - 1) * m_max
+        nodes = list(range(2, bound + extra + 3))
+        real = h._quot_formula_at
+        for m in range(m_max + 1):
+            def off(biv, delta, rank_, L, top, m=m):
+                values = real(biv, delta, rank_, L, top)
+                values[m] += math.prod(L - x for x in nodes[:-1])
+                return values
+
+            with self.subTest(m=m), mock.patch.object(h, "_quot_formula_at", off):
+                with self.assertRaisesRegex(h.HjoHold, "^FORMULA_NOT_A_POLYNOMIAL_WITHIN_BOUND$"):
+                    h.quot_formula_polynomials(a, b, rank, m_max, extra=extra)
+        self.assertEqual(len(h.quot_formula_polynomials(a, b, rank, m_max, extra=extra)), m_max + 1)
 
 
 def _load_builder():
@@ -463,6 +543,59 @@ class CensusCertificate(unittest.TestCase):
                 self.assertEqual(builder.census_row(a, b, rank, q), v7[((a, b), rank, q)])
         rows = builder.recovery_rows(2, 3, 1, [v7[((2, 3), 1, q)] for q in h.CENSUS_FIELDS])
         self.assertEqual(rows, [r for r in self.cert["V8"] if r["pair"] == [2, 3] and r["rank"] == 1])
+
+    def test_v8_and_summary_replay_from_the_v7_rows(self):
+        # V8 needs no enumeration, so all of it is rebuilt here from the sealed V7 rows:
+        # a changed RECOVERED rule or degree bound cannot pass on (2,3) rank 1 alone.
+        builder = _load_builder()
+        v7, v8 = self.cert["V7"], []
+        for a, b, rank in builder.CENSUS_SERIES:
+            v8 += builder.recovery_rows(a, b, rank, [r for r in v7 if r["pair"] == [a, b] and r["rank"] == rank])
+        self.assertEqual(v8, self.cert["V8"])
+        self.assertEqual(self.cert["summary"], {
+            "series": len(v7),
+            "colength_counts_compared": sum(len(r["bruteforce"]) for r in v7),
+            "stopped_by_work_cap": sum(r["stop"] == "WORK_CAP" for r in v7),
+            "stopped_by_colength_ceiling": sum(r["stop"] == "COLENGTH_CEILING" for r in v7),
+            "recovered": sum(r["status"] == "RECOVERED" for r in v8),
+            "underdetermined": sum(r["status"] == "UNDERDETERMINED" for r in v8),
+        })
+
+    def test_builder_constants_match_the_certificate(self):
+        # The cheap replays finish far below the cap, so they cannot see a changed cap,
+        # ceiling or point count; the certificate records all three.
+        builder = _load_builder()
+        census, interpolation = self.cert["census"], self.cert["interpolation"]
+        self.assertEqual(builder.CENSUS_WORK_CAP, census["work_cap_steps_per_series"])
+        self.assertEqual(builder.CENSUS_COLENGTH_CEILING, census["colength_ceiling"])
+        self.assertEqual(builder.FORMULA_EXTRA_POINTS, interpolation["formula_extra_points"])
+        self.assertEqual([list(s) for s in builder.CENSUS_SERIES], census["series"])
+        self.assertEqual(list(builder.h.CENSUS_FIELDS), census["fields"])
+
+    def test_builder_guards_fail_closed(self):
+        builder = _load_builder()
+        hold = builder.h.HjoHold          # the builder loads its own copy of the module
+        real = builder.h.quot_formula_counts
+
+        def off_by_one(*args):
+            counts = real(*args)
+            return counts[:-1] + [counts[-1] + 1]
+
+        with mock.patch.object(builder.h, "quot_formula_counts", off_by_one):
+            with self.assertRaisesRegex(hold, "^V7_MISMATCH_2_3_1_2$"):
+                builder.census_row(2, 3, 1, 2)
+        with mock.patch.object(builder, "CENSUS_WORK_CAP", 1):
+            with self.assertRaisesRegex(hold, "^V7_NO_COLENGTH_COMPLETED_2_3_1_2$"):
+                builder.census_row(2, 3, 1, 2)
+        rows = [r for r in self.cert["V7"] if r["pair"] == [2, 3] and r["rank"] == 1]
+        for key, code in (("bruteforce", "V8_INTERPOLANT_MISMATCH_2_3_1_1"),
+                          ("formula", "V8_POLYNOMIAL_OFF_FORMULA_2_3_1_1")):
+            tampered = copy.deepcopy(rows)
+            next(r for r in tampered if r["field"] == 2)[key][1] += 1
+            with self.subTest(key=key), self.assertRaisesRegex(hold, f"^{code}$"):
+                builder.recovery_rows(2, 3, 1, tampered)
+        with self.assertRaisesRegex(hold, "^V8_CENSUS_INCOMPLETE_2_3_1$"):
+            builder.recovery_rows(2, 3, 1, rows[1:])
 
     def test_check_refuses_wrong_schema_without_rebuilding(self):
         out = subprocess.run([sys.executable, str(BUILDER), "--v2", "--check", str(CERT)],
