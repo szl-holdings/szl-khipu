@@ -414,7 +414,14 @@ What the pairs show:
   AS038/HP036 (MNAAHP3550, "Costa Sur") and UR122 (1938.45.0228, "Nazca")
   align over 51 cords with 28 equal values (345.0 bits; best shuffle 66.6).
   The Field Guide's similarity listing already puts the two next to each other;
-  I found no statement that they share numbers. Many UR122 cords are broken:
+  I found no statement that they share numbers. They have separate museum
+  histories. The Göteborg museum's own record says 1938.45.0228 was deposited
+  there by Erland Nordenskiöld (older number 24.6.117), bought from his estate
+  in December 1938, found at Nasca, and documented by Gary Urton in June 2005;
+  OKR's notes put the Lima khipu in the Museo Histórico collection by 1929. If
+  the museum numbers in OKR are right, these are two khipus that have been on
+  different continents since at least 1929, not one khipu catalogued twice.
+  Many UR122 cords are broken:
   where one side has no readable number, that cord is shorter than its partner
   predicts 11 of 11 times, and all 4 numbers that look cut short (4130
   against 4000 on a 7 cm stub, 932 against 900, 1074 against 1070, 3848
@@ -438,7 +445,7 @@ What the pairs show:
 
 The thresholds were set after looking at the data, a kept pair is a candidate
 until someone checks the objects, and the records cannot rule out one record
-typed from another. Report digest `30180f477f70b1290474688db7939151125be0f617bb35189e4379b6dcc48593`.
+typed from another. Report digest `e0769a8c53eb084e75b7fb4c021d9fea8a6ef624119771f77735be4b05295129`.
 
 ## Other published readings, not tested here
 
@@ -464,9 +471,10 @@ The last three citations are from the literature and were not opened in this run
    scoring, same shuffles) and see whether it beats these count tables. That
    needs a GPU and is ROADMAP.
 5. Ask the Ethnologisches Museum Berlin to compare VA42518 (UR1175) with
-   VA63038 (UR232 and UR233): cord lengths, long-knot direction, colours. Ask
-   the Museum of World Culture, Göteborg, and the MNAAHP, Lima, the same about
-   1938.45.0228 and MNAAHP3550.
+   VA63038 (UR232 and UR233): cord lengths, long-knot direction, colours. For
+   the Lima and Göteborg pair, the Göteborg record is read (see section 6);
+   what remains is the MNAAHP, Lima, record for MNAAHP3550 and photographs of
+   both khipus side by side.
 6. Collect every pair the Field Guide lists as a duplicate and use the
    differences between the two recordings as an error model for sections 3,
    5 and 6.

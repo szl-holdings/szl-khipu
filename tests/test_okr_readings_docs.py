@@ -95,6 +95,10 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
         self.assertNotIn("Winston Wright", self.text)
         self.assertNotIn("search-engine summaries", self.text)
 
+    def test_the_goteborg_record_is_reported(self):
+        for phrase in ("1938.45.0228", "Nordenski\u00f6ld", "24.6.117", "Museo Hist\u00f3rico", "since at least 1929"):
+            self.assertIn(phrase, self.text, phrase)
+
     def test_limits_are_stated(self):
         for phrase in ("not decipherment", "post hoc", "No neural model", "were not read"):
             self.assertIn(phrase, self.text, phrase)

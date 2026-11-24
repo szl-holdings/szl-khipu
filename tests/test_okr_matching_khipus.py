@@ -331,6 +331,18 @@ class Catalogue(unittest.TestCase):
         thompson = [e for e in self.sealed["prior_art"] if frozenset(e["pair"]) == frozenset(("AS125", "UR247"))]
         self.assertIn("Karen Thompson", thompson[0]["says"])
 
+    def test_the_lima_and_goteborg_khipus_have_separate_museum_histories(self):
+        records = {r["khipu"]: r for r in self.sealed["museum_records"]}
+        goteborg, lima = records["UR122"], records["AS038/HP036"]
+        self.assertEqual(goteborg["museum_num"], "1938.45.0228")
+        self.assertIn("collections.smvk.se", goteborg["source"])
+        self.assertIn("Nordenski\u00f6ld", goteborg["says"])
+        self.assertIn("24.6.117", goteborg["says"])
+        self.assertIn("Gary Urton i juni 2005", goteborg["says"])
+        self.assertEqual(lima["museum_num"], "MNAAHP3550")
+        self.assertIn("1929", lima["says"])
+        self.assertIn("pinned OKR database", lima["source"])
+
     def test_one_long_khipu_carries_the_runs_of_two_shorter_ones(self):
         by = {frozenset((p["a_name"], p["b_name"])): p for p in self.sealed["pairs"]}
         first, second = by[frozenset(("UR1175", "UR233"))], by[frozenset(("UR1175", "UR232"))]

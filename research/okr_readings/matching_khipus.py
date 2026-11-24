@@ -92,6 +92,23 @@ PRIOR_ART = (
      "says": "the KH0362 (UR122) page names KH0049 (AS038/HP036) as its previous 'similar khipu'",
      "seen_via": _READ},
 )
+# Museum histories for pairs whose two records might be one object catalogued twice.
+MUSEUM_RECORDS = (
+    {"khipu": "UR122", "museum_num": "1938.45.0228",
+     "source": "https://collections.smvk.se/carlotta-vkm/web/object/60884",
+     "via": "Europeana record 91608/SMVK_VKM_objekt_60884 (metadata CC0), read 2026-11-24",
+     "says": "Quipu. Arkeol. f\u00f6rem\u00e5l. Depositionsf\u00f6rem\u00e5l, sedemera inl\u00f6st av museet "
+             "fr\u00e5n E. Nordenski\u00f6lds sterbhus. Slutlikvid erlagd i december 1938. Nummer fr\u00e5n de "
+             "\u00e4ldre katalogerna: 24.6.117. [...] Dokumenterades av Gary Urton i juni 2005. "
+             "[Find place:] Nasca, Peru. [Older number:] 1924.06.0117",
+     "in_english": "deposited by Erland Nordenski\u00f6ld (older number 24.6.117, 1924.06.0117), bought by the "
+                   "museum from his estate with final payment in December 1938; find place Nasca, Peru; documented "
+                   "by Gary Urton in June 2005 (translation by this project)"},
+    {"khipu": "AS038/HP036", "museum_num": "MNAAHP3550", "source": "pinned OKR database, khipu_main.NOTES",
+     "via": "read from the pinned database",
+     "says": "2. Provenance listed as Costa Sur, Colecci?n Museo Hist?rico, 1929",
+     "in_english": "in the Museo Hist\u00f3rico collection, Lima, by 1929 (the '?' are in the source)"},
+)
 
 
 class Hold(ValueError):
@@ -635,6 +652,7 @@ def audit(trials: int | None = None, only: tuple | None = None) -> dict:
                          else "PARTIAL" if frozenset((x, y)) in listed else "NOT_FOUND"} for x, y in KNOWN],
         "fidelity_summary": summary,
         "prior_art": [dict(entry) for entry in PRIOR_ART],
+        "museum_records": [dict(entry) for entry in MUSEUM_RECORDS],
         "reading_the_numbers": [
             ("score_bits adds the rarity of every value the two khipus share in the same order; "
              "p_order is the share of shuffles of one khipu's cord order that score as high, and "
