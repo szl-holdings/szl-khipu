@@ -129,6 +129,19 @@ code gave the same counts in the same number of steps as the previous one, and t
 certificate still replays to `REPLAY_MATCH` with seal
 `9849e9b1cefdcb0ad67544cf0895f14e37cc62c93c089051b6541a76d0e7a4e7`.
 
+**What V7 does not test.** On the cases tried, the counts do not depend on whether the tables
+form a field. With the tables of Z/6, which has zero divisors, the recursion returns the
+Theorem 1.2 polynomial evaluated at 6: 1, 259, 3103 for (2,3) with N = 2 at colengths 0–2.
+With the GF(4) product changed so that x·x = x, which is not associative, it returns the
+q = 4 counts of (3,4) with N = 1 at colengths 0–8 in the same 19,497 steps. So V7 at q = 4,
+8 and 9 compares the enumeration with the formula at more values of q, but its agreement
+there is not evidence that the GF(p^k) tables are right. That rests on the table tests above
+and on a test of the linear solver against exhaustive enumeration over every field.
+`tests/test_hjo_loom.py` keeps the Z/6 and x·x = x runs as negative controls. The census
+does notice some errors in the recursion itself: in a mutation run on 2026-11-24, solving for
+the wrong sign of the right-hand side first changed a count for (2,3) with N = 2 over F_3 at
+colength 5 (6502 instead of 7960), and the test file now replays that series to colength 5.
+
 **Caps.** There are 112 series: the 16 (pair, rank) combinations of V5 times 7 fields. Each
 runs colengths 0, 1, 2, … under one cap of 3,000,000 recursion steps shared by all its
 colengths, up to colength 8. The first colength that would cross the cap is abandoned and not
@@ -137,7 +150,9 @@ all four workers still busy, and a calibration pass at 300,000 steps per series 
 estimate the cost per step and which V8 rows a larger cap could still recover. Each V7 row
 records the cumulative steps after every colength it completed. 66 series stopped at the cap
 and 46 at colength 8; 643 colength counts were compared, and all agree with
-`quot_formula_counts` at the same `q`.
+`quot_formula_counts` at the same `q`. Of these, 112 are colength 0, where both sides are 1 by
+construction, so 531 are non-trivial; (4,5) with N = 2 compares nothing else at q = 5, 7, 8
+and 9.
 
 **Polynomials in `q`.** The coefficient of `t^m` in `Z(t)` is
 `Σ_j u_j(L) h_{m-j}(1, L, …, L^{N-1})` with `u_j(L) = L^{N²δ} n_{Nδ-j}(1/L)`, where `n_s` is the
@@ -147,24 +162,35 @@ of degree at most `B_m = N²δ + (N-1)m`. `quot_formula_polynomials` evaluates t
 exactly at `L = 2, 3, …`, at `B + 4` points (`B` for the largest colength of the series),
 interpolates over the rationals, and requires integer coefficients and degree at most `B_m`;
 at least three points beyond those needed confirm the degree. Separately, the brute-force
-counts alone, at the prime powers whose series reached colength `m`, are interpolated by the
-unique polynomial of degree below the number of points. The row is RECOVERED when there are
-at least degree + 1 such points and that interpolant equals the formula's polynomial
-coefficient by coefficient; the points beyond degree + 1 are reported as extra checks.
-Otherwise it is UNDERDETERMINED, with its point count and degree. Of 124 rows, 75 are
-RECOVERED and 49 UNDERDETERMINED.
+counts on their own, at the prime powers whose series reached colength `m`, are interpolated
+by the unique polynomial of degree below the number of points. The row is RECOVERED when
+there are at least degree + 1 such points, the degree being that of the formula's
+polynomial, and that interpolant equals the formula's polynomial coefficient by coefficient;
+the points beyond degree + 1 are reported as extra checks. Otherwise it is UNDERDETERMINED,
+with its point count and degree. Of 124 rows, 75 are RECOVERED (16 of them the constant 1 at
+colength 0, so 59 beyond colength 0) and 49 UNDERDETERMINED.
 
 Given V7's agreement at every point, RECOVERED is what uniqueness of interpolation predicts
-once there are degree + 1 points. What V8 adds is that, for those colengths, the enumeration
-data alone fix every coefficient of the polynomial without using the formula, and that where
-they cannot, the certificate says UNDERDETERMINED instead of fitting a curve.
+once there are degree + 1 points, and that degree is read from the formula's polynomial. So
+V8 shows that, given the degree of the formula's polynomial, the brute-force points determine
+its coefficients; it does not show that the enumeration fixes the polynomial by itself. Given
+only the bound `B_m`, which itself comes from the form of Theorem 1.2, the points fix the
+polynomial when there are at least `B_m + 1` of them: 57 of the 75 RECOVERED rows (49 beyond
+colength 0). For the other 18 (10 beyond colength 0), the formula's polynomial plus
+`Π (q − q_i)` over the row's brute-force fields has degree at most `B_m` and the same values at
+those fields, so the points do not decide between the two; the test file checks this for all
+18, and the README marks them †. Where even the formula's degree is out of reach, the
+certificate says UNDERDETERMINED instead of fitting a curve.
 
 **Wall time.** On this 4-vCPU container with Python 3.13, `--v2 --jobs 4 --write` took
 667.1 s and `--v2 --jobs 4 --check` took 633.3 s (`REPLAY_MATCH`), on 2026-11-19. `--jobs`
 only spreads series over processes: the bytes do not depend on it (`--jobs 1` and `--jobs 3`
 gave identical output on a reduced plan). The test file checks the v2 seal and the
-internal consistency of every row, and replays a cheap subset from scratch: (2,3) rank 1 over
-all seven fields, two more rows, and V8 for (2,3) rank 1.
+internal consistency of every row, rebuilds all of V8 and the summary from the sealed V7 rows,
+requires the builder's cap, colength ceiling and extra points to equal the values the
+certificate records, has negative controls for the V7 and V8 refusals and for the formula's
+degree, integrality and bound checks, and replays a cheap subset of V7 from scratch: (2,3)
+rank 1 over all seven fields and two more rows. The full replay below is not run in CI.
 
 ```
 python3 research/hjo_loom/build_certificate.py --v2 --jobs 4 --check research/hjo_loom/hjo_certificate_v2.json

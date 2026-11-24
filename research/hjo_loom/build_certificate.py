@@ -49,8 +49,8 @@ NIL_PLAN = [(2, 3, 2, 4), (2, 3, 3, 3), (3, 4, 2, 4), (3, 4, 3, 3), (2, 5, 2, 4)
 
 SCHEMA_V2 = "szl.khipu.hjo-certificate/v2"
 CENSUS_SERIES = list(dict.fromkeys((a, b, rank) for a, b, rank, _q, _m in QUOT_PLAN))
-# Recursion steps per (pair, rank, field) series: half of V5's cap, so that all
-# 112 series fit in about 25 minutes on a 4-vCPU container (see METHOD.md).
+# Recursion steps per (pair, rank, field) series: half of V5's cap. METHOD.md
+# records why, and the measured build and check times.
 CENSUS_WORK_CAP = 3_000_000
 CENSUS_COLENGTH_CEILING = 8
 FORMULA_EXTRA_POINTS = 3

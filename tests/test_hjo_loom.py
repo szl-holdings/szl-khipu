@@ -312,6 +312,11 @@ class FiniteFields(unittest.TestCase):
             with mock.patch.dict(h.GF_MODULI, {4: (2, (1, 0, 1))}):   # x^2 + 1 = (x + 1)^2 over F_2
                 with self.assertRaisesRegex(h.HjoHold, "REDUCIBLE"):
                     h._galois_field(4)
+            for spec in ((2, (1, 1, 0, 1)), (2, (1, 1, 2)), (3, (1, 0, 1))):   # 2^3 != 4, not monic, 3^2 != 4
+                h._galois_field.cache_clear()
+                with self.subTest(spec=spec), mock.patch.dict(h.GF_MODULI, {4: spec}):
+                    with self.assertRaisesRegex(h.HjoHold, "^FIELD_MODULUS_INVALID$"):
+                        h._galois_field(4)
         finally:
             h._galois_field.cache_clear()
         self.assertEqual(h.galois_field(4).mul[2][2], 3)              # x * x = x + 1
@@ -415,6 +420,34 @@ class MultiFieldCensus(unittest.TestCase):
         with self.assertRaisesRegex(h.HjoHold, "FIELD_INVALID"):
             h.verify(2, 3, degree=8, rank=1, field=4, quot_m=1, nil_n=1)
 
+    def test_census_counts_do_not_test_the_field_tables(self):
+        # Negative control (METHOD.md): tables that are not a field give the same counts.
+        # Over Z/6 the recursion returns the Thm 1.2 polynomial at L = 6, and with a GF(4)
+        # product where x * x = x (not associative) it returns the real q = 4 counts in
+        # the same steps. So V7 agreement at q = 4, 8, 9 is no evidence for the tables;
+        # FiniteFields is.
+        def table(op):
+            return tuple(tuple(op(u, v) % 6 for v in range(6)) for u in range(6))
+
+        z6 = h.GaloisField(6, 6, (0, 1), table(int.__add__), table(int.__sub__), table(int.__mul__),
+                           tuple(next((v for v in range(1, 6) if u * v % 6 == 1), 0) for u in range(6)))
+        self.assertEqual(z6.mul[2][3], 0)                     # zero divisors
+        for (a, b, rank, mm), want in {(2, 3, 2, 2): [1, 259, 3103], (3, 4, 1, 4): [1, 43, 79, 295, 295]}.items():
+            delta, work = h.gap_poset(a, b).delta, [0]
+            with self.subTest(case=(a, b, rank)):
+                got = [h._echelon_count(a, b, rank, z6, m, 2 * delta, work, 10 ** 6) for m in range(mm + 1)]
+                self.assertEqual(got, want)
+                self.assertEqual(got, h._quot_formula_at(h.n_bivariate(a, b, rank), delta, rank, 6, mm))
+        gf4 = h.galois_field(4)
+        mul = [list(row) for row in gf4.mul]
+        mul[2][2] = 2                                          # x * x = x instead of x + 1
+        bad = h.GaloisField(4, 2, gf4.modulus, gf4.add, gf4.sub, tuple(map(tuple, mul)), gf4.inv)
+        self.assertNotEqual(bad.mul[bad.mul[2][2]][3], bad.mul[2][bad.mul[2][3]])
+        real = h.quot_bruteforce_census(3, 4, 1, 4, 8, budget=10 ** 6)
+        with mock.patch.object(h, "_galois_field", return_value=bad):
+            self.assertEqual(h.quot_bruteforce_census(3, 4, 1, 4, 8, budget=10 ** 6), real)
+        self.assertEqual((real["stop"], real["work_steps"]), ("COLENGTH_CEILING", 19_497))
+
 
 class QPolynomials(unittest.TestCase):
     def test_interpolation_is_exact(self):
@@ -441,10 +474,13 @@ class QPolynomials(unittest.TestCase):
         self.assertEqual(h._interpolate(pts + [(7, int(h._eval(poly, Fraction(7))))]), poly)
 
     def test_degree_precondition_fails_closed(self):
-        # An n_s of degree 3 > N^2 delta = 1 would leave negative powers of L.
+        # An n_s of degree 3 > N^2 delta = 1 would leave negative powers of L: the
+        # interpolation refuses it up front, and the count at L = 2 is not an integer.
         with mock.patch.object(h, "n_bivariate", return_value={0: [1], 1: [0, 1, 0, 1]}):
             with self.assertRaisesRegex(h.HjoHold, "^FORMULA_DEGREE_PRECONDITION_FAILED$"):
                 h.quot_formula_polynomials(2, 3, 1, 2)
+            with self.assertRaisesRegex(h.HjoHold, "^FORMULA_NOT_INTEGRAL$"):
+                h.quot_formula_counts(2, 3, 1, 2, 2)
 
     def test_surplus_points_catch_values_off_a_polynomial_within_the_bound(self):
         # The formula is evaluated at B + 1 + extra nodes L = 2, 3, ... (METHOD.md).
@@ -606,6 +642,101 @@ class CensusCertificate(unittest.TestCase):
                              capture_output=True, text=True, timeout=120)
         self.assertEqual(out.returncode, 3)
         self.assertIn("REFUSE_OVERWRITE", out.stdout)
+
+
+def _flat(text: str) -> str:
+    return " ".join(text.split())
+
+
+class CensusDocs(unittest.TestCase):
+    """README.md, METHOD.md and the module docstring must say what the v2 certificate
+    shows, and no more."""
+
+    @classmethod
+    def setUpClass(cls):
+        if not CERT2.is_file():
+            raise unittest.SkipTest("v2 certificate not built")
+        cls.cert = json.loads(CERT2.read_text())
+        cls.readme = _flat((CERT2.parent / "README.md").read_text(encoding="utf-8"))
+        cls.method = _flat((CERT2.parent / "METHOD.md").read_text(encoding="utf-8"))
+        cls.docs = (("README", cls.readme), ("METHOD", cls.method), ("module", _flat(h.__doc__)))
+
+    def test_withdrawn_claims_stay_withdrawn(self):
+        # RECOVERED takes its degree from the formula, so nothing may say the enumeration
+        # fixes the polynomial by itself. Measured wall times live in METHOD.md only.
+        for name, text in self.docs:
+            for phrase in ("recovered from brute force alone", "brute-force counts alone",
+                           "enumeration data alone fix", "without using the formula"):
+                with self.subTest(doc=name, phrase=phrase):
+                    self.assertNotIn(phrase, text)
+        self.assertNotRegex(BUILDER.read_text(encoding="utf-8"), r"\d\s*minutes")
+
+    def test_census_is_not_read_as_a_test_of_the_field_tables(self):
+        for name, text in self.docs:
+            with self.subTest(doc=name):
+                self.assertIn("Z/6", text)
+        for name, text in self.docs[:2]:
+            with self.subTest(doc=name):
+                self.assertIn("is not evidence that the GF(p", text)
+                self.assertIn("1, 259, 3103", text)    # the Z/6 control in MultiFieldCensus
+
+    def test_headline_counts_separate_colength_0(self):
+        v7, v8 = self.cert["V7"], self.cert["V8"]
+        total = sum(len(r["bruteforce"]) for r in v7)
+        self.assertTrue(all(r["bruteforce"][0] == r["formula"][0] == 1 for r in v7))
+        only0 = [r for r in v7 if r["colength_max"] == 0]
+        self.assertEqual({(tuple(r["pair"]), r["rank"]) for r in only0}, {((4, 5), 2)})
+        fields = [str(r["field"]) for r in only0]
+        recovered = [r for r in v8 if r["status"] == "RECOVERED"]
+        at0 = sum(r["colength"] == 0 for r in recovered)
+        for name, text in self.docs[:2]:
+            with self.subTest(doc=name):
+                self.assertIn(f"{total} colength counts", text)
+                self.assertIn(f"{len(v7)} are colength 0, where both sides are 1 by construction, "
+                              f"so {total - len(v7)} are non-trivial", text)
+                self.assertIn(f"(4,5) with N = 2 compares nothing else at q = {', '.join(fields[:-1])} "
+                              f"and {fields[-1]}", text)
+                self.assertIn(f"{len(recovered)} are RECOVERED ({at0} of them the constant 1 at "
+                              f"colength 0, so {len(recovered) - at0} beyond colength 0)", text)
+
+    def test_rows_that_need_the_formula_degree_are_said_and_marked(self):
+        # Given only the bound N^2 delta + (N-1) m, the points fix a polynomial only when
+        # there are bound + 1 of them. For every other RECOVERED row a second polynomial
+        # within the bound, formula + prod (q - q_i), has the same values at its fields.
+        v7 = {(tuple(r["pair"]), r["rank"], r["field"]): r for r in self.cert["V7"]}
+        recovered = [r for r in self.cert["V8"] if r["status"] == "RECOVERED"]
+        short = [r for r in recovered if r["bruteforce_points"] <= r["degree_bound"]]
+        fixed = [r for r in recovered if r not in short]
+        for r in short:
+            with self.subTest(row=(r["pair"], r["rank"], r["colength"])):
+                vanish = [1]
+                for q in r["bruteforce_fields"]:
+                    vanish = h._mul(vanish, [-q, 1])
+                other = [x + y for x, y in itertools.zip_longest(r["formula_polynomial"], vanish, fillvalue=0)]
+                self.assertNotEqual(other, r["formula_polynomial"])
+                self.assertLessEqual(len(other) - 1, r["degree_bound"])
+                for q in r["bruteforce_fields"]:
+                    count = v7[(tuple(r["pair"]), r["rank"], q)]["bruteforce"][r["colength"]]
+                    self.assertEqual(h._eval(other, Fraction(q)), count)
+
+        def beyond_0(rows):
+            return sum(r["colength"] > 0 for r in rows)
+
+        for name, text in self.docs[:2]:
+            with self.subTest(doc=name):
+                self.assertIn("given the degree of the formula's polynomial, the brute-force points "
+                              "determine its coefficients", text)
+                self.assertIn(f"{len(fixed)} of the {len(recovered)} RECOVERED rows "
+                              f"({beyond_0(fixed)} beyond colength 0)", text)
+                self.assertIn(f"other {len(short)} ({beyond_0(short)} beyond colength 0)", text)
+        for a, b, rank in self.cert["census"]["series"]:
+            rows = [r for r in self.cert["V8"] if r["pair"] == [a, b] and r["rank"] == rank]
+            done = ", ".join(f"{r['colength']} ({r['degree']})" + ("†" if r in short else "")
+                             for r in rows if r["status"] == "RECOVERED")
+            left = ", ".join(f"{r['colength']} ({r['degree']}; {r['bruteforce_points']})"
+                             for r in rows if r["status"] == "UNDERDETERMINED")
+            with self.subTest(series=(a, b, rank)):
+                self.assertIn(f"| ({a},{b}) | {rank} | {done} | {left or '—'} |", self.readme)
 
 
 if __name__ == "__main__":

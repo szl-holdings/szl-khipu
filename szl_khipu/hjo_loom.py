@@ -22,8 +22,13 @@ reaches the published statement by a route different from the paper's proof:
   V6  HJO Thm 1.4: partial groupoid sums of commuting nilpotent pairs with
       A^a = B^b over F_q stay below P_{a,b}(1/q)/(1/q;1/q)_inf (consistency only).
   V7  V5 over every prime power q <= 9 (GF(4), GF(8), GF(9) by table arithmetic).
+      On the cases tried, tables that are not a field give the Thm 1.2 values
+      too (Z/6 at L = 6; a GF(4) product with x*x = x the q = 4 counts), so V7
+      does not test the tables; their own unit tests do.
   V8  Each colength count as a polynomial in q, interpolated exactly from the
-      formula and, separately, from the brute-force counts alone.
+      formula. The brute-force counts, interpolated on their own, give the same
+      polynomial wherever they number at least its degree + 1; that degree is
+      read from the formula's polynomial, not from the enumeration.
 
 These are finite checks of PUBLISHED theorems. They prove nothing new, do not
 replay the Lean certificate, and say nothing about historical Andean knowledge.
