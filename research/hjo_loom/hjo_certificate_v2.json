@@ -1,0 +1,9045 @@
+{
+ "V7": [
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    20,
+    46,
+    86,
+    143,
+    220,
+    320,
+    446,
+    601
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 601
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    23,
+    55,
+    105,
+    177,
+    275,
+    403,
+    565,
+    765
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 765
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    26,
+    64,
+    124,
+    211,
+    330,
+    486,
+    684,
+    929
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 929
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    29,
+    73,
+    143,
+    245,
+    385,
+    569,
+    803,
+    1093
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1093
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    35,
+    91,
+    181,
+    313,
+    495,
+    735,
+    1041,
+    1421
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1421
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    38,
+    100,
+    200,
+    347,
+    550,
+    818,
+    1160,
+    1585
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1585
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    5,
+    41,
+    109,
+    219,
+    381,
+    605,
+    901,
+    1279,
+    1749
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1749
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    15,
+    59,
+    147,
+    323,
+    675,
+    1379,
+    2787,
+    5603
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    113,
+    675,
+    2464,
+    7097,
+    17895,
+    41587,
+    91718,
+    195465
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    15,
+    59,
+    147,
+    323,
+    675,
+    1379,
+    2787,
+    5603
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 195465
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    40,
+    238,
+    832,
+    2614,
+    7960,
+    23998,
+    72112
+   ],
+   "colength_max": 7,
+   "cumulative_work_steps": [
+    9,
+    252,
+    2271,
+    10821,
+    40494,
+    135420,
+    428343,
+    1317849
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    40,
+    238,
+    832,
+    2614,
+    7960,
+    23998,
+    72112
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1317849
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    85,
+    677,
+    3045,
+    12517,
+    50405,
+    201957
+   ],
+   "colength_max": 6,
+   "cumulative_work_steps": [
+    9,
+    495,
+    5941,
+    34570,
+    160221,
+    679261,
+    2778169
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    85,
+    677,
+    3045,
+    12517,
+    50405,
+    201957
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2778169
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    156,
+    1556,
+    8556,
+    43556,
+    218556
+   ],
+   "colength_max": 5,
+   "cumulative_work_steps": [
+    9,
+    872,
+    13017,
+    89137,
+    494900,
+    2560974
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    156,
+    1556,
+    8556,
+    43556,
+    218556
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2560974
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    400,
+    5594,
+    41952,
+    296458
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    9,
+    2148,
+    44395,
+    394069,
+    2930442
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    400,
+    5594,
+    41952,
+    296458
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2930442
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    585,
+    9353,
+    79497
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    9,
+    3107,
+    73041,
+    721966
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    585,
+    9353,
+    79497
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 721966
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    820,
+    14752,
+    140140
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    9,
+    4320,
+    113781,
+    1239105
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    820,
+    14752,
+    140140
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1239105
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    38,
+    104,
+    206,
+    351,
+    546,
+    798,
+    1114,
+    1501
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    3,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1501
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    4,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    45,
+    148,
+    313,
+    553,
+    881,
+    1310,
+    1853,
+    2523
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    4,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13,
+    13
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 2523
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    5,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    52,
+    202,
+    448,
+    811,
+    1312,
+    1972,
+    2812,
+    3853
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    5,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 3853
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    6,
+    31,
+    31,
+    31,
+    31,
+    31,
+    31,
+    31
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    59,
+    266,
+    611,
+    1125,
+    1839,
+    2784,
+    3991,
+    5491
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    6,
+    31,
+    31,
+    31,
+    31,
+    31,
+    31,
+    31
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 5491
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    8,
+    57,
+    57,
+    57,
+    57,
+    57,
+    57,
+    57
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    73,
+    424,
+    1021,
+    1921,
+    3181,
+    4858,
+    7009,
+    9691
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    8,
+    57,
+    57,
+    57,
+    57,
+    57,
+    57,
+    57
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 9691
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    9,
+    73,
+    73,
+    73,
+    73,
+    73,
+    73,
+    73
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    80,
+    518,
+    1268,
+    2403,
+    3996,
+    6120,
+    8848,
+    12253
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    9,
+    73,
+    73,
+    73,
+    73,
+    73,
+    73,
+    73
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 12253
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    10,
+    91,
+    91,
+    91,
+    91,
+    91,
+    91,
+    91
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    9,
+    87,
+    622,
+    1543,
+    2941,
+    4907,
+    7532,
+    10907,
+    15123
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    10,
+    91,
+    91,
+    91,
+    91,
+    91,
+    91,
+    91
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 15123
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    15,
+    155,
+    627,
+    1827,
+    4227,
+    9027,
+    18627,
+    37827
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    245,
+    2271,
+    12032,
+    46153,
+    137971,
+    355783,
+    837838,
+    1862353
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    15,
+    155,
+    627,
+    1827,
+    4227,
+    9027,
+    18627,
+    37827
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1862353
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    40,
+    1210,
+    7636,
+    33475,
+    110992
+   ],
+   "colength_max": 5,
+   "cumulative_work_steps": [
+    17,
+    584,
+    13905,
+    117464,
+    658736,
+    2668350
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    40,
+    1210,
+    7636,
+    33475,
+    110992
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2668350
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    85,
+    5797,
+    49125
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    17,
+    1187,
+    60521,
+    688978
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    85,
+    5797,
+    49125
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 688978
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    156,
+    20306,
+    214806
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    17,
+    2132,
+    202353,
+    2863148
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    156,
+    20306,
+    214806
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2863148
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    400,
+    140050
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    17,
+    5360,
+    1337681
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    400,
+    140050
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1337681
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    585,
+    304265
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    17,
+    7799,
+    2874645
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    585,
+    304265
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2874645
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    820
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    17,
+    10892
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    820
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 10892
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    7,
+    11,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    92,
+    262,
+    570,
+    1011,
+    1604,
+    2368,
+    3322,
+    4485
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    7,
+    11,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 4485
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    13,
+    22,
+    49,
+    49,
+    49,
+    49,
+    49,
+    49
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    148,
+    466,
+    1133,
+    2117,
+    3467,
+    5232,
+    7461,
+    10203
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    13,
+    22,
+    49,
+    49,
+    49,
+    49,
+    49,
+    49
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 10203
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    21,
+    37,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    222,
+    740,
+    1972,
+    3827,
+    6406,
+    9810,
+    14140,
+    19497
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    21,
+    37,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 19497
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    31,
+    56,
+    181,
+    181,
+    181,
+    181,
+    181,
+    181
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    314,
+    1084,
+    3129,
+    6255,
+    10643,
+    16474,
+    23929,
+    33189
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    31,
+    56,
+    181,
+    181,
+    181,
+    181,
+    181,
+    181
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 33189
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    57,
+    106,
+    449,
+    449,
+    449,
+    449,
+    449,
+    449
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    552,
+    1982,
+    6565,
+    13721,
+    23899,
+    37548,
+    55117,
+    77055
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    57,
+    106,
+    449,
+    449,
+    449,
+    449,
+    449,
+    449
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 77055
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    73,
+    137,
+    649,
+    649,
+    649,
+    649,
+    649,
+    649
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    698,
+    2536,
+    8928,
+    18987,
+    33362,
+    52702,
+    77656,
+    108873
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    73,
+    137,
+    649,
+    649,
+    649,
+    649,
+    649,
+    649
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 108873
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    91,
+    172,
+    901,
+    901,
+    901,
+    901,
+    901,
+    901
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    862,
+    3160,
+    11777,
+    25427,
+    45011,
+    71430,
+    105585,
+    148377
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    91,
+    172,
+    901,
+    901,
+    901,
+    901,
+    901,
+    901
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 148377
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    63,
+    747,
+    3843,
+    14899,
+    40083
+   ],
+   "colength_max": 5,
+   "cumulative_work_steps": [
+    25,
+    1225,
+    17755,
+    109744,
+    480345,
+    1596751
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    63,
+    747,
+    3843,
+    14899,
+    40083
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1596751
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    364,
+    11983,
+    102244
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    25,
+    6586,
+    261735,
+    2519809
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    364,
+    11983,
+    102244
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2519809
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    1365,
+    98213
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    25,
+    24151,
+    2096029
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    1365,
+    98213
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2096029
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3906
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    68392
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    3906
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 68392
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    19608
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    339910
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    19608
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 339910
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    37449
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    647371
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    37449
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 647371
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    66430
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    1145956
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    66430
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1145956
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    7,
+    19,
+    27,
+    43,
+    43,
+    43,
+    43,
+    43
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    126,
+    444,
+    1026,
+    1995,
+    3330,
+    5074,
+    7270,
+    9961
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    7,
+    19,
+    27,
+    43,
+    43,
+    43,
+    43,
+    43
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 9961
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    13,
+    49,
+    76,
+    157,
+    157,
+    157,
+    157,
+    157
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    206,
+    937,
+    2412,
+    5274,
+    9356,
+    14815,
+    21808,
+    30492
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    13,
+    49,
+    76,
+    157,
+    157,
+    157,
+    157,
+    157
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 30492
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    21,
+    101,
+    165,
+    421,
+    421,
+    421,
+    421,
+    421
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    312,
+    1726,
+    4760,
+    11499,
+    21340,
+    34704,
+    52012,
+    73685
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    21,
+    101,
+    165,
+    421,
+    421,
+    421,
+    421,
+    421
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 73685
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    31,
+    181,
+    306,
+    931,
+    931,
+    931,
+    931,
+    931
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    444,
+    2877,
+    8322,
+    21960,
+    42222,
+    70039,
+    106342,
+    152062
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    31,
+    181,
+    306,
+    931,
+    931,
+    931,
+    931,
+    931
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 152062
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    57,
+    449,
+    792,
+    3193,
+    3193,
+    3193,
+    3193,
+    3193
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    786,
+    6529,
+    20096,
+    61830,
+    125320,
+    213759,
+    330340,
+    478256
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    57,
+    449,
+    792,
+    3193,
+    3193,
+    3193,
+    3193,
+    3193
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 478256
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    73,
+    649,
+    1161,
+    5257,
+    5257,
+    5257,
+    5257,
+    5257
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    996,
+    9162,
+    28812,
+    94899,
+    196296,
+    338260,
+    526048,
+    764917
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    73,
+    649,
+    1161,
+    5257,
+    5257,
+    5257,
+    5257,
+    5257
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 764917
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    91,
+    901,
+    1630,
+    8191,
+    8191,
+    8191,
+    8191,
+    8191
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    17,
+    1232,
+    12421,
+    39750,
+    139524,
+    293690,
+    510439,
+    797962,
+    1164450
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    91,
+    901,
+    1630,
+    8191,
+    8191,
+    8191,
+    8191,
+    8191
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1164450
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    63,
+    1131,
+    9603,
+    47795
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    33,
+    1741,
+    32823,
+    311760,
+    1789257
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    63,
+    1131,
+    9603,
+    47795
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1789257
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    364,
+    20731
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    33,
+    9510,
+    550065
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    364,
+    20731
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 550065
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    1365
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    33,
+    35083
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    1365
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 35083
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3906
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    33,
+    99652
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    3906
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 99652
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    19608
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    33,
+    496786
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    19608
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 496786
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    37449
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    33,
+    946975
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    37449
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 946975
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    66430
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    33,
+    1677408
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    66430
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1677408
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3,
+    7,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    56,
+    158,
+    366,
+    671,
+    1088,
+    1632,
+    2318,
+    3161
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    3,
+    7,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 3161
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    4,
+    13,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    67,
+    232,
+    674,
+    1352,
+    2306,
+    3576,
+    5202,
+    7224
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    4,
+    13,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 7224
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    5,
+    21,
+    85,
+    85,
+    85,
+    85,
+    85,
+    85
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    78,
+    324,
+    1156,
+    2467,
+    4342,
+    6866,
+    10124,
+    14201
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    5,
+    21,
+    85,
+    85,
+    85,
+    85,
+    85,
+    85
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 14201
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    6,
+    31,
+    156,
+    156,
+    156,
+    156,
+    156,
+    156
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    89,
+    434,
+    1854,
+    4130,
+    7418,
+    11874,
+    17654,
+    24914
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    6,
+    31,
+    156,
+    156,
+    156,
+    156,
+    156,
+    156
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 24914
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    8,
+    57,
+    400,
+    400,
+    400,
+    400,
+    400,
+    400
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    111,
+    708,
+    4066,
+    9556,
+    17578,
+    28532,
+    42818,
+    60836
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    8,
+    57,
+    400,
+    400,
+    400,
+    400,
+    400,
+    400
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 60836
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    9,
+    73,
+    585,
+    585,
+    585,
+    585,
+    585,
+    585
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    122,
+    872,
+    5664,
+    13547,
+    25106,
+    40926,
+    61592,
+    87689
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    9,
+    73,
+    585,
+    585,
+    585,
+    585,
+    585,
+    585
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 87689
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    10,
+    91,
+    820,
+    820,
+    820,
+    820,
+    820,
+    820
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    13,
+    133,
+    1054,
+    7646,
+    18542,
+    34562,
+    56526,
+    85254,
+    121566
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    10,
+    91,
+    820,
+    820,
+    820,
+    820,
+    820,
+    820
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 121566
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    15,
+    155,
+    1395,
+    5667,
+    17283,
+    44611
+   ],
+   "colength_max": 6,
+   "cumulative_work_steps": [
+    25,
+    377,
+    3707,
+    29664,
+    150457,
+    575615,
+    1824123
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    15,
+    155,
+    1395,
+    5667,
+    17283,
+    44611
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1824123
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    40,
+    1210,
+    33880
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    25,
+    916,
+    24081,
+    548026
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    40,
+    1210,
+    33880
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 548026
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    85,
+    5797
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    25,
+    1879,
+    107933
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    85,
+    5797
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 107933
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    156,
+    20306
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    25,
+    3392,
+    366689
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    156,
+    20306
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 366689
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    400,
+    140050
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    25,
+    8572,
+    2462897
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    400,
+    140050
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2462897
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    585
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    12491
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    585
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 12491
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    820
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    25,
+    17464
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    820
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 17464
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    15,
+    43,
+    99,
+    147,
+    179,
+    243,
+    243,
+    243
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    346,
+    1440,
+    4002,
+    8539,
+    15406,
+    25326,
+    38158,
+    54145
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    15,
+    43,
+    99,
+    147,
+    179,
+    243,
+    243,
+    243
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 54145
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    40,
+    157,
+    508,
+    832,
+    1075,
+    1804,
+    1804,
+    1804
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    835,
+    4579,
+    15878,
+    38264,
+    74513,
+    132990,
+    211125,
+    310722
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    40,
+    157,
+    508,
+    832,
+    1075,
+    1804,
+    1804,
+    1804
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 310722
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    85,
+    421,
+    1765,
+    3045,
+    4069,
+    8165,
+    8165,
+    8165
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    1708,
+    11442,
+    47456,
+    123867,
+    252680,
+    481996,
+    795404,
+    1201069
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    85,
+    421,
+    1765,
+    3045,
+    4069,
+    8165,
+    8165,
+    8165
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 1201069
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    156,
+    931,
+    4806,
+    8556,
+    11681,
+    27306,
+    27306
+   ],
+   "colength_max": 7,
+   "cumulative_work_steps": [
+    25,
+    3079,
+    24213,
+    116958,
+    322870,
+    679255,
+    1372794,
+    2337043
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    156,
+    931,
+    4806,
+    8556,
+    11681,
+    27306,
+    27306
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2337043
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    400,
+    3193,
+    22744,
+    41952
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    25,
+    7771,
+    78735,
+    488942,
+    1451844
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    400,
+    3193,
+    22744,
+    41952
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1451844
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    585,
+    5257,
+    42633,
+    79497
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    25,
+    11320,
+    127374,
+    879588,
+    2677699
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    585,
+    5257,
+    42633,
+    79497
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2677699
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    820,
+    8191,
+    74530
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    25,
+    15823,
+    195697,
+    1488086
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    820,
+    8191,
+    74530
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1488086
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    255,
+    11179
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    49,
+    10005,
+    479727
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    255,
+    11179
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 479727
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3280
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    124708
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    3280
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 124708
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    21845
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    822899
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    21845
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 822899
+  },
+  {
+   "agree": [
+    true
+   ],
+   "bruteforce": [
+    1
+   ],
+   "colength_max": 0,
+   "cumulative_work_steps": [
+    49
+   ],
+   "field": 5,
+   "formula": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 49
+  },
+  {
+   "agree": [
+    true
+   ],
+   "bruteforce": [
+    1
+   ],
+   "colength_max": 0,
+   "cumulative_work_steps": [
+    49
+   ],
+   "field": 7,
+   "formula": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 49
+  },
+  {
+   "agree": [
+    true
+   ],
+   "bruteforce": [
+    1
+   ],
+   "colength_max": 0,
+   "cumulative_work_steps": [
+    49
+   ],
+   "field": 8,
+   "formula": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 49
+  },
+  {
+   "agree": [
+    true
+   ],
+   "bruteforce": [
+    1
+   ],
+   "colength_max": 0,
+   "cumulative_work_steps": [
+    49
+   ],
+   "field": 9,
+   "formula": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 49
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    7,
+    35,
+    59,
+    107,
+    139,
+    203,
+    203,
+    203
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    194,
+    968,
+    2610,
+    5771,
+    10718,
+    18166,
+    27934,
+    40225
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    7,
+    35,
+    59,
+    107,
+    139,
+    203,
+    203,
+    203
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 40225
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    13,
+    130,
+    238,
+    562,
+    805,
+    1534,
+    1534,
+    1534
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    322,
+    2878,
+    8939,
+    23090,
+    47513,
+    90546,
+    149349,
+    225456
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    13,
+    130,
+    238,
+    562,
+    805,
+    1534,
+    1534,
+    1534
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 225456
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    21,
+    357,
+    677,
+    1957,
+    2981,
+    7077,
+    7077,
+    7077
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    492,
+    7154,
+    23776,
+    68827,
+    151944,
+    321164,
+    558988,
+    872493
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    21,
+    357,
+    677,
+    1957,
+    2981,
+    7077,
+    7077,
+    7077
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 872493
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    31,
+    806,
+    1556,
+    5306,
+    8431,
+    24056,
+    24056,
+    24056
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    25,
+    704,
+    15338,
+    52833,
+    167870,
+    390755,
+    908044,
+    1650043,
+    2640808
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    31,
+    806,
+    1556,
+    5306,
+    8431,
+    24056,
+    24056,
+    24056
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 2640808
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    57,
+    2850,
+    5594,
+    24802,
+    41609
+   ],
+   "colength_max": 5,
+   "cumulative_work_steps": [
+    25,
+    1254,
+    51638,
+    184015,
+    681466,
+    1712853
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    57,
+    2850,
+    5594,
+    24802,
+    41609
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1712853
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    73,
+    4745,
+    9353,
+    46217
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    25,
+    1592,
+    84878,
+    305124,
+    1207235
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    73,
+    4745,
+    9353,
+    46217
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1207235
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    91,
+    7462,
+    14752,
+    80362
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    25,
+    1972,
+    132274,
+    478421,
+    2012342
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    91,
+    7462,
+    14752,
+    80362
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2012342
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    63,
+    2667,
+    35715
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    49,
+    2773,
+    104175,
+    1547280
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    63,
+    2667,
+    35715
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1547280
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    364
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    15358
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    364
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 15358
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    1365
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    56947
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    1365
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 56947
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    3906
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    162172
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    3906
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 162172
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    19608
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    810538
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    19608
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 810538
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    37449
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    1546183
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    37449
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 1546183
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    66430
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    49,
+    2740312
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    66430
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "rank": 2,
+   "stop": "WORK_CAP",
+   "work_steps": 2740312
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    15,
+    91,
+    243,
+    547,
+    899,
+    1347,
+    1731,
+    1987
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    37,
+    544,
+    3578,
+    12690,
+    33971,
+    73536,
+    138428,
+    234474,
+    365197
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    15,
+    91,
+    243,
+    547,
+    899,
+    1347,
+    1731,
+    1987
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 365197
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    40,
+    481,
+    1804,
+    5773,
+    11119,
+    20596,
+    29344
+   ],
+   "colength_max": 7,
+   "cumulative_work_steps": [
+    37,
+    1333,
+    16117,
+    77873,
+    270809,
+    693443,
+    1506825,
+    2841630
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    40,
+    481,
+    1804,
+    5773,
+    11119,
+    20596,
+    29344
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2841630
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    85,
+    1701,
+    8165,
+    34021
+   ],
+   "colength_max": 4,
+   "cumulative_work_steps": [
+    37,
+    2746,
+    53120,
+    320972,
+    1368899
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    85,
+    1701,
+    8165,
+    34021
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1368899
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    156,
+    4681,
+    27306
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    37,
+    4969,
+    140717,
+    1014537
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    156,
+    4681,
+    27306
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1014537
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    400,
+    22401
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    37,
+    12589,
+    647693
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    400,
+    22401
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 647693
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    585,
+    42121
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    37,
+    18358,
+    1204532
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    585,
+    42121
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1204532
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    820,
+    73801
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    37,
+    25681,
+    2093365
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    820,
+    73801
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2093365
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    31,
+    171,
+    515,
+    1203,
+    1811,
+    3027,
+    3923,
+    4691
+   ],
+   "colength_max": 8,
+   "cumulative_work_steps": [
+    41,
+    1138,
+    7784,
+    28498,
+    79467,
+    171158,
+    329094,
+    564558,
+    891073
+   ],
+   "field": 2,
+   "formula": [
+    1,
+    31,
+    171,
+    515,
+    1203,
+    1811,
+    3027,
+    3923,
+    4691
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "COLENGTH_CEILING",
+   "work_steps": 891073
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    121,
+    1291,
+    5530,
+    18247,
+    30154
+   ],
+   "colength_max": 5,
+   "cumulative_work_steps": [
+    41,
+    4172,
+    51742,
+    251763,
+    927339,
+    2289335
+   ],
+   "field": 3,
+   "formula": [
+    1,
+    121,
+    1291,
+    5530,
+    18247,
+    30154
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 2289335
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    341,
+    6053,
+    32997
+   ],
+   "colength_max": 3,
+   "cumulative_work_steps": [
+    41,
+    11540,
+    229914,
+    1358064
+   ],
+   "field": 4,
+   "formula": [
+    1,
+    341,
+    6053,
+    32997
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 1358064
+  },
+  {
+   "agree": [
+    true,
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    781,
+    20931
+   ],
+   "colength_max": 2,
+   "cumulative_work_steps": [
+    41,
+    26224,
+    773510
+   ],
+   "field": 5,
+   "formula": [
+    1,
+    781,
+    20931
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 773510
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    2801
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    41,
+    93428
+   ],
+   "field": 7,
+   "formula": [
+    1,
+    2801
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 93428
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    4681
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    41,
+    155872
+   ],
+   "field": 8,
+   "formula": [
+    1,
+    4681
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 155872
+  },
+  {
+   "agree": [
+    true,
+    true
+   ],
+   "bruteforce": [
+    1,
+    7381
+   ],
+   "colength_max": 1,
+   "cumulative_work_steps": [
+    41,
+    245480
+   ],
+   "field": 9,
+   "formula": [
+    1,
+    7381
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "rank": 1,
+   "stop": "WORK_CAP",
+   "work_steps": 245480
+  }
+ ],
+ "V8": [
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 1,
+   "extra_checks": 6,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 5,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 6,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 7,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 8,
+   "degree": 1,
+   "degree_bound": 1,
+   "extra_checks": 5,
+   "formula_points": 5,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 4,
+   "extra_checks": 6,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 3,
+   "degree_bound": 5,
+   "extra_checks": 3,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    2
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 4,
+   "degree_bound": 6,
+   "extra_checks": 2,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    2
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 5,
+   "degree_bound": 7,
+   "extra_checks": 1,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 5,
+   "colength": 4,
+   "degree": 6,
+   "degree_bound": 8,
+   "extra_checks": 0,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 2,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 5,
+   "degree": 7,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 4,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 6,
+   "degree": 8,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 6,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 7,
+   "degree": 9,
+   "degree_bound": 11,
+   "extra_checks": 0,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    4,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 8,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 8,
+   "degree": 10,
+   "degree_bound": 12,
+   "extra_checks": 0,
+   "formula_points": 16,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    3
+   ],
+   "points_short": 10,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 2,
+   "extra_checks": 6,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 1,
+   "degree_bound": 2,
+   "extra_checks": 5,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 5,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 6,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 7,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 8,
+   "degree": 2,
+   "degree_bound": 2,
+   "extra_checks": 4,
+   "formula_points": 6,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 8,
+   "extra_checks": 6,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 3,
+   "degree_bound": 9,
+   "extra_checks": 3,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 6,
+   "colength": 2,
+   "degree": 6,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 1,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 3,
+   "degree": 7,
+   "degree_bound": 11,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 4,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 4,
+   "degree": 8,
+   "degree_bound": 12,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    5,
+    4,
+    3
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 7,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 5,
+   "degree": 9,
+   "degree_bound": 13,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    5,
+    3
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 8,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 6,
+   "degree": 10,
+   "degree_bound": 14,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    7,
+    7,
+    5,
+    3
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 10,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 7,
+   "degree": 11,
+   "degree_bound": 15,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    8,
+    7,
+    5,
+    3
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 11,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 8,
+   "degree": 12,
+   "degree_bound": 16,
+   "extra_checks": 0,
+   "formula_points": 20,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    8,
+    7,
+    5,
+    3
+   ],
+   "pair": [
+    2,
+    5
+   ],
+   "points_short": 12,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 3,
+   "extra_checks": 6,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 2,
+   "degree_bound": 3,
+   "extra_checks": 4,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 2,
+   "degree_bound": 3,
+   "extra_checks": 4,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 5,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 6,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 7,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 8,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 12,
+   "extra_checks": 6,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 5,
+   "degree_bound": 13,
+   "extra_checks": 1,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 2,
+   "degree": 8,
+   "degree_bound": 14,
+   "extra_checks": 0,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    3,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 6,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 3,
+   "degree": 9,
+   "degree_bound": 15,
+   "extra_checks": 0,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    5,
+    4,
+    3
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 8,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 4,
+   "degree": 11,
+   "degree_bound": 16,
+   "extra_checks": 0,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    8,
+    9,
+    7,
+    5,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 11,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 5,
+   "degree": 12,
+   "degree_bound": 17,
+   "extra_checks": 0,
+   "formula_points": 21,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    7,
+    9,
+    10,
+    12,
+    12,
+    10,
+    7,
+    1
+   ],
+   "pair": [
+    3,
+    4
+   ],
+   "points_short": 12,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 4,
+   "extra_checks": 6,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 2,
+   "degree_bound": 4,
+   "extra_checks": 4,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 3,
+   "degree_bound": 4,
+   "extra_checks": 3,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 3,
+   "degree_bound": 4,
+   "extra_checks": 3,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 4,
+   "degree_bound": 4,
+   "extra_checks": 2,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 5,
+   "degree": 4,
+   "degree_bound": 4,
+   "extra_checks": 2,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 6,
+   "degree": 4,
+   "degree_bound": 4,
+   "extra_checks": 2,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 7,
+   "degree": 4,
+   "degree_bound": 4,
+   "extra_checks": 2,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 8,
+   "degree": 4,
+   "degree_bound": 4,
+   "extra_checks": 2,
+   "formula_points": 8,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 16,
+   "extra_checks": 6,
+   "formula_points": 24,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 5,
+   "degree_bound": 17,
+   "extra_checks": 1,
+   "formula_points": 24,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 2,
+   "degree": 8,
+   "degree_bound": 18,
+   "extra_checks": 0,
+   "formula_points": 24,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    3,
+    2,
+    2
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 7,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 3,
+   "degree": 11,
+   "degree_bound": 19,
+   "extra_checks": 0,
+   "formula_points": 24,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    6,
+    5,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 11,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 4,
+   "degree": 12,
+   "degree_bound": 20,
+   "extra_checks": 0,
+   "formula_points": 24,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    9,
+    11,
+    10,
+    9,
+    6,
+    4
+   ],
+   "pair": [
+    3,
+    5
+   ],
+   "points_short": 12,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 3,
+   "extra_checks": 6,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 1,
+   "degree_bound": 3,
+   "extra_checks": 5,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 2,
+   "degree_bound": 3,
+   "extra_checks": 4,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 5,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 6,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 7,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 8,
+   "degree": 3,
+   "degree_bound": 3,
+   "extra_checks": 3,
+   "formula_points": 7,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 12,
+   "extra_checks": 6,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 3,
+   "degree_bound": 13,
+   "extra_checks": 3,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 5,
+   "colength": 2,
+   "degree": 6,
+   "degree_bound": 14,
+   "extra_checks": 0,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 2,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 3,
+   "degree": 9,
+   "degree_bound": 15,
+   "extra_checks": 0,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    3,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 8,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 4,
+   "degree": 10,
+   "degree_bound": 16,
+   "extra_checks": 0,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    5,
+    4,
+    4,
+    3,
+    2
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 10,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 5,
+   "degree": 11,
+   "degree_bound": 17,
+   "extra_checks": 0,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    6,
+    6,
+    5,
+    3
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 11,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 6,
+   "degree": 12,
+   "degree_bound": 18,
+   "extra_checks": 0,
+   "formula_points": 22,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    7,
+    8,
+    8,
+    8,
+    6,
+    4
+   ],
+   "pair": [
+    2,
+    7
+   ],
+   "points_short": 12,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 6,
+   "extra_checks": 6,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 3,
+   "degree_bound": 6,
+   "extra_checks": 3,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 4,
+   "degree_bound": 6,
+   "extra_checks": 2,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 5,
+   "degree_bound": 6,
+   "extra_checks": 1,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    2,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    2
+   ],
+   "bruteforce_points": 6,
+   "colength": 4,
+   "degree": 5,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    2
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 5,
+   "degree": 5,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 2,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 6,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 7,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 8,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 4,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 24,
+   "extra_checks": 6,
+   "formula_points": 30,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 1,
+   "degree": 7,
+   "degree_bound": 25,
+   "extra_checks": 0,
+   "formula_points": 30,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 5,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 2,
+   "degree": 12,
+   "degree_bound": 26,
+   "extra_checks": 0,
+   "formula_points": 30,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    4,
+    2,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    4,
+    5
+   ],
+   "points_short": 12,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 6,
+   "extra_checks": 6,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 2,
+   "degree_bound": 6,
+   "extra_checks": 4,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 4,
+   "degree_bound": 6,
+   "extra_checks": 2,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    2
+   ],
+   "bruteforce_points": 7,
+   "colength": 3,
+   "degree": 4,
+   "degree_bound": 6,
+   "extra_checks": 2,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    2
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 4,
+   "degree": 5,
+   "degree_bound": 6,
+   "extra_checks": 1,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 5,
+   "colength": 5,
+   "degree": 5,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    2
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 1,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 6,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 7,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 8,
+   "degree": 6,
+   "degree_bound": 6,
+   "extra_checks": 0,
+   "formula_points": 10,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 24,
+   "extra_checks": 6,
+   "formula_points": 31,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 5,
+   "degree_bound": 25,
+   "extra_checks": 1,
+   "formula_points": 31,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 0,
+   "rank": 2,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 2,
+   "degree": 10,
+   "degree_bound": 26,
+   "extra_checks": 0,
+   "formula_points": 31,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    3,
+    2,
+    2,
+    1,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 10,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 3,
+   "degree": 13,
+   "degree_bound": 27,
+   "extra_checks": 0,
+   "formula_points": 31,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    6,
+    6,
+    5,
+    4,
+    2,
+    1
+   ],
+   "pair": [
+    3,
+    7
+   ],
+   "points_short": 13,
+   "rank": 2,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 9,
+   "extra_checks": 6,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 3,
+   "degree_bound": 9,
+   "extra_checks": 3,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    2,
+    2,
+    2,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 2,
+   "degree": 5,
+   "degree_bound": 9,
+   "extra_checks": 1,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    2,
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 3,
+   "degree": 6,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    3,
+    3,
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 4,
+   "degree": 7,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    4,
+    3,
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 5,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 5,
+   "degree": 7,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    4,
+    3
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 6,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 6,
+   "degree": 8,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    5,
+    4,
+    1
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 7,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 7,
+   "degree": 8,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    5,
+    5,
+    2
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 7,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 8,
+   "degree": 8,
+   "degree_bound": 9,
+   "extra_checks": 0,
+   "formula_points": 13,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    5,
+    5,
+    3
+   ],
+   "pair": [
+    4,
+    7
+   ],
+   "points_short": 8,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 0,
+   "degree": 0,
+   "degree_bound": 10,
+   "extra_checks": 6,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ],
+   "bruteforce_interpolant": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "bruteforce_points": 7,
+   "colength": 1,
+   "degree": 4,
+   "degree_bound": 10,
+   "extra_checks": 2,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 0,
+   "rank": 1,
+   "status": "RECOVERED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 4,
+   "colength": 2,
+   "degree": 6,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    2,
+    3,
+    1,
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 3,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3,
+    4
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 3,
+   "colength": 3,
+   "degree": 7,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    3,
+    3,
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 5,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 4,
+   "degree": 8,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    4,
+    5,
+    3,
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 7,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2,
+    3
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 2,
+   "colength": 5,
+   "degree": 8,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    5,
+    6,
+    5,
+    2
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 7,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 6,
+   "degree": 9,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    5,
+    7,
+    6,
+    4,
+    1
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 9,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 7,
+   "degree": 9,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    5,
+    7,
+    7,
+    5,
+    2
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 9,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  },
+  {
+   "bruteforce_fields": [
+    2
+   ],
+   "bruteforce_interpolant": null,
+   "bruteforce_points": 1,
+   "colength": 8,
+   "degree": 9,
+   "degree_bound": 10,
+   "extra_checks": 0,
+   "formula_points": 14,
+   "formula_polynomial": [
+    1,
+    1,
+    2,
+    3,
+    5,
+    5,
+    7,
+    7,
+    6,
+    3
+   ],
+   "pair": [
+    5,
+    6
+   ],
+   "points_short": 9,
+   "rank": 1,
+   "status": "UNDERDETERMINED"
+  }
+ ],
+ "census": {
+  "colength_ceiling": 8,
+  "fields": [
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9
+  ],
+  "over_cap_colength": "abandoned and not recorded; no partial count is kept",
+  "series": [
+   [
+    2,
+    3,
+    1
+   ],
+   [
+    2,
+    3,
+    2
+   ],
+   [
+    2,
+    5,
+    1
+   ],
+   [
+    2,
+    5,
+    2
+   ],
+   [
+    3,
+    4,
+    1
+   ],
+   [
+    3,
+    4,
+    2
+   ],
+   [
+    3,
+    5,
+    1
+   ],
+   [
+    3,
+    5,
+    2
+   ],
+   [
+    2,
+    7,
+    1
+   ],
+   [
+    2,
+    7,
+    2
+   ],
+   [
+    4,
+    5,
+    1
+   ],
+   [
+    4,
+    5,
+    2
+   ],
+   [
+    3,
+    7,
+    1
+   ],
+   [
+    3,
+    7,
+    2
+   ],
+   [
+    4,
+    7,
+    1
+   ],
+   [
+    5,
+    6,
+    1
+   ]
+  ],
+  "work_cap_steps_per_series": 3000000,
+  "work_unit": "one call of the echelon recursion, the unit of V5's budget"
+ },
+ "fields": [
+  {
+   "modulus_low_to_high": [
+    0,
+    1
+   ],
+   "p": 2,
+   "q": 2
+  },
+  {
+   "modulus_low_to_high": [
+    0,
+    1
+   ],
+   "p": 3,
+   "q": 3
+  },
+  {
+   "modulus_low_to_high": [
+    1,
+    1,
+    1
+   ],
+   "p": 2,
+   "q": 4
+  },
+  {
+   "modulus_low_to_high": [
+    0,
+    1
+   ],
+   "p": 5,
+   "q": 5
+  },
+  {
+   "modulus_low_to_high": [
+    0,
+    1
+   ],
+   "p": 7,
+   "q": 7
+  },
+  {
+   "modulus_low_to_high": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "p": 2,
+   "q": 8
+  },
+  {
+   "modulus_low_to_high": [
+    1,
+    0,
+    1
+   ],
+   "p": 3,
+   "q": 9
+  }
+ ],
+ "finite_check_only": true,
+ "historical_claim": "NOT_ESTABLISHED",
+ "independent_replication": false,
+ "interpolation": {
+  "degree_bound": "N^2 delta + (N-1) m",
+  "formula_extra_points": 3,
+  "formula_nodes": "L = 2, 3, ..., formula_points + 1"
+ },
+ "lean_certificate_replayed": false,
+ "new_theorem_proved": false,
+ "schema": "szl.khipu.hjo-certificate/v2",
+ "sha256": "bd7b4197b81939c4d6aca29f919c01f5f8dc2d72756623ea75a005cf34c8bc2b",
+ "signature_verified": false,
+ "sources": {
+  "hjo": "arXiv:2608.16086v1",
+  "lean_repo": "https://github.com/AxiomMath/HJO",
+  "lean_revision_observed": "6a58dfa6ab98bd35d841cb2cf8fd9081f62fad03",
+  "paper": "arXiv:2609.20567v2"
+ },
+ "statements": {
+  "V7": "brute-force #R-submodules of F_q[[T]]^N of colength m == HJO Thm 1.2 at L=q, for every prime power q <= 9 and every (pair, rank) of V5",
+  "V8": "the colength-m count of HJO Thm 1.2 as a polynomial in q, interpolated exactly from the formula at integer L; RECOVERED when the brute-force counts alone, at prime powers, number at least degree+1 and interpolate to the same polynomial"
+ },
+ "summary": {
+  "colength_counts_compared": 643,
+  "recovered": 75,
+  "series": 112,
+  "stopped_by_colength_ceiling": 46,
+  "stopped_by_work_cap": 66,
+  "underdetermined": 49
+ }
+}
