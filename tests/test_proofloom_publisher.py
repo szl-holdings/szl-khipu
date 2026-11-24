@@ -53,10 +53,81 @@ class ProofLoomPublisherTests(unittest.TestCase):
 
     def test_protected_source_accepted_but_no_provider_mutation(self):
         values = {"GITHUB_SHA": "a"*40, "GITHUB_REPOSITORY": pub.SOURCE_REPO,
-                  "GITHUB_REF": "refs/heads/main", "GITHUB_EVENT_NAME": "push",
-                  "GITHUB_WORKFLOW": "publish-proof-loom", "GITHUB_WORKFLOW_SHA": "a"*40}
+                  "GITHUB_REF": "refs/heads/main", "GITHUB_EVENT_NAME": "workflow_dispatch",
+                  "GITHUB_WORKFLOW": "publish-proof-loom", "GITHUB_WORKFLOW_SHA": "a"*40,
+                  "GITHUB_ACTOR": "fixture-authorized-operator",
+                  "PROOF_LOOM_PUBLISH_ENABLED": "true",
+                  "PROOF_LOOM_PUBLISH_APPROVAL": "PUBLISH_KHIPU_PROOF_LOOM",
+                  "PROOF_LOOM_ALLOWED_ACTOR": "fixture-authorized-operator",
+                  "PROOF_LOOM_REVIEWED_SHA": "a"*40}
         with patch.dict(os.environ, values, clear=True):
             self.assertEqual(pub._identity(publish=True), "a"*40)
+
+
+    def test_owner_publish_gate_denies_any_unapproved_event(self):
+        source = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "publish-proof-loom.yml"
+        text = source.read_text(encoding="utf-8")
+        triggers = text.split("\npermissions:", 1)[0]
+        self.assertIn("  workflow_dispatch:", triggers)
+        for forbidden in ("  push:", "  schedule:", "  pull_request:", "  pull_request_target:"):
+            self.assertNotIn(forbidden, triggers)
+        self.assertIn("reviewed_source_sha:", triggers)
+        self.assertIn("confirm_publish:", triggers)
+        self.assertIn("vars.SZL_PROOFLOOM_PUBLISH_ENABLED == 'true'", text)
+        self.assertIn("github.actor == vars.SZL_PROOFLOOM_PUBLISH_OPERATOR", text)
+        self.assertIn("inputs.reviewed_source_sha == github.sha", text)
+        before_tokens = text.split(
+            "- name: Publish and independently read back Hugging Face bytes", 1
+        )[0]
+        self.assertNotIn("secrets.HF_ORG_TOKEN", before_tokens)
+        self.assertNotIn("secrets.HF_TOKEN", before_tokens)
+
+    def test_identity_denies_unapproved_dispatch_before_provider_calls(self):
+        approved = {
+            "GITHUB_SHA": "a"*40, "GITHUB_REPOSITORY": pub.SOURCE_REPO,
+            "GITHUB_REF": "refs/heads/main", "GITHUB_EVENT_NAME": "workflow_dispatch",
+            "GITHUB_WORKFLOW": "publish-proof-loom", "GITHUB_WORKFLOW_SHA": "a"*40,
+            "GITHUB_ACTOR": "fixture-authorized-operator",
+            "PROOF_LOOM_PUBLISH_ENABLED": "true",
+            "PROOF_LOOM_PUBLISH_APPROVAL": "PUBLISH_KHIPU_PROOF_LOOM",
+            "PROOF_LOOM_ALLOWED_ACTOR": "fixture-authorized-operator",
+            "PROOF_LOOM_REVIEWED_SHA": "a"*40,
+        }
+        for key, value in (
+            ("GITHUB_EVENT_NAME", "push"),
+            ("GITHUB_REF", "refs/heads/feature"),
+            ("GITHUB_REPOSITORY", "unknown/repository"),
+            ("GITHUB_WORKFLOW", "renamed-workflow"),
+            ("PROOF_LOOM_PUBLISH_ENABLED", "false"),
+            ("PROOF_LOOM_PUBLISH_ENABLED", ""),
+            ("PROOF_LOOM_PUBLISH_APPROVAL", "PUBLISH"),
+            ("PROOF_LOOM_PUBLISH_APPROVAL", ""),
+            ("GITHUB_ACTOR", "other-operator"),
+            ("PROOF_LOOM_ALLOWED_ACTOR", ""),
+            ("PROOF_LOOM_REVIEWED_SHA", "b"*40),
+            ("PROOF_LOOM_REVIEWED_SHA", "a"*39),
+            ("GITHUB_SHA", "b"*40),
+        ):
+            with self.subTest(key=key, value=value[:12]):
+                values = dict(approved)
+                values[key] = value
+                with patch.dict(os.environ, values, clear=True):
+                    with self.assertRaises(pub.AdmissionHold):
+                        pub._identity(publish=True)
+                    with self.assertRaises(pub.AdmissionHold):
+                        pub.publish()
+        with patch.dict(os.environ, approved, clear=True):
+            self.assertEqual(pub._identity(publish=True), "a"*40)
+
+    def test_owner_flag_missing_denies_before_hub_library_import(self):
+        valid = {
+            "GITHUB_SHA": "a"*40, "GITHUB_REPOSITORY": pub.SOURCE_REPO,
+            "GITHUB_REF": "refs/heads/main", "GITHUB_EVENT_NAME": "workflow_dispatch",
+            "GITHUB_WORKFLOW": "publish-proof-loom", "GITHUB_WORKFLOW_SHA": "a"*40,
+        }
+        with patch.dict(os.environ, valid, clear=True):
+            with self.assertRaisesRegex(pub.AdmissionHold, "OWNER_PUBLISH_SWITCH_DISABLED"):
+                pub.publish()
 
     def test_rendered_runtime_semantics(self):
         source, manifest = "a" * 40, "b" * 64

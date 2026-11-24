@@ -95,6 +95,42 @@ class SpaceSourceBindingTests(unittest.TestCase):
             ):
                 return SERVER._source_document("szl.build-info/v1")
 
+    def test_provider_json_rejects_duplicate_and_nonfinite_evidence(self):
+        samples = {
+            "duplicate_root": (b'{"state":"READY","state":"BLOCKED"}', "duplicate"),
+            "duplicate_nested": (b'{"source":{"commit":"a","commit":"b"}}', "duplicate"),
+            "nan": (b'{"attempt":NaN}', "non-finite"),
+            "infinity": (b'{"attempt":Infinity}', "non-finite"),
+            "negative_infinity": (b'{"attempt":-Infinity}', "non-finite"),
+        }
+        with mock.patch.object(SERVER, "_url_bytes") as fetch:
+            fetch.return_value = b'{"status":"READY","attempt":2}'
+            self.assertEqual(SERVER._url_json("https://api.github.com/example")["attempt"], 2)
+            for name, (raw, reason) in samples.items():
+                with self.subTest(case=name):
+                    fetch.return_value = raw
+                    with self.assertRaisesRegex(ValueError, reason):
+                        SERVER._url_json("https://api.github.com/example")
+
+    def test_manifest_rejects_ambiguous_json_after_byte_digest_matches(self):
+        for name, raw in {
+            "duplicate": b'{"schema":"szl.hf-deployment-tree/v3","schema":"other"}',
+            "nonfinite": b'{"schema":"szl.hf-deployment-tree/v3","size":NaN}',
+        }.items():
+            with self.subTest(case=name):
+                metadata = {"manifest_sha256": hashlib.sha256(raw).hexdigest()}
+                with self.assertRaisesRegex(ValueError, "duplicate|non-finite"):
+                    SERVER._validated_manifest(metadata, raw)
+
+    def test_build_info_refuses_ambiguous_json(self):
+        with tempfile.TemporaryDirectory() as directory:
+            info = Path(directory) / "build-info.json"
+            info.write_bytes(b'{"schema":"szl.hf-build-info/v3","schema":"shadow"}')
+            with mock.patch.object(SERVER, "BUILD_INFO", info):
+                document, error = SERVER._source_document("szl.build-info/v1")
+            self.assertEqual(document["state"], "UNKNOWN")
+            self.assertIn("duplicate evidence JSON field", error)
+
     def test_exact_source_attempt_artifact_tree_and_hf_revision_are_bound(self):
         payload, error = self.resolve()
         self.assertIsNone(error)

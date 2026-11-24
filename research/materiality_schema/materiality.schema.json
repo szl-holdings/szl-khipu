@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://szl-holdings.github.io/szl-khipu/materiality.schema.json",
-  "title": "Materiality Observation Schema (MOS v0.1)",
+  "title": "Materiality Observation Schema (MOS v0.2, v0.1 compatible)",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,7 +16,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "mos/0.1"
+      "enum": [
+        "mos/0.1",
+        "mos/0.2"
+      ]
     },
     "record_id": {
       "type": "string",
@@ -196,13 +199,52 @@
         }
       }
     },
+    "observed_at": {
+      "description": "When the examination or measurement occurred, at the known precision; null means unknown. Not the entry or media capture time.",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt][0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "recorded_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}[Tt][0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+      "description": "When this record was entered, if known. Not when the observation occurred."
     },
     "conditions": {
       "type": "string",
       "description": "Environmental, conservation, or handling caveats"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "mos/0.2"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "observed_at"
+        ]
+      }
+    }
+  ]
 }

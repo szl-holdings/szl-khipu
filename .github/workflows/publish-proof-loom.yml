@@ -3,28 +3,17 @@
 name: publish-proof-loom
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "szl_khipu/proof_loom.py"
-      - "szl_khipu/hjo_loom.py"
-      - "szl_khipu/holo_glb.py"
-      - "szl_khipu/okr_khipu.py"
-      - "szl_khipu/chain.py"
-      - "research/rr_discovery/**"
-      - "research/hjo_profile/**"
-      - "research/hjo_loom/**"
-      - "research/okr_corpus/**"
-      - "spaces/proof-loom/**"
-      - "scripts/publish_proofloom.py"
-      - "tests/test_proof_loom.py"
-      - "tests/test_proofloom_publisher.py"
-      - "tests/test_rr_sequence_scout.py"
-      - "tests/test_rr_conjecture_crucible.py"
-      - "tests/test_hjo_cylindric_profile.py"
-      - "tests/test_hjo_loom.py"
-      - "tests/test_okr_khipu.py"
-      - ".github/workflows/publish-proof-loom.yml"
+  # Protected-main push/merge MUST NOT trigger the action-bearing Hub publisher.
+  workflow_dispatch:
+    inputs:
+      reviewed_source_sha:
+        description: "Exact immutable main commit independently approved for this publication"
+        required: true
+        type: string
+      confirm_publish:
+        description: "Type PUBLISH_KHIPU_PROOF_LOOM to explicitly opt in"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -35,9 +24,28 @@ concurrency:
 
 jobs:
   source-and-publication:
+    # All controls default DENY. GitHub vars/actor are not a signed owner proof.
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.reviewed_source_sha == github.sha && inputs.confirm_publish == 'PUBLISH_KHIPU_PROOF_LOOM' && vars.SZL_PROOFLOOM_PUBLISH_ENABLED == 'true' && github.actor == vars.SZL_PROOFLOOM_PUBLISH_OPERATOR }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Verify explicit source and operator boundary before checkout
+        shell: bash
+        env:
+          SZL_REVIEWED_SOURCE_SHA: ${{ inputs.reviewed_source_sha }}
+          SZL_PUBLISH_APPROVAL: ${{ inputs.confirm_publish }}
+          SZL_APPROVED_OPERATOR: ${{ vars.SZL_PROOFLOOM_PUBLISH_OPERATOR }}
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == "szl-holdings/szl-khipu" ]] || exit 78
+          [[ "$GITHUB_WORKFLOW" == "publish-proof-loom" ]] || exit 78
+          [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]] || exit 78
+          [[ "$GITHUB_REF" == "refs/heads/main" ]] || exit 78
+          [[ "$SZL_REVIEWED_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 78
+          [[ "$SZL_REVIEWED_SOURCE_SHA" == "$GITHUB_SHA" ]] || exit 78
+          [[ "$SZL_PUBLISH_APPROVAL" == "PUBLISH_KHIPU_PROOF_LOOM" ]] || exit 78
+          [[ -n "$SZL_APPROVED_OPERATOR" ]] || exit 78
+          [[ "$GITHUB_ACTOR" == "$SZL_APPROVED_OPERATOR" ]] || exit 78
       - name: Checkout exact protected source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -87,6 +95,10 @@ jobs:
         env:
           HF_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          PROOF_LOOM_PUBLISH_ENABLED: ${{ vars.SZL_PROOFLOOM_PUBLISH_ENABLED }}
+          PROOF_LOOM_ALLOWED_ACTOR: ${{ vars.SZL_PROOFLOOM_PUBLISH_OPERATOR }}
+          PROOF_LOOM_PUBLISH_APPROVAL: ${{ inputs.confirm_publish }}
+          PROOF_LOOM_REVIEWED_SHA: ${{ inputs.reviewed_source_sha }}
         run: python scripts/publish_proofloom.py --publish
       - name: Preserve provider attempt and verified outcome separately
         if: always()

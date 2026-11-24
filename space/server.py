@@ -104,11 +104,31 @@ def _url_bytes(url: str, *, limit: int = 8 * 1024 * 1024) -> bytes:
     return content
 
 
-def _url_json(url: str) -> dict:
-    payload = json.loads(_url_bytes(url, limit=2 * 1024 * 1024).decode("utf-8"))
+def _strict_evidence_json(raw: bytes) -> dict:
+    """Reject ambiguous JSON before treating provider bytes as source evidence."""
+    def unique_fields(pairs: list[tuple[str, object]]) -> dict:
+        result: dict = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate evidence JSON field")
+            result[key] = value
+        return result
+
+    def reject_nonfinite(value: str) -> None:
+        raise ValueError(f"non-finite evidence JSON constant: {value}")
+
+    payload = json.loads(
+        raw.decode("utf-8"),
+        object_pairs_hook=unique_fields,
+        parse_constant=reject_nonfinite,
+    )
     if not isinstance(payload, dict):
         raise ValueError("evidence response must be a JSON object")
     return payload
+
+
+def _url_json(url: str) -> dict:
+    return _strict_evidence_json(_url_bytes(url, limit=2 * 1024 * 1024))
 
 
 def _running_hf_revision() -> str | None:
@@ -169,7 +189,7 @@ def _payload_records(root: Path) -> list[dict]:
 def _validated_manifest(metadata: dict, manifest_bytes: bytes) -> dict:
     if hashlib.sha256(manifest_bytes).hexdigest() != metadata["manifest_sha256"]:
         raise ValueError("deployment manifest digest mismatch")
-    manifest = json.loads(manifest_bytes.decode("utf-8"))
+    manifest = _strict_evidence_json(manifest_bytes)
     if not isinstance(manifest, dict) or manifest.get("schema") != "szl.hf-deployment-tree/v3":
         raise ValueError("invalid deployment manifest schema")
     for field in (
@@ -272,7 +292,7 @@ def _github_evidence(metadata: dict, hf_revision: str) -> tuple[str, str]:
 
 def _source_document(schema: str) -> tuple[dict, str | None]:
     try:
-        metadata = json.loads(BUILD_INFO.read_text(encoding="utf-8"))
+        metadata = _strict_evidence_json(BUILD_INFO.read_bytes())
         if not isinstance(metadata, dict) or metadata.get("schema") != "szl.hf-build-info/v3":
             raise ValueError("invalid build metadata schema")
         if metadata.get("source_repository") != SOURCE_REPOSITORY:

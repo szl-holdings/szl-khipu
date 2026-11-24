@@ -1,0 +1,525 @@
+{
+  "source_result_sha256": "476980099680971bc2580708b719c3b0b16007488b99cfb82cf134d5a8580378",
+  "input_hashes": {
+    "KFG_DB.SQL": "a0171bf18a3c6652a818b079050d72a6e0ecb535ec0923a680979072d491221b",
+    "corpus.json.gz": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+    "sum_top_cords_relation.csv": "e51a52330663f529285b71c4e55a5563571f5b4469749a91dd2ea1eec8173832"
+  },
+  "unmatched_rows": 8,
+  "shared_sql_full_group_and_exact_value_rows": 8,
+  "category_counts": {
+    "exact_export_different_equal_group": 1,
+    "exact_export_position_anchor_mismatch": 2,
+    "flag_arithmetic_inconsistency_different_group": 1,
+    "flag_arithmetic_inconsistency_same_group": 1,
+    "near_match_different_group": 1,
+    "near_match_position_anchor_mismatch": 1,
+    "target_cluster_absent_from_relation_export": 1
+  },
+  "interpretation": "SQL arithmetic on preselected SZL candidates, not a KFG algorithm rerun or independent validation. The published relation CSV is not a negative-label or eligible-candidate census.",
+  "rows": [
+    {
+      "okr": "KH0217",
+      "kfg": "AS199",
+      "object_id": 1000164,
+      "top_cord_id": 3016229,
+      "summand_ids": [
+        3016223,
+        3016224,
+        3016225,
+        3016226,
+        3016227,
+        3016228
+      ],
+      "value": 463,
+      "category": "target_cluster_absent_from_relation_export",
+      "pinned_kfg_sql": {
+        "target_cluster": 1005228,
+        "summand_cluster": 1005227,
+        "target_position": 11,
+        "summand_position": 10,
+        "same_complete_cord_ids": true,
+        "target_value": 463,
+        "summand_values": [
+          64,
+          44,
+          55,
+          201,
+          46,
+          53
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": null
+    },
+    {
+      "okr": "KH0068",
+      "kfg": "UR1057",
+      "object_id": 1000183,
+      "top_cord_id": 3038851,
+      "summand_ids": [
+        3038843,
+        3038844,
+        3038845,
+        3038846,
+        3038847,
+        3038848,
+        3038849
+      ],
+      "value": 2,
+      "category": "flag_arithmetic_inconsistency_different_group",
+      "pinned_kfg_sql": {
+        "target_cluster": 1015275,
+        "summand_cluster": 1015273,
+        "target_position": 90,
+        "summand_position": 88,
+        "same_complete_cord_ids": true,
+        "target_value": 2,
+        "summand_values": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "knotless_sql_cord_ids": [
+          3038843,
+          3038844,
+          3038845,
+          3038847,
+          3038848
+        ],
+        "between_clusters": [
+          {
+            "cluster_id": 1015274,
+            "cord_id": 3038850,
+            "okr_level": 1,
+            "okr_group_class": "M"
+          }
+        ]
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 28,
+        "target_position": 90,
+        "summand_position": 91,
+        "target_value": 2,
+        "summand_value": 3,
+        "exact_flag": true,
+        "declared_summand_count": 14,
+        "sql_cluster_at_declared_target_position": 1015275,
+        "sql_cluster_at_declared_summand_position": 1015276,
+        "sql_summand_position_cord_ids": [
+          3038852,
+          3038853,
+          3038854,
+          3038855,
+          3038856,
+          3038857,
+          3038858,
+          3038859,
+          3038860,
+          3038861,
+          3038862,
+          3038863,
+          3038864,
+          3038865
+        ],
+        "sql_summand_position_cord_values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2
+        ],
+        "target_position_anchored": true,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0277",
+      "kfg": "UR047",
+      "object_id": 1000240,
+      "top_cord_id": 3019618,
+      "summand_ids": [
+        3019608,
+        3019609,
+        3019610,
+        3019611,
+        3019612,
+        3019613,
+        3019614,
+        3019615,
+        3019616,
+        3019617
+      ],
+      "value": 100,
+      "category": "exact_export_different_equal_group",
+      "pinned_kfg_sql": {
+        "target_cluster": 1006437,
+        "summand_cluster": 1006436,
+        "target_position": 6,
+        "summand_position": 5,
+        "same_complete_cord_ids": true,
+        "target_value": 100,
+        "summand_values": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 24,
+        "target_position": 6,
+        "summand_position": 7,
+        "target_value": 100,
+        "summand_value": 100,
+        "exact_flag": true,
+        "declared_summand_count": 10,
+        "sql_cluster_at_declared_target_position": 1006437,
+        "sql_cluster_at_declared_summand_position": 1006438,
+        "sql_summand_position_cord_ids": [
+          3019619,
+          3019620,
+          3019621,
+          3019622,
+          3019623,
+          3019624,
+          3019625,
+          3019626,
+          3019627,
+          3019628
+        ],
+        "sql_summand_position_cord_values": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "target_position_anchored": true,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0323",
+      "kfg": "UR087",
+      "object_id": 1000273,
+      "top_cord_id": 3021354,
+      "summand_ids": [
+        3021348,
+        3021349,
+        3021350,
+        3021351,
+        3021352,
+        3021353
+      ],
+      "value": 15,
+      "category": "near_match_different_group",
+      "pinned_kfg_sql": {
+        "target_cluster": 1006820,
+        "summand_cluster": 1006819,
+        "target_position": 1,
+        "summand_position": 0,
+        "same_complete_cord_ids": true,
+        "target_value": 15,
+        "summand_values": [
+          1,
+          1,
+          10,
+          1,
+          1,
+          1
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 26,
+        "target_position": 1,
+        "summand_position": 2,
+        "target_value": 15,
+        "summand_value": 16,
+        "exact_flag": false,
+        "declared_summand_count": 6,
+        "sql_cluster_at_declared_target_position": 1006820,
+        "sql_cluster_at_declared_summand_position": 1006821,
+        "sql_summand_position_cord_ids": [
+          3021355,
+          3021356,
+          3021357,
+          3021358,
+          3021359,
+          3021360
+        ],
+        "sql_summand_position_cord_values": [
+          1,
+          1,
+          11,
+          1,
+          1,
+          1
+        ],
+        "target_position_anchored": true,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0358",
+      "kfg": "UR118",
+      "object_id": 1000293,
+      "top_cord_id": 3024859,
+      "summand_ids": [
+        3024860,
+        3024861,
+        3024862,
+        3024863,
+        3024864,
+        3024865
+      ],
+      "value": 395,
+      "category": "near_match_position_anchor_mismatch",
+      "pinned_kfg_sql": {
+        "target_cluster": 1007994,
+        "summand_cluster": 1007995,
+        "target_position": 22,
+        "summand_position": 23,
+        "same_complete_cord_ids": true,
+        "target_value": 395,
+        "summand_values": [
+          16,
+          55,
+          40,
+          197,
+          41,
+          46
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 38,
+        "target_position": 23,
+        "summand_position": 24,
+        "target_value": 395,
+        "summand_value": 495,
+        "exact_flag": false,
+        "declared_summand_count": 1,
+        "sql_cluster_at_declared_target_position": 1007995,
+        "sql_cluster_at_declared_summand_position": 1007996,
+        "sql_summand_position_cord_ids": [
+          3024866
+        ],
+        "sql_summand_position_cord_values": [
+          495
+        ],
+        "target_position_anchored": false,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0358",
+      "kfg": "UR118",
+      "object_id": 1000293,
+      "top_cord_id": 3024903,
+      "summand_ids": [
+        3024904,
+        3024905,
+        3024906,
+        3024907,
+        3024908,
+        3024909
+      ],
+      "value": 581,
+      "category": "exact_export_position_anchor_mismatch",
+      "pinned_kfg_sql": {
+        "target_cluster": 1008006,
+        "summand_cluster": 1008007,
+        "target_position": 34,
+        "summand_position": 35,
+        "same_complete_cord_ids": true,
+        "target_value": 581,
+        "summand_values": [
+          16,
+          143,
+          48,
+          22,
+          305,
+          47
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 40,
+        "target_position": 35,
+        "summand_position": 34,
+        "target_value": 581,
+        "summand_value": 581,
+        "exact_flag": true,
+        "declared_summand_count": 6,
+        "sql_cluster_at_declared_target_position": 1008007,
+        "sql_cluster_at_declared_summand_position": 1008006,
+        "sql_summand_position_cord_ids": [
+          3024903
+        ],
+        "sql_summand_position_cord_values": [
+          581
+        ],
+        "target_position_anchored": false,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0109",
+      "kfg": "UR1096",
+      "object_id": 1000315,
+      "top_cord_id": 3026862,
+      "summand_ids": [
+        3026856,
+        3026857,
+        3026858,
+        3026859,
+        3026860,
+        3026861
+      ],
+      "value": 17,
+      "category": "exact_export_position_anchor_mismatch",
+      "pinned_kfg_sql": {
+        "target_cluster": 1008702,
+        "summand_cluster": 1008701,
+        "target_position": 11,
+        "summand_position": 10,
+        "same_complete_cord_ids": true,
+        "target_value": 17,
+        "summand_values": [
+          2,
+          3,
+          10,
+          1,
+          1,
+          0
+        ],
+        "knotless_sql_cord_ids": [
+          3026861
+        ],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 33,
+        "target_position": 10,
+        "summand_position": 11,
+        "target_value": 17,
+        "summand_value": 17,
+        "exact_flag": true,
+        "declared_summand_count": 6,
+        "sql_cluster_at_declared_target_position": 1008701,
+        "sql_cluster_at_declared_summand_position": 1008702,
+        "sql_summand_position_cord_ids": [
+          3026862
+        ],
+        "sql_summand_position_cord_values": [
+          17
+        ],
+        "target_position_anchored": false,
+        "same_summand_ids_at_csv_positions": false
+      }
+    },
+    {
+      "okr": "KH0079",
+      "kfg": "AS066",
+      "object_id": 1000369,
+      "top_cord_id": 3033539,
+      "summand_ids": [
+        3033531,
+        3033532,
+        3033533,
+        3033534,
+        3033535,
+        3033536,
+        3033537,
+        3033538
+      ],
+      "value": 200,
+      "category": "flag_arithmetic_inconsistency_same_group",
+      "pinned_kfg_sql": {
+        "target_cluster": 1013568,
+        "summand_cluster": 1013567,
+        "target_position": 56,
+        "summand_position": 55,
+        "same_complete_cord_ids": true,
+        "target_value": 200,
+        "summand_values": [
+          25,
+          25,
+          31,
+          19,
+          25,
+          25,
+          25,
+          25
+        ],
+        "knotless_sql_cord_ids": [],
+        "between_clusters": []
+      },
+      "pinned_kfg_relation_export": {
+        "row_number": 13,
+        "target_position": 56,
+        "summand_position": 55,
+        "target_value": 200,
+        "summand_value": 200,
+        "exact_flag": false,
+        "declared_summand_count": 8,
+        "sql_cluster_at_declared_target_position": 1013568,
+        "sql_cluster_at_declared_summand_position": 1013567,
+        "sql_summand_position_cord_ids": [
+          3033531,
+          3033532,
+          3033533,
+          3033534,
+          3033535,
+          3033536,
+          3033537,
+          3033538
+        ],
+        "sql_summand_position_cord_values": [
+          25,
+          25,
+          31,
+          19,
+          25,
+          25,
+          25,
+          25
+        ],
+        "target_position_anchored": true,
+        "same_summand_ids_at_csv_positions": true
+      }
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import threading
 from copy import deepcopy
 from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any, Mapping
@@ -31,7 +32,16 @@ def canon(obj: Any) -> str:
     return _canon(obj)
 
 
-def _canon(value: Any) -> str:
+def canon_strict(obj: Any) -> str:
+    """canon() for receipts: refuses NaN/inf, non-str keys and unsupported types.
+
+    Lenient canon() maps those onto strings, so distinct payloads would share a digest.
+    Supported inputs give the same bytes as canon().
+    """
+    return _canon(obj, strict=True)
+
+
+def _canon(value: Any, strict: bool = False) -> str:
     if value is None:
         return "null"
     if isinstance(value, bool):
@@ -43,25 +53,35 @@ def _canon(value: Any) -> str:
     if isinstance(value, (float, np.floating)):
         f = float(value)
         if not math.isfinite(f):
+            if strict:
+                raise ValueError("non-finite float refused in receipt")
             return json.dumps(str(f), ensure_ascii=True)
         return json.dumps(f)
     if isinstance(value, str):
         return json.dumps(value, ensure_ascii=True)
     if isinstance(value, np.ndarray):
-        return _canon(value.tolist())
+        return _canon(value.tolist(), strict)
     if isinstance(value, dict):
+        if strict:
+            for k in value:
+                if not isinstance(k, str):
+                    raise TypeError(
+                        f"non-str key of type {type(k).__name__} refused in receipt"
+                    )
         items = {str(k): v for k, v in value.items()}
         keys = sorted(items)
         inner = ",".join(
-            f"{json.dumps(k, ensure_ascii=True)}:{_canon(items[k])}" for k in keys
+            f"{json.dumps(k, ensure_ascii=True)}:{_canon(items[k], strict)}" for k in keys
         )
         return "{" + inner + "}"
     if isinstance(value, (list, tuple)):
-        return "[" + ",".join(_canon(v) for v in value) + "]"
+        return "[" + ",".join(_canon(v, strict) for v in value) + "]"
     if is_dataclass(value) and not isinstance(value, type):
-        return _canon(asdict(value))
+        return _canon(asdict(value), strict)
     if isinstance(value, Mapping):
-        return _canon(dict(value))
+        return _canon(dict(value), strict)
+    if strict:
+        raise TypeError(f"unsupported type {type(value).__name__} refused in receipt")
     return json.dumps(str(value), ensure_ascii=True)
 
 
@@ -94,55 +114,88 @@ def _body(rec: Receipt) -> dict[str, Any]:
 
 
 def receipt_digest(rec: Receipt) -> str:
-    return sha256_hex(canon(_body(rec)))
+    """Raises ValueError/TypeError on payloads canon_strict refuses."""
+    return sha256_hex(canon_strict(_body(rec)))
 
 
 class UnifiedReceiptChain:
-    """Append-only receipt chain. Fail-closed on any break."""
+    """Append-only receipt chain. Fail-closed on any break.
+
+    emit() refuses NaN/inf, non-str dict keys and unsupported types before a
+    receipt is appended (see canon_strict).
+    """
 
     def __init__(self) -> None:
         self._receipts: list[Receipt] = []
+        # One chain is shared by ThreadingHTTPServer handlers; unserialized appends fork prev/seq.
+        self._lock = threading.Lock()
+
+    # Locks cannot be copied or pickled, and gr.State deep-copies its initial
+    # value; snapshot under the lock and give each copy its own lock.
+    def __getstate__(self) -> dict[str, Any]:
+        with self._lock:
+            return {"_receipts": deepcopy(self._receipts)}
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        self._receipts = state["_receipts"]
+        self._lock = threading.Lock()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> "UnifiedReceiptChain":
+        clone = UnifiedReceiptChain.__new__(UnifiedReceiptChain)
+        memo[id(self)] = clone
+        clone.__setstate__(self.__getstate__())
+        return clone
 
     @property
     def receipts(self) -> list[Receipt]:
-        return list(self._receipts)
+        with self._lock:
+            return list(self._receipts)
 
     @property
     def head(self) -> str:
-        return self._receipts[-1].digest if self._receipts else ZERO
+        with self._lock:
+            return self._receipts[-1].digest if self._receipts else ZERO
 
     def emit(self, kernel: str, op: str, attrs: Mapping[str, Any] | None = None) -> Receipt:
         payload = deepcopy(dict(attrs or {}))
-        rec = Receipt(
-            seq=len(self._receipts),
-            op=str(op),
-            kernel=str(kernel),
-            payload=payload,
-            digest="",
-            prev=self.head,
-            alg="SHA-256",
-            note=DIGEST_NOTE,
-        )
-        rec.digest = receipt_digest(rec)
-        self._receipts.append(rec)
-        return rec
+        with self._lock:
+            rec = Receipt(
+                seq=len(self._receipts),
+                op=str(op),
+                kernel=str(kernel),
+                payload=payload,
+                digest="",
+                prev=self._receipts[-1].digest if self._receipts else ZERO,
+                alg="SHA-256",
+                note=DIGEST_NOTE,
+            )
+            rec.digest = receipt_digest(rec)
+            self._receipts.append(rec)
+            return rec
 
     def verify(self) -> tuple[bool, int, int]:
         """Return (ok, depth, break_index). break_index is -1 when ok."""
+        with self._lock:
+            snap = list(self._receipts)
         prev = ZERO
-        depth = len(self._receipts)
-        for i, rec in enumerate(self._receipts):
+        depth = len(snap)
+        for i, rec in enumerate(snap):
             if rec.prev != prev:
                 return False, depth, i
             if rec.alg != "SHA-256":
                 return False, depth, i
-            if receipt_digest(rec) != rec.digest:
+            try:
+                digest = receipt_digest(rec)
+            except (ValueError, TypeError):
+                return False, depth, i
+            if digest != rec.digest:
                 return False, depth, i
             prev = rec.digest
         return True, depth, -1
 
     def reset(self) -> None:
-        self._receipts.clear()
+        with self._lock:
+            self._receipts.clear()
 
 
 _GLOBAL = UnifiedReceiptChain()

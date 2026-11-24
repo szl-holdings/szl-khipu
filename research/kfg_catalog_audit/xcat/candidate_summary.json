@@ -1,0 +1,2460 @@
+{
+  "candidate_objects": 30,
+  "domain": "One adjacent native OKR pendant group with >=2 cords per top cord, including unknown target/summand values; KFG strict adjacency is immediate full-cluster adjacency on same primary with unique ordinal order and SQL top role (-1 cord level or top grouping class), pendant level 1/non-marker group.",
+  "excluded_rows": [
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1001176,
+          "cord_ids": [
+            3003845
+          ],
+          "group_class": "M"
+        }
+      ],
+      "kfg": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 24,
+        "summands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          3,
+          0,
+          1,
+          0,
+          2,
+          4,
+          4,
+          5,
+          2
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        41,
+        43
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1001177,
+      "kfg_target_cluster": 1001175,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000025,
+      "okr": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 24,
+        "summands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          3,
+          0,
+          1,
+          0,
+          2,
+          4,
+          4,
+          5,
+          2
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0242",
+      "same_primary": true,
+      "summand_ids": [
+        3003846,
+        3003847,
+        3003848,
+        3003849,
+        3003850,
+        3003851,
+        3003852,
+        3003853,
+        3003854,
+        3003855,
+        3003856,
+        3003857,
+        3003858,
+        3003859,
+        3003860,
+        3003861,
+        3003862,
+        3003863,
+        3003864,
+        3003865,
+        3003866,
+        3003867
+      ],
+      "target_id": 3003844,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1001576,
+          "cord_ids": [
+            3005104
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 11,
+        "summands": [
+          1,
+          0,
+          1,
+          9,
+          0,
+          0
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        12,
+        14
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1001577,
+      "kfg_target_cluster": 1001575,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000029,
+      "okr": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 11,
+        "summands": [
+          1,
+          0,
+          1,
+          9,
+          0,
+          0
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0225",
+      "same_primary": true,
+      "summand_ids": [
+        3005105,
+        3005106,
+        3005107,
+        3005108,
+        3005109,
+        3005110
+      ],
+      "target_id": 3005103,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1001575,
+          "cord_ids": [
+            3005103
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          9,
+          0,
+          11,
+          79,
+          null,
+          13
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        13,
+        11
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1001574,
+      "kfg_target_cluster": 1001576,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000029,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          9,
+          0,
+          11,
+          79,
+          null,
+          13
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0225",
+      "same_primary": true,
+      "summand_ids": [
+        3005097,
+        3005098,
+        3005099,
+        3005100,
+        3005101,
+        3005102
+      ],
+      "target_id": 3005104,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1001592,
+          "cord_ids": [
+            3005160,
+            3005161
+          ],
+          "group_class": "K"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          1,
+          0,
+          2,
+          9,
+          null,
+          3
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        30,
+        28
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1001591,
+      "kfg_target_cluster": 1001593,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000029,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          1,
+          0,
+          2,
+          9,
+          null,
+          3
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0225",
+      "same_primary": true,
+      "summand_ids": [
+        3005154,
+        3005155,
+        3005156,
+        3005157,
+        3005158,
+        3005159
+      ],
+      "target_id": 3005162,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 5
+      },
+      "kfg_summand_cluster": 1001737,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 5
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005589,
+        3005590,
+        3005591,
+        3005592,
+        3005593,
+        3005594
+      ],
+      "target_id": 3005595,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 5
+      },
+      "kfg_summand_cluster": 1001739,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 5
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005598,
+        3005599,
+        3005600,
+        3005601,
+        3005602
+      ],
+      "target_id": 3005595,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 4
+      },
+      "kfg_summand_cluster": 1001737,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 4
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005589,
+        3005590,
+        3005591,
+        3005592,
+        3005593,
+        3005594
+      ],
+      "target_id": 3005596,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 4
+      },
+      "kfg_summand_cluster": 1001739,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 4
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005598,
+        3005599,
+        3005600,
+        3005601,
+        3005602
+      ],
+      "target_id": 3005596,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 2
+      },
+      "kfg_summand_cluster": 1001737,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          19,
+          9,
+          8,
+          6,
+          11,
+          null
+        ],
+        "target": 2
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005589,
+        3005590,
+        3005591,
+        3005592,
+        3005593,
+        3005594
+      ],
+      "target_id": 3005597,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 2
+      },
+      "kfg_summand_cluster": 1001739,
+      "kfg_target_cluster": 1001738,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000034,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 18,
+        "summands": [
+          4,
+          4,
+          4,
+          4,
+          2
+        ],
+        "target": 2
+      },
+      "okr_name": "KH0232",
+      "summand_ids": [
+        3005598,
+        3005599,
+        3005600,
+        3005601,
+        3005602
+      ],
+      "target_id": 3005597,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1015259,
+          "cord_ids": [
+            3038756
+          ],
+          "group_class": "M"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0
+        ],
+        "target": 5
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        73,
+        75
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1015260,
+      "kfg_target_cluster": 1015258,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000183,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0
+        ],
+        "target": 5
+      },
+      "okr_name": "KH0068",
+      "same_primary": true,
+      "summand_ids": [
+        3038757,
+        3038758,
+        3038759,
+        3038760,
+        3038761,
+        3038762,
+        3038763,
+        3038764,
+        3038765,
+        3038766,
+        3038767,
+        3038768,
+        3038769
+      ],
+      "target_id": 3038755,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1015274,
+          "cord_ids": [
+            3038850
+          ],
+          "group_class": "M"
+        }
+      ],
+      "kfg": {
+        "eligible": true,
+        "equal": true,
+        "exact_relation": true,
+        "status": "known",
+        "sum": 2,
+        "summands": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "target": 2
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        90,
+        88
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1015273,
+      "kfg_target_cluster": 1015275,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000183,
+      "okr": {
+        "eligible": true,
+        "equal": true,
+        "exact_relation": true,
+        "status": "known",
+        "sum": 2,
+        "summands": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "target": 2
+      },
+      "okr_name": "KH0068",
+      "same_primary": true,
+      "summand_ids": [
+        3038843,
+        3038844,
+        3038845,
+        3038846,
+        3038847,
+        3038848,
+        3038849
+      ],
+      "target_id": 3038851,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017324,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017325,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017326,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017327,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017328,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": false,
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "kfg_summand_cluster": 1005636,
+      "kfg_target_cluster": 1005637,
+      "mapping": "group_members_differ",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000192,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          30,
+          11,
+          13,
+          6,
+          8,
+          null,
+          10,
+          11,
+          11
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0022",
+      "summand_ids": [
+        3017315,
+        3017316,
+        3017317,
+        3017318,
+        3017319,
+        3017320,
+        3017321,
+        3017322,
+        3017323
+      ],
+      "target_id": 3017329,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1012431,
+          "cord_ids": [
+            3029284
+          ],
+          "group_class": "M"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          null,
+          null,
+          8
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        12,
+        14
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1012432,
+      "kfg_target_cluster": 1012430,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000332,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          null,
+          null,
+          8
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0275",
+      "same_primary": true,
+      "summand_ids": [
+        3029285,
+        3029286,
+        3029287
+      ],
+      "target_id": 3029283,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1012444,
+          "cord_ids": [
+            3029327
+          ],
+          "group_class": "M"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          null,
+          0,
+          15,
+          1
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        25,
+        27
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1012445,
+      "kfg_target_cluster": 1012443,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000332,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          null,
+          0,
+          15,
+          1
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0275",
+      "same_primary": true,
+      "summand_ids": [
+        3029328,
+        3029329,
+        3029330,
+        3029331
+      ],
+      "target_id": 3029326,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1013528,
+          "cord_ids": [
+            3033415
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 7,
+        "summands": [
+          3,
+          2,
+          2
+        ],
+        "target": 50
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        16,
+        18
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1013529,
+      "kfg_target_cluster": 1013527,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000369,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 7,
+        "summands": [
+          3,
+          2,
+          2
+        ],
+        "target": 50
+      },
+      "okr_name": "KH0079",
+      "same_primary": true,
+      "summand_ids": [
+        3033416,
+        3033417,
+        3033418
+      ],
+      "target_id": 3033414,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016099,
+          "cord_ids": [
+            3041047
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 612,
+        "summands": [
+          38,
+          169,
+          319,
+          86
+        ],
+        "target": 135
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        3,
+        5
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016100,
+      "kfg_target_cluster": 1016098,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 612,
+        "summands": [
+          38,
+          169,
+          319,
+          86
+        ],
+        "target": 135
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041048,
+        3041049,
+        3041050,
+        3041051
+      ],
+      "target_id": 3041046,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016098,
+          "cord_ids": [
+            3041046
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          11,
+          null,
+          60,
+          16
+        ],
+        "target": 612
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        4,
+        2
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016097,
+      "kfg_target_cluster": 1016099,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          11,
+          null,
+          60,
+          16
+        ],
+        "target": 612
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041042,
+        3041043,
+        3041044,
+        3041045
+      ],
+      "target_id": 3041047,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016103,
+          "cord_ids": [
+            3041057
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 2237,
+        "summands": [
+          810,
+          636,
+          641,
+          150
+        ],
+        "target": 805
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        7,
+        9
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016104,
+      "kfg_target_cluster": 1016102,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 1517,
+        "summands": [
+          90,
+          636,
+          641,
+          150
+        ],
+        "target": 805
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041058,
+        3041059,
+        3041060,
+        3041061
+      ],
+      "target_id": 3041056,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016102,
+          "cord_ids": [
+            3041056
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 805,
+        "summands": [
+          56,
+          250,
+          365,
+          134
+        ],
+        "target": 1417
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        8,
+        6
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016101,
+      "kfg_target_cluster": 1016103,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 805,
+        "summands": [
+          56,
+          250,
+          365,
+          134
+        ],
+        "target": 1417
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041052,
+        3041053,
+        3041054,
+        3041055
+      ],
+      "target_id": 3041057,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016752,
+          "cord_ids": [
+            3043247
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 4756,
+        "summands": [
+          465,
+          45,
+          512,
+          1247,
+          53,
+          455,
+          345,
+          425,
+          74,
+          1135
+        ],
+        "target": 0
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        1,
+        3
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016753,
+      "kfg_target_cluster": 1016751,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000511,
+      "okr": {
+        "eligible": false,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 4756,
+        "summands": [
+          465,
+          45,
+          512,
+          1247,
+          53,
+          455,
+          345,
+          425,
+          74,
+          1135
+        ],
+        "target": 0
+      },
+      "okr_name": "KH0438",
+      "same_primary": true,
+      "summand_ids": [
+        3043248,
+        3043249,
+        3043250,
+        3043251,
+        3043252,
+        3043253,
+        3043254,
+        3043255,
+        3043256,
+        3043257
+      ],
+      "target_id": 3043246,
+      "values_identical": true
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [
+        {
+          "cluster_id": 1016751,
+          "cord_ids": [
+            3043246
+          ],
+          "group_class": "T"
+        }
+      ],
+      "kfg": {
+        "status": "unknown",
+        "summands": [
+          null,
+          null,
+          270,
+          37,
+          null,
+          null,
+          167,
+          116,
+          null,
+          157,
+          70,
+          144,
+          null
+        ],
+        "target": 5400
+      },
+      "kfg_adjacency_verified": false,
+      "kfg_cluster_positions": [
+        2,
+        0
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016750,
+      "kfg_target_cluster": 1016752,
+      "mapping": "nonadjacent_clusters",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000511,
+      "okr": {
+        "status": "unknown",
+        "summands": [
+          null,
+          null,
+          270,
+          37,
+          null,
+          null,
+          167,
+          116,
+          null,
+          157,
+          70,
+          144,
+          null
+        ],
+        "target": 5400
+      },
+      "okr_name": "KH0438",
+      "same_primary": true,
+      "summand_ids": [
+        3043233,
+        3043234,
+        3043235,
+        3043236,
+        3043237,
+        3043238,
+        3043239,
+        3043240,
+        3043241,
+        3043242,
+        3043243,
+        3043244,
+        3043245
+      ],
+      "target_id": 3043247,
+      "values_identical": true
+    }
+  ],
+  "full_ledger_bytes": 600347,
+  "full_ledger_sha256": "d1bc44bd90e782fb336617ca62f0c64e748d5716928ab3370e6d90290e675da4",
+  "identity_exclusions": [
+    {
+      "kfg_okr_name": "UR1180",
+      "object_id": 1000152,
+      "okr": "KH0197"
+    }
+  ],
+  "input_hashes": {
+    "KFG_DB.SQL": "a0171bf18a3c6652a818b079050d72a6e0ecb535ec0923a680979072d491221b",
+    "corpus.json.gz": "6ef204b641826b37c320509952ed4181e93865af20f1cdfefd7516a49cf8ad0d",
+    "khipu_summary.csv": "0545deea4246d117a3de1ea425fb14800970c202b772ceded65bc13a90b4c7af",
+    "okr_khipu.py": "8cd4ba65f10806db9d3c13e9c2aed1ba618d22b4306ec85b4c6091072d1c35f7"
+  },
+  "interpretation": "Recorded-source concordance conditional on OKR candidates and strict shared KFG structure. Not an independent KFG algorithm replay, population prevalence, precision, recall, or decipherment. Export absence is never a negative.",
+  "joint_exact_fraction_identification_bounds": {
+    "denominator": 385,
+    "lower": 0.11948051948051948,
+    "lower_numerator": 46,
+    "note": "Conservative finite conditional denominator bounds, not sampling confidence intervals or sharp partial-arithmetic bounds. All 109 unresolved rows are unknown on both sides; none has a fully-known nonexact opposite side. Partial known sums are not used to tighten the upper bound.",
+    "upper": 0.4025974025974026,
+    "upper_numerator": 155
+  },
+  "known_value_disagreements": [
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 24,
+        "summands": [
+          10,
+          1,
+          10,
+          1,
+          1,
+          1
+        ],
+        "target": 21
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        3,
+        4
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1006823,
+      "kfg_target_cluster": 1006822,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000273,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 15,
+        "summands": [
+          1,
+          1,
+          10,
+          1,
+          1,
+          1
+        ],
+        "target": 21
+      },
+      "okr_name": "KH0323",
+      "same_primary": true,
+      "summand_ids": [
+        3021362,
+        3021363,
+        3021364,
+        3021365,
+        3021366,
+        3021367
+      ],
+      "target_id": 3021361,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 24,
+        "summands": [
+          10,
+          1,
+          10,
+          1,
+          1,
+          1
+        ],
+        "target": 13
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        5,
+        4
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1006823,
+      "kfg_target_cluster": 1006824,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000273,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 15,
+        "summands": [
+          1,
+          1,
+          10,
+          1,
+          1,
+          1
+        ],
+        "target": 13
+      },
+      "okr_name": "KH0323",
+      "same_primary": true,
+      "summand_ids": [
+        3021362,
+        3021363,
+        3021364,
+        3021365,
+        3021366,
+        3021367
+      ],
+      "target_id": 3021368,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 264,
+        "summands": [
+          3,
+          90,
+          17,
+          15,
+          112,
+          5,
+          12,
+          10
+        ],
+        "target": 33
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        22,
+        23
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1014238,
+      "kfg_target_cluster": 1014237,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000413,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 264,
+        "summands": [
+          3,
+          90,
+          17,
+          15,
+          112,
+          5,
+          12,
+          10
+        ],
+        "target": 303
+      },
+      "okr_name": "KH0389",
+      "same_primary": true,
+      "summand_ids": [
+        3036121,
+        3036122,
+        3036123,
+        3036124,
+        3036125,
+        3036126,
+        3036127,
+        3036128
+      ],
+      "target_id": 3036120,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 600,
+        "summands": [
+          6,
+          195,
+          33,
+          36,
+          234,
+          34,
+          35,
+          27
+        ],
+        "target": 61
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        26,
+        25
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1014240,
+      "kfg_target_cluster": 1014241,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000413,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 600,
+        "summands": [
+          6,
+          195,
+          33,
+          36,
+          234,
+          34,
+          35,
+          27
+        ],
+        "target": 601
+      },
+      "okr_name": "KH0389",
+      "same_primary": true,
+      "summand_ids": [
+        3036130,
+        3036131,
+        3036132,
+        3036133,
+        3036134,
+        3036135,
+        3036136,
+        3036137
+      ],
+      "target_id": 3036138,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 2237,
+        "summands": [
+          810,
+          636,
+          641,
+          150
+        ],
+        "target": 1417
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        8,
+        9
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016104,
+      "kfg_target_cluster": 1016103,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 1517,
+        "summands": [
+          90,
+          636,
+          641,
+          150
+        ],
+        "target": 1417
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041058,
+        3041059,
+        3041060,
+        3041061
+      ],
+      "target_id": 3041057,
+      "values_identical": false
+    },
+    {
+      "complete_cord_groups": true,
+      "interposed_kfg_clusters": [],
+      "kfg": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 2237,
+        "summands": [
+          810,
+          636,
+          641,
+          150
+        ],
+        "target": 17
+      },
+      "kfg_adjacency_verified": true,
+      "kfg_cluster_positions": [
+        10,
+        9
+      ],
+      "kfg_levels_verified": true,
+      "kfg_summand_cluster": 1016104,
+      "kfg_target_cluster": 1016105,
+      "mapping": "strict_shared_candidate",
+      "missing_kfg_cord_ids": [],
+      "object_id": 1000496,
+      "okr": {
+        "eligible": true,
+        "equal": false,
+        "exact_relation": false,
+        "status": "known",
+        "sum": 1517,
+        "summands": [
+          90,
+          636,
+          641,
+          150
+        ],
+        "target": 17
+      },
+      "okr_name": "KH0405",
+      "same_primary": true,
+      "summand_ids": [
+        3041058,
+        3041059,
+        3041060,
+        3041061
+      ],
+      "target_id": 3041062,
+      "values_identical": false
+    }
+  ],
+  "mapping_counts": {
+    "group_members_differ": 12,
+    "nonadjacent_clusters": 15,
+    "strict_shared_candidate": 385
+  },
+  "native_all_corpus_R2_union_candidates": 1812,
+  "native_known_target_candidates_verified": 390,
+  "native_shared_R2_union_candidates": 1652,
+  "objects_without_candidates": 527,
+  "per_artifact_with_candidates": [
+    {
+      "candidate_count": 5,
+      "mapping_counts": {
+        "nonadjacent_clusters": 1,
+        "strict_shared_candidate": 4
+      },
+      "object_id": 1000025,
+      "okr": "KH0242",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 4
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 20,
+      "mapping_counts": {
+        "nonadjacent_clusters": 3,
+        "strict_shared_candidate": 17
+      },
+      "object_id": 1000029,
+      "okr": "KH0225",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 13
+      },
+      "strict_unknown": 4
+    },
+    {
+      "candidate_count": 6,
+      "mapping_counts": {
+        "group_members_differ": 6
+      },
+      "object_id": 1000034,
+      "okr": "KH0232",
+      "strict_known_matrix": {},
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 1,
+      "mapping_counts": {
+        "strict_shared_candidate": 1
+      },
+      "object_id": 1000037,
+      "okr": "KH0235",
+      "strict_known_matrix": {
+        "okr_True_kfg_True": 1
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 14,
+      "mapping_counts": {
+        "strict_shared_candidate": 14
+      },
+      "object_id": 1000071,
+      "okr": "KH0129",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 14
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 23,
+      "mapping_counts": {
+        "strict_shared_candidate": 23
+      },
+      "object_id": 1000164,
+      "okr": "KH0217",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 13,
+        "okr_True_kfg_True": 6
+      },
+      "strict_unknown": 4
+    },
+    {
+      "candidate_count": 3,
+      "mapping_counts": {
+        "strict_shared_candidate": 3
+      },
+      "object_id": 1000166,
+      "okr": "KH0011",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 3
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 2,
+      "mapping_counts": {
+        "strict_shared_candidate": 2
+      },
+      "object_id": 1000177,
+      "okr": "KH0072",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 2
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 3,
+      "mapping_counts": {
+        "nonadjacent_clusters": 2,
+        "strict_shared_candidate": 1
+      },
+      "object_id": 1000183,
+      "okr": "KH0068",
+      "strict_known_matrix": {},
+      "strict_unknown": 1
+    },
+    {
+      "candidate_count": 2,
+      "mapping_counts": {
+        "strict_shared_candidate": 2
+      },
+      "object_id": 1000184,
+      "okr": "KH0014",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 1
+      },
+      "strict_unknown": 1
+    },
+    {
+      "candidate_count": 6,
+      "mapping_counts": {
+        "group_members_differ": 6
+      },
+      "object_id": 1000192,
+      "okr": "KH0022",
+      "strict_known_matrix": {},
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 9,
+      "mapping_counts": {
+        "strict_shared_candidate": 9
+      },
+      "object_id": 1000214,
+      "okr": "KH0062",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 9
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 2,
+      "mapping_counts": {
+        "strict_shared_candidate": 2
+      },
+      "object_id": 1000239,
+      "okr": "KH0278",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 1
+      },
+      "strict_unknown": 1
+    },
+    {
+      "candidate_count": 7,
+      "mapping_counts": {
+        "strict_shared_candidate": 7
+      },
+      "object_id": 1000240,
+      "okr": "KH0277",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 4,
+        "okr_True_kfg_True": 3
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 26,
+      "mapping_counts": {
+        "strict_shared_candidate": 26
+      },
+      "object_id": 1000273,
+      "okr": "KH0323",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 25,
+        "okr_True_kfg_True": 1
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 43,
+      "mapping_counts": {
+        "strict_shared_candidate": 43
+      },
+      "object_id": 1000293,
+      "okr": "KH0358",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 31,
+        "okr_True_kfg_True": 6
+      },
+      "strict_unknown": 6
+    },
+    {
+      "candidate_count": 21,
+      "mapping_counts": {
+        "strict_shared_candidate": 21
+      },
+      "object_id": 1000315,
+      "okr": "KH0109",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 8,
+        "okr_True_kfg_True": 6
+      },
+      "strict_unknown": 7
+    },
+    {
+      "candidate_count": 46,
+      "mapping_counts": {
+        "strict_shared_candidate": 46
+      },
+      "object_id": 1000329,
+      "okr": "KH0359",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 35,
+        "okr_True_kfg_True": 4
+      },
+      "strict_unknown": 7
+    },
+    {
+      "candidate_count": 4,
+      "mapping_counts": {
+        "nonadjacent_clusters": 2,
+        "strict_shared_candidate": 2
+      },
+      "object_id": 1000332,
+      "okr": "KH0275",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 1
+      },
+      "strict_unknown": 1
+    },
+    {
+      "candidate_count": 23,
+      "mapping_counts": {
+        "strict_shared_candidate": 23
+      },
+      "object_id": 1000345,
+      "okr": "KH0055",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 11,
+        "okr_True_kfg_True": 6
+      },
+      "strict_unknown": 6
+    },
+    {
+      "candidate_count": 38,
+      "mapping_counts": {
+        "nonadjacent_clusters": 1,
+        "strict_shared_candidate": 37
+      },
+      "object_id": 1000369,
+      "okr": "KH0079",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 22,
+        "okr_True_kfg_True": 6
+      },
+      "strict_unknown": 9
+    },
+    {
+      "candidate_count": 5,
+      "mapping_counts": {
+        "strict_shared_candidate": 5
+      },
+      "object_id": 1000409,
+      "okr": "KH0381",
+      "strict_known_matrix": {},
+      "strict_unknown": 5
+    },
+    {
+      "candidate_count": 32,
+      "mapping_counts": {
+        "strict_shared_candidate": 32
+      },
+      "object_id": 1000413,
+      "okr": "KH0389",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 8
+      },
+      "strict_unknown": 24
+    },
+    {
+      "candidate_count": 12,
+      "mapping_counts": {
+        "nonadjacent_clusters": 4,
+        "strict_shared_candidate": 8
+      },
+      "object_id": 1000496,
+      "okr": "KH0405",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 2,
+        "okr_True_kfg_True": 4
+      },
+      "strict_unknown": 2
+    },
+    {
+      "candidate_count": 13,
+      "mapping_counts": {
+        "strict_shared_candidate": 13
+      },
+      "object_id": 1000497,
+      "okr": "KH0424",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 4,
+        "okr_True_kfg_True": 2
+      },
+      "strict_unknown": 7
+    },
+    {
+      "candidate_count": 14,
+      "mapping_counts": {
+        "nonadjacent_clusters": 2,
+        "strict_shared_candidate": 12
+      },
+      "object_id": 1000511,
+      "okr": "KH0438",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 5
+      },
+      "strict_unknown": 7
+    },
+    {
+      "candidate_count": 16,
+      "mapping_counts": {
+        "strict_shared_candidate": 16
+      },
+      "object_id": 1000512,
+      "okr": "KH0439",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 3
+      },
+      "strict_unknown": 13
+    },
+    {
+      "candidate_count": 6,
+      "mapping_counts": {
+        "strict_shared_candidate": 6
+      },
+      "object_id": 1000549,
+      "okr": "KH0477",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 2
+      },
+      "strict_unknown": 4
+    },
+    {
+      "candidate_count": 6,
+      "mapping_counts": {
+        "strict_shared_candidate": 6
+      },
+      "object_id": 1000556,
+      "okr": "KH0482",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 5,
+        "okr_True_kfg_True": 1
+      },
+      "strict_unknown": 0
+    },
+    {
+      "candidate_count": 4,
+      "mapping_counts": {
+        "strict_shared_candidate": 4
+      },
+      "object_id": 1000597,
+      "okr": "KH0491",
+      "strict_known_matrix": {
+        "okr_False_kfg_False": 4
+      },
+      "strict_unknown": 0
+    }
+  ],
+  "posthoc_frozen_positive_crosscheck": {
+    "excluded_positive_rows": [
+      {
+        "complete_cord_groups": true,
+        "interposed_kfg_clusters": [
+          {
+            "cluster_id": 1015274,
+            "cord_ids": [
+              3038850
+            ],
+            "group_class": "M"
+          }
+        ],
+        "kfg": {
+          "eligible": true,
+          "equal": true,
+          "exact_relation": true,
+          "status": "known",
+          "sum": 2,
+          "summands": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "target": 2
+        },
+        "kfg_adjacency_verified": false,
+        "kfg_cluster_positions": [
+          90,
+          88
+        ],
+        "kfg_levels_verified": true,
+        "kfg_summand_cluster": 1015273,
+        "kfg_target_cluster": 1015275,
+        "mapping": "nonadjacent_clusters",
+        "missing_kfg_cord_ids": [],
+        "object_id": 1000183,
+        "okr": {
+          "eligible": true,
+          "equal": true,
+          "exact_relation": true,
+          "status": "known",
+          "sum": 2,
+          "summands": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "target": 2
+        },
+        "okr_name": "KH0068",
+        "same_primary": true,
+        "summand_ids": [
+          3038843,
+          3038844,
+          3038845,
+          3038846,
+          3038847,
+          3038848,
+          3038849
+        ],
+        "target_id": 3038851,
+        "values_identical": true
+      }
+    ],
+    "rows_in_both_mapped": 39,
+    "rows_okr_only_mapped": 7,
+    "source_sha256": "476980099680971bc2580708b719c3b0b16007488b99cfb82cf134d5a8580378"
+  },
+  "schema": "szl.conditional-candidate-concordance.v1",
+  "shared_objects": 557,
+  "strict_candidate_objects": 28,
+  "strict_eligibility_matrix": {
+    "okr_False_kfg_False": 79,
+    "okr_True_kfg_True": 197
+  },
+  "strict_eligible_both_exact_matrix": {
+    "okr_False_kfg_False": 151,
+    "okr_True_kfg_True": 46
+  },
+  "strict_exact_relation_matrix": {
+    "okr_False_kfg_False": 230,
+    "okr_True_kfg_True": 46
+  },
+  "strict_known_both": 276,
+  "strict_shared_candidates": 385,
+  "strict_status_pairs": {
+    "known_known": 276,
+    "unknown_unknown": 109
+  },
+  "strict_unknown": 109,
+  "strict_values_identical": 270,
+  "total_candidates": 412
+}
