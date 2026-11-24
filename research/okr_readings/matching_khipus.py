@@ -57,36 +57,40 @@ ONE_OBJECT_MAX_DIFF_CM = 3.0
 ONE_OBJECT_MIN_CORDS = 8
 # Pairs described as matching in the Puruchuco literature (Urton and Brezine 2005).
 KNOWN = (("UR064", "UR068"), ("UR066", "UR067"), ("UR063", "UR073"))
-_SNIPPET = "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment"
+_READ = "read from the page on 2026-11-24, fetched from a machine that can reach the site"
+_PINNED = "read from the pinned database"
 # What the Khipu Field Guide (Ashok Khosla) and the OKR records already say about pairs found here.
 PRIOR_ART = (
     {"pair": [], "kind": "method", "source": "https://khipufieldguide.com/notebook/appendix/notebooks/"
-     "07 - Removing Duplicate Khipus.html",
-     "says": "an earlier duplicate-khipu search on the KFG database; duplicates were removed from that database",
-     "seen_via": _SNIPPET},
+     "07%20-%20Removing%20Duplicate%20Khipus.html",
+     "says": "Manuel Medrano found 12 duplicate pairs by hand ('shoe leather'); the Field Guide's own "
+             "algorithmic search did not find them, and the duplicates were then removed from its database. "
+             "All 12 are single merged records in the pinned OKR data.",
+     "seen_via": _READ},
     {"pair": ["UR1107", "UR237"], "kind": "listed_duplicate",
      "source": "https://www.khipufieldguide.com/sketchbook/khipus/KH0121/html/KH0121_sketch.html",
-     "says": "KH0473 (UR237) was identified by Winston Wright as a duplicate of KH0121 (UR1107, AS107)",
-     "seen_via": _SNIPPET},
+     "says": "the KH0121 page lists UR1107, AS107, UR237 and KH0473 as aliases of one khipu; "
+             "it does not say who found the duplicate",
+     "seen_via": _READ},
     {"pair": ["AS125", "UR247"], "kind": "listed_duplicate",
-     "source": "https://www.khipufieldguide.com/sketchbook/khipus/AS125/html/AS125_sketch.html",
-     "says": "UR247 is a duplicate of AS125 and has been reconciled with it (KH0140)",
-     "seen_via": _SNIPPET},
-    {"pair": ["UR232", "UR233"], "kind": "physical_join",
-     "source": "https://www.khipufieldguide.com/catalog/KH0469.html",
-     "says": "UR232 primary cord notes: beginning end spliced with UR 233",
-     "seen_via": _SNIPPET},
+     "source": "https://khipufieldguide.com/databook/DatabaseBuild.html",
+     "says": "the database-build page says Karen Thompson, using pictures, identified KH0483 (UR247) as a "
+             "duplicate; its table gives the merged name as KH0198, not KH0140 (AS125), which this search pairs it with",
+     "seen_via": _READ},
+    {"pair": ["UR232", "UR233"], "kind": "physical_join", "source": "pinned OKR database, primary_cord.NOTES",
+     "says": "UR232 primary cord: 'Beginning end spliced with UR 233'",
+     "seen_via": _PINNED},
     {"pair": ["UR255", "UR267A"], "kind": "okr_note", "source": "pinned OKR database, khipu_main.NOTES",
-     "says": "UR255: 'UR267 A match'; UR267A: \"UR255 'Match'\"", "seen_via": "read from the pinned database"},
+     "says": "UR255: 'UR267 A match'; UR267A: \"UR255 'Match'\"", "seen_via": _PINNED},
     {"pair": ["UR256", "UR267B"], "kind": "okr_note", "source": "pinned OKR database, khipu_main.NOTES",
-     "says": "UR256: 'UR 267-B Match'; UR267B: \"UR256 partial 'match'\"", "seen_via": "read from the pinned database"},
+     "says": "UR256: 'UR 267-B Match'; UR267B: \"UR256 partial 'match'\"", "seen_via": _PINNED},
     {"pair": ["UR066", "UR067"], "kind": "okr_note", "source": "pinned OKR database, khipu_main.NOTES",
      "says": "UR067: 'UR66 and UR67 were wrapped together. They have matching numeric sequences.'",
-     "seen_via": "read from the pinned database"},
+     "seen_via": _PINNED},
     {"pair": ["AS038/HP036", "UR122"], "kind": "similarity_neighbour",
      "source": "https://www.khipufieldguide.com/catalog/KH0362.html",
      "says": "the KH0362 (UR122) page names KH0049 (AS038/HP036) as its previous 'similar khipu'",
-     "seen_via": _SNIPPET},
+     "seen_via": _READ},
 )
 
 
@@ -651,8 +655,7 @@ def audit(trials: int | None = None, only: tuple | None = None) -> dict:
              "shorter than its partner predicts; p_shorter is the chance of that many or more under a "
              "fair coin. unreadable counts aligned cords with no readable number on one side."),
             ("prior_art records what the OKR notes and the Khipu Field Guide already say about these "
-             "pairs. The Field Guide entries were seen through search-engine summaries; those pages "
-             "were not opened from this environment."),
+             "pairs, each read at its source on the date given."),
             ("A kept pair is a candidate until the objects are checked. The records cannot "
              "exclude one record typed from another."),
         ],
