@@ -3,9 +3,12 @@
 
 # Provenance-native v6 conflict-handling training pack — STAGED
 
-Status: **STAGED.** Nothing here has been trained. The training script refuses to start
-unless a results file records that hypothesis H4 of `../provenance_conflict_v3/` held,
-and a launch also needs Stephen's approval by name.
+Status: **STAGED, NOT JUSTIFIED.** Nothing here has been trained. The training script
+refuses to start unless a results file records that hypothesis H4 of
+`../provenance_conflict_v3/` held, and a launch also needs Stephen's approval by name.
+H4 failed on 2026-11-19: the v3 adapter answered 15 of 24 contradiction probes, above the
+ceiling of 12 (see `../provenance_conflict_v3/README.md#results`). Under that set's
+decision rule, no conflict-targeted training follows from it, so this pack stays unused.
 
 ## What it is for
 

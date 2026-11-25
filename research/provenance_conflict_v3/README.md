@@ -3,9 +3,10 @@
 
 # Provenance-native conflict probes v3 — preregistered
 
-Status: **PREREGISTERED.** At the commit that adds this folder, no model has been run on
-this probe set. Results are **UNAVAILABLE** until a run receipt is published; receipts
-are UNSIGNED until countersigned.
+Status: **MEASURED (partial), UNSIGNED.** Preregistered in #150 and amended before any
+model output (Amendment A1, #154). Run on 2026-11-19: base, v2 and v3 completed; v4 and v5
+did not. H4 failed; H5 and H6 are UNAVAILABLE. See [Results](#results). Receipts are
+UNSIGNED until countersigned.
 
 ## Why v3 exists
 
@@ -108,6 +109,69 @@ A training run that targets conflict reporting is justified only if H4 holds. It
 training data must come from templates disjoint from this set (no shared fields, receipt
 names or question texts), and it must be evaluated on a further, new held-out set,
 never on this one. If H4 fails, no conflict-targeted training follows from this set.
+
+## Results
+
+Run on 2026-11-19 on one NVIDIA GeForce RTX 5050 Laptop GPU (Windows 11, python 3.12.16,
+torch 2.11.0+cu128, transformers 5.23.0, peft 0.21.3), greedy, with the files at main
+`4444991b` (Amendment A1). Both gates passed: `LEAK_CHECK_OK` over 4,350 corpus strings,
+and `PIN_GATE_OK` with every pinned revision committed before `PREREG_UTC`.
+
+**The run is partial.** A memory guard on the laptop stopped it at 16:39:40Z, 30 probes
+into v4, when the machine's commit charge reached 49.8 GB against a 49 GB stop line. The
+guard measures the whole machine, not this run alone. The harness writes a receipt only
+after all 40 probes of a model, so the 30 v4 responses were neither saved nor graded, and
+v5 did not start. Three other attempts produced no receipt:
+
+- the first stopped at the preregistration gate, which led to Amendment A1;
+- the second stopped while the model loaded;
+- one on 2026-11-20 was stopped by the same guard after 8 base responses, which were
+  neither saved nor graded.
+
+`regrade_conflict_v3.py` recomputed every count from the raw responses, in a separate
+stdlib-only interpreter (python 3.12.10 embeddable). It matched the in-run grading for
+all three models. All 120 response hashes matched. The probe set, grader and harness
+digests matched, and so did each receipt's pinned revision and its commit time.
+
+| Model | Contradiction /24 | Consistent pair /12 | Answerable /4 | Correct /40 | Fabricated | Conflict asserted on a consistent pair |
+| --- | --- | --- | --- | --- | --- | --- |
+| base | 11 | 1 | 3 | 15 | 5 | 0 |
+| v2 | 6 | 3 | 1 | 10 | 14 | 0 |
+| v3 | 15 | 7 | 3 | 25 | 2 | 0 |
+| v4 | not run | | | | | |
+| v5 | not run | | | | | |
+
+Hypotheses, as preregistered:
+
+- **H4 failed.** v3 answered 15 of the 24 contradiction probes correctly, above the
+  ceiling of 12. H4 required every adapter to stay at or below 12, so it fails whatever v4
+  and v5 score. v2 answered 6.
+- **H5 is UNAVAILABLE.** v4 was not run.
+- **H6 is UNAVAILABLE.** v4 was not run. The base model answered 11.
+
+**Decision rule.** H4 failed, so no conflict-targeted training follows from this set. The
+staged pack in `../provenance_conflict_v6_train/` stays unused. Its script refuses to
+start unless a results file records H4 as held.
+
+**Observed, not preregistered.**
+- None of the three models asserted a conflict on any consistent pair (0 of 36
+  responses). Their consistent-pair misses are missing values or citations, not invented
+  conflicts.
+- v2 fabricated on 14 of 40 responses, the base model on 5 and v3 on 2.
+
+**Not yet run.** v4 and v5 still need a run. Any later run of them is reported separately,
+with its hardware and date, and cannot change H4.
+
+Receipts (UNSIGNED) are in `SZLHOLDINGS/frontier-54-runs`, commit
+`f75f82fb4c06686e26b71037920f0f27ea5e8e6f`, under `receipts/provenance-native-conflict-v3/`.
+The same commit holds the regrade script, the run log and the supervisor log.
+
+| File | sha256 |
+| --- | --- |
+| `run-base.json` | `b6f5119a7563ee9f3c919357af06b213ac44d4602f245976c3bd102f0f939f72` |
+| `run-v2.json` | `9cc5b5037f6987a3a535325c32d2b8b213ab14d065cae37dee6636193654462d` |
+| `run-v3.json` | `aac943c15a081b9aa20fac6eec58e7c26e157a39ad479ef566293d961b5d09f0` |
+| `regrade_conflict_v3.py` | `ffbac49dcc21fd933f6961a28f1bf87334418a880a204aaa8c21de3a7fa8a0b6` |
 
 ## Limitations
 
