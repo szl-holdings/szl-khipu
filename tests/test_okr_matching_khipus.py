@@ -316,8 +316,32 @@ class Catalogue(unittest.TestCase):
         self.assertEqual(flagged, credited)
         for entry in self.sealed["prior_art"]:
             self.assertTrue(entry["seen_via"] and entry["source"], entry)
-            if entry["kind"] != "okr_note":
-                self.assertIn("khipufieldguide.com", entry["source"])
+            # Every credit was read at its source, not taken from a search summary.
+            self.assertNotIn("search-engine", entry["seen_via"], entry)
+            self.assertNotIn("Winston Wright", entry["says"], entry)
+            if entry["kind"] in ("okr_note", "physical_join"):
+                self.assertIn("pinned OKR database", entry["source"], entry)
+            else:
+                self.assertIn("khipufieldguide.com", entry["source"], entry)
+
+    def test_the_hand_found_duplicate_list_is_recorded_with_its_finder(self):
+        method = [e for e in self.sealed["prior_art"] if e["kind"] == "method"]
+        self.assertEqual(len(method), 1)
+        self.assertIn("Manuel Medrano", method[0]["says"])
+        thompson = [e for e in self.sealed["prior_art"] if frozenset(e["pair"]) == frozenset(("AS125", "UR247"))]
+        self.assertIn("Karen Thompson", thompson[0]["says"])
+
+    def test_the_lima_and_goteborg_khipus_have_separate_museum_histories(self):
+        records = {r["khipu"]: r for r in self.sealed["museum_records"]}
+        goteborg, lima = records["UR122"], records["AS038/HP036"]
+        self.assertEqual(goteborg["museum_num"], "1938.45.0228")
+        self.assertIn("collections.smvk.se", goteborg["source"])
+        self.assertIn("Nordenski\u00f6ld", goteborg["says"])
+        self.assertIn("24.6.117", goteborg["says"])
+        self.assertIn("Gary Urton i juni 2005", goteborg["says"])
+        self.assertEqual(lima["museum_num"], "MNAAHP3550")
+        self.assertIn("1929", lima["says"])
+        self.assertIn("pinned OKR database", lima["source"])
 
     def test_one_long_khipu_carries_the_runs_of_two_shorter_ones(self):
         by = {frozenset((p["a_name"], p["b_name"])): p for p in self.sealed["pairs"]}

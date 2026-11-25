@@ -228,6 +228,24 @@
     }
   ],
   "meaning_assigned_to_any_feature": false,
+  "museum_records": [
+    {
+      "in_english": "deposited by Erland Nordenski\u00f6ld (older number 24.6.117, 1924.06.0117), bought by the museum from his estate with final payment in December 1938; find place Nasca, Peru; documented by Gary Urton in June 2005 (translation by this project)",
+      "khipu": "UR122",
+      "museum_num": "1938.45.0228",
+      "says": "Quipu. Arkeol. f\u00f6rem\u00e5l. Depositionsf\u00f6rem\u00e5l, sedemera inl\u00f6st av museet fr\u00e5n E. Nordenski\u00f6lds sterbhus. Slutlikvid erlagd i december 1938. Nummer fr\u00e5n de \u00e4ldre katalogerna: 24.6.117. [...] Dokumenterades av Gary Urton i juni 2005. [Find place:] Nasca, Peru. [Older number:] 1924.06.0117",
+      "source": "https://collections.smvk.se/carlotta-vkm/web/object/60884",
+      "via": "Europeana record 91608/SMVK_VKM_objekt_60884 (metadata CC0), read 2026-11-24"
+    },
+    {
+      "in_english": "in the Museo Hist\u00f3rico collection, Lima, by 1929 (the '?' are in the source)",
+      "khipu": "AS038/HP036",
+      "museum_num": "MNAAHP3550",
+      "says": "2. Provenance listed as Costa Sur, Colecci?n Museo Hist?rico, 1929",
+      "source": "pinned OKR database, khipu_main.NOTES",
+      "via": "read from the pinned database"
+    }
+  ],
   "pairs": [
     {
       "a": "KH0192",
@@ -4610,9 +4628,9 @@
     {
       "kind": "method",
       "pair": [],
-      "says": "an earlier duplicate-khipu search on the KFG database; duplicates were removed from that database",
-      "seen_via": "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment",
-      "source": "https://khipufieldguide.com/notebook/appendix/notebooks/07 - Removing Duplicate Khipus.html"
+      "says": "Manuel Medrano found 12 duplicate pairs by hand ('shoe leather'); the Field Guide's own algorithmic search did not find them, and the duplicates were then removed from its database. All 12 are single merged records in the pinned OKR data.",
+      "seen_via": "read from the page on 2026-11-24, fetched from a machine that can reach the site",
+      "source": "https://khipufieldguide.com/notebook/appendix/notebooks/07%20-%20Removing%20Duplicate%20Khipus.html"
     },
     {
       "kind": "listed_duplicate",
@@ -4620,8 +4638,8 @@
         "UR1107",
         "UR237"
       ],
-      "says": "KH0473 (UR237) was identified by Winston Wright as a duplicate of KH0121 (UR1107, AS107)",
-      "seen_via": "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment",
+      "says": "the KH0121 page lists UR1107, AS107, UR237 and KH0473 as aliases of one khipu; it does not say who found the duplicate",
+      "seen_via": "read from the page on 2026-11-24, fetched from a machine that can reach the site",
       "source": "https://www.khipufieldguide.com/sketchbook/khipus/KH0121/html/KH0121_sketch.html"
     },
     {
@@ -4630,9 +4648,9 @@
         "AS125",
         "UR247"
       ],
-      "says": "UR247 is a duplicate of AS125 and has been reconciled with it (KH0140)",
-      "seen_via": "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment",
-      "source": "https://www.khipufieldguide.com/sketchbook/khipus/AS125/html/AS125_sketch.html"
+      "says": "the database-build page says Karen Thompson, using pictures, identified KH0483 (UR247) as a duplicate; its table gives the merged name as KH0198, not KH0140 (AS125), which this search pairs it with",
+      "seen_via": "read from the page on 2026-11-24, fetched from a machine that can reach the site",
+      "source": "https://khipufieldguide.com/databook/DatabaseBuild.html"
     },
     {
       "kind": "physical_join",
@@ -4640,9 +4658,9 @@
         "UR232",
         "UR233"
       ],
-      "says": "UR232 primary cord notes: beginning end spliced with UR 233",
-      "seen_via": "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment",
-      "source": "https://www.khipufieldguide.com/catalog/KH0469.html"
+      "says": "UR232 primary cord: 'Beginning end spliced with UR 233'",
+      "seen_via": "read from the pinned database",
+      "source": "pinned OKR database, primary_cord.NOTES"
     },
     {
       "kind": "okr_note",
@@ -4681,7 +4699,7 @@
         "UR122"
       ],
       "says": "the KH0362 (UR122) page names KH0049 (AS038/HP036) as its previous 'similar khipu'",
-      "seen_via": "search-engine summary of the page, 2026-11-19; the page itself was not reachable from this environment",
+      "seen_via": "read from the page on 2026-11-24, fetched from a machine that can reach the site",
       "source": "https://www.khipufieldguide.com/catalog/KH0362.html"
     }
   ],
@@ -4692,10 +4710,10 @@
     "fidelity compares a feature across cords that carry the same nonzero number. agree counts equal codes; consistent counts cords that follow the commonest pairing of one khipu's code with the other's. p_above, p_below and p_consistent use a free shuffle; the within_value columns re-pair only cords with equal numbers, and movable_within_value says how many cords that can move.",
     "khipu_level gives each khipu's prevailing value (four in five cords) and whether the two are the same or opposite.",
     "breakage looks at aligned cords whose numbers differ: a truncation is one number with its lower knots gone (4130 against 4000). If cords broke, the truncated cord should be shorter than its partner predicts; p_shorter is the chance of that many or more under a fair coin. unreadable counts aligned cords with no readable number on one side.",
-    "prior_art records what the OKR notes and the Khipu Field Guide already say about these pairs. The Field Guide entries were seen through search-engine summaries; those pages were not opened from this environment.",
+    "prior_art records what the OKR notes and the Khipu Field Guide already say about these pairs, each read at its source on the date given.",
     "A kept pair is a candidate until the objects are checked. The records cannot exclude one record typed from another."
   ],
-  "report_sha256": "dc5727edc46a949c30da30b88e0dd685bdee988b8db8ee545d304370503099e5",
+  "report_sha256": "e0769a8c53eb084e75b7fb4c021d9fea8a6ef624119771f77735be4b05295129",
   "schema": "szl.okr.matching-khipus/v1",
   "scored": [
     {

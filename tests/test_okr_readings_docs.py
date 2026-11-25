@@ -88,7 +88,15 @@ class ReadmeMirrorsSealedReports(unittest.TestCase):
         self.assertIn(f"{two['truncated_on_shorter_cord']} of {two['truncated_with_lengths']}", self.text)
 
     def test_prior_art_for_the_pairs_is_credited(self):
-        for phrase in ("Khipu Field Guide", "Winston Wright", "spliced", "Urton and Brezine"):
+        for phrase in ("Khipu Field Guide", "Karen Thompson", "Manuel Medrano", "spliced", "Urton and Brezine"):
+            self.assertIn(phrase, self.text, phrase)
+        # An earlier version credited a duplicate to "Winston Wright" from a search summary;
+        # the Field Guide's own pages do not say so.
+        self.assertNotIn("Winston Wright", self.text)
+        self.assertNotIn("search-engine summaries", self.text)
+
+    def test_the_goteborg_record_is_reported(self):
+        for phrase in ("1938.45.0228", "Nordenski\u00f6ld", "24.6.117", "Museo Hist\u00f3rico", "since at least 1929"):
             self.assertIn(phrase, self.text, phrase)
 
     def test_limits_are_stated(self):

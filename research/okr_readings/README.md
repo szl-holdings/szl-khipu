@@ -326,9 +326,11 @@ Report digest `51458ff334e4081aecf06b6cd1feb96c3c62b10c22fbf3435836151d02ac76fd`
 
 Urton (2005) and Urton and Brezine (2005) described "matching khipus" at
 Puruchuco: pairs whose number sequences are identical or nearly so, read as
-duplicate accounts. The Khipu Field Guide (Khosla) ran its own duplicate-khipu
-search and removed the duplicates it found from its database. The pinned OKR
-records still carry both entries of such pairs.
+duplicate accounts. The Khipu Field Guide (Khosla) records twelve duplicate
+pairs that Manuel Medrano found by hand; the Guide's own algorithmic search
+did not find them, and it removed the duplicates from its database. All twelve
+are single merged records in the pinned OKR data, but OKR still carries both
+entries of some other pairs.
 
 `matching_khipus.py` searches all the pinned records against each other. It reads the level-1 pendants of each of the
 619 khipus in order, weights each value by its rarity
@@ -373,15 +375,18 @@ apart earn half, an unreadable cord earns nothing, a different value costs
 
 "One object?" is yes when the main cords are within 5% in length and matched
 cords differ by 3 cm or less at the median. "Mentioned before" lists what the
-OKR notes, the Khipu Field Guide (seen through search-engine summaries; its
-pages could not be opened from this environment) and the matching-khipu
-literature say. "None found" is not a claim that nobody has noticed.
+OKR notes, the Khipu Field Guide (pages read on 2026-11-24) and the
+matching-khipu literature say. "None found" is not a claim that nobody has
+noticed.
 
 What the pairs show:
 
-- **Two pairs are one khipu entered twice, and both were already known.** The
-  Field Guide lists UR237 as a duplicate of UR1107 (identified by
-  Winston Wright) and UR247 as a duplicate of AS125. Matched cords agree to
+- **Two pairs are one khipu entered twice, and the Field Guide already lists
+  both.** Its KH0121 page gives UR237 as an alias of UR1107. Its database-build
+  page credits Karen Thompson with spotting from photographs that UR247
+  (KH0483) is a duplicate, though its table names a different partner (KH0198)
+  from the one found here (AS125). Neither pair is among Manuel Medrano's
+  twelve, and both are still two records in OKR. Matched cords agree to
   1.5 and 2.25 cm at the median. The length test flagged these two and
   no others. They show how two recordings of one object differ:
   2 of 29 and 1 of 15 aligned numbers differ (50 against 500, 100
@@ -392,8 +397,10 @@ What the pairs show:
   UR1175 is the Aschers' AS175 (Pachacamac, Berlin VA42518, 224 pendants).
   Its pendants 0-103 match UR233 (505.7 bits, 73 equal values) and pendants
   127-222 match UR232 (255.3 bits). UR232 and UR233 (Huacho, Berlin VA63038)
-  are recorded in the Field Guide as spliced together, UR232's beginning to
-  UR233. Unlike the known duplicates, matched cords differ in length by
+  are recorded in the pinned OKR database as spliced together (UR232's primary
+  cord note: "Beginning end spliced with UR 233"); the Field Guide gives
+  UR232's museum number as VA63038(A). Unlike the known duplicates, matched
+  cords differ in length by
   24.0 and 14.0 cm at the median, the main cords are 210 cm against 66 and
   81 cm, and long knots go the other way on 43 of 46 and
   27 of 27 matched cords. The same two projects agreed on every long knot of
@@ -407,7 +414,14 @@ What the pairs show:
   AS038/HP036 (MNAAHP3550, "Costa Sur") and UR122 (1938.45.0228, "Nazca")
   align over 51 cords with 28 equal values (345.0 bits; best shuffle 66.6).
   The Field Guide's similarity listing already puts the two next to each other;
-  I found no statement that they share numbers. Many UR122 cords are broken:
+  I found no statement that they share numbers. They have separate museum
+  histories. The Göteborg museum's own record says 1938.45.0228 was deposited
+  there by Erland Nordenskiöld (older number 24.6.117), bought from his estate
+  in December 1938, found at Nasca, and documented by Gary Urton in June 2005;
+  OKR's notes put the Lima khipu in the Museo Histórico collection by 1929. If
+  the museum numbers in OKR are right, these are two khipus that have been on
+  different continents since at least 1929, not one khipu catalogued twice.
+  Many UR122 cords are broken:
   where one side has no readable number, that cord is shorter than its partner
   predicts 11 of 11 times, and all 4 numbers that look cut short (4130
   against 4000 on a 7 cm stub, 932 against 900, 1074 against 1070, 3848
@@ -431,7 +445,7 @@ What the pairs show:
 
 The thresholds were set after looking at the data, a kept pair is a candidate
 until someone checks the objects, and the records cannot rule out one record
-typed from another. Report digest `dc5727edc46a949c30da30b88e0dd685bdee988b8db8ee545d304370503099e5`.
+typed from another. Report digest `e0769a8c53eb084e75b7fb4c021d9fea8a6ef624119771f77735be4b05295129`.
 
 ## Other published readings, not tested here
 
@@ -457,9 +471,10 @@ The last three citations are from the literature and were not opened in this run
    scoring, same shuffles) and see whether it beats these count tables. That
    needs a GPU and is ROADMAP.
 5. Ask the Ethnologisches Museum Berlin to compare VA42518 (UR1175) with
-   VA63038 (UR232 and UR233): cord lengths, long-knot direction, colours. Ask
-   the Museum of World Culture, Göteborg, and the MNAAHP, Lima, the same about
-   1938.45.0228 and MNAAHP3550.
+   VA63038 (UR232 and UR233): cord lengths, long-knot direction, colours. For
+   the Lima and Göteborg pair, the Göteborg record is read (see section 6);
+   what remains is the MNAAHP, Lima, record for MNAAHP3550 and photographs of
+   both khipus side by side.
 6. Collect every pair the Field Guide lists as a duplicate and use the
    differences between the two recordings as an error model for sections 3,
    5 and 6.
