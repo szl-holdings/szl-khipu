@@ -152,6 +152,7 @@ jobs:
   # ── Gate 4: sign — run manifest, Model BOM, weights (Sigstore keyless) ──
   sign:
     needs: model-bom
+    environment: release
     runs-on: ubuntu-latest
     permissions:
       contents: read
